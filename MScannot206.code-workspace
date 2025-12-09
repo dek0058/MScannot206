@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": "./"
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "MSW Attach",
+				"type": "msw",
+				"request": "attach"
+			}
+		],
+		"compounds": []
+	},
+	"settings": {
+		"files.exclude": {
+			"**/*.meta": true,
+			"**/*.config": true,
+			"**/*.gamelogic": true,
+			"**/*.logic": true,
+			"**/*.directory": true,
+			"**/*.codeblock": true,
+			"**/*.material": true,
+			"**/*.sprite": true,
+			"**/*.sound": true,
+			"**/*.userdataset": true,
+			"**/*.localedataset": true,
+			"**/*.tileset": true,
+			"**/*.blueprintatlas": true,
+			"**/*.packedatlas": true,
+			"**/*.customaction": true,
+			"**/*.scriptfile": true,
+			"**/*Mislocated": true
+		},
+		"files.readonlyInclude": {
+			"**/*.d.mlua": true
+		}
+	}
+}

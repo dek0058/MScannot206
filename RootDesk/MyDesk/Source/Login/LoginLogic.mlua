@@ -1,0 +1,30 @@
+@Logic
+script LoginLogic extends Logic
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		_HttpService.httpEnabled = true
+	end
+
+	@ExecSpace("Server")
+	method void RequestLogin(string userId)
+		if senderUserId ~= userId then
+			log("LoginLogic: RequestLogin - Unauthorized request from user " .. senderUserId .. " for user " .. userId)
+			return
+		end
+
+		local headers = {
+			["Content-Type"] = "application/json"
+		}
+		local content = {
+			["uid"] = userId
+		}
+		local contentJson = _HttpService:JSONEncode(content)
+		local response = _HttpService:RequestAndWait(
+			"http://localhost:8080/login",
+			"POST", contentJson, headers
+		)
+		
+	end
+
+end

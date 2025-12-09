@@ -1,0 +1,66 @@
+---@sealed
+---@description "Indicates various kinds of information about foothold."
+@Misc
+script Foothold
+
+	---@description "Indicates the end point of Foothold. Always located on the right side of StartPoint."
+	---@sealed
+	readonly property Vector2 EndPoint
+
+	---@description "The Foothold ID. It is given when saving a foothold."
+	---@sealed
+	readonly property int32 Id
+
+	---@description "Indicates whether the Foothold is a dynamic Foothold."
+	---@sealed
+	readonly property boolean IsDynamic
+
+	---@description "Foothold's length."
+	---@sealed
+	readonly property float Length = 0
+
+	---@description "The Id of the next Foothold. Always located on the right side of this Foothold."
+	---@sealed
+	readonly property int32 NextFootholdId = 0
+
+	---@description "The Id of the Entity that owns this Foothold. The Entity has either TileMapComponent or CustomFootholdComponent."
+	---@sealed
+	readonly property string OwnerId
+
+	---@description "The Id of the previous Foothold. Always located on the left side of this Foothold."
+	---@sealed
+	readonly property int32 PreviousFootholdId = 0
+
+	---@description "Indicates the start point of Foothold. Always located on the left side of EndPoint."
+	---@sealed
+	readonly property Vector2 StartPoint
+
+	---@description "Refers to the variance from the end to start points of Foothold. It can tell the slope."
+	---@sealed
+	readonly property Vector2 Variance
+
+	---@description "Returns the location of the Foothold center."
+	---@sealed
+	method Vector2 GetCenter() end
+
+	---@description "Returns the height of Foothold."
+	---@sealed
+	method float GetHeight() end
+
+	---@description "Returns the width of Foothold."
+	---@sealed
+	method float GetWidth() end
+
+	---@description "Returns the Y-axis value when the Foothold's X-axis value is x."
+	---@sealed
+	method float GetYByX(float x) end
+
+	---@description "Returns whether the Foothold is a horizontal Foothold."
+	---@sealed
+	method boolean IsHorizontal() end
+
+	---@description "Returns whether the Foothold is a vertical Foothold."
+	---@sealed
+	method boolean IsVertical() end
+
+end

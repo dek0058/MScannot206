@@ -1,0 +1,7 @@
+---@sealed
+@Event
+script StateActionLoadResultEvent extends EventType
+
+	constructor StateActionLoadResultEvent() end
+
+end

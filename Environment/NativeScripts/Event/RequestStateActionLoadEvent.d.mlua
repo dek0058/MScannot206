@@ -1,0 +1,10 @@
+---@sealed
+@Event
+script RequestStateActionLoadEvent extends EventType
+
+	---@sealed
+	property List<string> ActionList
+
+	constructor RequestStateActionLoadEvent(List<string> actionList = nil) end
+
+end

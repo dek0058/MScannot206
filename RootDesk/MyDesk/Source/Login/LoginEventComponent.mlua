@@ -1,0 +1,9 @@
+@Component
+script LoginEventComponent extends Component
+
+	@EventSender("Entity", "d14a049c-6595-4788-8828-34b7bdff14eb")
+	handler HandleButtonClickEvent(ButtonClickEvent event)
+		_LoginLogic:RequestLogin(_UserService.LocalPlayer.PlayerComponent.UserId)
+	end
+
+end

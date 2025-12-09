@@ -1,0 +1,88 @@
+---@description "Provides the ability to draw and control skeleton resources created with Spine in the UI. Only resources created with Spine 4.1 can be used."
+@Component
+script SkeletonGUIRendererComponent extends Component
+
+	---@description "Sets the animation for track 1. Animations play in index order."
+	---@sealed
+	property SyncList<string> AnimationNames
+
+	---@description "Sets the skin."
+	---@sealed
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Determines whether to invert based on the X axis."
+	---@sealed
+	property boolean FlipX = false
+
+	---@description "Determines whether to invert based on the Y axis."
+	---@sealed
+	property boolean FlipY = false
+
+	---@description "Indicates whether this will play on loop."
+	---@sealed
+	property boolean Loop = true
+
+	---@description "Sets the animation play speed."
+	---@sealed
+	property float PlayRate = 1
+
+	---@description "Sets how skeleton resource ratio, pivot, size, and so on are managed."
+	---@sealed
+	property PreserveSpriteType PreserveMode = PreserveSpriteType.None
+
+	---@description "Becomes the subject of screen touch or mouse clicks if the value is set to true. The UI hidden behind will not receive screen touch and mouse click inputs."
+	---@sealed
+	property boolean RaycastTarget = true
+
+	---@description "Sets the RUID for the skeleton resource."
+	---@sealed
+	property string SkeletonRUID = ""
+
+	---@description "Sets the skin."
+	---@sealed
+	property SyncList<string> SkinNames
+
+	---@description "Adds an animation to the track. Sets the track number, animation name, and misc properties to animationClip. Track 1 can't be used."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void AddAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Adds an empty animation to the track. Sets the track number and misc properties to animationClip. Track 1 can't be used."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void AddEmptyAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Empties the track. Track 1 can't be used."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void ClearTrack(int32 trackIndex) end
+
+	---@description "Returns the currently playing animation."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method SkeletonAnimationClip GetCurrentAnimation(int32 trackIndex) end
+
+	---@description "Clear the track and add an animation. Specify the track number, animation name, and other properties in the animationClip. Track 1 is unavailable."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Adds an attachment to the slot. If attachmentName is nil, the attachment is removed."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetAttachment(string slotName, string attachmentName) end
+
+	---@description "Clear the track and add an empty animation. Specify the track number and other properties in the animationClip. Track 1 cannot be used."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetEmptyAnimation(SkeletonAnimationClip animationClip) end
+
+	emitter EmitSkeletonAnimationTimelineEvent(SkeletonAnimationTimelineEvent event) end
+
+	emitter EmitSkeletonAnimationStartEvent(SkeletonAnimationStartEvent event) end
+
+	emitter EmitSkeletonAnimationEndEvent(SkeletonAnimationEndEvent event) end
+
+	emitter EmitSkeletonAnimationCompleteEvent(SkeletonAnimationCompleteEvent event) end
+
+end

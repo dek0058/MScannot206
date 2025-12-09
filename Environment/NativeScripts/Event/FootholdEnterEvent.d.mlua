@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when the entity is attached to the Foothold."
+@Event
+script FootholdEnterEvent extends EventType
+
+	---@description "The entity attached to the Foothold."
+	---@sealed
+	property Entity Entity
+
+	---@description "The target Foothold."
+	---@sealed
+	property Foothold Foothold
+
+	constructor FootholdEnterEvent(Entity entity = nil, Foothold foothold = nil) end
+
+end

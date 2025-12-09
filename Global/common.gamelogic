@@ -1,0 +1,37 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "gamelogic://8f9188d5fd8a472fa51ac6002d364f1e",
+  "ContentType": "x-mod/gamelogic",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Binary",
+    "Entities": [
+      {
+        "id": "e14aa5c7-dd24-44df-bd95-09776e5e550f",
+        "path": "/common",
+        "componentNames": "",
+        "jsonString": {
+          "name": "common",
+          "path": "/common",
+          "nameEditable": false,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "/",
+          "revision": 1,
+          "modelId": null,
+          "@components": [],
+          "@version": 1
+        }
+      }
+    ]
+  }
+}

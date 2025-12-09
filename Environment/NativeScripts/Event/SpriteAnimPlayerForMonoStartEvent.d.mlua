@@ -1,0 +1,16 @@
+---@sealed
+@Event
+script SpriteAnimPlayerForMonoStartEvent extends EventType
+
+	---@sealed
+	readonly property float ClipPlayRate = 1
+
+	---@sealed
+	readonly property SpriteAnimClipPlayType ClipPlayType = SpriteAnimClipPlayType.Onetime
+
+	---@sealed
+	readonly property SpriteAnimPlayerForMono AnimPlayer
+
+	constructor SpriteAnimPlayerForMonoStartEvent() end
+
+end

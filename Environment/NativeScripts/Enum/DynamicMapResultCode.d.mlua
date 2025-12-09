@@ -1,0 +1,31 @@
+---@sealed
+---@description "This code indicates the results of processing requests related to the dynamic map."
+@Enum
+script DynamicMapResultCode
+	---@description "Successfully created or destroyed the dynamic map."
+	member Success = 0
+	---@description "Invalid map name."
+	member InvalidMapName = 1
+	---@description "This map is a duplicate."
+	member DuplicateMapName = 2
+	---@description "The original map doesn't exist."
+	member SourceMapNotFound = 3
+	---@description "The dynamic map doesn't exist."
+	member DynamicMapNotFound = 4
+	---@description "This map cannot be used as the original map in the room. Only static maps can be used as the original map in static rooms. And only instance maps can be used as the original map in instance rooms."
+	member RoomAndSourceMapTypeMismatch = 5
+	---@description "The original map is not included in the instance room."
+	member SourceMapNotLoadable = 6
+	---@description "The user has entered the dynamic map."
+	member UserExistsInDynamicMap = 7
+	---@description "The dynamic map cannot be used as an original map."
+	member DynamicMapNotAllowedAsSourceMap = 8
+	---@description "Internal error occured."
+	member InternalError = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method DynamicMapResultCode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method DynamicMapResultCode CastFrom(string value) end
+end
