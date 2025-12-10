@@ -1,30 +1,104 @@
 @Logic
 script LoginLogic extends Logic
-
+	
+	property integer LoginTimerDelay = 1
+	
+	property boolean isDoingLogin = false
+	
+	property integer pendingLoginUserIdsIndex = 0
+	property integer requestLoginUserIdsIndex = 0
+	property table loginUserIds = {}
+	
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		_HttpService.httpEnabled = true
 	end
-
+	
 	@ExecSpace("Server")
 	method void RequestLogin(string userId)
 		if senderUserId ~= userId then
 			log("LoginLogic: RequestLogin - Unauthorized request from user " .. senderUserId .. " for user " .. userId)
 			return
 		end
+		
+		local beginIndex = self.requestLoginUserIdsIndex + 1
+		local endIndex = self.pendingLoginUserIdsIndex
 
+		for i = beginIndex, endIndex do
+			if self.loginUserIds[i] == userId then
+				-- 이미 로그인 요청을 한 유저
+				return
+			end
+		end
+		
+		self.pendingLoginUserIdsIndex = self.pendingLoginUserIdsIndex + 1
+		self.loginUserIds[self.pendingLoginUserIdsIndex] = userId
+		
+		self:SendEvent(LoginEvent())
+	end
+	
+	@ExecSpace("ServerOnly")
+	method void OnRequestLogin()
+		self:OnRequestLogin_Doing()
+		self.isDoingLogin = false
+
+		-- 추가적인 로그인 요청이 있었는지 확인
+		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
+			self:SendEvent(LoginEvent())
+		end
+	end
+	
+	@ExecSpace("ServerOnly")
+	method void OnRequestLogin_Doing()
+		local beginIndex = self.requestLoginUserIdsIndex + 1
+		local endIndex = self.pendingLoginUserIdsIndex
+		
 		local headers = {
 			["Content-Type"] = "application/json"
 		}
+		
 		local content = {
-			["uid"] = userId
+			["userIds"] = {}
 		}
+		
+		for i = beginIndex, endIndex do
+			table.insert(content["userIds"], self.loginUserIds[i])
+		end
+
 		local contentJson = _HttpService:JSONEncode(content)
+		
+		local requestTime = DateTime.UtcNow
 		local response = _HttpService:RequestAndWait(
 			"http://localhost:8080/login",
 			"POST", contentJson, headers
 		)
+		self.requestLoginUserIdsIndex = endIndex
+		log("LoginLogic: OnRequestLogin - Response: " .. response)
 		
-	end
+		local responseTime = DateTime.UtcNow
+		local diff = TimeSpan(tostring(responseTime - requestTime))
 
+		-- 추가 요청이 존재하고 로그인 Delay 시간을 초과했다면 즉시 재실행
+		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
+			if diff.Seconds >= self.LoginTimerDelay then
+				self:OnRequestLogin_Doing()
+			end
+		end
+	end
+	
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleLoginEvent(LoginEvent event)
+		-- 이미 로그인 요청 중
+		if self.isDoingLogin then
+			return
+		end
+
+		self.isDoingLogin = true
+		local callback = function()
+			self:OnRequestLogin()
+		end
+		_TimerService:SetTimerOnce(callback, self.LoginTimerDelay)
+	end
+	
 end

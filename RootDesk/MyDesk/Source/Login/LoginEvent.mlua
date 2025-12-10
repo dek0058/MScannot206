@@ -1,0 +1,4 @@
+@Event
+script LoginEvent extends EventType
+
+end
