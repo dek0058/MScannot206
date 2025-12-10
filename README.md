@@ -1,4 +1,4 @@
-# MScannot206&nbsp;![Go](https://img.shields.io/badge/Language-mLua-000080?style=flat&logo=lua&logoColor=blue)
+# MScannot206&nbsp;![mLua](https://img.shields.io/badge/Language-mLua-000080?style=flat&logo=lua&logoColor=blue)
 
 이 프로젝트는 메이플스토리 월드에서의 기능 개발을 위해 만들어졌습니다.
 
