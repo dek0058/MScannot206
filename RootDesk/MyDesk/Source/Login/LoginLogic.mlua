@@ -23,7 +23,7 @@ script LoginLogic extends Logic
 		
 		local beginIndex = self.requestLoginUserIdsIndex + 1
 		local endIndex = self.pendingLoginUserIdsIndex
-
+		
 		for i = beginIndex, endIndex do
 			if self.loginUserIds[i] == userId then
 				-- 이미 로그인 요청을 한 유저
@@ -41,7 +41,7 @@ script LoginLogic extends Logic
 	method void OnRequestLogin()
 		self:OnRequestLogin_Doing()
 		self.isDoingLogin = false
-
+		
 		-- 추가적인 로그인 요청이 있었는지 확인
 		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
 			self:SendEvent(LoginEvent())
@@ -58,13 +58,13 @@ script LoginLogic extends Logic
 		}
 		
 		local content = {
-			["userIds"] = {}
+			["uids"] = {}
 		}
 		
 		for i = beginIndex, endIndex do
-			table.insert(content["userIds"], self.loginUserIds[i])
+			table.insert(content["uids"], self.loginUserIds[i])
 		end
-
+		
 		local contentJson = _HttpService:JSONEncode(content)
 		
 		local requestTime = DateTime.UtcNow
@@ -73,11 +73,12 @@ script LoginLogic extends Logic
 			"POST", contentJson, headers
 		)
 		self.requestLoginUserIdsIndex = endIndex
-		log("LoginLogic: OnRequestLogin - Response: " .. response)
+		
+		self:OnResponseLogin(response, content["uids"])
 		
 		local responseTime = DateTime.UtcNow
 		local diff = TimeSpan(tostring(responseTime - requestTime))
-
+		
 		-- 추가 요청이 존재하고 로그인 Delay 시간을 초과했다면 즉시 재실행
 		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
 			if diff.Seconds >= self.LoginTimerDelay then
@@ -87,13 +88,68 @@ script LoginLogic extends Logic
 	end
 	
 	@ExecSpace("ServerOnly")
+	method void OnResponseLogin(string response, table requestUids)
+		if response == "" then
+			for i, uid in ipairs(requestUids) do
+				self:LoginFailure("LOGIN_UNABLE", uid)
+			end
+			return
+		end
+
+		local content = _HttpService:JSONDecode(response)
+		
+		local successUids = content["success_uids"]
+		local failUids = content["fail_uids"]
+		
+		if successUids ~= nil and failUids ~= nil then
+			for i, uid in ipairs(requestUids) do
+				self:LoginFailure("LOGIN_UNABLE", uid)
+			end
+		else
+			local setUids = {}
+
+			if successUids ~= nil then
+				for i, uid in ipairs(successUids) do
+					self:LoginComplete(uid)
+					setUids[uid] = true
+				end
+			end
+			
+			if failUids ~= nil then
+				for i, info in ipairs(failUids) do
+					local uid = info.uid
+					local errorCode = info.error_code
+					self:LoginFailure(errorCode, uid)
+					setUids[uid] = true
+				end
+			end
+
+			for i, uid in ipairs(requestUids) do
+				if setUids[uid] == nil then
+					self:LoginFailure("LOGIN_INVALID", uid)
+				end
+			end
+		end
+	end
+	
+	@ExecSpace("Client")
+	method void LoginComplete()
+		log("로그인 성공")
+	end
+	
+	@ExecSpace("Client")
+	method void LoginFailure(string errorCode)
+		log("로그인 실패")
+	end
+	
+	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleLoginEvent(LoginEvent event)
 		-- 이미 로그인 요청 중
 		if self.isDoingLogin then
 			return
 		end
-
+		
 		self.isDoingLogin = true
 		local callback = function()
 			self:OnRequestLogin()
