@@ -94,7 +94,17 @@
             },
             {
               "@type": "script.LoginEventComponent",
-              "Enable": true
+              "Enable": true,
+              "LoginButton": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "d14a049c-6595-4788-8828-34b7bdff14eb"
+              },
+              "LoginBuffer": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "fbbf6c13-ef07-4986-aa68-31fb184225a6"
+              }
             }
           ],
           "@version": 1
@@ -171,6 +181,7 @@
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
               "OverrideSorting": false,
+              "RaycastTarget": true,
               "Enable": true
             },
             {
