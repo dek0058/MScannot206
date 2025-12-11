@@ -17,7 +17,8 @@ script LoginLogic extends Logic
 	@ExecSpace("Server")
 	method void RequestLogin(string userId)
 		if senderUserId ~= userId then
-			log("LoginLogic: RequestLogin - Unauthorized request from user " .. senderUserId .. " for user " .. userId)
+			log("Unauthorized request from user " .. senderUserId .. " for user " .. userId)
+			self:LoginFailure("LOGIN_INVALID_UID", senderUserId)
 			return
 		end
 		
@@ -27,6 +28,7 @@ script LoginLogic extends Logic
 		for i = beginIndex, endIndex do
 			if self.loginUserIds[i] == userId then
 				-- 이미 로그인 요청을 한 유저
+				self:LoginFailure("LOGIN_ALREADY_REQUEST", senderUserId)
 				return
 			end
 		end
@@ -95,7 +97,7 @@ script LoginLogic extends Logic
 			end
 			return
 		end
-
+		
 		local content = _HttpService:JSONDecode(response)
 		
 		local successUids = content["success_uids"]
@@ -107,7 +109,7 @@ script LoginLogic extends Logic
 			end
 		else
 			local setUids = {}
-
+			
 			if successUids ~= nil then
 				for i, uid in ipairs(successUids) do
 					self:LoginComplete(uid)
@@ -123,7 +125,7 @@ script LoginLogic extends Logic
 					setUids[uid] = true
 				end
 			end
-
+			
 			for i, uid in ipairs(requestUids) do
 				if setUids[uid] == nil then
 					self:LoginFailure("LOGIN_INVALID", uid)
@@ -134,12 +136,16 @@ script LoginLogic extends Logic
 	
 	@ExecSpace("Client")
 	method void LoginComplete()
-		log("로그인 성공")
+		local localPlayer = _UserService.LocalPlayer
+		localPlayer:SendEvent(LoginCompleteEvent())
 	end
 	
 	@ExecSpace("Client")
 	method void LoginFailure(string errorCode)
-		log("로그인 실패")
+		local localPlayer = _UserService.LocalPlayer
+		local e = LoginFailureEvent()
+		e.errorCode = errorCode
+		localPlayer:SendEvent(e)
 	end
 	
 	@ExecSpace("ServerOnly")
