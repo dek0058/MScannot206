@@ -1,0 +1,8 @@
+@Component
+script CharacterSelectionCardComponent extends Component
+
+	method void OnBeginPlay()
+		-- self._T.avatar = self.Entity:GetComponent(AvatarGUIRendererComponent)
+	end
+
+end

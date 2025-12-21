@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://1ecab47b6cff4e25846bb8d1e738a46e",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://1ecab47b6cff4e25846bb8d1e738a46e",
+      "name": "Def",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

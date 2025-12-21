@@ -1,8 +1,8 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "scriptfile://b464f0bc-6c44-4d64-a906-299cd7a9cbc1",
-  "ContentType": "x-mod/scriptfile",
+  "EntryKey": "logic://mod.core.logic.defaultuserenterleavelogic",
+  "ContentType": "x-mod/logic",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
@@ -13,10 +13,9 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "Name": "Empty_CS",
-      "Id": "b464f0bc-6c44-4d64-a906-299cd7a9cbc1",
-      "Script": "",
-      "ModifyTime": "12/11/2025 19:41:35"
+      "Name": "defaultuserenterleavelogic",
+      "PlayerUri": "model://defaultplayer",
+      "StartPoint": "/maps/LoginMap"
     }
   }
 }

@@ -1,0 +1,89 @@
+@Component
+script LoginMapComponent extends Component
+	
+	readonly property Entity LoginGroupEntity = nil
+
+	@ExecSpace("Server")
+	method void Kick(string reason)
+		error(reason)
+		_UserService:KickUser(self.Entity.PlayerComponent.UserId, KickReason.WorldError)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Enter(string userId)
+		if self.LoginGroupEntity == nil then
+			self:Kick("LoginGroupEntity 없습니다.")
+			return
+		end
+
+		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		if LoginGroupCom == nil then
+			self:Kick("LoginGroupComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		self.LoginGroupEntity:SetEnable(true)
+		LoginGroupCom:Clear()
+
+		_LoginLogic:ValidateLogin(userId, self.Entity)
+	end
+
+	method void Leave()
+		self.LoginGroupEntity:SetEnable(false)
+	end
+
+	@ExecSpace("Client")
+	method void SetLogin()
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		local err = LoginGroupCom:SetLoginLayer()
+		if err ~= "" then
+			self:Kick(err)
+			return
+		end
+	end
+
+	@ExecSpace("Client")
+	method void SetCharacterSelection()
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		local err = LoginGroupCom:SetCharacterSelectionLayer()
+		if err ~= "" then
+			self:Kick(err)
+			return
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandlerLoggedinEvent(LoggedinEvent event)
+		self:SetCharacterSelection()
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandlerNeedLoginEvent(NeedLoginEvent event)
+		self:SetLogin()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleLoginCompleteEvent(LoginCompleteEvent event)
+		log("로그인 성공")
+		self:SetCharacterSelection()
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleLoginFailureEvent(LoginFailureEvent event)
+		_ErrorLogic:Throw(event.errorCode)
+		
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		LoginGroupCom.LoginLayerCom:SetLoginBufferVisible(false)
+		LoginGroupCom.LoginLayerCom:SetLoginButtonClickEnable(true)
+	end
+
+end

@@ -1,0 +1,52 @@
+@Component
+script LoginGroupComponent extends Component
+
+	readonly property LoginLayerComponent LoginLayerCom = nil
+	readonly property CharacterSelectionLayerComponent CharacterSelectionLayerCom = nil
+	
+	@ExecSpace("Client")
+	method void Clear()
+		for _, child in ipairs(self.Entity.Children) do
+			if child.Enable == true then
+				child.Visible = false
+			end
+		end
+	end
+
+	@ExecSpace("Client")
+	method string SetLoginLayer()
+		if self.LoginLayerCom == nil then
+			return "LoginLayerComponent를 찾을 수 없습니다."
+		end
+
+		local layerEntity = self.LoginLayerCom.Entity
+
+		for _, child in ipairs(self.Entity.Children) do
+			if child ~= layerEntity then
+				child:SetVisible(false)
+			end
+		end
+
+		layerEntity:SetVisible(true)
+		return ""
+	end
+
+	method string SetCharacterSelectionLayer()
+		if self.CharacterSelectionLayerCom == nil then
+			return "CharacterSelectionLayerComponent를 찾을 수 없습니다."
+		end
+
+		local layerEntity = self.CharacterSelectionLayerCom.Entity
+
+		for _, child in ipairs(self.Entity.Children) do
+			if child ~= layerEntity then
+				child:SetVisible(false)
+			end
+		end
+
+		layerEntity:SetVisible(true)
+		return ""
+	end
+	
+
+end

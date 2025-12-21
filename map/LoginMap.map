@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "map://map01",
+  "EntryKey": "map://loginmap",
   "ContentType": "x-mod/map",
   "Content": "",
   "Usage": 0,
@@ -15,12 +15,12 @@
     "Entities": [
       {
         "id": "a2b225a1-2c6f-4c6c-958d-027a85a23ed2",
-        "path": "/maps/map01",
-        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent",
+        "path": "/maps/LoginMap",
+        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent,script.LoginMapComponent",
         "jsonString": {
-          "name": "map01",
-          "path": "/maps/map01",
-          "nameEditable": false,
+          "name": "LoginMap",
+          "path": "/maps/LoginMap",
+          "nameEditable": true,
           "enable": true,
           "visible": true,
           "localize": false,
@@ -39,6 +39,15 @@
               "@type": "MOD.Core.FootholdComponent",
               "FootholdsByLayer": {},
               "Enable": true
+            },
+            {
+              "@type": "script.LoginMapComponent",
+              "Enable": true,
+              "LoginGroupEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "646b1722-1314-48cf-bebc-da19ff08dc66"
+              }
             }
           ],
           "@version": 1
@@ -46,11 +55,11 @@
       },
       {
         "id": "6b709e0c-3036-4d2d-9ebf-82c2e0137a38",
-        "path": "/maps/map01/Background",
+        "path": "/maps/LoginMap/Background",
         "componentNames": "MOD.Core.BackgroundComponent",
         "jsonString": {
           "name": "Background",
-          "path": "/maps/map01/Background",
+          "path": "/maps/LoginMap/Background",
           "nameEditable": false,
           "enable": true,
           "visible": true,
@@ -72,11 +81,11 @@
       },
       {
         "id": "7c8eedd7-345d-477f-bd17-c4d33a45994c",
-        "path": "/maps/map01/MapleMapLayer",
+        "path": "/maps/LoginMap/MapleMapLayer",
         "componentNames": "MOD.Core.MapLayerComponent",
         "jsonString": {
           "name": "MapleMapLayer",
-          "path": "/maps/map01/MapleMapLayer",
+          "path": "/maps/LoginMap/MapleMapLayer",
           "nameEditable": false,
           "enable": true,
           "visible": true,
@@ -106,11 +115,11 @@
       },
       {
         "id": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
-        "path": "/maps/map01/TileMap",
+        "path": "/maps/LoginMap/TileMap",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.TileMapComponent",
         "jsonString": {
           "name": "TileMap",
-          "path": "/maps/map01/TileMap",
+          "path": "/maps/LoginMap/TileMap",
           "nameEditable": false,
           "enable": true,
           "visible": true,

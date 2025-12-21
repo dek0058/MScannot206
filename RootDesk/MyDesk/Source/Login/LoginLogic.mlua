@@ -1,23 +1,63 @@
 @Logic
 script LoginLogic extends Logic
 	
-	property integer LoginTimerDelay = 1
+	property integer loginTimerDelay = 1
 	
 	property boolean isDoingLogin = false
 	
 	property integer pendingLoginUserIdsIndex = 0
 	property integer requestLoginUserIdsIndex = 0
 	property table loginUserIds = {}
+
+	property table userTokens = {}
 	
-	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
+		if self:IsServer() == true then
+			self:OnServerInit()
+		end	
+	end
+
+	@ExecSpace("Server")
+	method void OnServerInit()
 		_HttpService.httpEnabled = true
+	end
+
+	@ExecSpace("Server")
+	method void ValidateLogin(string userId, Entity sender)
+		if senderUserId ~= userId then
+			log("다른 사용자가 로그인 확인 시도를 하였습니다: " .. senderUserId .. " != " .. userId)
+			_UserService:KickUser(userId, KickReason.ETC)
+			return
+		end
+
+		---@type UserDataStorage
+		local UserDataStorage = _DataStorageService:GetUserDataStorage(userId)
+		if UserDataStorage == nil then
+			error("UserDataStorage를 찾을 수 없습니다: " .. userId)
+			_UserService:KickUser(userId, KickReason.ETC)
+			return
+		end
+		
+		local callback = function(success, data)
+			if success ~= true then
+				sender:SendEvent(NeedLoginEvent())
+			else
+				local session = _HttpService:JSONDecode(data)
+				if session["version"] == nil or session["version"] ~= _DefLogic.Version then
+					sender:SendEvent(NeedLoginEvent())
+				else
+					self.userTokens[userId] = session["token"]
+					sender:SendEvent(LoggedinEvent())
+				end
+			end
+		end
+		UserDataStorage:GetAsync("token", callback)
 	end
 	
 	@ExecSpace("Server")
 	method void RequestLogin(string userId)
 		if senderUserId ~= userId then
-			log("Unauthorized request from user " .. senderUserId .. " for user " .. userId)
+			error("다른 사용자가 로그인 시도를 하였습니다: " .. senderUserId .. " != " .. userId)
 			self:LoginFailure("LOGIN_INVALID_UID", senderUserId)
 			return
 		end
@@ -71,11 +111,11 @@ script LoginLogic extends Logic
 		
 		local requestTime = DateTime.UtcNow
 		local response = _HttpService:RequestAndWait(
-			"http://localhost:8080/login",
+			_DefLogic.BackendUrl .. "/login",
 			"POST", contentJson, headers
 		)
 		self.requestLoginUserIdsIndex = endIndex
-		
+
 		self:OnResponseLogin(response, content["uids"])
 		
 		local responseTime = DateTime.UtcNow
@@ -83,7 +123,7 @@ script LoginLogic extends Logic
 		
 		-- 추가 요청이 존재하고 로그인 Delay 시간을 초과했다면 즉시 재실행
 		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
-			if diff.Seconds >= self.LoginTimerDelay then
+			if diff.Seconds >= self.loginTimerDelay then
 				self:OnRequestLogin_Doing()
 			end
 		end
@@ -102,34 +142,76 @@ script LoginLogic extends Logic
 		
 		local successUids = content["success_uids"]
 		local failUids = content["fail_uids"]
+
+		---@type table
+		local doneUids = {}
+
+		if failUids ~= nil then
+			for i, entry in ipairs(failUids) do
+				if entry == nil then
+					continue
+				end
+
+				if entry["uid"] == nil then
+					continue
+				end
+
+				if entry["error_code"] == nil then
+					---@type string
+					local uid = entry["uid"]
+					doneUids[uid] = _ErrorLogic.LOGIN_UNKNOWN_ERROR
+					continue
+				end
+
+				---@type string
+				local uid = entry["uid"]
+				---@type string
+				local errorCode = entry["error_code"]
+				doneUids[uid] = errorCode
+			end
+		end
 		
-		if successUids ~= nil and failUids ~= nil then
-			for i, uid in ipairs(requestUids) do
-				self:LoginFailure("LOGIN_UNABLE", uid)
-			end
-		else
-			local setUids = {}
-			
-			if successUids ~= nil then
-				for i, uid in ipairs(successUids) do
-					self:LoginComplete(uid)
-					setUids[uid] = true
+		if successUids ~= nil then
+			for i, entry in ipairs(successUids) do
+				if entry == nil then
+					continue
 				end
-			end
-			
-			if failUids ~= nil then
-				for i, info in ipairs(failUids) do
-					local uid = info.uid
-					local errorCode = info.error_code
-					self:LoginFailure(errorCode, uid)
-					setUids[uid] = true
+
+				if entry["user_entity"] == nil then
+					continue
 				end
-			end
-			
-			for i, uid in ipairs(requestUids) do
-				if setUids[uid] == nil then
-					self:LoginFailure("LOGIN_INVALID", uid)
+
+				---@type table
+				local userEntity = entry["user_entity"]
+				if userEntity["uid"] == nil then
+					continue
 				end
+
+				---@type string
+				local uid = userEntity["uid"]
+				
+				if entry["token"] == nil then
+					doneUids[uid] = _ErrorLogic.LOGIN_SESSION_CREATE_ERROR
+					continue
+				end
+
+				---@type string
+				local token = userEntity["token"]
+
+				self.userTokens[uid] = token
+				doneUids[uid] = "SUCCESS"
+			end
+		end
+		
+
+		for i, uid in ipairs(requestUids) do
+			local result = doneUids[uid]
+			if result == nil then
+				self:LoginFailure(_ErrorLogic.LOGIN_UNKNOWN_ERROR, uid)
+			elseif result == "SUCCESS" then
+				self:LoginComplete(uid)
+			else
+				self:LoginFailure(result, uid)
 			end
 		end
 	end
@@ -160,7 +242,7 @@ script LoginLogic extends Logic
 		local callback = function()
 			self:OnRequestLogin()
 		end
-		_TimerService:SetTimerOnce(callback, self.LoginTimerDelay)
+		_TimerService:SetTimerOnce(callback, self.loginTimerDelay)
 	end
 	
 end

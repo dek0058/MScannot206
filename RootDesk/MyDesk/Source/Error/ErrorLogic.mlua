@@ -1,0 +1,29 @@
+@Logic
+script ErrorLogic extends Logic
+
+	readonly property table errorCodes = {}
+
+	-- Login
+	readonly property string LOGIN_UNKNOWN_ERROR = "LOGIN_UNKNOWN_ERROR"
+	readonly property string LOGIN_DB_WRITE_ERROR = "LOGIN_DB_WRITE_ERROR"
+	readonly property string LOGIN_UNABLE = "LOGIN_UNABLE"
+	readonly property string LOGIN_SESSION_CREATE_ERROR = "LOGIN_SESSION_CREATE_ERROR"
+
+	method void OnBeginPlay()
+		-- Login
+		self.errorCodes[self.LOGIN_UNKNOWN_ERROR] = "알 수 없는 오류가 발생했습니다"
+		self.errorCodes[self.LOGIN_DB_WRITE_ERROR] = "데이터베이스에 쓰기 오류가 발생했습니다"
+		self.errorCodes[self.LOGIN_UNABLE] = "로그인이 불가능합니다"
+		self.errorCodes[self.LOGIN_SESSION_CREATE_ERROR] = "세션 생성에 실패했습니다"
+	end
+
+	@ExecSpace("Client")
+	method void Throw(string errorMessage)
+		local msg = self.errorCodes[errorMessage]
+		if msg == nil then
+			msg = "알 수 없는 오류가 발생했습니다"
+		end
+		log_error(msg)
+	end
+
+end
