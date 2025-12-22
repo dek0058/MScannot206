@@ -1,0 +1,62 @@
+@Logic
+script UserLogic extends Logic
+	
+	property table users = {}
+	
+	@ExecSpace("ServerOnly")
+	method void AddUser(table user)
+		if user == nil then
+			log_error("user is null")
+			return
+		elseif user["user_entity"] == nil then
+			log_error("user_entity is null")
+			return
+		elseif user["token"] == nil then
+			log_error("token is null")
+			return
+		elseif user["version"] == nil or user["version"] ~= _DefLogic.Version then
+			log_error("version is invalid")
+			return
+		end
+
+		---@type table
+		local userEntity = user["user_entity"]
+		if userEntity["uid"] == nil then
+			log_error("uid is null")
+			return
+		end
+
+		---@type string
+		local uid = userEntity["uid"]
+
+		self.users[uid] = userEntity
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent event)
+		local uid = event.UserId
+		if self.users[uid] == nil then
+			return
+		end
+
+		---@type table
+		local entry = self.users[uid]
+		if entry["token"] == nil then
+			return
+		end
+
+		entry["token"] = ""
+		local jsonData = _HttpService:JSONEncode(entry)
+
+		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+		if userDataStorage == nil then
+			log_error("UserDataStorage를 찾을 수 없습니다: " .. uid)
+			return
+		end
+
+		userDataStorage:UpdateAsync("user", jsonData, jsonData, nil)
+		self.users[uid] = nil
+	end
+	
+end

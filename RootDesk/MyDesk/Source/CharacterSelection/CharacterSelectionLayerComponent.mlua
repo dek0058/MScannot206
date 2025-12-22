@@ -1,6 +1,31 @@
 @Component
 script CharacterSelectionLayerComponent extends Component
 
-	
+	readonly property Entity CharacterSelectionOverlay = nil
+
+	readonly property table cards = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		for _, entity in ipairs(self.CharacterSelectionOverlay.Children) do
+			if entity == nil then
+				continue
+			end
+
+			---@type CharacterSelectionCardComponent
+			local cardCom = entity:GetComponent(CharacterSelectionCardComponent)
+			if cardCom == nil then
+				continue
+			end
+
+			table.insert(self.cards, cardCom)
+		end
+	end
+
+	@ExecSpace("Client")
+	method void Load()
+		
+	end
+
 
 end

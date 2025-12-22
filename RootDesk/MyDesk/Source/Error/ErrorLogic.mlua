@@ -8,6 +8,13 @@ script ErrorLogic extends Logic
 	readonly property string LOGIN_DB_WRITE_ERROR = "LOGIN_DB_WRITE_ERROR"
 	readonly property string LOGIN_UNABLE = "LOGIN_UNABLE"
 	readonly property string LOGIN_SESSION_CREATE_ERROR = "LOGIN_SESSION_CREATE_ERROR"
+	readonly property string LOGIN_INVALID_UID = "LOGIN_INVALID_UID"
+
+	-- Logout
+	readonly property string LOGOUT_INVALID_UID = "LOGOUT_INVALID_UID"
+
+	-- User
+	readonly property string USER_DATA_STORAGE_WRITE_ERROR = "USER_DATA_STORAGE_WRITE_ERROR"
 
 	method void OnBeginPlay()
 		-- Login
@@ -15,15 +22,23 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.LOGIN_DB_WRITE_ERROR] = "데이터베이스에 쓰기 오류가 발생했습니다"
 		self.errorCodes[self.LOGIN_UNABLE] = "로그인이 불가능합니다"
 		self.errorCodes[self.LOGIN_SESSION_CREATE_ERROR] = "세션 생성에 실패했습니다"
+		self.errorCodes[self.LOGIN_INVALID_UID] = "유효하지 않은 UID입니다"
+
+		-- Logout
+		self.errorCodes[self.LOGOUT_INVALID_UID] = "유효하지 않은 UID입니다"
+
+		-- User
+		self.errorCodes[self.USER_DATA_STORAGE_WRITE_ERROR] = "유저 데이터 저장에 실패했습니다"
+
 	end
 
 	@ExecSpace("Client")
-	method void Throw(string errorMessage)
-		local msg = self.errorCodes[errorMessage]
+	method void Throw(string errorCode)
+		local msg = self.errorCodes[errorCode]
 		if msg == nil then
 			msg = "알 수 없는 오류가 발생했습니다"
 		end
-		log_error(msg)
+		log_error(msg.." ("..errorCode..")")
 	end
 
 end

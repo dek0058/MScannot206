@@ -1,6 +1,8 @@
 @Component
 script CharacterSelectionCardComponent extends Component
 
+	readonly property integer Slot = 0
+
 	method void OnBeginPlay()
 		-- self._T.avatar = self.Entity:GetComponent(AvatarGUIRendererComponent)
 	end
