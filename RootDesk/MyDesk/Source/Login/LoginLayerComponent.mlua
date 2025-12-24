@@ -4,6 +4,12 @@ script LoginLayerComponent extends Component
 	property Entity LoginButton = nil
 	property Entity LoginBuffer = nil
 	
+	method void Reset()
+		self:SetLoginButtonVisible(true)
+		self:SetLoginButtonClickEnable(true)
+		self:SetLoginBufferVisible(false)
+	end
+
 	method void SetLoginButtonVisible(boolean value)
 		if self.LoginButton ~= nil then
 			self.LoginButton.Visible = value

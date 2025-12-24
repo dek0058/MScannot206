@@ -1,0 +1,51 @@
+@Logic
+script GameServerLogic extends Logic
+	
+	@ExecSpace("Server")
+	method void Kick(string userId, string reason)
+		if self:IsValidUserId(senderUserId, userId) == false then
+			return
+		end
+		log("사용자 강제 퇴장: " .. userId .. ", 이유: " .. reason)
+		_UserService:KickUser(userId, KickReason.WorldError)
+	end
+	
+	@ExecSpace("ServerOnly")
+	method boolean IsValidUserId(string sender, string senderData)
+		if sender ~= senderData then
+			log("다른 사용자 uid로 시도를 하였습니다: " .. sender .. " != " .. senderData)
+			_UserService:KickUser(sender, KickReason.ETC)
+			return false
+		end
+		return true
+	end
+	
+	@ExecSpace("Server")
+	method void Validate(string uid, string mapName)
+		if self:IsValidUserId(senderUserId, uid) == false then
+			return
+		end
+
+		if _UserLogic.userWarpRecords[uid] == nil then
+			_GameServerLogic:Kick(uid, "워프 기록을 찾을 수 없습니다")
+			return
+		end
+
+		---@type UserWarpRecord
+		local userWarpRecord = _UserLogic.userWarpRecords[uid]
+		if userWarpRecord.mapName ~= mapName then
+			_GameServerLogic:Kick(uid, "워프 기록의 맵과 현재 맵이 다릅니다: " .. userWarpRecord.mapName .. " != " .. mapName)
+			return
+		end
+
+		if mapName == "LoginMap" then
+			if userWarpRecord:HaveWarped() == true and userWarpRecord.loggedin == true then
+				_LoginLogic:ValidateLogin(uid)
+			else
+				_LoginLogic:NeedLogin(uid)
+			end
+		end
+		
+	end
+	
+end

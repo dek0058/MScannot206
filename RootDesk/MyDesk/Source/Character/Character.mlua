@@ -1,0 +1,21 @@
+@Struct
+script Character
+
+	property integer Slot = 0
+	property string Name = ""
+
+	method Character Clone()
+		local ch = Character()
+		ch.Slot = self.Slot
+		ch.Name = self.Name
+		return ch
+	end
+
+	method table ToTable()
+		local ch = {}
+		ch["slot"] = self.Slot
+		ch["name"] = self.Name
+		return ch	
+	end
+
+end

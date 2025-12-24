@@ -251,6 +251,90 @@
             "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
           },
           "Value": true
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "DefaultMode",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "35878717-a657-4664-b0b3-340a39800ec9"
+          }
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "BufferingMode",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "bd6fcd4a-9a46-44d8-8122-fa8f5e5faf98"
+          }
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "NewMdoe",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "e1298ee3-fc6e-4907-8082-3a43a1c0dfb7"
+          }
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "NewMode",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "e1298ee3-fc6e-4907-8082-3a43a1c0dfb7"
+          }
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "EnterBtn",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "a7bfc712-01fd-4208-930d-f7ccbcaa8f7c"
+          }
+        },
+        {
+          "TargetType": "script.CharacterSelectionCardComponent",
+          "Name": "NewBtn",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=1.26.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODEntityRef, MOD.Core",
+            "tempEntityId": null,
+            "IsRelative": true,
+            "EntityId": "1ffc2ab5-2538-4ccf-a641-0075b4bbd00a"
+          }
         }
       ],
       "EventLinks": [],

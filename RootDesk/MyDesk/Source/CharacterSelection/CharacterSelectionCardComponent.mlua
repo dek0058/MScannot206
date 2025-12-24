@@ -1,10 +1,59 @@
 @Component
 script CharacterSelectionCardComponent extends Component
 
-	readonly property integer Slot = 0
+	property integer Slot = 0
 
+	property Entity DefaultMode = nil
+
+	property Entity BufferingMode = nil
+
+	property Entity NewMode = nil
+
+	property Entity EnterBtn = nil
+
+	property Entity NewBtn = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnInitialize()
+		self._T["SetMode"] = function (modeEntity)
+			if self.DefaultMode ~= nil then
+				self.DefaultMode:SetVisible(modeEntity == self.DefaultMode)
+			end
+		
+			if self.BufferingMode ~= nil then
+				self.BufferingMode:SetVisible(modeEntity == self.BufferingMode)
+			end
+		
+			if self.NewMode ~= nil then
+				self.NewMode:SetVisible(modeEntity == self.NewMode)
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		-- self._T.avatar = self.Entity:GetComponent(AvatarGUIRendererComponent)
+		self.NewBtn:ConnectEvent(ButtonClickEvent, function ()
+			log("새 캐릭터 생성 버튼 클릭")
+		end)
+
+		self.EnterBtn:ConnectEvent(ButtonClickEvent, function ()
+			log("캐릭터 선택 완료 버튼 클릭: 슬롯 " .. tostring(self.Slot))
+		end)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetDefault(Character character)
+		self._T["SetMode"](self.DefaultMode)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetBuffering()
+		self._T["SetMode"](self.BufferingMode)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetNew()
+		self._T["SetMode"](self.NewMode)
 	end
 
 end

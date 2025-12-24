@@ -31,6 +31,7 @@ script LoginGroupComponent extends Component
 		return ""
 	end
 
+	@ExecSpace("Client")
 	method string SetCharacterSelectionLayer()
 		if self.CharacterSelectionLayerCom == nil then
 			return "CharacterSelectionLayerComponent를 찾을 수 없습니다."
@@ -45,6 +46,8 @@ script LoginGroupComponent extends Component
 		end
 
 		layerEntity:SetVisible(true)
+		self.CharacterSelectionLayerCom:RequestLoad()
+
 		return ""
 	end
 	

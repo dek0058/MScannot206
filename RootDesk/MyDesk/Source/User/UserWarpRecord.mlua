@@ -1,0 +1,21 @@
+@Struct
+script UserWarpRecord
+
+	property string worldId = ""
+
+	property string oldWorldId = ""
+
+	property boolean loggedin = false
+
+	property string mapName = ""
+
+	method boolean HaveWarped()
+		if self.worldId == "" or self.oldWorldId == "" then
+			return false
+		elseif self.worldId == self.oldWorldId then
+			return false
+		end
+		return true
+	end
+
+end

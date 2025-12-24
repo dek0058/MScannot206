@@ -22,53 +22,45 @@ script LoginLogic extends Logic
 		_HttpService.httpEnabled = true
 	end
 
-	@ExecSpace("Server")
-	method void ValidateLogin(string userId, Entity sender)
-		if senderUserId ~= userId then
-			log("다른 사용자가 로그인 확인 시도를 하였습니다: " .. senderUserId .. " != " .. userId)
-			_UserService:KickUser(userId, KickReason.ETC)
-			return
-		end
-
+	@ExecSpace("ServerOnly")
+	method void ValidateLogin(string uid)
 		---@type UserDataStorage
-		local UserDataStorage = _DataStorageService:GetUserDataStorage(userId)
-		if UserDataStorage == nil then
-			error("UserDataStorage를 찾을 수 없습니다: " .. userId)
-			_UserService:KickUser(userId, KickReason.ETC)
+		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+		if userDataStorage == nil then
+			error("UserDataStorage를 찾을 수 없습니다: " .. uid)
+			_UserService:KickUser(uid, KickReason.ETC)
 			return
 		end
 		
-		local callback = function(success, data)
-			if success ~= true then
-				sender:SendEvent(NeedLoginEvent())
+		local callback = function(errorCode, key, data)
+			if errorCode ~= 0 then
+				self:NeedLogin(uid)
 			else
 				local user = _HttpService:JSONDecode(data)
 				if user == nil then
-					sender:SendEvent(NeedLoginEvent())
+					self:NeedLogin(uid)
 					return
 				elseif user["user_entity"] == nil then
-					sender:SendEvent(NeedLoginEvent())
+					self:NeedLogin(uid)
 					return
 				elseif user["token"] == nil or user["token"] == "" then
-					sender:SendEvent(NeedLoginEvent())
+					self:NeedLogin(uid)
 					return
 				elseif user["version"] == nil or user["version"] ~= _DefLogic.Version then
-					sender:SendEvent(NeedLoginEvent())
+					self:NeedLogin(uid)
 					return
 				end
 
 				_UserLogic:AddUser(user)
-				sender:SendEvent(LoggedinEvent())
+				self:Loggedin(uid)
 			end
 		end
-		UserDataStorage:GetAsync("user", callback)
+		userDataStorage:GetAsync("user", callback)
 	end
 	
 	@ExecSpace("Server")
-	method void RequestLogin(string userId)
-		if senderUserId ~= userId then
-			error("다른 사용자가 로그인 시도를 하였습니다: " .. senderUserId .. " != " .. userId)
-			self:LoginFailure(_ErrorLogic.LOGIN_INVALID_UID, senderUserId)
+	method void RequestLogin(string uid)
+		if _GameServerLogic:IsValidUserId(senderUserId, uid) == false then
 			return
 		end
 		
@@ -76,7 +68,7 @@ script LoginLogic extends Logic
 		local endIndex = self.pendingLoginUserIdsIndex
 		
 		for i = beginIndex, endIndex do
-			if self.loginUserIds[i] == userId then
+			if self.loginUserIds[i] == uid then
 				-- 이미 로그인 요청을 한 유저
 				self:LoginFailure("LOGIN_ALREADY_REQUEST", senderUserId)
 				return
@@ -84,7 +76,7 @@ script LoginLogic extends Logic
 		end
 		
 		self.pendingLoginUserIdsIndex = self.pendingLoginUserIdsIndex + 1
-		self.loginUserIds[self.pendingLoginUserIdsIndex] = userId
+		self.loginUserIds[self.pendingLoginUserIdsIndex] = uid
 		
 		self:SendEvent(LoginEvent())
 	end
@@ -206,8 +198,8 @@ script LoginLogic extends Logic
 				end
 
 				---@type UserDataStorage
-				local UserDataStorage = _DataStorageService:GetUserDataStorage(uid)
-				if UserDataStorage == nil then
+				local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+				if userDataStorage == nil then
 					error("UserDataStorage를 찾을 수 없습니다: " .. uid)
 					_UserService:KickUser(uid, KickReason.ETC)
 					continue
@@ -216,9 +208,9 @@ script LoginLogic extends Logic
 				doneUids[uid] = "SUCCESS"
 				entry["version"] = _DefLogic.Version
 				local jsonData = _HttpService:JSONEncode(entry)
-				UserDataStorage:SetAsync("user", jsonData, function(success, data)
-					if success ~= 0 then
-						log_error("유저 데이터 저장에 실패했습니다 [uid" .. uid .. "][errorcode:" .. success .. "]")
+				userDataStorage:SetAsync("user", jsonData, function(errorCode, data)
+					if errorCode ~= 0 then
+						log_error("유저 데이터 저장에 실패했습니다 [uid" .. uid .. "][errorcode:" .. errorCode .. "]")
 						self:LoginFailure(_ErrorLogic.USER_DATA_STORAGE_WRITE_ERROR, uid)
 						return
 					else
@@ -241,6 +233,18 @@ script LoginLogic extends Logic
 		end
 	end
 	
+	@ExecSpace("Client")
+	method void NeedLogin()
+		local localPlayer = _UserService.LocalPlayer
+		localPlayer:SendEvent(NeedLoginEvent())
+	end
+
+	@ExecSpace("Client")
+	method void Loggedin()
+		local localPlayer = _UserService.LocalPlayer
+		localPlayer:SendEvent(LoggedinEvent())
+	end
+
 	@ExecSpace("Client")
 	method void LoginComplete()
 		local localPlayer = _UserService.LocalPlayer

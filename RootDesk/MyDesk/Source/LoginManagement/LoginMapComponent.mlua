@@ -10,10 +10,10 @@ script LoginMapComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method void Enter(string userId)
+	method boolean Enter()
 		if self.LoginGroupEntity == nil then
 			self:Kick("LoginGroupEntity 없습니다.")
-			return
+			return false
 		end
 
 		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
@@ -21,13 +21,12 @@ script LoginMapComponent extends Component
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		if LoginGroupCom == nil then
 			self:Kick("LoginGroupComponent를 찾을 수 없습니다.")
-			return
+			return false
 		end
 
 		self.LoginGroupEntity:SetEnable(true)
 		LoginGroupCom:Clear()
-
-		_LoginLogic:ValidateLogin(userId, self.Entity)
+		return true
 	end
 
 	method void Leave()
@@ -43,6 +42,7 @@ script LoginMapComponent extends Component
 			self:Kick(err)
 			return
 		end
+		LoginGroupCom.LoginLayerCom:Reset()
 	end
 
 	@ExecSpace("Client")
@@ -56,14 +56,14 @@ script LoginMapComponent extends Component
 		end
 	end
 
-	@ExecSpace("ServerOnly")
-	@EventSender("Self")
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
 	handler HandlerLoggedinEvent(LoggedinEvent event)
 		self:SetCharacterSelection()
 	end
 
-	@ExecSpace("ServerOnly")
-	@EventSender("Self")
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
 	handler HandlerNeedLoginEvent(NeedLoginEvent event)
 		self:SetLogin()
 	end
@@ -71,7 +71,6 @@ script LoginMapComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleLoginCompleteEvent(LoginCompleteEvent event)
-		log("로그인 성공")
 		self:SetCharacterSelection()
 	end
 	
@@ -84,6 +83,14 @@ script LoginMapComponent extends Component
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		LoginGroupCom.LoginLayerCom:SetLoginBufferVisible(false)
 		LoginGroupCom.LoginLayerCom:SetLoginButtonClickEnable(true)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCharacterSelectionLoadCompleteEvent(UserCharacterLoadCompleteEvent event)
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(event)
 	end
 
 end

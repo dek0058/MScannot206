@@ -18,14 +18,49 @@ script CharacterSelectionLayerComponent extends Component
 				continue
 			end
 
-			table.insert(self.cards, cardCom)
+			self.cards[cardCom.Slot] = cardCom
 		end
 	end
 
-	@ExecSpace("Client")
-	method void Load()
-		
+	@ExecSpace("ClientOnly")
+	method void RequestLoad()
+		for _, card in ipairs(self.cards) do
+			---@type CharacterSelectionCardComponent
+			local cardCom = card
+			if cardCom ~= nil then
+				cardCom:SetBuffering()
+			end
+		end
+
+		_UserLogic:LoadCharacters(_UserService.LocalPlayer.PlayerComponent.UserId)
 	end
 
+	@ExecSpace("ClientOnly")
+	method void ResponseLoad(UserCharacterLoadCompleteEvent event)
+		 local usedSlots = {}
+
+		for _, entry in ipairs(event.characters) do
+			---@type Character
+			local ch = entry
+			if self.cards[ch.Slot] == nil then
+				continue
+			end
+
+			---@type CharacterSelectionCardComponent
+			local cardCom = self.cards[ch.Slot]
+			cardCom:SetDefault(ch)
+			usedSlots[ch.Slot] = true
+		end
+
+		for _, card in ipairs(self.cards) do
+			---@type CharacterSelectionCardComponent
+			local cardCom = card
+			if usedSlots[cardCom.Slot] ~= nil then
+				continue
+			end
+			cardCom:SetNew()
+		end
+		
+	end
 
 end
