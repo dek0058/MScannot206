@@ -12,7 +12,7 @@ script LoginLayerComponent extends Component
 
 	method void SetLoginButtonVisible(boolean value)
 		if self.LoginButton ~= nil then
-			self.LoginButton.Visible = value
+			self.LoginButton:SetVisible(value)
 		end
 	end
 	
@@ -36,9 +36,8 @@ script LoginLayerComponent extends Component
 	
 	@ExecSpace("ClientOnly")
 	@EventSender("Entity", "d14a049c-6595-4788-8828-34b7bdff14eb")
-	handler HandleButtonClickEvent(ButtonClickEvent event)
-		_LoginLogic:RequestLogin(_UserService.LocalPlayer.PlayerComponent.UserId)
-		
+	handler HandleButtonClickEvent(ButtonClickEvent e)
+		_LoginLogic:RequestLogin()
 		self:SetLoginButtonClickEnable(false)
 		self:SetLoginBufferVisible(true)
 	end

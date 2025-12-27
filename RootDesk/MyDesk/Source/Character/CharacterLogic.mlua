@@ -1,0 +1,329 @@
+@Logic
+script CharacterLogic extends Logic
+
+	---@type BatchRequest
+	property any createCharacterRequest = BatchRequest()
+	property boolean isDoingCreateCharacter = false
+
+	@ExecSpace("ServerOnly")
+	method string GetCharacterKey(integer slot)
+		return "character_" .. tostring(slot)
+	end
+
+	@ExecSpace("ServerOnly")
+	method Character NewCharacter(integer slot, string name)
+		local character = Character()
+		character.slot = slot
+		character.name = name
+		return character
+	end
+
+	@ExecSpace("ServerOnly")
+	method void SetCharacter(string uid, Character character)
+		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+		if userDataStorage == nil then
+			return
+		end
+		local key =	self:GetCharacterKey(character.slot)
+		userDataStorage:SetAsync(key, _HttpService:JSONEncode(character:ToTable()), nil)
+	end
+
+	@ExecSpace("Server")
+	method void LoadCharacters()
+		local uid = senderUserId
+		if _UserLogic.users[uid] == nil then
+			log("로드하려는 사용자를 찾을 수 없습니다: " .. uid)
+			_LoginLogic:NeedLogin(uid)
+			return
+		end
+		
+		---@type table
+		local entry = _UserLogic.users[uid]
+		if entry["user_entity"] == nil then
+			_LoginLogic:NeedLogin(uid)
+			return
+		end
+		
+		---@type table
+		local userEntity = entry["user_entity"]
+		if userEntity["characters"] == nil then
+			self:UserCharacterLoadComplete({}, uid)
+			return
+		end
+		
+		---@type table
+		local characters = userEntity["characters"]
+		local charactersKeys = {}
+		local characterCaches = {}
+		for _, ch in ipairs(characters) do
+			if ch == nil then
+				continue
+			end
+			
+			if ch["slot"] == nil or ch["name"] == nil then
+				continue
+			end
+			
+			local chKey = self:GetCharacterKey(ch["slot"])
+			table.insert(charactersKeys, chKey)
+			table.insert(characterCaches, _CharacterLogic:NewCharacter(ch["slot"], ch["name"]))
+		end
+		
+		---@type UserDataStorage
+		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+		if userDataStorage == nil then
+			_UserService:KickUser(uid, KickReason.ETC)
+			return
+		end
+		
+		userDataStorage:BatchGetAsync(charactersKeys, function(errorCode, keys, datas)
+			if errorCode ~= 0 then
+				_LoginLogic:NeedLogin(uid)
+				return
+			end
+			
+			---@type DataStorageItemPages
+			local pages = datas
+			local characterMap = {}
+			while true do
+				for _, data in ipairs(pages:GetCurrentPageDatas()) do
+					local ch = _HttpService:JSONDecode(data.Value)
+					if ch == nil then
+						continue
+					end
+					
+					if ch["slot"] == nil then
+						continue
+					end
+					
+					characterMap[ch["slot"]] = ch
+				end
+				
+				if pages.IsLastPage == true then
+					break
+				end
+				
+				local loadResultCode = pages:LoadNextPageAndWait()
+				if loadResultCode ~= 0 then
+					break
+				end
+				
+				pages:MoveToNextPageAndWait()
+			end
+			
+			local params = {}
+			for _, cache in ipairs(characterCaches) do
+				---@type Character
+				local ch = cache
+				
+				local slot = tostring(ch.slot)
+				if characterMap[slot] ~= nil then
+					local data = characterMap[slot]
+					ch.slot = data["slot"]
+					ch.name = data["name"]
+					table.insert(params, ch)
+				else
+					table.insert(params, ch)
+				end
+			end
+			
+			self:UserCharacterLoadComplete(params, uid)
+		end)
+	end
+
+	@ExecSpace("Server")
+	method void RequestCreateCharacter(CreateCharacterParams params)
+		if params == nil then
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, senderUserId)
+			return
+		end
+
+		local nameLen = utf8.len(params.name)
+		if _UtilLogic:IsNilorEmptyString(params.name) or nameLen < _DefLogic.MinNicknameLength then
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR, senderUserId)
+			return
+		elseif nameLen > _DefLogic.MaxNicknameLength then
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR, senderUserId)
+			return
+		end
+
+		local uid = senderUserId		
+		if _UserLogic.users[uid] == nil then
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND, uid)
+			return
+		end
+		local user = _UserLogic.users[uid]
+
+		for _, uid in pairs(self.createCharacterRequest:GetPendingRequests()) do
+			if uid == senderUserId then
+				-- 이미 생성 요청을 한 유저
+				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST, uid)
+				return
+			end
+		end
+
+		params.uid = uid
+		params.token = user["token"]
+		
+		self.createCharacterRequest:AddRequest(params)
+		self:SendEvent(CreateCharacterEvent())
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnRequestCreateCharacter()
+		self:OnRequestCreateCharacter_Doing()
+		self.isDoingCreateCharacter = false
+
+		-- 추가적인 생성 요청이 있었는지 확인
+		if self.createCharacterRequest:HasPendingRequests() == true then
+			self:SendEvent(CreateCharacterEvent())
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnRequestCreateCharacter_Doing()
+		local headers = {
+			["Content-Type"] = "application/json"
+		}
+
+		local content = {
+			["requests"] = {}
+		}
+
+		local requests = {}
+
+		for _, entry in pairs(self.createCharacterRequest:GetPendingRequests()) do
+			---@type CreateCharacterParams
+			local params = entry
+			table.insert(content["requests"], {
+				["uid"] = params.uid,
+				["token"] = params.token,
+				["slot"] = params.slot,
+				["name"] = params.name
+			})
+
+			requests[params.uid] = params.name
+		end
+
+		local contentJson = _HttpService:JSONEncode(content)
+		local requestTime = _UtilLogic.ServerElapsedSeconds
+		local response = _HttpService:RequestAndWait(
+			_DefLogic.BackendUrl .. "/user/character/create",
+			"POST", contentJson, headers
+		)
+		self:OnResponseCreateCharacter(response, requests)
+
+		self.createCharacterRequest:ClearProcessedRequests()
+		self.createCharacterRequest:FlushRequests()
+
+		-- 추가 요청이 존재하고 생성 Delay 시간을 초과했다면 즉시 재실행
+		if self.createCharacterRequest:HasPendingRequests() == true then
+			local responseTime = _UtilLogic.ServerElapsedSeconds
+			local diff = responseTime - requestTime
+			if diff >= _DefLogic.CreateCharacterRequestTimeSec then
+				self:OnRequestCreateCharacter_Doing()
+			end
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnResponseCreateCharacter(string response, table requests)
+		if _UtilLogic:IsNilorEmptyString(response) then
+			for uid, name in pairs(requests) do
+				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
+			end
+			return
+		end
+
+		local content = _HttpService:JSONDecode(response)
+		if content["responses"] == nil then
+			for uid, name in pairs(requests) do
+				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
+			end
+			return
+		end
+
+		local responses = content["responses"]
+		local doneUids = {}
+		for _, res in ipairs(responses) do
+			if res["uid"] == nil then
+				continue
+			end
+
+			---@type string
+			local uid = res["uid"]
+
+			if res["error_code"] == nil then
+				local slot = res["slot"]
+				local name = requests[uid]
+				local newCharacter = _CharacterLogic:NewCharacter(slot, name)
+
+				doneUids[uid] = {
+					["result"] = "SUCCESS",
+					["character"] = newCharacter
+				}
+				-- 게임DB에 저장
+				self:SetCharacter(uid, newCharacter)
+			else
+				doneUids[uid] = {
+					["result"] = res["error_code"]
+				}
+			end
+		end
+
+		for uid, name in pairs(requests) do
+			if doneUids[uid] == nil then
+				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
+			else
+				local result = doneUids[uid]
+				if result["result"] == nil then
+					self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
+				elseif result["result"] == "SUCCESS" then
+					self:CreateCharacterComplete(result["character"], uid)
+				else
+					self:CreateCharacterFailure(result["result"], uid)
+				end
+			end
+		end
+	end
+
+	@ExecSpace("Client")
+	method void CreateCharacterFailure(string errorCode)
+		local localPlayer = _UserService.LocalPlayer
+		local e = CreateCharacterFailureEvent()
+		e.errorCode = errorCode
+		localPlayer:SendEvent(e)
+	end
+
+	@ExecSpace("Client")
+	method void CreateCharacterComplete(Character newCharacter)
+		local localPlayer = _UserService.LocalPlayer
+		local e = CreateCharacterCompleteEvent()
+		e.newCharacter = newCharacter
+		localPlayer:SendEvent(e)
+	end
+
+	@ExecSpace("Client")
+	method void UserCharacterLoadComplete(table characters)
+		local localPlayer = _UserService.LocalPlayer
+		local e = UserCharacterLoadCompleteEvent()
+		e.characters = characters
+		localPlayer:SendEvent(e)
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
+		-- 이미 생성 요청 중
+		if self.isDoingCreateCharacter then
+			return
+		end
+		
+		self.isDoingCreateCharacter = true
+		local callback = function()
+			self:OnRequestCreateCharacter()
+		end
+		_TimerService:SetTimerOnce(callback, _DefLogic.CreateCharacterRequestTimeSec)
+	end
+
+end

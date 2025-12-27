@@ -3,13 +3,11 @@ script UserLogic extends Logic
 	
 	property table users = {}
 	property table userWarpRecords = {}
-	
+
 	@ExecSpace("Server")
-	method void EnterUser(string uid, string mapName)
-		if _GameServerLogic:IsValidUserId(senderUserId, uid) == false then
-			return
-		end
-		
+	method void EnterUser(string mapName)
+		local uid = senderUserId
+
 		local record = UserWarpRecord()
 		record.worldId = _WorldInstanceService.WorldInstanceId
 		record.mapName = mapName
@@ -24,11 +22,6 @@ script UserLogic extends Logic
 		
 		if mapName == "LoginMap" then
 			_GameClientLogic:SetLoginMap(record, uid)
-			-- _LoginLogic:ValidateLogin(uid)
-			-- if record:HaveWarped() == true and record.loggedin == true then
-			-- 	-- 로그인된 상태에서 워프를 한 경우
-			-- 	_LoginLogic:ValidateLogin(uid)
-			-- else
 		else
 			_GameClientLogic:SetUnkownMap(record, uid)
 		end
@@ -63,126 +56,10 @@ script UserLogic extends Logic
 		self.users[uid] = user
 	end
 	
-	@ExecSpace("Server")
-	method void LoadCharacters(string uid)
-		if _GameServerLogic:IsValidUserId(senderUserId, uid) == false then
-			return
-		end
-		
-		if self.users[uid] == nil then
-			log("로드하려는 사용자를 찾을 수 없습니다: " .. uid)
-			_LoginLogic:NeedLogin(uid)
-			return
-		end
-		
-		---@type table
-		local entry = self.users[uid]
-		if entry["user_entity"] == nil then
-			_LoginLogic:NeedLogin(uid)
-			return
-		end
-		
-		---@type table
-		local userEntity = entry["user_entity"]
-		if userEntity["characters"] == nil then
-			self:UserCharacterLoadComplete({}, uid)
-			return
-		end
-		
-		---@type table
-		local characters = userEntity["characters"]
-		local charactersKeys = {}
-		local characterCaches = {}
-		for _, ch in ipairs(characters) do
-			if ch == nil then
-				continue
-			end
-			
-			if ch["slot"] == nil or ch["name"] == nil then
-				continue
-			end
-			
-			local chKey = "character_" .. ch["slot"]
-			table.insert(charactersKeys, chKey)
-			
-			local chCache = Character()
-			chCache.Slot = ch["slot"]
-			chCache.Name = ch["name"]
-			table.insert(characterCaches, chCache)
-		end
-		
-		---@type UserDataStorage
-		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
-		if userDataStorage == nil then
-			_UserService:KickUser(uid, KickReason.ETC)
-			return
-		end
-		
-		userDataStorage:BatchGetAsync(charactersKeys, function(errorCode, keys, datas)
-			if errorCode ~= 0 then
-				_LoginLogic:NeedLogin(uid)
-				return
-			end
-			
-			---@type DataStorageItemPages
-			local pages = datas
-			local characterMap = {}
-			while true do
-				for _, data in ipairs(pages:GetCurrentPageDatas()) do
-					local ch = _HttpService:JSONDecode(data.Value)
-					if ch == nil then
-						continue
-					end
-					
-					if ch["slot"] == nil then
-						continue
-					end
-					
-					characterMap[ch["slot"]] = ch
-				end
-				
-				if pages.IsLastPage == true then
-					break
-				end
-				
-				local loadResultCode = pages:LoadNextPageAndWait()
-				if loadResultCode ~= 0 then
-					break
-				end
-				
-				pages:MoveToNextPageAndWait()
-			end
-			
-			local params = {}
-			for _, cache in ipairs(characterCaches) do
-				---@type Character
-				local chCache = cache
-				
-				local slot = tostring(chCache.Slot)
-				if characterMap[slot] ~= nil then
-					table.insert(params, characterMap[slot])
-				else
-					local newCh = chCache:Clone()
-					table.insert(params, newCh:ToTable())
-				end
-			end
-			
-			self:UserCharacterLoadComplete(params, uid)
-		end)
-	end
-	
-	@ExecSpace("Client")
-	method void UserCharacterLoadComplete(table characters)
-		local localPlayer = _UserService.LocalPlayer
-		local e = UserCharacterLoadCompleteEvent()
-		e.characters = characters
-		localPlayer:SendEvent(e)
-	end
-	
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
-	handler HandleUserLeaveEvent(UserLeaveEvent event)
-		local uid = event.UserId
+	handler HandleUserLeaveEvent(UserLeaveEvent e)
+		local uid = e.UserId
 		if self.users[uid] ~= nil then
 			self.users[uid] = nil
 		end
@@ -190,5 +67,5 @@ script UserLogic extends Logic
 			self.userWarpRecords[uid] = nil
 		end
 	end
-	
+
 end

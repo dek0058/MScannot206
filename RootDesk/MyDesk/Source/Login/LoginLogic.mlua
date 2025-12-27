@@ -1,26 +1,9 @@
 @Logic
 script LoginLogic extends Logic
 	
-	readonly property integer loginTimeSec = 3
-	
+	---@type BatchRequest
+	property any loginRequest = BatchRequest()
 	property boolean isDoingLogin = false
-
-	property integer pendingLoginUserIdsIndex = 0
-	property integer requestLoginUserIdsIndex = 0
-	property table loginUserIds = {}
-
-	property table userTokens = {}
-	
-	method void OnBeginPlay()
-		if self:IsServer() == true then
-			self:OnServerInit()
-		end	
-	end
-
-	@ExecSpace("Server")
-	method void OnServerInit()
-		_HttpService.httpEnabled = true
-	end
 
 	@ExecSpace("ServerOnly")
 	method void ValidateLogin(string uid)
@@ -43,7 +26,7 @@ script LoginLogic extends Logic
 				elseif user["user_entity"] == nil then
 					self:NeedLogin(uid)
 					return
-				elseif user["token"] == nil or user["token"] == "" then
+				elseif user["token"] == nil or _UtilLogic:IsNilorEmptyString(user["token"]) then
 					self:NeedLogin(uid)
 					return
 				elseif user["version"] == nil or user["version"] ~= _DefLogic.Version then
@@ -59,25 +42,18 @@ script LoginLogic extends Logic
 	end
 	
 	@ExecSpace("Server")
-	method void RequestLogin(string uid)
-		if _GameServerLogic:IsValidUserId(senderUserId, uid) == false then
-			return
-		end
-		
-		local beginIndex = self.requestLoginUserIdsIndex + 1
-		local endIndex = self.pendingLoginUserIdsIndex
-		
-		for i = beginIndex, endIndex do
-			if self.loginUserIds[i] == uid then
+	method void RequestLogin()
+		local uid = senderUserId
+
+		for _, uid in pairs(self.loginRequest:GetPendingRequests()) do
+			if uid == senderUserId then
 				-- 이미 로그인 요청을 한 유저
-				self:LoginFailure("LOGIN_ALREADY_REQUEST", senderUserId)
+				self:LoginFailure(_ErrorLogic.LOGIN_ALREADY_REQUEST, senderUserId)
 				return
 			end
 		end
 		
-		self.pendingLoginUserIdsIndex = self.pendingLoginUserIdsIndex + 1
-		self.loginUserIds[self.pendingLoginUserIdsIndex] = uid
-		
+		self.loginRequest:AddRequest(uid)
 		self:SendEvent(LoginEvent())
 	end
 	
@@ -87,16 +63,13 @@ script LoginLogic extends Logic
 		self.isDoingLogin = false
 		
 		-- 추가적인 로그인 요청이 있었는지 확인
-		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
+		if self.loginRequest:HasPendingRequests() == true then
 			self:SendEvent(LoginEvent())
 		end
 	end
 
 	@ExecSpace("ServerOnly")
 	method void OnRequestLogin_Doing()
-		local beginIndex = self.requestLoginUserIdsIndex + 1
-		local endIndex = self.pendingLoginUserIdsIndex
-		
 		local headers = {
 			["Content-Type"] = "application/json"
 		}
@@ -105,27 +78,27 @@ script LoginLogic extends Logic
 			["uids"] = {}
 		}
 		
-		for i = beginIndex, endIndex do
-			table.insert(content["uids"], self.loginUserIds[i])
+		for _, uid in pairs(self.loginRequest:GetPendingRequests()) do
+			table.insert(content["uids"], uid)
 		end
 		
 		local contentJson = _HttpService:JSONEncode(content)
 		
-		local requestTime = DateTime.UtcNow
+		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
 			_DefLogic.BackendUrl .. "/login",
 			"POST", contentJson, headers
 		)
-		self.requestLoginUserIdsIndex = endIndex
-
 		self:OnResponseLogin(response, content["uids"])
 		
-		local responseTime = DateTime.UtcNow
-		local diff = TimeSpan(tostring(responseTime - requestTime))
+		self.loginRequest:ClearProcessedRequests()
+		self.loginRequest:FlushRequests()
 		
 		-- 추가 요청이 존재하고 로그인 Delay 시간을 초과했다면 즉시 재실행
-		if self.requestLoginUserIdsIndex < self.pendingLoginUserIdsIndex then
-			if diff.Seconds >= self.loginTimeSec then
+		if self.loginRequest:HasPendingRequests() == true then
+			local responseTime = _UtilLogic.ServerElapsedSeconds
+			local diff = responseTime - requestTime
+			if diff >= _DefLogic.LoginRequestTimeSec then
 				self:OnRequestLogin_Doing()
 			end
 		end
@@ -133,9 +106,9 @@ script LoginLogic extends Logic
 	
 	@ExecSpace("ServerOnly")
 	method void OnResponseLogin(string response, table requestUids)
-		if response == "" then
+		if _UtilLogic:IsNilorEmptyString(response) then
 			for i, uid in ipairs(requestUids) do
-				self:LoginFailure("LOGIN_UNABLE", uid)
+				self:LoginFailure(_ErrorLogic.LOGIN_UNABLE, uid)
 			end
 			return
 		end
@@ -145,9 +118,7 @@ script LoginLogic extends Logic
 		local successUids = content["success_uids"]
 		local failUids = content["fail_uids"]
 
-		---@type table
 		local doneUids = {}
-
 		if failUids ~= nil then
 			for i, entry in ipairs(failUids) do
 				if entry == nil then
@@ -261,7 +232,7 @@ script LoginLogic extends Logic
 	
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
-	handler HandleLoginEvent(LoginEvent event)
+	handler HandleLoginEvent(LoginEvent e)
 		-- 이미 로그인 요청 중
 		if self.isDoingLogin then
 			return
@@ -271,7 +242,7 @@ script LoginLogic extends Logic
 		local callback = function()
 			self:OnRequestLogin()
 		end
-		_TimerService:SetTimerOnce(callback, self.loginTimeSec)
+		_TimerService:SetTimerOnce(callback, _DefLogic.LoginRequestTimeSec)
 	end
 	
 end

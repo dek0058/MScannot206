@@ -34,7 +34,7 @@ script GameClientLogic extends Logic
 			return
 		end
 		
-		_GameServerLogic:Validate(uid, enteredMap.Name)
+		_GameServerLogic:Validate(enteredMap.Name)
 	end
 
 	@ExecSpace("Client")

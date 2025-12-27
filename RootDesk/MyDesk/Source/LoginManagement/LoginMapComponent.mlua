@@ -3,6 +3,50 @@ script LoginMapComponent extends Component
 	
 	readonly property Entity LoginGroupEntity = nil
 
+	method void OnBeginPlay()
+		self:OnClientInit()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnClientInit()
+		if self.LoginGroupEntity == nil then
+			return
+		end
+
+		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+
+		local uiParent = self.LoginGroupEntity.Parent
+		if uiParent == nil then
+			return
+		end
+
+		for _, child in pairs(uiParent.Children) do
+			if child == self.LoginGroupEntity then
+				self.LoginGroupEntity:SetEnable(true)
+				if LoginGroupCom ~= nil then
+					LoginGroupCom:Clear()
+				end
+				continue
+			end
+
+			---@type TagComponent
+			local tagCom = child:GetComponent(TagComponent)
+			if tagCom == nil then
+				child:SetEnable(false)
+				continue
+			end
+
+			for _, tag in pairs(tagCom.Tags) do
+				if tag == _GameClientUILogic.screen then
+					child:SetEnable(false)
+					break
+				end
+			end
+		end
+	end
+
 	@ExecSpace("Server")
 	method void Kick(string reason)
 		error(reason)
@@ -11,21 +55,10 @@ script LoginMapComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method boolean Enter()
-		if self.LoginGroupEntity == nil then
-			self:Kick("LoginGroupEntity 없습니다.")
+		if self._T["LoginGroupComponent"] == nil then
 			return false
 		end
 
-		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			self:Kick("LoginGroupComponent를 찾을 수 없습니다.")
-			return false
-		end
-
-		self.LoginGroupEntity:SetEnable(true)
-		LoginGroupCom:Clear()
 		return true
 	end
 
@@ -38,7 +71,7 @@ script LoginMapComponent extends Component
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		local err = LoginGroupCom:SetLoginLayer()
-		if err ~= "" then
+		if _UtilLogic:IsNilorEmptyString(err) == false then
 			self:Kick(err)
 			return
 		end
@@ -50,34 +83,35 @@ script LoginMapComponent extends Component
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		local err = LoginGroupCom:SetCharacterSelectionLayer()
-		if err ~= "" then
+		if _UtilLogic:IsNilorEmptyString(err) == false then
 			self:Kick(err)
 			return
 		end
+		LoginGroupCom.CharacterSelectionLayerCom:Reset()
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandlerLoggedinEvent(LoggedinEvent event)
+	handler HandlerLoggedinEvent(LoggedinEvent e)
 		self:SetCharacterSelection()
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandlerNeedLoginEvent(NeedLoginEvent event)
+	handler HandlerNeedLoginEvent(NeedLoginEvent e)
 		self:SetLogin()
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleLoginCompleteEvent(LoginCompleteEvent event)
+	handler HandleLoginCompleteEvent(LoginCompleteEvent e)
 		self:SetCharacterSelection()
 	end
 	
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleLoginFailureEvent(LoginFailureEvent event)
-		_ErrorLogic:Throw(event.errorCode)
+	handler HandleLoginFailureEvent(LoginFailureEvent e)
+		_ErrorLogic:Throw(e.errorCode)
 		
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
@@ -87,10 +121,26 @@ script LoginMapComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleCharacterSelectionLoadCompleteEvent(UserCharacterLoadCompleteEvent event)
+	handler HandleCharacterSelectionLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
-		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(event)
+		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(e)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterFailureEvent(CreateCharacterFailureEvent e)
+		_ErrorLogic:Throw(e.errorCode)
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterCompleteEvent(CreateCharacterCompleteEvent e)
+		_ScreenMessageLogic:PrivateMsg("캐릭터가 생성되었습니다")
+
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		LoginGroupCom.CharacterSelectionLayerCom:SetSlot(e.newCharacter)
 	end
 
 end

@@ -1,0 +1,6 @@
+@Event
+script CreateCharacterCompleteEvent extends EventType
+
+	property any newCharacter = nil
+
+end

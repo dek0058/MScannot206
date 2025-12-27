@@ -1,0 +1,8 @@
+@Logic
+script GameClientUILogic extends Logic
+
+	property string screen = "Screen"
+
+	property string model = "Model"
+
+end

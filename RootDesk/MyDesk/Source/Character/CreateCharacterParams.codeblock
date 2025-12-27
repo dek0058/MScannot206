@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://c41178e5-8dcb-4b86-9868-612dd40fc5bf",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "c41178e5-8dcb-4b86-9868-612dd40fc5bf",
+      "Language": 1,
+      "Name": "CreateCharacterParams",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

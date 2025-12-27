@@ -9,22 +9,7 @@ script LocalPlayerMediationComponent extends Component
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
 		self._T["entered_map"] = enteredMap
-		_UserLogic:EnterUser(self.Entity.PlayerComponent.UserId, enteredMap.Name)
-		-- local warpRecord = _TeleportService:GetWarpRecord(userId)
-
-		-- if mapName == "LoginMap" then
-		-- 	---@type LoginMapComponent
-		-- 	local LoginMapCom = enteredMap:GetComponent(LoginMapComponent)
-		-- 	if LoginMapCom == nil then
-		-- 		log("LoginMapComponent를 찾을 수 없습니다.")
-		-- 		self:Kick()
-		-- 		return
-		-- 	end
-		-- 	LoginMapCom:Enter(userId)
-		-- else
-		-- 	error("Unknown map entered: " .. mapName)
-		-- 	self:Kick()
-		-- end
+		_UserLogic:EnterUser(enteredMap.Name)
 	end
 
 	@ExecSpace("ClientOnly")

@@ -4,14 +4,14 @@ script CharacterSelectionCardComponent extends Component
 	property integer Slot = 0
 
 	property Entity DefaultMode = nil
-
 	property Entity BufferingMode = nil
-
 	property Entity NewMode = nil
 
 	property Entity EnterBtn = nil
-
 	property Entity NewBtn = nil
+
+	property Entity Avatar = nil
+	property Entity NameText = nil
 
 	@ExecSpace("ClientOnly")
 	method void OnInitialize()
@@ -32,18 +32,35 @@ script CharacterSelectionCardComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self.NewBtn:ConnectEvent(ButtonClickEvent, function ()
-			log("새 캐릭터 생성 버튼 클릭")
+		self:SetBuffering()
+
+		self.NewBtn:ConnectEvent(ButtonClickEvent, function (event)
+			self:RequestCreateCharacter()
 		end)
 
-		self.EnterBtn:ConnectEvent(ButtonClickEvent, function ()
-			log("캐릭터 선택 완료 버튼 클릭: 슬롯 " .. tostring(self.Slot))
+		self.EnterBtn:ConnectEvent(ButtonClickEvent, function (event)
+			self:RequestEnterGame()
 		end)
+
+		if self.Avatar ~= nil then
+			self._T["Avatar"] = self.Avatar:GetComponent(CostumeManagerComponent)
+		end
+
+		if self.NameText ~= nil then
+			self._T["NameText"] = self.NameText:GetComponent(TextComponent)
+		end
 	end
 
 	@ExecSpace("ClientOnly")
 	method void SetDefault(Character character)
+		self._T["character"] = character
 		self._T["SetMode"](self.DefaultMode)
+
+		---@type TextComponent
+		local nameTextCom = self._T["NameText"]
+		if nameTextCom ~= nil then
+			nameTextCom.Text = character.name
+		end
 	end
 
 	@ExecSpace("ClientOnly")
@@ -53,7 +70,20 @@ script CharacterSelectionCardComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void SetNew()
+		self._T["character"] = nil
 		self._T["SetMode"](self.NewMode)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void RequestCreateCharacter()
+		local e = RequestCreateCharacterEvent()
+		e.Slot = self.Slot
+		_UserService.LocalPlayer:SendEvent(e)
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void RequestEnterGame()
+
 	end
 
 end

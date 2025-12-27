@@ -16,12 +16,12 @@
       {
         "id": "646b1722-1314-48cf-bebc-da19ff08dc66",
         "path": "/ui/LoginGroup",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,script.LoginGroupComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,script.LoginGroupComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "LoginGroup",
           "path": "/ui/LoginGroup",
           "nameEditable": true,
-          "enable": false,
+          "enable": true,
           "visible": true,
           "localize": true,
           "displayOrder": 0,
@@ -103,6 +103,13 @@
                 "IsRelative": false,
                 "ComponentId": "0dcfaa50-6870-46df-9892-32f211c9dfa4:CharacterSelectionLayerComponent"
               }
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Screen"
+              ],
+              "Enable": true
             }
           ],
           "@version": 1
@@ -117,7 +124,7 @@
           "path": "/ui/LoginGroup/LoginLayer",
           "nameEditable": true,
           "enable": true,
-          "visible": false,
+          "visible": true,
           "localize": true,
           "displayOrder": 0,
           "pathConstraints": "///",
@@ -756,7 +763,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer",
           "nameEditable": true,
           "enable": true,
-          "visible": false,
+          "visible": true,
           "localize": true,
           "displayOrder": 1,
           "pathConstraints": "///",
@@ -833,6 +840,11 @@
                 "tempEntityId": null,
                 "IsRelative": false,
                 "EntityId": "a7a4a92b-06e3-401d-b9f4-6a17a136a04c"
+              },
+              "CreateOverlay": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "cbf54310-e63f-42b4-8ac9-461bd5562010"
               }
             }
           ],
@@ -1108,7 +1120,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_1/Buffering",
           "nameEditable": true,
           "enable": true,
-          "visible": true,
+          "visible": false,
           "localize": true,
           "displayOrder": 1,
           "pathConstraints": "//////",
@@ -1678,7 +1690,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_1/Default",
           "nameEditable": true,
           "enable": true,
-          "visible": false,
+          "visible": true,
           "localize": true,
           "displayOrder": 3,
           "pathConstraints": "//////",
@@ -2345,7 +2357,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_2/Buffering",
           "nameEditable": true,
           "enable": true,
-          "visible": true,
+          "visible": false,
           "localize": true,
           "displayOrder": 1,
           "pathConstraints": "//////",
@@ -2915,7 +2927,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_2/Default",
           "nameEditable": true,
           "enable": true,
-          "visible": false,
+          "visible": true,
           "localize": true,
           "displayOrder": 3,
           "pathConstraints": "//////",
@@ -3582,7 +3594,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_3/Buffering",
           "nameEditable": true,
           "enable": true,
-          "visible": true,
+          "visible": false,
           "localize": true,
           "displayOrder": 1,
           "pathConstraints": "//////",
@@ -4152,7 +4164,7 @@
           "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSelection_Overlay/Model_CharacterSelectionCard_3/Default",
           "nameEditable": true,
           "enable": true,
-          "visible": false,
+          "visible": true,
           "localize": true,
           "displayOrder": 3,
           "pathConstraints": "//////",
@@ -4632,6 +4644,1375 @@
                 "y": -1.0
               },
               "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "cbf54310-e63f-42b4-8ac9-461bd5562010",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "CharacterSeelction_Create",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1920.0,
+                "y": 1080.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "c5a69afd-3e21-4e38-ab9f-df30ffda9d57",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.CharacterSelectionCreatePopup",
+        "jsonString": {
+          "name": "Popup",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 400.0,
+                "y": 250.0
+              },
+              "OffsetMin": {
+                "x": -400.0,
+                "y": -250.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 800.0,
+                "y": 500.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "9e9c7144f1e55ce4c8b398d4b7afc8e1"
+              },
+              "OverrideSorting": false,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "script.CharacterSelectionCreatePopup",
+              "Enable": true,
+              "BackBtn": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "a57b6ee6-ecc5-4225-afeb-3da4f3b719f4"
+              },
+              "Avatar": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "70814903-2a0a-4b5e-8d0a-0233c7b2abf1"
+              },
+              "NameInput": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "20669bb8-06be-4d15-ac15-5116ead268f0"
+              },
+              "CreateBtn": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "64004d03-2236-466f-ac02-acfb1367e6d3"
+              },
+              "Buffer": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "afc43860-f0a2-41da-9bd4-ca85bf50478d"
+              },
+              "name": ""
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "5af349b4-0ada-401c-91bc-5efca6a1155f",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/InputBlock",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "InputBlock",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/InputBlock",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 1000.0,
+                "y": 1000.0
+              },
+              "OffsetMin": {
+                "x": -1000.0,
+                "y": -1000.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 2000.0,
+                "y": 2000.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "70814903-2a0a-4b5e-8d0a-0233c7b2abf1",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Avatar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.AvatarGUIRendererComponent,MOD.Core.CostumeManagerComponent",
+        "jsonString": {
+          "name": "Avatar",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 12,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 360.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 60.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 360.0,
+                "y": 440.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 30.0
+              },
+              "Position": {
+                "x": -400.0,
+                "y": 30.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarGUIRendererComponent",
+              "FlipX": true,
+              "PreserveAvatar": 1,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "27546d3e-2ec6-4c55-9ce6-8a6b05035aae",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "Create_Overlay",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 14,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": -440.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 440.0,
+                "y": 500.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 400.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "20669bb8-06be-4d15-ac15-5116ead268f0",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Name_Input",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent,MOD.Core.TextInputComponent",
+        "jsonString": {
+          "name": "Name_Input",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Name_Input",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 0,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 10,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -40.0,
+                "y": 40.0
+              },
+              "OffsetMin": {
+                "x": 40.0,
+                "y": -40.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 360.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 40.0
+              },
+              "Position": {
+                "x": -220.0,
+                "y": 40.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "AnimClipPlayType": 0,
+              "EndFrameIndex": 2147483647,
+              "ImageRUID": {
+                "DataId": "8122dd6f67f3d9b4db8a3152172f9063"
+              },
+              "LocalPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "LocalScale": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "OverrideSorting": false,
+              "PlayRate": 1.0,
+              "StartFrameIndex": 0,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "DropShadow": false,
+              "DropShadowAngle": 30.0,
+              "DropShadowColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.72
+              },
+              "DropShadowDistance": 32.0,
+              "FillAmount": 1.0,
+              "FillCenter": true,
+              "FillClockWise": true,
+              "FillMethod": 0,
+              "FillOrigin": 0,
+              "FlipX": false,
+              "FlipY": false,
+              "FrameColumn": 1,
+              "FrameRate": 0,
+              "FrameRow": 1,
+              "Outline": false,
+              "OutlineColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "OutlineWidth": 3.0,
+              "RaycastTarget": true,
+              "Type": 1,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "Alignment": 4,
+              "AllowAutomaticTranslation": false,
+              "Font": 0,
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 32,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineColor": {
+                "r": 0.7,
+                "g": 0.7,
+                "b": 0.7,
+                "a": 1.0
+              },
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "Overflow": 0,
+              "OverrideSorting": false,
+              "Padding": {
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "bottom": 0
+              },
+              "SizeFit": false,
+              "Text": "",
+              "UseOutLine": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextInputComponent",
+              "CharacterLimit": 10,
+              "ContentType": 0,
+              "LineType": 0,
+              "OverrideSorting": false,
+              "PlaceHolder": "닉네임을 입력해주세요",
+              "PlaceHolderColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.5
+              },
+              "Text": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "64004d03-2236-466f-ac02-acfb1367e6d3",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Create_Btn",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "Create_Btn",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Create_Btn",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 6,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 125.0,
+                "y": 100.0
+              },
+              "OffsetMin": {
+                "x": -125.0,
+                "y": 20.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 250.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 20.0
+              },
+              "Position": {
+                "x": -220.0,
+                "y": -230.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "71ebf131-d57d-4a08-9d74-9502df2e2b01",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Create_Btn/Txt",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "Txt",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Create_Overlay/Create_Btn/Txt",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 250.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 40.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 32,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "Text": "캐릭터 생성",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "a57b6ee6-ecc5-4225-afeb-3da4f3b719f4",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Back_Btn",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "Back_Btn",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Back_Btn",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 3,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 5,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -20.0,
+                "y": -20.0
+              },
+              "OffsetMin": {
+                "x": -220.0,
+                "y": -100.0
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 200.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -20.0,
+                "y": -20.0
+              },
+              "Position": {
+                "x": 380.0,
+                "y": 230.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "eb25237c9c3d2f642a84bfb3c0cfd830"
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "2ecab227-429e-4613-8c88-a68478e56e57",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Back_Btn/Txt",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "Txt",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Back_Btn/Txt",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 200.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -100.0,
+                "y": -40.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 35,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "Text": "뒤로가기",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "afc43860-f0a2-41da-9bd4-ca85bf50478d",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "Buffer",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 4,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 219.9998,
+                "y": 130.0
+              },
+              "OffsetMin": {
+                "x": -280.0002,
+                "y": -70.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 500.0,
+                "y": 200.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -30.0002022,
+                "y": 30.0000019
+              },
+              "Position": {
+                "x": -30.0002,
+                "y": 30.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "9f4292b6-0540-4084-9faa-67abfbadec76",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer/Bg",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Bg",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer/Bg",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 7.62939453E-06
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 7.62939453E-06
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 500.0,
+                "y": 200.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 7.62939453E-06
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 7.62939453E-06,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "e363fe71863482e40954b62b58bf4ac8"
+              },
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "463f1b98-8687-44bd-8a09-1e61761667df",
+        "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer/Txt",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "Txt",
+          "path": "/ui/LoginGroup/CharacterSelectionLayer/CharacterSeelction_Create/Popup/Buffer/Txt",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 500.0,
+                "y": 200.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 50,
+              "MaxSize": 50,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "Text": "캐릭터 생성 중",
               "Enable": true
             }
           ],

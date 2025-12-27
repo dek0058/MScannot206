@@ -1,0 +1,6 @@
+@Event
+script RequestCreateCharacterEvent extends EventType
+
+	property integer Slot = 0
+
+end

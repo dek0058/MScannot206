@@ -10,7 +10,7 @@ script UserWarpRecord
 	property string mapName = ""
 
 	method boolean HaveWarped()
-		if self.worldId == "" or self.oldWorldId == "" then
+		if  _UtilLogic:IsNilorEmptyString(self.worldId) or _UtilLogic:IsNilorEmptyString(self.oldWorldId) then
 			return false
 		elseif self.worldId == self.oldWorldId then
 			return false

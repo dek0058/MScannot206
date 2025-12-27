@@ -8,7 +8,7 @@ script LoginGroupComponent extends Component
 	method void Clear()
 		for _, child in ipairs(self.Entity.Children) do
 			if child.Enable == true then
-				child.Visible = false
+				child:SetVisible(false)
 			end
 		end
 	end

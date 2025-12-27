@@ -2,8 +2,10 @@
 script CharacterSelectionLayerComponent extends Component
 
 	readonly property Entity CharacterSelectionOverlay = nil
+	readonly property Entity CreateOverlay = nil
 
 	readonly property table cards = {}
+	readonly property table characters = {}
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -23,6 +25,19 @@ script CharacterSelectionLayerComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
+	method void Reset()
+		if self.CharacterSelectionOverlay ~= nil then
+			self.CharacterSelectionOverlay:SetVisible(true)
+		end
+
+		if self.CreateOverlay ~= nil then
+			for _, child in ipairs(self.CreateOverlay.Children) do
+				child:SetVisible(false)
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
 	method void RequestLoad()
 		for _, card in ipairs(self.cards) do
 			---@type CharacterSelectionCardComponent
@@ -31,25 +46,32 @@ script CharacterSelectionLayerComponent extends Component
 				cardCom:SetBuffering()
 			end
 		end
-
-		_UserLogic:LoadCharacters(_UserService.LocalPlayer.PlayerComponent.UserId)
+		
+		_CharacterLogic:LoadCharacters()
 	end
 
 	@ExecSpace("ClientOnly")
-	method void ResponseLoad(UserCharacterLoadCompleteEvent event)
+	method void ResponseLoad(UserCharacterLoadCompleteEvent e)
 		 local usedSlots = {}
 
-		for _, entry in ipairs(event.characters) do
+		table.clear(self.characters)
+		if e.characters ~= nil then
+			for _, ch in ipairs(e.characters) do
+				table.insert(self.characters, ch)
+			end
+		end
+
+		for _, entry in ipairs(self.characters) do
 			---@type Character
 			local ch = entry
-			if self.cards[ch.Slot] == nil then
+			if self.cards[ch.slot] == nil then
 				continue
 			end
 
 			---@type CharacterSelectionCardComponent
-			local cardCom = self.cards[ch.Slot]
+			local cardCom = self.cards[ch.slot]
 			cardCom:SetDefault(ch)
-			usedSlots[ch.Slot] = true
+			usedSlots[ch.slot] = true
 		end
 
 		for _, card in ipairs(self.cards) do
@@ -60,7 +82,17 @@ script CharacterSelectionLayerComponent extends Component
 			end
 			cardCom:SetNew()
 		end
-		
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetSlot(Character character)
+		if self.cards[character.slot] == nil then
+			return
+		end
+
+		---@type CharacterSelectionCardComponent
+		local cardCom = self.cards[character.slot]
+		cardCom:SetDefault(character)
 	end
 
 end

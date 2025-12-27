@@ -1,0 +1,3 @@
+@Event
+script CreateCharacterEvent extends EventType
+end

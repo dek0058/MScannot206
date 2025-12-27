@@ -9,12 +9,23 @@ script ErrorLogic extends Logic
 	readonly property string LOGIN_UNABLE = "LOGIN_UNABLE"
 	readonly property string LOGIN_SESSION_CREATE_ERROR = "LOGIN_SESSION_CREATE_ERROR"
 	readonly property string LOGIN_INVALID_UID = "LOGIN_INVALID_UID"
-
-	-- Logout
-	readonly property string LOGOUT_INVALID_UID = "LOGOUT_INVALID_UID"
+	readonly property string LOGIN_ALREADY_REQUEST = "LOGIN_ALREADY_REQUEST"
 
 	-- User
 	readonly property string USER_DATA_STORAGE_WRITE_ERROR = "USER_DATA_STORAGE_WRITE_ERROR"
+
+	-- Character
+
+	-- Character Create
+	readonly property string USER_CHECK_CHARACTER_NAME_UNKNOWN_ERROR = "USER_CHECK_CHARACTER_NAME_UNKNOWN_ERROR"
+	readonly property string USER_CHARACTER_NAME_ALREADY_EXISTS_ERROR = "USER_CHARACTER_NAME_ALREADY_EXISTS_ERROR"
+	readonly property string USER_CREATE_CHARACTER_UNKNOWN_ERROR = "USER_CREATE_CHARACTER_UNKNOWN_ERROR"
+	readonly property string USER_CHARACTER_SLOT_INVALID_ERROR = "USER_CHARACTER_SLOT_INVALID_ERROR"
+	readonly property string USER_CHARACTER_SLOT_ALREADY_EXISTS_ERROR = "USER_CHARACTER_SLOT_ALREADY_EXISTS_ERROR"
+	readonly property string USER_CREATE_CHARACTER_ALREADY_REQUEST = "USER_CREATE_CHARACTER_ALREADY_REQUEST"
+	readonly property string USER_CREATE_CHARACTER_USER_NOT_FOUND = "USER_CREATE_CHARACTER_USER_NOT_FOUND"
+	readonly property string USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR = "USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR"
+	readonly property string USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR = "USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR"
 
 	method void OnBeginPlay()
 		-- Login
@@ -23,12 +34,23 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.LOGIN_UNABLE] = "로그인이 불가능합니다"
 		self.errorCodes[self.LOGIN_SESSION_CREATE_ERROR] = "세션 생성에 실패했습니다"
 		self.errorCodes[self.LOGIN_INVALID_UID] = "유효하지 않은 UID입니다"
-
-		-- Logout
-		self.errorCodes[self.LOGOUT_INVALID_UID] = "유효하지 않은 UID입니다"
+		self.errorCodes[self.LOGIN_ALREADY_REQUEST] = "이미 로그인 요청이 진행 중입니다"
 
 		-- User
 		self.errorCodes[self.USER_DATA_STORAGE_WRITE_ERROR] = "유저 데이터 저장에 실패했습니다"
+
+		-- Character
+
+		-- Character Create
+		self.errorCodes[self.USER_CHECK_CHARACTER_NAME_UNKNOWN_ERROR] = "캐릭터 이름 확인 중 알 수 없는 오류"
+		self.errorCodes[self.USER_CHARACTER_NAME_ALREADY_EXISTS_ERROR] = "이미 존재하는 캐릭터 이름입니다"
+		self.errorCodes[self.USER_CREATE_CHARACTER_UNKNOWN_ERROR] = "캐릭터 생성 중 알 수 없는 오류가 발생하였습니다"
+		self.errorCodes[self.USER_CHARACTER_SLOT_INVALID_ERROR] = "잘못된 캐릭터 슬롯입니다"
+		self.errorCodes[self.USER_CHARACTER_SLOT_ALREADY_EXISTS_ERROR] = "이미 해당 슬롯에 캐릭터가 존재합니다"
+		self.errorCodes[self.USER_CREATE_CHARACTER_ALREADY_REQUEST] = "이미 캐릭터 생성 요청이 진행 중입니다"
+		self.errorCodes[self.USER_CREATE_CHARACTER_USER_NOT_FOUND] = "캐릭터를 생성하려는 사용자를 찾을 수 없습니다"
+		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR] = string.format("캐릭터 이름은 최소 %d자 이상이어야 합니다", _DefLogic.MinNicknameLength)
+		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR] = string.format("캐릭터 이름은 최대 %d자 이하여야 합니다", _DefLogic.MaxNicknameLength)
 
 	end
 
@@ -38,7 +60,7 @@ script ErrorLogic extends Logic
 		if msg == nil then
 			msg = "알 수 없는 오류가 발생했습니다"
 		end
-		log_error(msg.." ("..errorCode..")")
+		_ScreenMessageLogic:PrivateMsg(msg)		
 	end
 
 end
