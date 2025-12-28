@@ -7,6 +7,9 @@ script DefLogic extends Logic
 	---@description "백엔드 서버 URL"
 	property string BackendUrl = "http://localhost"
 
+	---@description "최대 캐릭터 슬롯 수"
+	readonly property integer MaxCharacterSlot = 3
+
 	---@description "최소 닉네임 길이"
 	property integer MinNicknameLength = 3
 
@@ -28,6 +31,9 @@ script DefLogic extends Logic
 
 	---@description "캐릭터 생성 요청 대기 시간"
 	readonly property integer CreateCharacterRequestTimeSec = 3
+
+	---@description "캐릭터 삭제 요청 대기 시간"
+	readonly property integer DeleteCharacterRequestTimeSec = 3
 
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()

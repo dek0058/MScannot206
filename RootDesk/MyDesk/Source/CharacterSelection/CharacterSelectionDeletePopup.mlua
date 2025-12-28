@@ -27,30 +27,48 @@ script CharacterSelectionDeletePopup extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method void Setup(integer slot)
-		-- self._T["character"] = character
+	method ErrorType Setup(integer slot)
+		local err = ErrorType()
+
+		local character = _CharacterLogic:GetCharacter(slot)
+		if character == nil then
+			err:AddError("해당 슬롯의 캐릭터를 찾을 수 없습니다.")
+			return err
+		end
+		self._T["slot"] = slot
 
 		---@type TextComponent
 		local NameText = self._T["NameText"]
-		if NameText ~= nil then
-			-- NameText.Text = character.name
+		if NameText == nil then
+			err:AddError("NameText 컴포넌트를 찾을 수 없습니다.")
 		end
 
 		---@type ButtonComponent
 		local ConfirmBtn = self._T["ConfirmBtn"]
-		if ConfirmBtn ~= nil then
-			ConfirmBtn.Enable = true
+		if ConfirmBtn == nil then
+			err:AddError("ConfirmBtn 컴포넌트를 찾을 수 없습니다.")
 		end
 
 		---@type ButtonComponent
 		local CancelBtn = self._T["CancelBtn"]
-		if CancelBtn ~= nil then
-			CancelBtn.Enable = true
+		if CancelBtn == nil then
+			err:AddError("CancelBtn 컴포넌트를 찾을 수 없습니다.")
 		end
 
-		if self.Buffer ~= nil then
-			self.Buffer:SetVisible(false)
+		if self.Buffer == nil then
+			err:AddError("Buffer 엔티티를 찾을 수 없습니다.")
 		end
+
+		if err:IsError() == true then
+			return err
+		end
+
+		NameText.Text = character.name
+		ConfirmBtn.Enable = true
+		CancelBtn.Enable = true
+		self.Buffer:SetVisible(false)
+
+		return err
 	end
 
 	@ExecSpace("ClientOnly")
@@ -60,6 +78,11 @@ script CharacterSelectionDeletePopup extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("Entity", "c31aa650-5198-4364-9f26-850f2c212463")
 	handler HandleConfirmButtonClickEvent(ButtonClickEvent e)
+		if self._T["slot"] == nil then
+			log("Slot이 설정되지 않았습니다.")
+			return
+		end
+
 		---@type ButtonComponent
 		local ConfirmBtn = self._T["ConfirmBtn"]
 		if ConfirmBtn ~= nil then
@@ -76,7 +99,7 @@ script CharacterSelectionDeletePopup extends Component
 			self.Buffer:SetVisible(true)
 		end
 
-		-- TODO: Delete Character Request
+		_CharacterLogic:RequestDeleteCharacter(self._T["slot"])
 	end
 
 	@ExecSpace("ClientOnly")

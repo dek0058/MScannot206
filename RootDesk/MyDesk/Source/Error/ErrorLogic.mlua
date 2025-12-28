@@ -28,6 +28,14 @@ script ErrorLogic extends Logic
 	readonly property string USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR = "USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR"
 	readonly property string USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR = "USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR"
 
+	-- Character Delete
+	readonly property string USER_DELETE_CHARACTER_UNKNOWN_ERROR = "USER_DELETE_CHARACTER_UNKNOWN_ERROR"
+	readonly property string USER_DELETE_CHARACTER_SLOT_INVALID_ERROR = "USER_DELETE_CHARACTER_SLOT_INVALID_ERROR"
+	readonly property string USER_DELETE_CHARACTER_ALREADY_REQUEST = "USER_DELETE_CHARACTER_ALREADY_REQUEST"
+	readonly property string USER_DELETE_CHARACTER_USER_NOT_FOUND = "USER_DELETE_CHARACTER_USER_NOT_FOUND"
+	readonly property string USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR = "USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR"
+	readonly property string USER_DELETE_CHARACTER_DB_WRITE_ERROR = "USER_DELETE_CHARACTER_DB_WRITE_ERROR"
+
 	method void OnBeginPlay()
 		-- Login
 		self.errorCodes[self.LOGIN_UNKNOWN_ERROR] = "알 수 없는 오류가 발생했습니다"
@@ -53,6 +61,14 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR] = string.format("캐릭터 이름은 최소 %d자 이상이어야 합니다", _DefLogic.MinNicknameLength)
 		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR] = string.format("캐릭터 이름은 최대 %d자 이하여야 합니다", _DefLogic.MaxNicknameLength)
 		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR] = "캐릭터 이름에 사용할 수 없는 문자가 포함되어 있습니다"
+		
+		-- Character Delete
+		self.errorCodes[self.USER_DELETE_CHARACTER_UNKNOWN_ERROR] = "캐릭터 삭제 중 알 수 없는 오류가 발생하였습니다"
+		self.errorCodes[self.USER_DELETE_CHARACTER_SLOT_INVALID_ERROR] = "잘못된 캐릭터 슬롯입니다"
+		self.errorCodes[self.USER_DELETE_CHARACTER_ALREADY_REQUEST] = "이미 캐릭터 삭제 요청이 진행 중입니다"
+		self.errorCodes[self.USER_DELETE_CHARACTER_USER_NOT_FOUND] = "캐릭터를 삭제하려는 사용자를 찾을 수 없습니다"
+		self.errorCodes[self.USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR] = "삭제하려는 캐릭터 슬롯을 찾을 수 없습니다"
+		self.errorCodes[self.USER_DELETE_CHARACTER_DB_WRITE_ERROR] = "캐릭터 삭제 중 데이터베이스 쓰기 오류가 발생했습니다"
 	end
 
 	@ExecSpace("Client")

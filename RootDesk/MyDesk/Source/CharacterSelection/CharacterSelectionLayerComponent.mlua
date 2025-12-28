@@ -34,6 +34,15 @@ script CharacterSelectionLayerComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
+	method void Rollback()
+		local err = self:Setup()
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			_GameServerLogic:Kick("캐릭터 선택 레이어 설정 중 오류 발생")
+		end
+	end
+
+	@ExecSpace("ClientOnly")
 	method ErrorType Setup()
 		local err = ErrorType()
 
@@ -151,53 +160,98 @@ script CharacterSelectionLayerComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleRequestCreateCharacterEvent(RequestCreateCharacterEvent e)
-		if self.CharacterSelectionOverlay ~= nil then
-			self.CharacterSelectionOverlay:SetEnable(false)
+	method void SetEmptySlot(integer slot)
+		if self.cards[slot] == nil then
+			return
 		end
 
-		if self.CreateOverlay ~= nil then
-			self.CreateOverlay:SetEnable(true)
-			self.CreateOverlay:SetVisible(true)
+		---@type CharacterSelectionCardComponent
+		local cardCom = self.cards[slot]
+		cardCom:SetNew()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestCreateCharacterEvent(RequestCreateCharacterEvent e)
+		local err = ErrorType()
+
+		if self.CharacterSelectionOverlay == nil then
+			err:AddError("CharacterSelectionOverlay를 찾을 수 없습니다.")
+		end
+
+		if self.CreateOverlay == nil then
+			err:AddError("CreateOverlay를 찾을 수 없습니다.")
 		end
 
 		---@type CharacterSelectionCreatePopup
 		local createPopup = self._T["CreatePopup"]
-		if createPopup ~= nil then
-			createPopup:Setup(e.slot)
+		if createPopup == nil then
+			err:AddError("CharacterSelectionCreatePopup을 찾을 수 없습니다.")
+		end
+
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			self:Rollback()
+			return
+		end
+
+		self.CharacterSelectionOverlay:SetEnable(false)
+		self.CreateOverlay:SetEnable(true)
+		self.CreateOverlay:SetVisible(true)
+		err = createPopup:Setup(e.slot)
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			self:Rollback()
+			return
 		end
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleCreateCharacterCancelEvent(CreateCharacterCancelEvent e)
-		self:Setup()
+		self:Rollback()
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
-		if self.CharacterSelectionOverlay ~= nil then
-			self.CharacterSelectionOverlay:SetEnable(false)
+	handler HandleRequestDeleteCharacterEvent(RequestDeleteCharacterEvent e)
+		local err = ErrorType()
+
+		if self.CharacterSelectionOverlay == nil then
+			err:AddError("CharacterSelectionOverlay를 찾을 수 없습니다.")
 		end
 
-		if self.DeleteOverlay ~= nil then
-			self.DeleteOverlay:SetEnable(true)
-			self.DeleteOverlay:SetVisible(true)
+		if self.DeleteOverlay == nil then
+			err:AddError("DeleteOverlay를 찾을 수 없습니다.")
 		end
 
 		---@type CharacterSelectionDeletePopup
 		local deletePopup = self._T["DeletePopup"]
-		if deletePopup ~= nil then
-			deletePopup:Setup(e.slot)
+		if deletePopup == nil then
+			err:AddError("CharacterSelectionDeletePopup을 찾을 수 없습니다.")
+		end
+
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			self:Rollback()
+			return
+		end
+
+		self.CharacterSelectionOverlay:SetEnable(false)
+		self.DeleteOverlay:SetEnable(true)
+		self.DeleteOverlay:SetVisible(true)
+		err = deletePopup:Setup(e.slot)
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			self:Rollback()
+			return
 		end
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleDeleteCharacterCancelEvent(DeleteCharacterCancelEvent e)
-		self:Setup()
+		self:Rollback()
 	end
 
 end

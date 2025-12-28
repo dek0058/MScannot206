@@ -106,7 +106,7 @@ script CharacterSelectionCardComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void RequestDeleteCharacter()
-		local e = DeleteCharacterEvent()
+		local e = RequestDeleteCharacterEvent()
 		e.slot = self.Slot
 		_UserService.LocalPlayer:SendEvent(e)
 	end

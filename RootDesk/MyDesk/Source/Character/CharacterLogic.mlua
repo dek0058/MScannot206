@@ -5,6 +5,13 @@ script CharacterLogic extends Logic
 	property any createCharacterRequest = BatchRequest()
 	property boolean isDoingCreateCharacter = false
 
+	---@type BatchRequest
+	property any deleteCharacterRequest = BatchRequest()
+	property boolean isDoingDeleteCharacter = false
+
+	-- 클라이언트 별 캐릭터 정보 캐시
+	property table characters = {}
+
 	@ExecSpace("ServerOnly")
 	method string GetCharacterKey(integer slot)
 		return "character_" .. tostring(slot)
@@ -16,6 +23,14 @@ script CharacterLogic extends Logic
 		character.slot = slot
 		character.name = name
 		return character
+	end
+
+	@ExecSpace("ClientOnly")
+	method Character GetCharacter(integer slot)
+		if self.characters[slot] == nil then
+			return nil
+		end
+		return self.characters[slot]
 	end
 
 	@ExecSpace("ServerOnly")
@@ -133,29 +148,30 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Server")
 	method void RequestCreateCharacter(CreateCharacterParams params)
+		local uid = senderUserId
+
 		if params == nil then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, senderUserId)
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
 			return
 		end
 
 		local nameLen = utf8.len(params.name)
 		if _UtilLogic:IsNilorEmptyString(params.name) or nameLen < _DefLogic.MinNicknameLength then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR, senderUserId)
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR, uid)
 			return
 		elseif nameLen > _DefLogic.MaxNicknameLength then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR, senderUserId)
+			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR, uid)
 			return
 		end
 
-		local uid = senderUserId		
 		if _UserLogic.users[uid] == nil then
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND, uid)
 			return
 		end
 		local user = _UserLogic.users[uid]
 
-		for _, uid in pairs(self.createCharacterRequest:GetPendingRequests()) do
-			if uid == senderUserId then
+		for _, pendingUid in pairs(self.createCharacterRequest:GetPendingRequests()) do
+			if pendingUid == uid then
 				-- 이미 생성 요청을 한 유저
 				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST, uid)
 				return
@@ -287,6 +303,153 @@ script CharacterLogic extends Logic
 		end
 	end
 
+	@ExecSpace("Server")
+	method void RequestDeleteCharacter(integer slot)
+		local uid = senderUserId
+		
+		if slot <= 0 or slot > _DefLogic.MaxCharacterSlot then
+			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_INVALID_ERROR, uid)
+			return
+		end
+
+		if _UserLogic.users[uid] == nil then
+			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND, uid)
+			return
+		end
+		local user = _UserLogic.users[uid]
+
+		for _, pendingUid in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
+			if pendingUid == uid then
+				-- 이미 삭제 요청을 한 유저
+				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_ALREADY_REQUEST, uid)
+				return
+			end
+		end
+
+		local params = DeleteCharacterParams()
+		params.uid = uid
+		params.token = user["token"]
+		params.slot = slot
+
+		self.deleteCharacterRequest:AddRequest(params)
+		self:SendEvent(DeleteCharacterEvent())
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnRequestDeleteCharacter()
+		self:OnRequestDeleteCharacter_Doing()
+		self.isDoingDeleteCharacter = false
+
+		-- 추가적인 삭제 요청이 있었는지 확인
+		if self.deleteCharacterRequest:HasPendingRequests() == true then
+			self:SendEvent(DeleteCharacterEvent())
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnRequestDeleteCharacter_Doing()
+		local headers = {
+			["Content-Type"] = "application/json"
+		}
+
+		local content = {
+			["requests"] = {}
+		}
+
+		local requests = {}
+		for _, entry in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
+			---@type DeleteCharacterParams
+			local params = entry
+
+			table.insert(content["requests"], {
+				["uid"] = params.uid,
+				["token"] = params.token,
+				["slot"] = params.slot
+			})
+
+			requests[params.uid] = params.slot
+		end
+
+		local contentJson = _HttpService:JSONEncode(content)
+		local requestTime = _UtilLogic.ServerElapsedSeconds
+		local response = _HttpService:RequestAndWait(
+			_DefLogic.BackendUrl .. "/user/character/delete",
+			"POST", contentJson, headers
+		)
+		self:OnResponseDeleteCharacter(response, requests)
+
+		self.deleteCharacterRequest:ClearProcessedRequests()
+		self.deleteCharacterRequest:FlushRequests()
+
+		-- 추가 요청이 존재하고 삭제 Delay 시간을 초과했다면 즉시 재실행
+		if self.deleteCharacterRequest:HasPendingRequests() == true then
+			local responseTime = _UtilLogic.ServerElapsedSeconds
+			local diff = responseTime - requestTime
+			if diff >= _DefLogic.DeleteCharacterRequestTimeSec then
+				self:OnRequestDeleteCharacter_Doing()
+			end
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnResponseDeleteCharacter(string response, table requests)
+		if _UtilLogic:IsNilorEmptyString(response) then
+			for uid, slot in pairs(requests) do
+				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
+			end
+			return
+		end
+
+		local content = _HttpService:JSONDecode(response)
+		if content["responses"] == nil then
+			for uid, slot in pairs(requests) do
+				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
+			end
+			return
+		end
+
+		local responses = content["responses"]
+		local doneUids = {}
+		for _, res in ipairs(responses) do
+			if res["uid"] == nil then
+				continue
+			end
+
+			---@type string
+			local uid = res["uid"]
+
+			if res["error_code"] == nil then
+				local slot = requests[uid]
+				doneUids[uid] = {
+					["result"] = "SUCCESS",
+					["slot"] = slot
+				}
+				
+				-- 이미 백엔드 서버에서 캐릭터가 제거 되었음으로
+				-- 굳이 데이터 스토리지에서 제거할 필요는 없다.
+			else
+				doneUids[uid] = {
+					["result"] = res["error_code"]
+				}
+			end
+		end
+
+		for uid, slot in pairs(requests) do
+			if doneUids[uid] == nil then
+				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
+			else
+				local result = doneUids[uid]
+				if result["result"] == nil then
+					self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
+				elseif result["result"] == "SUCCESS" then
+					self:DeleteCharacterComplete(result["slot"], uid)
+				else
+					self:DeleteCharacterFailure(result["result"], uid)
+				end
+			end
+		end
+	end
+
 	@ExecSpace("Client")
 	method void CreateCharacterFailure(string errorCode)
 		local localPlayer = _UserService.LocalPlayer
@@ -297,6 +460,9 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Client")
 	method void CreateCharacterComplete(Character newCharacter)
+		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
+		self.characters[newCharacter.slot] = newCharacter
+
 		local localPlayer = _UserService.LocalPlayer
 		local e = CreateCharacterCompleteEvent()
 		e.newCharacter = newCharacter
@@ -305,9 +471,36 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Client")
 	method void UserCharacterLoadComplete(table characters)
+		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
+		table.clear(self.characters)
+		for _, ch in ipairs(characters) do
+			---@type Character
+			local character = ch
+			self.characters[character.slot] = character
+		end
+
 		local localPlayer = _UserService.LocalPlayer
 		local e = UserCharacterLoadCompleteEvent()
 		e.characters = characters
+		localPlayer:SendEvent(e)
+	end
+
+	@ExecSpace("Client")
+	method void DeleteCharacterFailure(string errorCode)
+		local localPlayer = _UserService.LocalPlayer
+		local e = DeleteCharacterFailureEvent()
+		e.errorCode = errorCode
+		localPlayer:SendEvent(e)
+	end
+
+	@ExecSpace("Client")
+	method void DeleteCharacterComplete(integer slot)
+		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
+		self.characters[slot] = nil
+
+		local localPlayer = _UserService.LocalPlayer
+		local e = DeleteCharacterCompleteEvent()
+		e.slot = slot
 		localPlayer:SendEvent(e)
 	end
 
@@ -324,6 +517,21 @@ script CharacterLogic extends Logic
 			self:OnRequestCreateCharacter()
 		end
 		_TimerService:SetTimerOnce(callback, _DefLogic.CreateCharacterRequestTimeSec)
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
+		-- 이미 삭제 요청 중
+		if self.isDoingDeleteCharacter then
+			return
+		end
+		
+		self.isDoingDeleteCharacter = true
+		local callback = function()
+			self:OnRequestDeleteCharacter()
+		end
+		_TimerService:SetTimerOnce(callback, _DefLogic.DeleteCharacterRequestTimeSec)
 	end
 
 end

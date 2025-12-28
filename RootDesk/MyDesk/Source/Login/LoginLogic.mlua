@@ -45,10 +45,10 @@ script LoginLogic extends Logic
 	method void RequestLogin()
 		local uid = senderUserId
 
-		for _, uid in pairs(self.loginRequest:GetPendingRequests()) do
-			if uid == senderUserId then
+		for _, pendingUid in pairs(self.loginRequest:GetPendingRequests()) do
+			if pendingUid == uid then
 				-- 이미 로그인 요청을 한 유저
-				self:LoginFailure(_ErrorLogic.LOGIN_ALREADY_REQUEST, senderUserId)
+				self:LoginFailure(_ErrorLogic.LOGIN_ALREADY_REQUEST, uid)
 				return
 			end
 		end

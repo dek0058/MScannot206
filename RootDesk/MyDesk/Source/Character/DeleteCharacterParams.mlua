@@ -1,0 +1,8 @@
+@Struct
+script DeleteCharacterParams
+
+	property string uid = ""
+	property string token = ""
+	property integer slot = 0
+
+end

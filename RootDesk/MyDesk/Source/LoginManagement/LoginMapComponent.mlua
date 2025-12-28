@@ -127,6 +127,11 @@ script LoginMapComponent extends Component
 	@EventSender("LocalPlayer")
 	handler HandleCreateCharacterFailureEvent(CreateCharacterFailureEvent e)
 		_ErrorLogic:Throw(e.errorCode)
+
+		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
+		if e.errorCode == _ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND then
+			self:SetLogin()
+		end
 	end
 	
 	@ExecSpace("ClientOnly")
@@ -140,8 +145,46 @@ script LoginMapComponent extends Component
 			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
 			return
 		end
-		LoginGroupCom.CharacterSelectionLayerCom:Reset()
+
+		LoginGroupCom.CharacterSelectionLayerCom:Setup()
 		LoginGroupCom.CharacterSelectionLayerCom:SetSlot(e.newCharacter)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterFailureEvent(DeleteCharacterFailureEvent e)
+		_ErrorLogic:Throw(e.errorCode)
+
+		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
+		if e.errorCode == _ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND then
+			self:SetLogin()
+		else
+			_ScreenMessageLogic:PrivateMsg("캐릭터가 삭제에 실패하였습니다.")
+			---@type LoginGroupComponent
+			local LoginGroupCom = self._T["LoginGroupComponent"]
+			if LoginGroupCom == nil then
+				_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
+				return
+			end
+			
+			LoginGroupCom.CharacterSelectionLayerCom:Setup()
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterCompleteEvent(DeleteCharacterCompleteEvent e)
+		_ScreenMessageLogic:PrivateMsg("캐릭터가 삭제되었습니다")
+
+		---@type LoginGroupComponent
+		local LoginGroupCom = self._T["LoginGroupComponent"]
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
+			return
+		end
+
+		LoginGroupCom.CharacterSelectionLayerCom:Setup()
+		LoginGroupCom.CharacterSelectionLayerCom:SetEmptySlot(e.slot)
 	end
 
 end

@@ -32,70 +32,54 @@ script CharacterSelectionCreatePopup extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method void Setup(integer slot)
-		self.Entity:SetVisible(true)
-		self._T["slot"] = slot
-		
+	method ErrorType Setup(integer slot)
+		local err = ErrorType()
+
 		---@type ButtonComponent
 		local BackBtn = self._T["BackBtn"]
-		if BackBtn ~= nil then
-			BackBtn.Enable = true
+		if BackBtn == nil then
+			err:AddError("BackBtn 엔티티를 찾을 수 없습니다.")
 		end
 
-		if self.Avatar ~= nil then
-			self.Avatar:SetEnable(true)
+		if self.Avatar == nil then
+			err:AddError("Avatar 엔티티를 찾을 수 없습니다.")
 		end
-		
+
 		---@type ButtonComponent
 		local CreateBtn = self._T["CreateBtn"]
-		if CreateBtn ~= nil then
-			CreateBtn.Enable = false
-		end
-		
-		---@type TextInputComponent
-		local NameInput = self._T["NameInput"]
-		if NameInput ~= nil then
-			NameInput.Enable = true
-			NameInput.Text = ""
+		if CreateBtn == nil then
+			err:AddError("CreateBtn 엔티티를 찾을 수 없습니다.")
 		end
 
-		if self.Buffer ~= nil then
-			self.Buffer:SetVisible(false)
+		---@type TextInputComponent
+		local NameInput = self._T["NameInput"]
+		if NameInput == nil then
+			err:AddError("NameInput 엔티티를 찾을 수 없습니다.")
 		end
+
+		if self.Buffer == nil then
+			err:AddError("Buffer 엔티티를 찾을 수 없습니다.")
+		end
+
+		if err:IsError() == true then
+			return err
+		end
+
+		self.Entity:SetVisible(true)
+		self._T["slot"] = slot
+		BackBtn.Enable = true
+		self.Avatar:SetEnable(true)
+		CreateBtn.Enable = false
+		NameInput.Enable = true
+		NameInput.Text = ""
+		self.Buffer:SetVisible(false)
+
+		return err
 	end
 
 	@ExecSpace("ClientOnly")
 	method void Reset()
-		self.Entity:SetVisible(false)
-		self._T["slot"] = 0
-		self.name = ""
-		
-		---@type ButtonComponent
-		local BackBtn = self._T["BackBtn"]
-		if BackBtn ~= nil then
-			BackBtn.Enable = true
-		end
 
-		if self.Avatar ~= nil then
-			self.Avatar:SetEnable(false)
-		end
-		
-		---@type ButtonComponent
-		local CreateBtn = self._T["CreateBtn"]
-		if CreateBtn ~= nil then
-			CreateBtn.Enable = false
-		end
-		
-		---@type TextInputComponent
-		local NameInput = self._T["NameInput"]
-		if NameInput ~= nil then
-			NameInput.Enable = true
-			NameInput.Text = ""
-		end
-
-		if self.Buffer ~= nil then
-			self.Buffer:SetVisible(false)
-		end
 	end
 	
 	@ExecSpace("ClientOnly")
