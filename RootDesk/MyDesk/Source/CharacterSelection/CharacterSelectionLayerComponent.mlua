@@ -3,6 +3,7 @@ script CharacterSelectionLayerComponent extends Component
 
 	readonly property Entity CharacterSelectionOverlay = nil
 	readonly property Entity CreateOverlay = nil
+	readonly property Entity DeleteOverlay = nil
 
 	readonly property table cards = {}
 	readonly property table characters = {}
@@ -22,19 +23,73 @@ script CharacterSelectionLayerComponent extends Component
 
 			self.cards[cardCom.Slot] = cardCom
 		end
+
+		if self.CreateOverlay ~= nil then
+			self._T["CreatePopup"] = self.CreateOverlay:GetComponent(CharacterSelectionCreatePopup)
+		end
+
+		if self.DeleteOverlay ~= nil then
+			self._T["DeletePopup"] = self.DeleteOverlay:GetComponent(CharacterSelectionDeletePopup)
+		end
 	end
 
 	@ExecSpace("ClientOnly")
-	method void Reset()
-		if self.CharacterSelectionOverlay ~= nil then
-			self.CharacterSelectionOverlay:SetVisible(true)
+	method ErrorType Setup()
+		local err = ErrorType()
+
+		if self.CharacterSelectionOverlay == nil then
+			err:AddError("CharacterSelectionOverlay를 찾을 수 없습니다.")
 		end
 
-		if self.CreateOverlay ~= nil then
-			for _, child in ipairs(self.CreateOverlay.Children) do
-				child:SetVisible(false)
-			end
+		---@type CharacterSelectionCreatePopup
+		local createPopup = self._T["CreatePopup"]
+		if createPopup == nil then
+			err:AddError("CharacterSelectionCreatePopup을 찾을 수 없습니다.")
 		end
+
+		---@type CharacterSelectionDeletePopup
+		local deletePopup = self._T["DeletePopup"]
+		if deletePopup == nil then
+			err:AddError("CharacterSelectionDeletePopup을 찾을 수 없습니다.")
+		end
+
+		if err:IsError() == true then
+			return err
+		end
+
+		self.CharacterSelectionOverlay:SetEnable(true)
+		self.CharacterSelectionOverlay:SetVisible(true)
+		self.DeleteOverlay:SetEnable(false)
+		self.CreateOverlay:SetEnable(false)
+
+		return err
+	end
+
+	@ExecSpace("ClientOnly")
+	method ErrorType Reset()
+		local err = ErrorType()
+
+		if self.CharacterSelectionOverlay == nil then
+			err:AddError("CharacterSelectionOverlay를 찾을 수 없습니다.")
+		end
+
+		if self.CreateOverlay == nil then
+			err:AddError("CharacterSelectionCreatePopup을 찾을 수 없습니다.")
+		end
+
+		if self.DeleteOverlay == nil then
+			err:AddError("CharacterSelectionDeletePopup을 찾을 수 없습니다.")
+		end
+
+		if err:IsError() == true then
+			return err
+		end
+
+		self.CharacterSelectionOverlay:SetEnable(false)
+		self.CreateOverlay:SetEnable(false)
+		self.DeleteOverlay:SetEnable(false)
+
+		return err
 	end
 
 	@ExecSpace("ClientOnly")
@@ -51,12 +106,12 @@ script CharacterSelectionLayerComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method void ResponseLoad(UserCharacterLoadCompleteEvent e)
+	method void ResponseLoad(table characters)
 		 local usedSlots = {}
 
 		table.clear(self.characters)
-		if e.characters ~= nil then
-			for _, ch in ipairs(e.characters) do
+		if characters ~= nil then
+			for _, ch in ipairs(characters) do
 				table.insert(self.characters, ch)
 			end
 		end
@@ -93,6 +148,56 @@ script CharacterSelectionLayerComponent extends Component
 		---@type CharacterSelectionCardComponent
 		local cardCom = self.cards[character.slot]
 		cardCom:SetDefault(character)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestCreateCharacterEvent(RequestCreateCharacterEvent e)
+		if self.CharacterSelectionOverlay ~= nil then
+			self.CharacterSelectionOverlay:SetEnable(false)
+		end
+
+		if self.CreateOverlay ~= nil then
+			self.CreateOverlay:SetEnable(true)
+			self.CreateOverlay:SetVisible(true)
+		end
+
+		---@type CharacterSelectionCreatePopup
+		local createPopup = self._T["CreatePopup"]
+		if createPopup ~= nil then
+			createPopup:Setup(e.slot)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterCancelEvent(CreateCharacterCancelEvent e)
+		self:Setup()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
+		if self.CharacterSelectionOverlay ~= nil then
+			self.CharacterSelectionOverlay:SetEnable(false)
+		end
+
+		if self.DeleteOverlay ~= nil then
+			self.DeleteOverlay:SetEnable(true)
+			self.DeleteOverlay:SetVisible(true)
+		end
+
+		---@type CharacterSelectionDeletePopup
+		local deletePopup = self._T["DeletePopup"]
+		if deletePopup ~= nil then
+			deletePopup:Setup(e.slot)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterCancelEvent(DeleteCharacterCancelEvent e)
+		self:Setup()
 	end
 
 end

@@ -12,10 +12,12 @@ script CharacterSelectionCreatePopup extends Component
 	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self._T["slot"] = 0
-		
 		if self.BackBtn ~= nil then
 			self._T["BackBtn"] = self.BackBtn:GetComponent(ButtonComponent)
+		end
+
+		if self.Avatar ~= nil then
+			self._T["Avatar"] = self.Avatar:GetComponent(CostumeManagerComponent)
 		end
 		
 		if self.CreateBtn ~= nil then
@@ -26,21 +28,56 @@ script CharacterSelectionCreatePopup extends Component
 			self._T["NameInput"] = self.NameInput:GetComponent(TextInputComponent)
 		end
 
-		if self.Buffer ~= nil then
-			self.Buffer:SetVisible(false)
-		end
+		self:Reset()
 	end
-	
+
 	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleRequestCreateCharacterEvent(RequestCreateCharacterEvent e)
+	method void Setup(integer slot)
 		self.Entity:SetVisible(true)
-		self._T["slot"] = e.Slot
+		self._T["slot"] = slot
 		
 		---@type ButtonComponent
 		local BackBtn = self._T["BackBtn"]
 		if BackBtn ~= nil then
 			BackBtn.Enable = true
+		end
+
+		if self.Avatar ~= nil then
+			self.Avatar:SetEnable(true)
+		end
+		
+		---@type ButtonComponent
+		local CreateBtn = self._T["CreateBtn"]
+		if CreateBtn ~= nil then
+			CreateBtn.Enable = false
+		end
+		
+		---@type TextInputComponent
+		local NameInput = self._T["NameInput"]
+		if NameInput ~= nil then
+			NameInput.Enable = true
+			NameInput.Text = ""
+		end
+
+		if self.Buffer ~= nil then
+			self.Buffer:SetVisible(false)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Reset()
+		self.Entity:SetVisible(false)
+		self._T["slot"] = 0
+		self.name = ""
+		
+		---@type ButtonComponent
+		local BackBtn = self._T["BackBtn"]
+		if BackBtn ~= nil then
+			BackBtn.Enable = true
+		end
+
+		if self.Avatar ~= nil then
+			self.Avatar:SetEnable(false)
 		end
 		
 		---@type ButtonComponent
@@ -64,7 +101,8 @@ script CharacterSelectionCreatePopup extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("Entity", "a57b6ee6-ecc5-4225-afeb-3da4f3b719f4")
 	handler HandleBackButtonClickEvent(ButtonClickEvent e)
-		self.Entity:SetVisible(false)
+		local localPlayer = _UserService.LocalPlayer
+		localPlayer:SendEvent(CreateCharacterCancelEvent())
 	end
 	
 	@ExecSpace("ClientOnly")
@@ -133,12 +171,6 @@ script CharacterSelectionCreatePopup extends Component
 		if self.Buffer ~= nil then
 			self.Buffer:SetVisible(false)
 		end
-	end
-	
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleCreateCharacterCompleteEvent(CreateCharacterCompleteEvent e)
-		self.Entity:SetVisible(false)
 	end
 	
 end

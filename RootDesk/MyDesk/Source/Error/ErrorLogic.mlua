@@ -26,6 +26,7 @@ script ErrorLogic extends Logic
 	readonly property string USER_CREATE_CHARACTER_USER_NOT_FOUND = "USER_CREATE_CHARACTER_USER_NOT_FOUND"
 	readonly property string USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR = "USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR"
 	readonly property string USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR = "USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR"
+	readonly property string USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR = "USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR"
 
 	method void OnBeginPlay()
 		-- Login
@@ -51,7 +52,7 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.USER_CREATE_CHARACTER_USER_NOT_FOUND] = "캐릭터를 생성하려는 사용자를 찾을 수 없습니다"
 		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR] = string.format("캐릭터 이름은 최소 %d자 이상이어야 합니다", _DefLogic.MinNicknameLength)
 		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR] = string.format("캐릭터 이름은 최대 %d자 이하여야 합니다", _DefLogic.MaxNicknameLength)
-
+		self.errorCodes[self.USER_CREATE_CHARACTER_NAME_SPECIAL_CHAR_ERROR] = "캐릭터 이름에 사용할 수 없는 문자가 포함되어 있습니다"
 	end
 
 	@ExecSpace("Client")
@@ -60,7 +61,26 @@ script ErrorLogic extends Logic
 		if msg == nil then
 			msg = "알 수 없는 오류가 발생했습니다"
 		end
+		log_error(msg)
 		_ScreenMessageLogic:PrivateMsg(msg)		
+	end
+
+	method void PrintErrors(table err)
+		if err == nil then
+			return
+		end
+
+		for _, msg in pairs(err) do
+			log_error(msg)
+		end
+	end
+
+	method string GetErrorMessage(string errorCode)
+		local msg = self.errorCodes[errorCode]
+		if msg == nil then
+			msg = "알 수 없는 오류가 발생했습니다"
+		end
+		return msg
 	end
 
 end

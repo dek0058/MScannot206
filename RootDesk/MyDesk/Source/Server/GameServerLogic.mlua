@@ -2,10 +2,8 @@
 script GameServerLogic extends Logic
 	
 	@ExecSpace("Server")
-	method void Kick(string uid, string reason)
-		if self:IsValidUserId(senderUserId, uid) == false then
-			return
-		end
+	method void Kick(string reason)
+		local uid = senderUserId
 		log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
 		_UserService:KickUser(uid, KickReason.WorldError)
 	end
@@ -24,14 +22,16 @@ script GameServerLogic extends Logic
 	method void Validate(string mapName)
 		local uid = senderUserId
 		if _UserLogic.userWarpRecords[uid] == nil then
-			_GameServerLogic:Kick(uid, "워프 기록을 찾을 수 없습니다")
+			log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. "워프 기록이 존재하지 않습니다.")
+			_UserService:KickUser(uid, KickReason.WorldError)
 			return
 		end
 
 		---@type UserWarpRecord
 		local userWarpRecord = _UserLogic.userWarpRecords[uid]
 		if userWarpRecord.mapName ~= mapName then
-			_GameServerLogic:Kick(uid, "워프 기록의 맵과 현재 맵이 다릅니다: " .. userWarpRecord.mapName .. " != " .. mapName)
+			log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. "워프 기록의 맵과 현재 맵이 다릅니다: " .. userWarpRecord.mapName .. " != " .. mapName)
+			_UserService:KickUser(uid, KickReason.WorldError)
 			return
 		end
 

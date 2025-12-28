@@ -1,0 +1,6 @@
+@Event
+script DeleteCharacterEvent extends EventType
+
+	property integer slot = 0
+
+end

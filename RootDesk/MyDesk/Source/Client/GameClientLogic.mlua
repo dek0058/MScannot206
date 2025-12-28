@@ -8,29 +8,25 @@ script GameClientLogic extends Logic
 		---@type LocalPlayerMediationComponent
 		local localPlayerMediationCom = _UserService.LocalPlayer:GetComponent(LocalPlayerMediationComponent)
 		if localPlayerMediationCom == nil then
-			_GameServerLogic:Kick(uid, "LocalPlayerMediationComponent를 찾을 수 없습니다")
+			_GameServerLogic:Kick("LocalPlayerMediationComponent를 찾을 수 없습니다")
 			return
 		end
 		
 		local enteredMap = localPlayerMediationCom:GetEnteredMap()
 		if enteredMap == nil then
-			_GameServerLogic:Kick(uid, "입장한 맵을 찾을 수 없습니다")
+			_GameServerLogic:Kick("입장한 맵을 찾을 수 없습니다")
 			return
 		end
 		
 		if enteredMap.Name ~= "LoginMap" then
-			_GameServerLogic:Kick(uid, "로그인 맵이 아닙니다: " .. enteredMap.Name)
+			_GameServerLogic:Kick("로그인 맵이 아닙니다: " .. enteredMap.Name)
 			return
 		end
 		
 		---@type LoginMapComponent
 		local loginMapCom = enteredMap:GetComponent(LoginMapComponent)
 		if loginMapCom == nil then
-			_GameServerLogic:Kick(uid, "LoginMapComponent를 찾을 수 없습니다")
-			return
-		end
-		
-		if loginMapCom:Enter() == false then
+			_GameServerLogic:Kick("LoginMapComponent를 찾을 수 없습니다")
 			return
 		end
 		

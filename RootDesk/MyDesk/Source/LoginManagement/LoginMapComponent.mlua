@@ -3,12 +3,8 @@ script LoginMapComponent extends Component
 	
 	readonly property Entity LoginGroupEntity = nil
 
-	method void OnBeginPlay()
-		self:OnClientInit()
-	end
-
 	@ExecSpace("ClientOnly")
-	method void OnClientInit()
+	method void OnBeginPlay()
 		if self.LoginGroupEntity == nil then
 			return
 		end
@@ -17,6 +13,8 @@ script LoginMapComponent extends Component
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 
+		-- FIXME: 새로운 맵이 생긴다면 GameUILogic에서 처리 될 수 있도록 해야 함.
+		-- 		  여기에서는 LoginGruop만 처리가 되어야 함
 		local uiParent = self.LoginGroupEntity.Parent
 		if uiParent == nil then
 			return
@@ -26,7 +24,7 @@ script LoginMapComponent extends Component
 			if child == self.LoginGroupEntity then
 				self.LoginGroupEntity:SetEnable(true)
 				if LoginGroupCom ~= nil then
-					LoginGroupCom:Clear()
+					LoginGroupCom:Reset()
 				end
 				continue
 			end
@@ -47,47 +45,38 @@ script LoginMapComponent extends Component
 		end
 	end
 
-	@ExecSpace("Server")
-	method void Kick(string reason)
-		error(reason)
-		_UserService:KickUser(self.Entity.PlayerComponent.UserId, KickReason.WorldError)
-	end
-
-	@ExecSpace("ClientOnly")
-	method boolean Enter()
-		if self._T["LoginGroupComponent"] == nil then
-			return false
-		end
-
-		return true
-	end
-
-	method void Leave()
-		self.LoginGroupEntity:SetEnable(false)
-	end
-
 	@ExecSpace("Client")
 	method void SetLogin()
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
-		local err = LoginGroupCom:SetLoginLayer()
-		if _UtilLogic:IsNilorEmptyString(err) == false then
-			self:Kick(err)
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
 			return
 		end
-		LoginGroupCom.LoginLayerCom:Reset()
+
+		local err = LoginGroupCom:SetLoginLayer()
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			_GameServerLogic:Kick("로그인 레이어 설정 중 오류 발생")
+			return
+		end
 	end
 
 	@ExecSpace("Client")
 	method void SetCharacterSelection()
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
-		local err = LoginGroupCom:SetCharacterSelectionLayer()
-		if _UtilLogic:IsNilorEmptyString(err) == false then
-			self:Kick(err)
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
 			return
 		end
-		LoginGroupCom.CharacterSelectionLayerCom:Reset()
+
+		local err = LoginGroupCom:SetCharacterSelectionLayer()
+		if err:IsError() == true then
+			_ErrorLogic:PrintErrors(err:ToError())
+			_GameServerLogic:Kick("캐릭터 선택 레이어 설정 중 오류 발생")
+			return
+		end
 	end
 
 	@ExecSpace("ClientOnly")
@@ -115,8 +104,11 @@ script LoginMapComponent extends Component
 		
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
-		LoginGroupCom.LoginLayerCom:SetLoginBufferVisible(false)
-		LoginGroupCom.LoginLayerCom:SetLoginButtonClickEnable(true)
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginLayerComponent를 찾을 수 없습니다")
+			return
+		end
+		LoginGroupCom.LoginLayerCom:LoginFailure()
 	end
 
 	@ExecSpace("ClientOnly")
@@ -124,7 +116,11 @@ script LoginMapComponent extends Component
 	handler HandleCharacterSelectionLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
-		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(e)
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
+			return
+		end
+		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(e.characters)
 	end
 
 	@ExecSpace("ClientOnly")
@@ -140,6 +136,11 @@ script LoginMapComponent extends Component
 
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
+		if LoginGroupCom == nil then
+			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
+			return
+		end
+		LoginGroupCom.CharacterSelectionLayerCom:Reset()
 		LoginGroupCom.CharacterSelectionLayerCom:SetSlot(e.newCharacter)
 	end
 

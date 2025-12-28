@@ -1,0 +1,59 @@
+@Struct
+script ErrorType
+
+	method void Empty()
+		self._T["error"] = nil
+	end
+
+	method boolean IsError()
+		return self._T["error"] ~= nil
+	end
+
+	method void AddErrorType(ErrorType err)
+		if err == nil then
+			return
+		end
+
+		if err._T["error"] == nil then
+			return
+		end
+
+		for _, msg in pairs(err._T["error"]) do
+			self:AddError(msg)
+		end
+	end
+
+	method void AddError(string additionalMsg)
+		if self._T["error"] == nil then
+			self._T["error"] = {}
+		end
+
+		table.insert(self._T["error"], additionalMsg)
+	end
+
+	method void AddErrorCode(string errorCode)
+		local msg = _ErrorLogic:GetErrorMessage(errorCode)
+		self:AddError(msg)
+	end
+
+	method string ToString()
+		if self._T["error"] == nil then
+			return ""
+		end
+
+		local fullMsg = ""
+		for _, msg in pairs(self._T["error"]) do
+			if fullMsg ~= "" then
+				fullMsg = fullMsg .. "\n"
+			end
+			fullMsg = fullMsg .. msg
+		end
+
+		return fullMsg
+	end
+
+	method table ToError()
+		return self._T["error"]
+	end
+
+end

@@ -1,0 +1,89 @@
+@Component
+script CharacterSelectionDeletePopup extends Component
+
+	property Entity Avatar = nil
+	property Entity NameText = nil
+	property Entity ConfirmBtn = nil
+	property Entity CancelBtn = nil
+	property Entity Buffer = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.Avatar ~= nil then
+			self._T["Avatar"] = self.Avatar:GetComponent(CostumeManagerComponent)
+		end
+
+		if self.NameText ~= nil then
+			self._T["NameText"] = self.NameText:GetComponent(TextComponent)
+		end
+
+		if self.ConfirmBtn ~= nil then
+			self._T["ConfirmBtn"] = self.ConfirmBtn:GetComponent(ButtonComponent)
+		end
+
+		if self.CancelBtn ~= nil then
+			self._T["CancelBtn"] = self.CancelBtn:GetComponent(ButtonComponent)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup(integer slot)
+		-- self._T["character"] = character
+
+		---@type TextComponent
+		local NameText = self._T["NameText"]
+		if NameText ~= nil then
+			-- NameText.Text = character.name
+		end
+
+		---@type ButtonComponent
+		local ConfirmBtn = self._T["ConfirmBtn"]
+		if ConfirmBtn ~= nil then
+			ConfirmBtn.Enable = true
+		end
+
+		---@type ButtonComponent
+		local CancelBtn = self._T["CancelBtn"]
+		if CancelBtn ~= nil then
+			CancelBtn.Enable = true
+		end
+
+		if self.Buffer ~= nil then
+			self.Buffer:SetVisible(false)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Reset()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "c31aa650-5198-4364-9f26-850f2c212463")
+	handler HandleConfirmButtonClickEvent(ButtonClickEvent e)
+		---@type ButtonComponent
+		local ConfirmBtn = self._T["ConfirmBtn"]
+		if ConfirmBtn ~= nil then
+			ConfirmBtn.Enable = false
+		end
+
+		---@type ButtonComponent
+		local CancelBtn = self._T["CancelBtn"]
+		if CancelBtn ~= nil then
+			CancelBtn.Enable = false
+		end
+
+		if self.Buffer ~= nil then
+			self.Buffer:SetVisible(true)
+		end
+
+		-- TODO: Delete Character Request
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "f655d31f-321d-4527-bb55-43e24ba0ac4b")
+	handler HandleCancelButtonClickEvent(ButtonClickEvent e)
+		local localPlayer = _UserService.LocalPlayer
+		localPlayer:SendEvent(DeleteCharacterCancelEvent())
+	end
+
+end
