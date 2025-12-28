@@ -47,6 +47,8 @@ script LoginMapComponent extends Component
 
 	@ExecSpace("Client")
 	method void SetLogin()
+		_UserLogic:LogoutUser()
+
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		if LoginGroupCom == nil then
@@ -129,7 +131,10 @@ script LoginMapComponent extends Component
 		_ErrorLogic:Throw(e.errorCode)
 
 		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
-		if e.errorCode == _ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND then
+		local loginRequired = e.errorCode == _ErrorLogic.SESSION_TOKEN_INVALID_ERROR
+							or e.errorCode == _ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND
+
+		if loginRequired == true then
 			self:SetLogin()
 		end
 	end
@@ -156,7 +161,10 @@ script LoginMapComponent extends Component
 		_ErrorLogic:Throw(e.errorCode)
 
 		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
-		if e.errorCode == _ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND then
+		local loginRequired = e.errorCode == _ErrorLogic.SESSION_TOKEN_INVALID_ERROR
+							or e.errorCode == _ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND
+
+		if loginRequired == true then
 			self:SetLogin()
 		else
 			_ScreenMessageLogic:PrivateMsg("캐릭터가 삭제에 실패하였습니다.")
@@ -166,7 +174,7 @@ script LoginMapComponent extends Component
 				_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
 				return
 			end
-			
+
 			LoginGroupCom.CharacterSelectionLayerCom:Setup()
 		end
 	end
