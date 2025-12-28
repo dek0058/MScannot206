@@ -27,6 +27,22 @@ script UserLogic extends Logic
 		end
 	end
 
+	@ExecSpace("Server")
+	method void OnLogoutUser(string uid)
+		if self.users[uid] ~= nil then
+			self.users[uid] = nil
+		end
+
+		if self.userWarpRecords[uid] ~= nil then
+			self.userWarpRecords[uid] = nil
+		end
+	end
+
+	@ExecSpace("Server")
+	method void LogoutUser()
+		self:OnLogoutUser(senderUserId)
+	end
+
 	@ExecSpace("ServerOnly")
 	method void AddUser(table user)
 		if user == nil then
@@ -59,13 +75,7 @@ script UserLogic extends Logic
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
-		local uid = e.UserId
-		if self.users[uid] ~= nil then
-			self.users[uid] = nil
-		end
-		if self.userWarpRecords[uid] ~= nil then
-			self.userWarpRecords[uid] = nil
-		end
+		self:OnLogoutUser(e.UserId)
 	end
 
 end
