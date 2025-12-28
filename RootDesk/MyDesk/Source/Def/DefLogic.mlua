@@ -41,6 +41,6 @@ script DefLogic extends Logic
 		
 		-- 클라이언트에서 은닉을 하기 위한 서버 초기화 목록
 		self.Version = "0.0.1"
-		self.BackendUrl = "http://localhost:8080"
+		self.BackendUrl = "http://localhost:8080/api/v1"
 	end
 end
