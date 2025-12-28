@@ -6,4 +6,4 @@
 
 ## 요구사항
  - [메이플스토리월드](https://maplestoryworlds.nexon.com/)
- - [MScannot206](https://github.com/dek0058/MScannot206)
+ - [MScannot206Server](https://github.com/dek0058/MScannot206Server) (전용 서버 프로그램)
