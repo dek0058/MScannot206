@@ -25,6 +25,14 @@ script CharacterLogic extends Logic
 		return character
 	end
 
+	@ExecSpace("ServerOnly")
+	method Character ToCharacter(table data)
+		local character = Character()
+		character.slot = data["slot"]
+		character.name = data["name"]
+		return character
+	end
+
 	@ExecSpace("ClientOnly")
 	method Character GetCharacter(integer slot)
 		if self.characters[slot] == nil then
@@ -269,22 +277,29 @@ script CharacterLogic extends Logic
 			---@type string
 			local uid = res["uid"]
 
-			if res["error_code"] == nil then
-				local slot = res["slot"]
-				local name = requests[uid]
-				local newCharacter = _CharacterLogic:NewCharacter(slot, name)
-
-				doneUids[uid] = {
-					["result"] = "SUCCESS",
-					["character"] = newCharacter
-				}
-				-- 게임DB에 저장
-				self:SetCharacter(uid, newCharacter)
-			else
+			if res["error_code"] ~= nil then
 				doneUids[uid] = {
 					["result"] = res["error_code"]
 				}
+				continue
 			end
+
+			if res["character"] == nil then
+				doneUids[uid] = {
+					["result"] = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+				}
+				continue
+			end
+
+			local character = res["character"]
+			local newCharacter = _CharacterLogic:ToCharacter(character)
+
+			doneUids[uid] = {
+				["result"] = "SUCCESS",
+				["character"] = newCharacter
+			}
+			-- 게임DB에 저장
+			self:SetCharacter(uid, newCharacter)
 		end
 
 		for uid, name in pairs(requests) do
