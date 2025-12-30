@@ -36,9 +36,6 @@ graph TD
         World[World]:::world
     end
 
-    subgraph Logics_Area [Logics]
-    end
-
     subgraph Server_Area [Server]
         direction TB
         Server[Server]:::server
@@ -51,10 +48,10 @@ graph TD
     LocalPlayer-->|4.Setup|World
     World-.->|5.Initialize & Play|LocalPlayer_Area
     Input-->|Action|UI
-    UI-->|Request|Logics_Area
-    Logics_Area-->|if necessary|Server_Area
-    Server_Area-.->|Response|Logics_Area
-    Logics_Area-.->|Event call|LocalPlayer
+    UI-->|Request|Logics
+    Logics-->|if necessary|Server_Area
+    Server_Area-.->|Response|Logics
+    Logics-.->|Event call|LocalPlayer
     LocalPlayer--->|Update UI|UI
 
 ```
