@@ -1,4 +1,6 @@
 @Event
 script CreateCharacterFailureEvent extends EventType
+
 	property string errorCode = ""
+
 end

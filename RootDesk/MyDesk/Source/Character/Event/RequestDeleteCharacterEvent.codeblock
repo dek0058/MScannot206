@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://e720a3f7-fb1e-4536-bdda-0c25088bd776",
+  "EntryKey": "codeblock://b424ca3d-084b-472e-9956-3be34dcf50fa",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "e720a3f7-fb1e-4536-bdda-0c25088bd776",
+      "Id": "b424ca3d-084b-472e-9956-3be34dcf50fa",
       "Language": 1,
-      "Name": "LoggedinEvent",
+      "Name": "RequestDeleteCharacterEvent",
       "Type": 3,
       "Source": 0,
       "Target": null

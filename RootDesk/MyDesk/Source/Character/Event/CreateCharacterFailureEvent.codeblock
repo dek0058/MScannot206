@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://026e4e93-19aa-435a-bf1a-06ffbaded0b7",
+  "EntryKey": "codeblock://b91919c4-318c-4c36-a67c-a423dc9b7cdc",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "026e4e93-19aa-435a-bf1a-06ffbaded0b7",
+      "Id": "b91919c4-318c-4c36-a67c-a423dc9b7cdc",
       "Language": 1,
-      "Name": "LoginFailureEvent",
+      "Name": "CreateCharacterFailureEvent",
       "Type": 3,
       "Source": 0,
       "Target": null

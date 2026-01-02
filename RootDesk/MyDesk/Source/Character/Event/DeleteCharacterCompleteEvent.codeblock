@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://83206dfd-898d-4fbc-a3a5-633e932a654b",
+  "EntryKey": "codeblock://58c7ad8f-ef22-401e-a31f-df04f0a953fe",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "83206dfd-898d-4fbc-a3a5-633e932a654b",
+      "Id": "58c7ad8f-ef22-401e-a31f-df04f0a953fe",
       "Language": 1,
-      "Name": "UserCharacterLoadCompleteEvent",
+      "Name": "DeleteCharacterCompleteEvent",
       "Type": 3,
       "Source": 0,
       "Target": null

@@ -1,4 +1,6 @@
 @Event
 script LoginFailureEvent extends EventType
+
 	property string errorCode = "NONE"
+
 end

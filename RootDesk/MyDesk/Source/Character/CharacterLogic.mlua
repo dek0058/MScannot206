@@ -1,15 +1,14 @@
 @Logic
 script CharacterLogic extends Logic
 
-	---@type BatchRequest
 	property any createCharacterRequest = BatchRequest()
+
 	property boolean isDoingCreateCharacter = false
 
-	---@type BatchRequest
 	property any deleteCharacterRequest = BatchRequest()
+
 	property boolean isDoingDeleteCharacter = false
 
-	-- 클라이언트 별 캐릭터 정보 캐시
 	property table characters = {}
 
 	@ExecSpace("ServerOnly")
@@ -157,12 +156,12 @@ script CharacterLogic extends Logic
 	@ExecSpace("Server")
 	method void RequestCreateCharacter(CreateCharacterParams params)
 		local uid = senderUserId
-
+		
 		if params == nil then
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
 			return
 		end
-
+		
 		local nameLen = utf8.len(params.name)
 		if _UtilLogic:IsNilorEmptyString(params.name) or nameLen < _DefLogic.MinNicknameLength then
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR, uid)
@@ -171,13 +170,13 @@ script CharacterLogic extends Logic
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR, uid)
 			return
 		end
-
+		
 		if _UserLogic.users[uid] == nil then
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND, uid)
 			return
 		end
 		local user = _UserLogic.users[uid]
-
+		
 		for _, pendingUid in pairs(self.createCharacterRequest:GetPendingRequests()) do
 			if pendingUid == uid then
 				-- 이미 생성 요청을 한 유저
@@ -185,7 +184,7 @@ script CharacterLogic extends Logic
 				return
 			end
 		end
-
+		
 		params.uid = uid
 		params.token = user["token"]
 		
@@ -197,7 +196,7 @@ script CharacterLogic extends Logic
 	method void OnRequestCreateCharacter()
 		self:OnRequestCreateCharacter_Doing()
 		self.isDoingCreateCharacter = false
-
+		
 		-- 추가적인 생성 요청이 있었는지 확인
 		if self.createCharacterRequest:HasPendingRequests() == true then
 			self:SendEvent(CreateCharacterEvent())
@@ -209,13 +208,13 @@ script CharacterLogic extends Logic
 		local headers = {
 			["Content-Type"] = "application/json"
 		}
-
+		
 		local content = {
 			["requests"] = {}
 		}
-
+		
 		local requests = {}
-
+		
 		for _, entry in pairs(self.createCharacterRequest:GetPendingRequests()) do
 			---@type CreateCharacterParams
 			local params = entry
@@ -225,10 +224,10 @@ script CharacterLogic extends Logic
 				["slot"] = params.slot,
 				["name"] = params.name
 			})
-
+		
 			requests[params.uid] = params.name
 		end
-
+		
 		local contentJson = _HttpService:JSONEncode(content)
 		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
@@ -236,10 +235,10 @@ script CharacterLogic extends Logic
 			"POST", contentJson, headers
 		)
 		self:OnResponseCreateCharacter(response, requests)
-
+		
 		self.createCharacterRequest:ClearProcessedRequests()
 		self.createCharacterRequest:FlushRequests()
-
+		
 		-- 추가 요청이 존재하고 생성 Delay 시간을 초과했다면 즉시 재실행
 		if self.createCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
@@ -258,7 +257,7 @@ script CharacterLogic extends Logic
 			end
 			return
 		end
-
+		
 		local content = _HttpService:JSONDecode(response)
 		if content["responses"] == nil then
 			for uid, name in pairs(requests) do
@@ -266,34 +265,34 @@ script CharacterLogic extends Logic
 			end
 			return
 		end
-
+		
 		local responses = content["responses"]
 		local doneUids = {}
 		for _, res in ipairs(responses) do
 			if res["uid"] == nil then
 				continue
 			end
-
+		
 			---@type string
 			local uid = res["uid"]
-
+		
 			if res["error_code"] ~= nil then
 				doneUids[uid] = {
 					["result"] = res["error_code"]
 				}
 				continue
 			end
-
+		
 			if res["character"] == nil then
 				doneUids[uid] = {
 					["result"] = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
 				}
 				continue
 			end
-
+		
 			local character = res["character"]
 			local newCharacter = _CharacterLogic:ToCharacter(character)
-
+		
 			doneUids[uid] = {
 				["result"] = "SUCCESS",
 				["character"] = newCharacter
@@ -301,7 +300,7 @@ script CharacterLogic extends Logic
 			-- 게임DB에 저장
 			self:SetCharacter(uid, newCharacter)
 		end
-
+		
 		for uid, name in pairs(requests) do
 			if doneUids[uid] == nil then
 				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
@@ -326,13 +325,13 @@ script CharacterLogic extends Logic
 			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_INVALID_ERROR, uid)
 			return
 		end
-
+		
 		if _UserLogic.users[uid] == nil then
 			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND, uid)
 			return
 		end
 		local user = _UserLogic.users[uid]
-
+		
 		for _, pendingUid in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
 			if pendingUid == uid then
 				-- 이미 삭제 요청을 한 유저
@@ -340,12 +339,12 @@ script CharacterLogic extends Logic
 				return
 			end
 		end
-
+		
 		local params = DeleteCharacterParams()
 		params.uid = uid
 		params.token = user["token"]
 		params.slot = slot
-
+		
 		self.deleteCharacterRequest:AddRequest(params)
 		self:SendEvent(DeleteCharacterEvent())
 	end
@@ -354,7 +353,7 @@ script CharacterLogic extends Logic
 	method void OnRequestDeleteCharacter()
 		self:OnRequestDeleteCharacter_Doing()
 		self.isDoingDeleteCharacter = false
-
+		
 		-- 추가적인 삭제 요청이 있었는지 확인
 		if self.deleteCharacterRequest:HasPendingRequests() == true then
 			self:SendEvent(DeleteCharacterEvent())
@@ -366,25 +365,25 @@ script CharacterLogic extends Logic
 		local headers = {
 			["Content-Type"] = "application/json"
 		}
-
+		
 		local content = {
 			["requests"] = {}
 		}
-
+		
 		local requests = {}
 		for _, entry in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
 			---@type DeleteCharacterParams
 			local params = entry
-
+		
 			table.insert(content["requests"], {
 				["uid"] = params.uid,
 				["token"] = params.token,
 				["slot"] = params.slot
 			})
-
+		
 			requests[params.uid] = params.slot
 		end
-
+		
 		local contentJson = _HttpService:JSONEncode(content)
 		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
@@ -392,10 +391,10 @@ script CharacterLogic extends Logic
 			"POST", contentJson, headers
 		)
 		self:OnResponseDeleteCharacter(response, requests)
-
+		
 		self.deleteCharacterRequest:ClearProcessedRequests()
 		self.deleteCharacterRequest:FlushRequests()
-
+		
 		-- 추가 요청이 존재하고 삭제 Delay 시간을 초과했다면 즉시 재실행
 		if self.deleteCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
@@ -414,7 +413,7 @@ script CharacterLogic extends Logic
 			end
 			return
 		end
-
+		
 		local content = _HttpService:JSONDecode(response)
 		if content["responses"] == nil then
 			for uid, slot in pairs(requests) do
@@ -422,17 +421,17 @@ script CharacterLogic extends Logic
 			end
 			return
 		end
-
+		
 		local responses = content["responses"]
 		local doneUids = {}
 		for _, res in ipairs(responses) do
 			if res["uid"] == nil then
 				continue
 			end
-
+		
 			---@type string
 			local uid = res["uid"]
-
+		
 			if res["error_code"] == nil then
 				local slot = requests[uid]
 				doneUids[uid] = {
@@ -448,7 +447,7 @@ script CharacterLogic extends Logic
 				}
 			end
 		end
-
+		
 		for uid, slot in pairs(requests) do
 			if doneUids[uid] == nil then
 				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
@@ -477,7 +476,7 @@ script CharacterLogic extends Logic
 	method void CreateCharacterComplete(Character newCharacter)
 		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
 		self.characters[newCharacter.slot] = newCharacter
-
+		
 		local localPlayer = _UserService.LocalPlayer
 		local e = CreateCharacterCompleteEvent()
 		e.newCharacter = newCharacter
@@ -493,7 +492,7 @@ script CharacterLogic extends Logic
 			local character = ch
 			self.characters[character.slot] = character
 		end
-
+		
 		local localPlayer = _UserService.LocalPlayer
 		local e = UserCharacterLoadCompleteEvent()
 		e.characters = characters
@@ -512,7 +511,7 @@ script CharacterLogic extends Logic
 	method void DeleteCharacterComplete(integer slot)
 		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
 		self.characters[slot] = nil
-
+		
 		local localPlayer = _UserService.LocalPlayer
 		local e = DeleteCharacterCompleteEvent()
 		e.slot = slot

@@ -1,14 +1,14 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://f9b0e674-0b99-4cd2-87a1-3ab2c01f174f",
+  "EntryKey": "codeblock://33a3b9c1-bfdf-4a1a-87d4-7b8c1165945d",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
   "CoreVersion": "1.26.0.0",
-  "StudioVersion": "",
+  "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "f9b0e674-0b99-4cd2-87a1-3ab2c01f174f",
+      "Id": "33a3b9c1-bfdf-4a1a-87d4-7b8c1165945d",
       "Language": 1,
-      "Name": "DeleteCharacterCompleteEvent",
+      "Name": "DeleteCharacterCancelEvent",
       "Type": 3,
       "Source": 0,
       "Target": null

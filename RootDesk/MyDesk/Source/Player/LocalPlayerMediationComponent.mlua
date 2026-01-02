@@ -1,11 +1,6 @@
 @Component
 script LocalPlayerMediationComponent extends Component
 
-	@ExecSpace("Server")
-	method void Kick()
-		_UserService:KickUser(senderUserId, KickReason.WorldError)
-	end
-
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
 		self._T["entered_map"] = enteredMap

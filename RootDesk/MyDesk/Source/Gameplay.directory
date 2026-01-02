@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://f3af456db46b4fddac20c58e04be9b6d",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://f3af456db46b4fddac20c58e04be9b6d",
+      "name": "Gameplay",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

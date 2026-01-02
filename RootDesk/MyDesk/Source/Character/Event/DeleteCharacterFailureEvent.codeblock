@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://4dd37dca-5d5e-4a89-86ce-9c2d05dc13a1",
+  "EntryKey": "codeblock://2e5f1eb1-fd83-4285-91e2-9d935f9e7d00",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "4dd37dca-5d5e-4a89-86ce-9c2d05dc13a1",
+      "Id": "2e5f1eb1-fd83-4285-91e2-9d935f9e7d00",
       "Language": 1,
-      "Name": "CharacterLogic",
-      "Type": 5,
+      "Name": "DeleteCharacterFailureEvent",
+      "Type": 3,
       "Source": 0,
       "Target": null
     }

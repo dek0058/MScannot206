@@ -1,0 +1,4 @@
+@Event
+script DeleteCharacterEvent extends EventType
+
+end

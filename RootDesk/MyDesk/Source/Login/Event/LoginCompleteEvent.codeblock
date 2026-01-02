@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://8c2d2935-99f0-4792-ac21-0234221affa0",
+  "EntryKey": "codeblock://d0004a52-5ace-46f5-8747-60c63070c813",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "8c2d2935-99f0-4792-ac21-0234221affa0",
+      "Id": "d0004a52-5ace-46f5-8747-60c63070c813",
       "Language": 1,
-      "Name": "CreateCharacterCancelEvent",
+      "Name": "LoginCompleteEvent",
       "Type": 3,
       "Source": 0,
       "Target": null

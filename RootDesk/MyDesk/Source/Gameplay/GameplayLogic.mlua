@@ -1,0 +1,13 @@
+@Logic
+script GameplayLogic extends Logic
+
+	@ExecSpace("Server")
+	method void EnterGame(integer slot)
+			
+		
+
+		log("서버에서 캐릭터 슬롯 " .. slot .. "로 게임 입장 처리")
+		-- _TeleportService:TeleportToMapPosition(_UserService:GetUserEntityByUserId(senderUserId), Vector3.zero, "GameMap")
+	end
+
+end

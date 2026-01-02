@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://355e7f1d-b80c-4d9e-a730-d5a60d18d861",
+  "EntryKey": "codeblock://07014127-b7c8-4e84-a5bf-3d026ac13689",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "355e7f1d-b80c-4d9e-a730-d5a60d18d861",
+      "Id": "07014127-b7c8-4e84-a5bf-3d026ac13689",
       "Language": 1,
-      "Name": "LoginEvent",
-      "Type": 3,
+      "Name": "GameplayLogic",
+      "Type": 5,
       "Source": 0,
       "Target": null
     }

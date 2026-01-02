@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://c5399eb9-69cf-400c-a189-77d776da489f",
+  "EntryKey": "codeblock://ec2f97d4-ce10-4143-a079-a2457053206d",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "c5399eb9-69cf-400c-a189-77d776da489f",
+      "Id": "ec2f97d4-ce10-4143-a079-a2457053206d",
       "Language": 1,
-      "Name": "NeedLoginEvent",
+      "Name": "LoginEvent",
       "Type": 3,
       "Source": 0,
       "Target": null
