@@ -241,6 +241,7 @@ script CharacterSelectionLayerComponent extends Component
 		self.DeleteOverlay:SetEnable(true)
 		self.DeleteOverlay:SetVisible(true)
 		err = deletePopup:Setup(e.slot)
+
 		if err:IsError() == true then
 			_ErrorLogic:PrintErrors(err:ToError())
 			self:Rollback()

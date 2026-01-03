@@ -32,12 +32,13 @@ script CharacterLogic extends Logic
 		return character
 	end
 
-	@ExecSpace("ClientOnly")
+	@ExecSpace("ServerOnly")
 	method Character GetCharacter(integer slot)
-		if self.characters[slot] == nil then
-			return nil
-		end
-		return self.characters[slot]
+		-- if self.characters[slot] == nil then
+		-- 	return nil
+		-- end
+		-- return self.characters[slot]
+		return nil
 	end
 
 	@ExecSpace("ServerOnly")
@@ -474,9 +475,6 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Client")
 	method void CreateCharacterComplete(Character newCharacter)
-		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
-		self.characters[newCharacter.slot] = newCharacter
-		
 		local localPlayer = _UserService.LocalPlayer
 		local e = CreateCharacterCompleteEvent()
 		e.newCharacter = newCharacter
@@ -485,14 +483,6 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Client")
 	method void UserCharacterLoadComplete(table characters)
-		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
-		table.clear(self.characters)
-		for _, ch in ipairs(characters) do
-			---@type Character
-			local character = ch
-			self.characters[character.slot] = character
-		end
-		
 		local localPlayer = _UserService.LocalPlayer
 		local e = UserCharacterLoadCompleteEvent()
 		e.characters = characters
@@ -509,9 +499,6 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("Client")
 	method void DeleteCharacterComplete(integer slot)
-		-- 개인 클라이언트 마다 자신의 캐릭터를 저장해두고 있는다.
-		self.characters[slot] = nil
-		
 		local localPlayer = _UserService.LocalPlayer
 		local e = DeleteCharacterCompleteEvent()
 		e.slot = slot

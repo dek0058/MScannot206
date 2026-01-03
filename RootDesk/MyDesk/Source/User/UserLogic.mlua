@@ -8,6 +8,7 @@ script UserLogic extends Logic
 	method void EnterUser(string mapName)
 		local uid = senderUserId
 
+		-- 유저 워프 기록 생성 및 판별
 		local record = UserWarpRecord()
 		record.worldId = _WorldInstanceService.WorldInstanceId
 		record.mapName = mapName
@@ -17,9 +18,8 @@ script UserLogic extends Logic
 			record.oldWorldId = warpRecord.PreviousWorldId
 			-- record.loggedin : 로그인 하였는지 여부
 		end
-		
 		self.userWarpRecords[uid] = record
-		
+
 		if mapName == "LoginMap" then
 			_GameClientLogic:SetLoginMap(record, uid)
 		else

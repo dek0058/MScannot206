@@ -1,0 +1,27 @@
+@Component
+script LocalPlayerCacheComponent extends Component
+
+	property table slotCharacters = {}
+
+	@ExecSpace("ClientOnly")
+	method void AddSlotCharacter(Character character)
+		if character == nil then
+			return
+		end
+		self.slotCharacters[character.slot] = character
+	end
+
+	@ExecSpace("ClientOnly")
+	method void RemoveSlotCharacter(integer slot)
+		self.slotCharacters[slot] = nil
+	end
+
+	@ExecSpace("ClientOnly")
+	method Character GetSlotCharacter(integer slot)
+		if self.slotCharacters[slot] == nil then
+			return nil
+		end
+		return self.slotCharacters[slot]
+	end
+
+end

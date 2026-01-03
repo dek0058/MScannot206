@@ -5,6 +5,18 @@ script LoginLogic extends Logic
 	property any loginRequest = BatchRequest()
 	property boolean isDoingLogin = false
 
+	@ExecSpace("Server")
+	method void EnterLogin()
+		local uid = senderUserId
+		log("로그인 처리 시작: " .. uid)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void SendLogin(string uid)
+		
+
+	end
+
 	@ExecSpace("ServerOnly")
 	method void ValidateLogin(string uid)
 		---@type UserDataStorage

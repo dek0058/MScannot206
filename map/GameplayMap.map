@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "map://gamemap",
+  "EntryKey": "map://gameplaymap",
   "ContentType": "x-mod/map",
   "Content": "",
   "Usage": 0,
@@ -15,11 +15,11 @@
     "Entities": [
       {
         "id": "becca4b6-b51c-481c-833d-aff6cab865ee",
-        "path": "/maps/GameMap",
+        "path": "/maps/GameplayMap",
         "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent",
         "jsonString": {
-          "name": "GameMap",
-          "path": "/maps/GameMap",
+          "name": "GameplayMap",
+          "path": "/maps/GameplayMap",
           "nameEditable": false,
           "enable": true,
           "visible": true,
@@ -433,11 +433,11 @@
       },
       {
         "id": "abbb3c82-7747-4075-b0c8-6ad9653d5fa3",
-        "path": "/maps/GameMap/Background",
+        "path": "/maps/GameplayMap/Background",
         "componentNames": "MOD.Core.BackgroundComponent",
         "jsonString": {
           "name": "Background",
-          "path": "/maps/GameMap/Background",
+          "path": "/maps/GameplayMap/Background",
           "nameEditable": false,
           "enable": true,
           "visible": true,
@@ -459,11 +459,11 @@
       },
       {
         "id": "7b0f2124-517c-4b76-9ecf-e1b3a70e528d",
-        "path": "/maps/GameMap/MapleMapLayer",
+        "path": "/maps/GameplayMap/MapleMapLayer",
         "componentNames": "MOD.Core.MapLayerComponent",
         "jsonString": {
           "name": "MapleMapLayer",
-          "path": "/maps/GameMap/MapleMapLayer",
+          "path": "/maps/GameplayMap/MapleMapLayer",
           "nameEditable": false,
           "enable": true,
           "visible": true,
@@ -493,11 +493,11 @@
       },
       {
         "id": "768f08e2-0a94-4b09-a413-792c9200a265",
-        "path": "/maps/GameMap/TileMap",
+        "path": "/maps/GameplayMap/TileMap",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.TileMapComponent",
         "jsonString": {
           "name": "TileMap",
-          "path": "/maps/GameMap/TileMap",
+          "path": "/maps/GameplayMap/TileMap",
           "nameEditable": false,
           "enable": true,
           "visible": true,
