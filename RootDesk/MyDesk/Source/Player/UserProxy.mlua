@@ -1,0 +1,53 @@
+@Logic
+script UserProxy extends Logic
+
+	@ExecSpace("ClientOnly")
+	method UserLocalPlayerComponent GetUserLocalPlayerComponent()
+		if self._T["LocalPlayerComponent"] == nil then
+			local localPlayer = _UserService.LocalPlayer
+			if localPlayer ~= nil then
+				self._T["LocalPlayerComponent"] = localPlayer:GetComponent(UserLocalPlayerComponent)
+			end
+		end
+		return self._T["LocalPlayerComponent"]
+	end
+
+	@ExecSpace("ClientOnly")
+	method Character GetCharacter(integer slot)
+		local charTable = self:GetCharacterTable()
+		return charTable[slot]
+	end
+
+	@ExecSpace("ClientOnly")
+	method table GetCharacterTable()
+		if self._T["character"] == nil then
+			self._T["character"] = {}
+		end
+		return self._T["character"]
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleUserCharacterLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
+		local charTable = self:GetCharacterTable()
+		table.clear(charTable)
+		for _, ch in ipairs(e.characters) do
+			charTable[ch.slot] = ch
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterCompleteEvent(CreateCharacterCompleteEvent e)
+		local charTable = self:GetCharacterTable()
+		charTable[e.newCharacter.slot] = e.newCharacter
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterCompleteEvent(DeleteCharacterCompleteEvent e)
+		local charTable = self:GetCharacterTable()
+		charTable[e.slot] = nil
+	end
+
+end

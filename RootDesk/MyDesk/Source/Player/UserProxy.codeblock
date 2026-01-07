@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://d891b5dc-4c41-4162-bb72-870fdc025ea1",
+  "EntryKey": "codeblock://7d8fc470-49b7-4079-88f8-8615c7f0d279",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "d891b5dc-4c41-4162-bb72-870fdc025ea1",
+      "Id": "7d8fc470-49b7-4079-88f8-8615c7f0d279",
       "Language": 1,
-      "Name": "UserLocalPlayer",
-      "Type": 1,
+      "Name": "UserProxy",
+      "Type": 5,
       "Source": 0,
       "Target": null
     }

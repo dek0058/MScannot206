@@ -123,18 +123,6 @@ script LoginMapComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleCharacterSelectionLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다")
-			return
-		end
-		LoginGroupCom.CharacterSelectionLayerCom:ResponseLoad(e.characters)
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
 	handler HandleCreateCharacterFailureEvent(CreateCharacterFailureEvent e)
 		_ErrorLogic:Throw(e.errorCode)
 

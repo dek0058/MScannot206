@@ -29,15 +29,6 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("ServerOnly")
-	method Character GetCharacter(integer slot)
-		-- if self.characters[slot] == nil then
-		-- 	return nil
-		-- end
-		-- return self.characters[slot]
-		return nil
-	end
-
-	@ExecSpace("ServerOnly")
 	method void SetCharacter(string uid, Character character)
 		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
 		if userDataStorage == nil then

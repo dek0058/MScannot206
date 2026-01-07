@@ -1,5 +1,5 @@
 @Component
-script UserLocalPlayer extends Component
+script UserLocalPlayerComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -7,28 +7,31 @@ script UserLocalPlayer extends Component
 			_GameServerLogic:Kick("UserLocalPlayer 컴포넌트는 로컬 플레이어에만 추가되어야 합니다.")
 			return
 		end
-
+		
+		-- 컴포넌트 추가
+		self._T["UserCharacterComponent"] = self.Entity:AddComponent(UserCharacterComponent)
+		
 		-- 기본 컴포넌트 캐싱
 		self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
 		self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
 		self._T["CameraComponent"] = self.Entity:GetComponent(CameraComponent)
 		self._T["SideviewbodyComponent"] = self.Entity:GetComponent(SideviewbodyComponent)
-
+		
 		-- Collision
 		self._T["RigidbodyComponent"] = self.Entity:GetComponent(RigidbodyComponent)
 		self._T["KinematicbodyComponent"] = self.Entity:GetComponent(KinematicbodyComponent)
 		self._T["TriggerComponent"] = self.Entity:GetComponent(TriggerComponent)
-
+		
 		-- Rendering & Animation
 		self._T["AvatarRendererComponent"] = self.Entity:GetComponent(AvatarRendererComponent)
 		self._T["CostumeManagerComponent"] = self.Entity:GetComponent(CostumeManagerComponent)
 		self._T["AvatarStateAnimationComponent"] = self.Entity:GetComponent(AvatarStateAnimationComponent)
-
+		
 		-- Hit
 		self._T["HitComponent"] = self.Entity:GetComponent(HitComponent)
 		self._T["HitEffectSpawnerComponent"] = self.Entity:GetComponent(HitEffectSpawnerComponent)
 		self._T["DamageSkinSettingComponent"] = self.Entity:GetComponent(DamageSkinSettingComponent)
-
+		
 		-- Player
 		self._T["PlayerControllerComponent"] = self.Entity:GetComponent(PlayerControllerComponent)
 		self._T["PlayerComponent"] = self.Entity:GetComponent(PlayerComponent)
@@ -38,7 +41,7 @@ script UserLocalPlayer extends Component
 		-- UI
 		self._T["NameTagComponent"] = self.Entity:GetComponent(NameTagComponent)
 		self._T["ChatBalloonComponent"] = self.Entity:GetComponent(ChatBalloonComponent)
-
+		
 		-- 초기 플레이어 렌더링 컴포넌트 및 UI 비활성화
 		self:SetVisible(false)
 	end
@@ -50,7 +53,7 @@ script UserLocalPlayer extends Component
 		if avatarRendererCom ~= nil then
 			avatarRendererCom.Enable = isVisible
 		end
-
+		
 		---@type NameTagComponent
 		local nameTagCom = self._T["NameTagComponent"]
 		if nameTagCom ~= nil then
@@ -65,6 +68,7 @@ script UserLocalPlayer extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnMapLeave(Entity leftMap)
+		
 	end
 
 end

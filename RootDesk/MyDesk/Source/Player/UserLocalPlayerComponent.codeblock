@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://1f915cc0-75f2-4659-a952-7fce57295834",
+  "EntryKey": "codeblock://ae04b928-a418-496a-b73c-32384c2f2729",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "1f915cc0-75f2-4659-a952-7fce57295834",
+      "Id": "ae04b928-a418-496a-b73c-32384c2f2729",
       "Language": 1,
-      "Name": "LocalPlayerCacheComponent",
+      "Name": "UserLocalPlayerComponent",
       "Type": 1,
       "Source": 0,
       "Target": null

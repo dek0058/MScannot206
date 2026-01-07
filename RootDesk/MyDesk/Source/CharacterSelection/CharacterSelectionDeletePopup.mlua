@@ -30,8 +30,7 @@ script CharacterSelectionDeletePopup extends Component
 	method ErrorType Setup(integer slot)
 		local err = ErrorType()
 		
-		-- 여기 수정
-		local character = nil-- _CharacterLogic:GetCharacter(slot)
+		local character = _UserProxy:GetCharacter(slot)
 		if character == nil then
 			err:AddError("해당 슬롯의 캐릭터를 찾을 수 없습니다.")
 			return err

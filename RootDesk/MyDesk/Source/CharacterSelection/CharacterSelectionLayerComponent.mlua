@@ -115,7 +115,7 @@ script CharacterSelectionLayerComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method void ResponseLoad(table characters)
+	method void RequestLoad_Complete(table characters)
 		 local usedSlots = {}
 
 		table.clear(self.characters)
@@ -253,6 +253,12 @@ script CharacterSelectionLayerComponent extends Component
 	@EventSender("LocalPlayer")
 	handler HandleDeleteCharacterCancelEvent(DeleteCharacterCancelEvent e)
 		self:Rollback()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleUserCharacterLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
+		self:RequestLoad_Complete(e.characters)
 	end
 
 end
