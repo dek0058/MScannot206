@@ -231,7 +231,7 @@ script CharacterLogic extends Logic
 			_DefLogic.BackendUrl .. "/user/character/create",
 			"POST", contentJson, headers
 		)
-		self:OnResponseCreateCharacter(response, requests)
+		self:OnRequestCreateCharacter_Complete(response, requests)
 		
 		self.createCharacterRequest:ClearProcessedRequests()
 		self.createCharacterRequest:FlushRequests()
@@ -247,7 +247,7 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("ServerOnly")
-	method void OnResponseCreateCharacter(string response, table requests)
+	method void OnRequestCreateCharacter_Complete(string response, table requests)
 		if _UtilLogic:IsNilorEmptyString(response) then
 			for uid, name in pairs(requests) do
 				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
@@ -387,7 +387,7 @@ script CharacterLogic extends Logic
 			_DefLogic.BackendUrl .. "/user/character/delete",
 			"POST", contentJson, headers
 		)
-		self:OnResponseDeleteCharacter(response, requests)
+		self:OnRequestDeleteCharacter_Complete(response, requests)
 		
 		self.deleteCharacterRequest:ClearProcessedRequests()
 		self.deleteCharacterRequest:FlushRequests()
@@ -403,7 +403,7 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("ServerOnly")
-	method void OnResponseDeleteCharacter(string response, table requests)
+	method void OnRequestDeleteCharacter_Complete(string response, table requests)
 		if _UtilLogic:IsNilorEmptyString(response) then
 			for uid, slot in pairs(requests) do
 				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)

@@ -124,7 +124,7 @@ script LoginLogic extends Logic
 			_DefLogic.BackendUrl .. "/login",
 			"POST", contentJson, headers
 		)
-		self:OnResponseLogin(response, content["uids"])
+		self:OnRequestLogin_Complete(response, content["uids"])
 		
 		self.loginRequest:ClearProcessedRequests()
 		self.loginRequest:FlushRequests()
@@ -140,7 +140,7 @@ script LoginLogic extends Logic
 	end
 	
 	@ExecSpace("ServerOnly")
-	method void OnResponseLogin(string response, table requestUids)
+	method void OnRequestLogin_Complete(string response, table requestUids)
 		if _UtilLogic:IsNilorEmptyString(response) then
 			for i, uid in ipairs(requestUids) do
 				self:LoginFailure(_ErrorLogic.LOGIN_UNABLE, uid)

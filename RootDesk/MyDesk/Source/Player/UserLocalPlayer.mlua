@@ -60,7 +60,7 @@ script UserLocalPlayer extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
-		_GameServerLogic:EnterMap()		
+		_GameServerLogic:EnterMap()
 	end
 
 	@ExecSpace("ClientOnly")
