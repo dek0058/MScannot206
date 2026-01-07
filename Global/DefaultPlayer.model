@@ -18,8 +18,7 @@
       "BaseModelId": "player",
       "Id": "defaultplayer",
       "Components": [
-        "script.LocalPlayerMediationComponent",
-        "script.LocalPlayerCacheComponent"
+        "script.UserLocalPlayer"
       ],
       "Properties": [],
       "Values": [

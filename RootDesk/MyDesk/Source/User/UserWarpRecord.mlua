@@ -7,8 +7,6 @@ script UserWarpRecord
 
 	property boolean loggedin = false
 
-	property string mapName = ""
-
 	method boolean HaveWarped()
 		if  _UtilLogic:IsNilorEmptyString(self.worldId) or _UtilLogic:IsNilorEmptyString(self.oldWorldId) then
 			return false

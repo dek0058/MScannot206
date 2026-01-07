@@ -24,4 +24,14 @@ script LocalPlayerCacheComponent extends Component
 		return self.slotCharacters[slot]
 	end
 
+	@ExecSpace("ServerOnly")
+	method void OnMapEnter(Entity enteredMap)
+		log("enter")
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		log("beginPlay")
+	end
+
 end

@@ -1,46 +1,91 @@
 @Logic
 script GameServerLogic extends Logic
-	
+
+	property table tasks = {}
+	property table waits = {}
+
 	@ExecSpace("Server")
 	method void Kick(string reason)
 		local uid = senderUserId
 		log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
 		_UserService:KickUser(uid, KickReason.WorldError)
 	end
-	
+
+	-- 
 	@ExecSpace("ServerOnly")
-	method boolean IsValidUserId(string sender, string senderData)
-		if sender ~= senderData then
-			log("다른 사용자 uid로 시도를 하였습니다: " .. sender .. " != " .. senderData)
-			_UserService:KickUser(sender, KickReason.ETC)
-			return false
+	method void EnqueueTask(table task)
+		if task == nil then
+			log_error("task is null")
 		end
-		return true
+
+		if task["event"] ~= nil then
+			log_error("task에서 event 타입을 찾을 수 없습니다.")
+			return
+		end
+
+		if _UtilLogic:IsNilorEmptyString(task["event"]) then
+			log_error("task의 event 타입이 비어있습니다.")
+			return
+		end
+
+		if task["callback"] == nil then
+			log_error("task에서 callback 함수를 찾을 수 없습니다.")
+			return
+		end
+		
+		---@type
+		local eventType = task["event"]
+		table.insert(self.tasks[eventType], task)
+
+		if self.waits[eventType] == nil then
+			self.waits[eventType] = 1
+		else
+			self.waits[eventType] += 1
+		end
 	end
-	
+
+	@ExecSpace("ServerOnly")
+	method table DequeueTask(string eventType)
+		if _UtilLogic:IsNilorEmptyString(eventType) then
+			log_error("eventType is null or empty")
+			return {}
+		end
+
+		if self.tasks[eventType] == nil then
+			return {}
+		end
+
+		local cnt = self.waits[eventType]
+		if cnt == nil or cnt <= 0 then
+			return {}
+		end
+
+		local task = table.remove(self.tasks[eventType], 1)
+		self.waits[eventType] = cnt - 1
+
+		return task
+	end
+
 	@ExecSpace("Server")
-	method void Validate(string mapName)
+	method void EnterMap()
 		local uid = senderUserId
-		if _UserLogic.userWarpRecords[uid] == nil then
-			log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. "워프 기록이 존재하지 않습니다.")
-			_UserService:KickUser(uid, KickReason.WorldError)
-			return
+		local callback = function()
+			_GameClientLogic:OnEnterMap(not(_UserLogic:IsUserExists(uid)), uid)	
 		end
 
-		---@type UserWarpRecord
-		local userWarpRecord = _UserLogic.userWarpRecords[uid]
-		if userWarpRecord.mapName ~= mapName then
-			log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. "워프 기록의 맵과 현재 맵이 다릅니다: " .. userWarpRecord.mapName .. " != " .. mapName)
-			_UserService:KickUser(uid, KickReason.WorldError)
-			return
-		end
-
-		if mapName == "LoginMap" then
-			if userWarpRecord:HaveWarped() == true and userWarpRecord.loggedin == true then
-				_LoginLogic:ValidateLogin(uid)
-			else
-				_LoginLogic:NeedLogin(uid)
+		if self.waits["EnterMap"] ~= nil then
+			---@type integer
+			local cnt = self.waits["EnterMap"]
+			if cnt > 0 then
+				local task = {}
+				task["event"] = "EnterMap"
+				task["callback"] = callback
+				self:EnqueueTask(task)
+				return
 			end
 		end
+
+		callback()
 	end
+
 end

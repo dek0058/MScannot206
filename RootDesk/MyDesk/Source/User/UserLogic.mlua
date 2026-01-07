@@ -1,46 +1,12 @@
 @Logic
 script UserLogic extends Logic
-	
+
 	property table users = {}
 	property table userWarpRecords = {}
 
-	@ExecSpace("Server")
-	method void EnterUser(string mapName)
-		local uid = senderUserId
-
-		-- 유저 워프 기록 생성 및 판별
-		local record = UserWarpRecord()
-		record.worldId = _WorldInstanceService.WorldInstanceId
-		record.mapName = mapName
-		
-		local warpRecord = _TeleportService:GetWarpRecord(uid)
-		if warpRecord ~= nil then
-			record.oldWorldId = warpRecord.PreviousWorldId
-			-- record.loggedin : 로그인 하였는지 여부
-		end
-		self.userWarpRecords[uid] = record
-
-		if mapName == "LoginMap" then
-			_GameClientLogic:SetLoginMap(record, uid)
-		else
-			_GameClientLogic:SetUnkownMap(record, uid)
-		end
-	end
-
-	@ExecSpace("Server")
-	method void OnLogoutUser(string uid)
-		if self.users[uid] ~= nil then
-			self.users[uid] = nil
-		end
-
-		if self.userWarpRecords[uid] ~= nil then
-			self.userWarpRecords[uid] = nil
-		end
-	end
-
-	@ExecSpace("Server")
-	method void LogoutUser()
-		self:OnLogoutUser(senderUserId)
+	@ExecSpace("ServerOnly")
+	method boolean IsUserExists(string uid)
+		return self.users[uid] ~= nil
 	end
 
 	@ExecSpace("ServerOnly")
@@ -71,11 +37,47 @@ script UserLogic extends Logic
 		
 		self.users[uid] = user
 	end
-	
+
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
+	handler HandleUserEnterEvent(UserEnterEvent e)
+		-- 워프 기록 생성
+		local record = UserWarpRecord()		
+		record.worldId = _WorldInstanceService.WorldInstanceId
+		
+		-- 저장
+		self.userWarpRecords[e.UserId] = record
+		
+		-- 워프 기록 가져오기
+		local warpRecord = _TeleportService:GetWarpRecord(e.UserId)
+		if warpRecord ~= nil then
+			record.oldWorldId = warpRecord.PreviousWorldId
+		
+			if _UtilLogic:IsNilorEmptyString(warpRecord.Data) == false then
+				local data = _HttpService:JSONDecode(warpRecord.Data)
+				if data ~= nil then
+					-- 로그인 여부
+					if data["loggedin"] ~= nil then
+						record.loggedin = data["loggedin"]
+					end
+				end
+			end
+		end
+
+		if record.loggedin == true then
+			_LoginLogic:FetchLogin(e.UserId)
+		end
+	end
+
+	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
-		self:OnLogoutUser(e.UserId)
+		if self.userWarpRecords[e.UserId] ~= nil then
+			self.userWarpRecords[e.UserId] = nil
+		end
+		
+		if self.users[e.UserId] ~= nil then
+			self.users[e.UserId] = nil
+		end
 	end
 
 end

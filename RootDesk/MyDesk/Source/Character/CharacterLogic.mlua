@@ -2,14 +2,10 @@
 script CharacterLogic extends Logic
 
 	property any createCharacterRequest = BatchRequest()
-
 	property boolean isDoingCreateCharacter = false
 
 	property any deleteCharacterRequest = BatchRequest()
-
 	property boolean isDoingDeleteCharacter = false
-
-	property table characters = {}
 
 	@ExecSpace("ServerOnly")
 	method string GetCharacterKey(integer slot)
@@ -89,7 +85,7 @@ script CharacterLogic extends Logic
 			
 			local chKey = self:GetCharacterKey(ch["slot"])
 			table.insert(charactersKeys, chKey)
-			table.insert(characterCaches, _CharacterLogic:NewCharacter(ch["slot"], ch["name"]))
+			table.insert(characterCaches, self:NewCharacter(ch["slot"], ch["name"]))
 		end
 		
 		---@type UserDataStorage
@@ -292,7 +288,7 @@ script CharacterLogic extends Logic
 			end
 		
 			local character = res["character"]
-			local newCharacter = _CharacterLogic:ToCharacter(character)
+			local newCharacter = self:ToCharacter(character)
 		
 			doneUids[uid] = {
 				["result"] = "SUCCESS",

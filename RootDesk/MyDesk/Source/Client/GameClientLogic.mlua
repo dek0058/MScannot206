@@ -1,43 +1,12 @@
 @Logic
 script GameClientLogic extends Logic
 
-
 	@ExecSpace("Client")
-	method void SetLoginMap(UserWarpRecord record)
-		local uid = _UserService.LocalPlayer.PlayerComponent.UserId
-		
-		---@type LocalPlayerMediationComponent
-		local localPlayerMediationCom = _UserService.LocalPlayer:GetComponent(LocalPlayerMediationComponent)
-		if localPlayerMediationCom == nil then
-			_GameServerLogic:Kick("LocalPlayerMediationComponent를 찾을 수 없습니다")
-			return
-		end
-		
-		local enteredMap = localPlayerMediationCom:GetEnteredMap()
-		if enteredMap == nil then
-			_GameServerLogic:Kick("입장한 맵을 찾을 수 없습니다")
-			return
-		end
-		
-		if enteredMap.Name ~= "LoginMap" then
-			_GameServerLogic:Kick("로그인 맵이 아닙니다: " .. enteredMap.Name)
-			return
-		end
-		
-		---@type LoginMapComponent
-		local loginMapCom = enteredMap:GetComponent(LoginMapComponent)
-		if loginMapCom == nil then
-			_GameServerLogic:Kick("LoginMapComponent를 찾을 수 없습니다")
-			return
-		end
-		
-		_GameServerLogic:Validate(enteredMap.Name)
+	method void OnEnterMap(boolean needLogin)
+		local localPlayer = _UserService.LocalPlayer
+		local e = MapEnterEvent()
+		e.needLogin = needLogin
+		localPlayer:SendEvent(e)
 	end
 
-	@ExecSpace("Client")
-	method void SetUnkownMap(UserWarpRecord record)
-		log_warning("알 수 없는 맵으로 이동했습니다: " .. record.mapName)
-		log_warning("강제로 로그인 맵으로 이동합니다")
-		_LoginLogic:EnterLogin()
-	end
 end

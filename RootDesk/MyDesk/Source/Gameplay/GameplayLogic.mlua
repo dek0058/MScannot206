@@ -1,18 +1,5 @@
 @Logic
 script GameplayLogic extends Logic
 
-	@ExecSpace("Server")
-	method void EnterGame(integer slot)
-		local uid = senderUserId
-		if _UserLogic.users[uid] == nil then
-			log_error("유저 정보가 없습니다: " .. uid)
-			_LoginLogic:SendLogin(uid)
-			return
-		end
-
-		
-
-		-- _TeleportService:TeleportToMapPosition(_UserService:GetUserEntityByUserId(senderUserId), Vector3.zero, "GameMap")
-	end
 
 end

@@ -35,6 +35,9 @@ script DefLogic extends Logic
 	---@description "캐릭터 삭제 요청 대기 시간"
 	readonly property integer DeleteCharacterRequestTimeSec = 3
 
+	---@description "맵 진입 시 이벤트"
+	readonly property string EventEnterMap = "EnterMap"
+
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		_HttpService.httpEnabled = true

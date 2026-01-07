@@ -47,8 +47,6 @@ script LoginMapComponent extends Component
 
 	@ExecSpace("Client")
 	method void SetLogin()
-		_UserLogic:LogoutUser()
-
 		---@type LoginGroupComponent
 		local LoginGroupCom = self._T["LoginGroupComponent"]
 		if LoginGroupCom == nil then
@@ -78,6 +76,16 @@ script LoginMapComponent extends Component
 			_ErrorLogic:PrintErrors(err:ToError())
 			_GameServerLogic:Kick("캐릭터 선택 레이어 설정 중 오류 발생")
 			return
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleMapEnterEvent(MapEnterEvent e)
+		if e.needLogin == true then
+			self:SetLogin()
+		else
+			self:SetCharacterSelection()
 		end
 	end
 
