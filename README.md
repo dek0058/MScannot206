@@ -18,14 +18,19 @@
 
 ### 기본 구조
 
-1. 게임 접속 및 초기화 (1️⃣) 사용자(User)가 클라이언트에 접속하면, 가장 먼저 Local Player가 활성화됩니다. Local Player는 게임 로직을 담당하는 Logics에게 맵 입장과 플레이어 초기화를 요청하며 본격적인 게임 시작을 준비합니다.
+1. 유저 게임 접속 (1️⃣) 유저는 클라이언트에 접속하여 `LocalPlayer` 객체를 생성 합니다.
 
-2. 로그인 검증 (2️⃣) Logics는 플레이어의 요청을 받아 이 사용자가 유효한지 확인하기 위해 Login Valid 검증 절차를 진행합니다.
+2. 유저가 게임에 입장(2️⃣) 유저가 게임에 입장하면 `ServerLogic`에서 접속된 유저의 상태를 확인 합니다.
 
-3. 게임 진행 (3️⃣) 로그인 검증 결과에 따라 플레이어의 다음 상태가 결정됩니다.
-    - 로그인이 유효하면 (Valid), 플레이어는 이전에 플레이하던 Current Map으로 진입합니다.
-    - 로그인이 유효하지 않으면 (Invalid), 플레이어는 계정 정보를 입력해야 하는 Login Map으로 이동됩니다.
+3. 유저가 맵에 입장 (3️⃣) 유저가 맵에 입장하면 `ServerLogic`에서 맵에 진입 했음을 알림니다.
 
+4. 유저&맵 유효성 검사 (4️⃣) `ServerLogic`에서 유저의 상태와 맵의 유호성을 검사 후 `ClientLogic`을 통해 `LocalPlayer`에게 알림니다.
+    - 로그인에 성공한 유저의 경우 로그인 프로세스를 건너 뜁니다.
+    - 만약 그렇지 않다면 로그인 맵 혹은 로그인 프로세스를 진행 합니다.
+
+5. 게임 플레이 (5️⃣) 유저는 `Play` 상태에서 게임을 플레이 합니다.
+
+---
 ```mermaid
 graph TD
     User@{ shape: circle, label: "User"}
@@ -33,34 +38,18 @@ graph TD
     subgraph Client_Area [Client]
         direction LR
 
-        mergePoint@{ shape: sm-circ, label: " "}
-        Play@{ shape: rect, label: "Play"}
         LocalPlayer@{ shape: rect, label: "Local Player"}
-
-        subgraph Map_Area [Map]
-            direction TB
-            LoginMap@{ shape: rect, label: "Login Map"}
-            CurrentMap@{ shape: rect, label: "Current Map"}
-        end
-
-
-        Logics@{ shape: rect, label: "Logics"}
-        
-        Validate@{ shape: diamond, label: "Login<br>Valid"}
+        ClientLogic@{ shape: rect, label: "Client Logic"}
+        ServerLogic@{ shape: rect, label: "Server Logic"}
+        Play@{ shape: fr-circ, label: "Play"}
     end
 
-
     User-->|1.Connect|Client_Area
-    LocalPlayer-->|2.Enter Map|Logics
-    LocalPlayer-->|3.Init LocalPlayer|Logics
-    Logics-->Validate
-    Validate-->|Valid|CurrentMap
-    Validate-->|Invalid|LoginMap
-    CurrentMap---mergePoint
-    LoginMap---mergePoint
-    mergePoint-->|4.Play Game|Play
-    
-
+    LocalPlayer-->|2.Enter User|ServerLogic
+    LocalPlayer-->|3.Enter Map|ServerLogic
+    ServerLogic-->|4.Return Validated Map|ClientLogic
+    ClientLogic-.->LocalPlayer
+    LocalPlayer-->|5.Play Game|Play
 ```
 
 ### 상세 구조
