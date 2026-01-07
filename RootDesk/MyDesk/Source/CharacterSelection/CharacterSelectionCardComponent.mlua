@@ -101,7 +101,6 @@ script CharacterSelectionCardComponent extends Component
 	
 	@ExecSpace("ClientOnly")
 	method void RequestEnterGame()
-		_GameplayLogic:EnterGame(self.Slot)
 	end
 
 	@ExecSpace("ClientOnly")
