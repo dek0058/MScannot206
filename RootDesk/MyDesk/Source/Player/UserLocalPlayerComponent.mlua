@@ -8,9 +8,6 @@ script UserLocalPlayerComponent extends Component
 			return
 		end
 		
-		-- 컴포넌트 추가
-		self._T["UserCharacterComponent"] = self.Entity:AddComponent(UserCharacterComponent)
-		
 		-- 기본 컴포넌트 캐싱
 		self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
 		self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
@@ -64,11 +61,11 @@ script UserLocalPlayerComponent extends Component
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
 		_GameServerLogic:EnterMap()
+		_GameClientUILogic:EnterMap()
 	end
 
 	@ExecSpace("ClientOnly")
 	method void OnMapLeave(Entity leftMap)
-		
 	end
 
 end

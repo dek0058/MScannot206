@@ -88,4 +88,17 @@ script GameServerLogic extends Logic
 		callback()
 	end
 
+	@ExecSpace("Server")
+	method void TeleportToMap(string mapName)
+		local uid = senderUserId
+
+		local userEntity = _UserService:GetUserEntityByUserId(uid)
+		if userEntity == nil then
+			log_error("유저 Entity를 찾을 수 없습니다: " .. uid)
+			return
+		end
+
+		_TeleportService:TeleportToMapPosition(userEntity, Vector3.zero, mapName)
+	end
+
 end

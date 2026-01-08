@@ -1,4 +1,0 @@
-@Event
-script LoggedinEvent extends EventType
-
-end

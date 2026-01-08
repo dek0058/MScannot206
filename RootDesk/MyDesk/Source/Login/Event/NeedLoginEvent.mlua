@@ -1,4 +1,0 @@
-@Event
-script NeedLoginEvent extends EventType
-
-end

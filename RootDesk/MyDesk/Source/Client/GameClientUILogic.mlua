@@ -1,8 +1,31 @@
 @Logic
 script GameClientUILogic extends Logic
 
-	property string screen = "Screen"
+	property string Screen = "Screen"
+	property string Modal = "Modal"
 
-	property string model = "Model"
+	@ExecSpace("ClientOnly")
+	method Entity GetUI()
+		return _EntityService:GetEntityByPath("/ui")
+	end
+
+	@ExecSpace("ClientOnly")
+	method void EnterMap()
+		for _, child in pairs(self:GetUI().Children) do
+			---@type TagComponent
+			local tagCom = child:GetComponent(TagComponent)
+			if tagCom == nil then
+				child:SetEnable(false)
+				continue
+			end
+
+			for _, tag in pairs(tagCom.Tags) do
+				if tag == self.Screen then
+					child:SetEnable(false)
+					break
+				end
+			end
+		end
+	end
 
 end

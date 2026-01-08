@@ -240,18 +240,6 @@ script LoginLogic extends Logic
 	end
 	
 	@ExecSpace("Client")
-	method void NeedLogin()
-		local localPlayer = _UserService.LocalPlayer
-		localPlayer:SendEvent(NeedLoginEvent())
-	end
-
-	@ExecSpace("Client")
-	method void Loggedin()
-		local localPlayer = _UserService.LocalPlayer
-		localPlayer:SendEvent(LoggedinEvent())
-	end
-
-	@ExecSpace("Client")
 	method void LoginComplete()
 		local localPlayer = _UserService.LocalPlayer
 		localPlayer:SendEvent(LoginCompleteEvent())

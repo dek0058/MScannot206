@@ -101,6 +101,7 @@ script CharacterSelectionCardComponent extends Component
 	
 	@ExecSpace("ClientOnly")
 	method void RequestEnterGame()
+		_GameServerLogic:TeleportToMap("GameplayMap")
 	end
 
 	@ExecSpace("ClientOnly")
