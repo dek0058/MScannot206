@@ -11,7 +11,7 @@
 3. 응답 검증 (4️⃣-5️⃣) 서버로부터 응답이 오면, 응답 데이터로부터 유효성을 검사합니다.
 
 4. 로그인 완료 또는 실패 (6️⃣-7️⃣)
-	- 유효한 경우: UserData에서 사용자 데이터를 가져와 UserLogic에 전달하며, 로그인 과정이 완료됩니다.
+	- 유효한 경우: UserData에 유저 세션을 저장하고 UserLogic에 전달하며, 로그인 과정이 완료됩니다.
 	- 유효하지 않은 경우: LocalPlayer에게 알림을 보냅니다.
 
 ```mermaid
@@ -25,7 +25,7 @@ graph TD
             UsersQueue@{ shape: lean-r, label: "User Queue"}
             RequestHandler@{ shape: rect, label: "Request Handler"}
             ResponseHandler@{ shape: rect, label: "Response Handler"}
-            ValidateLogin@{ shape: diamond, label: "Validate"}
+            Validate@{ shape: diamond, label: "Validate"}
         end
 
         UserLogic@{ shape: rect, label: "User Logic"}
@@ -36,11 +36,11 @@ graph TD
 
     LocalPlayer-->|1.Request Login|UsersQueue
     UsersQueue-->|2.Dequeue Users|RequestHandler
-    RequestHandler-->|3.Send Login Request|Server
-    Server-.->|4.Response Login Data|ResponseHandler
-    ResponseHandler-->|5.Validate Data|ValidateLogin
-    ValidateLogin-.->|Valid|UserData
-    ValidateLogin-.->|Invalid|LocalPlayer
+    RequestHandler-->|3.Send Request|Server
+    Server-.->|4.Response Data|ResponseHandler
+    ResponseHandler-->|5.Validate Data|Validate
+    Validate-.->|Store User Session|UserData
+    Validate-.->|Invalid|LocalPlayer
     UserData-.->|6.Fetch User Data|UserLogic
     UserData-.->|7.Login Complete|LocalPlayer
 
