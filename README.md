@@ -25,13 +25,15 @@
 3. 유저가 맵에 입장 (3️⃣) 유저가 맵에 입장하면 `ServerLogic`에서 맵에 진입 했음을 알림니다.
     - 이때 대부분의 `UI`는 비활성화 됩니다.
 
-4. 유저&맵 유효성 검사 (4️⃣) `ServerLogic`에서 유저의 상태와 맵의 유호성을 검사 후 `ClientLogic`을 통해 `Enter Map Event`를 발생 시킵니다. 수신 받은 `LocalPlayer`와 `UI`는 맵 입장 이벤트를 처리 합니다.
+4. 유저&맵 유효성 검사 (4️⃣) `ServerLogic`에서 유저의 상태와 맵의 유호성을 검사 합니다.
     - 로그인에 성공한 유저의 경우 로그인 프로세스를 건너 뜁니다.
     - 만약 그렇지 않다면 로그인 맵 혹은 로그인 프로세스를 진행 합니다.
 
-5. 게임 플레이 (5️⃣) 맵에 정상적으로 입장한 유저는 게임을 플레이 합니다.
+5. 맵 입장 이벤트 발생 (5️⃣-6️) 맵에 정상적으로 입장한 유저는 게임을 플레이 합니다.
+    - 맵 입장 이벤트가 `ClientLogic`에서 발생되고, `LocalPlayer`는 해당 이벤트를 수신하여 `UI`를 업데이트 합니다.
 
----
+6. 게임 플레이 (7️⃣) 맵에 정상적으로 입장한 유저는 게임을 플레이 합니다.
+
 ```mermaid
 graph TD
     User@{ shape: circle, label: "User"}
@@ -45,19 +47,22 @@ graph TD
         UI@{ shape: rect, label: "UI"}
         EnterMapEvent[/Enter Map Event/]
         Play@{ shape: fr-circ, label: "Play"}
+
+        EnterUser@{ shape: fr-circ, label: " "}
     end
 
     User-->|1.Connect|Client_Area
     LocalPlayer-->|2.Enter User|ServerLogic
-    LocalPlayer-->|3.Enter Map|ServerLogic
-    LocalPlayer-->|UI Disable|UI
+    LocalPlayer---|3.Enter Map|EnterUser
+    EnterUser-->ServerLogic
+    EnterUser-->|UI Disable|UI
     ServerLogic-->|4.Return Validated Map|ClientLogic
     ClientLogic-->EnterMapEvent
-    EnterMapEvent-.->|Send Event|LocalPlayer
-    EnterMapEvent-.->|Send Event|UI
-    LocalPlayer-->|5.Play Game|Play
+    EnterMapEvent-.->|5.Send Event|LocalPlayer
+    LocalPlayer-.->|6.Update|UI
+    LocalPlayer-->|7.Play Game|Play
 ```
-
+---
 ### 상세 구조
  - [로그인](./document/feature/login.md) - 로그인 기능에 대한 상세 구조입니다.
  - [캐릭터 선택창](./document/feature/character_selection.md) - 캐릭터 선택창 기능에 대한 상세 구조입니다.
