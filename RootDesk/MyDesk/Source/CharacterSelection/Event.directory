@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://436ae185052341dfb5d10058000931a8",
+  "EntryKey": "directory://a35a142cec5c43ababe50f15267d99ef",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://436ae185052341dfb5d10058000931a8",
-      "name": "LoginManagement",
+      "entry_id": "directory://a35a142cec5c43ababe50f15267d99ef",
+      "name": "Event",
       "lock": false,
       "folding": false,
       "nameEditable": true

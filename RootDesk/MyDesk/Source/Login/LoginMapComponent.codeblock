@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://1df78916-3c72-481b-8f29-df4b6e65fef7",
+  "EntryKey": "codeblock://ec34c86e-0c95-436c-8cc3-7c084b9b0d87",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,7 +22,7 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "1df78916-3c72-481b-8f29-df4b6e65fef7",
+      "Id": "ec34c86e-0c95-436c-8cc3-7c084b9b0d87",
       "Language": 1,
       "Name": "LoginMapComponent",
       "Type": 1,

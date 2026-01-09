@@ -16,7 +16,7 @@
       {
         "id": "646b1722-1314-48cf-bebc-da19ff08dc66",
         "path": "/ui/LoginGroup",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,script.LoginGroupComponent,MOD.Core.TagComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent,script.LoginGroupComponent",
         "jsonString": {
           "name": "LoginGroup",
           "path": "/ui/LoginGroup",
@@ -93,6 +93,13 @@
               "Enable": true
             },
             {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Screen"
+              ],
+              "Enable": true
+            },
+            {
               "@type": "script.LoginGroupComponent",
               "Enable": true,
               "LoginLayerCom": {
@@ -103,13 +110,6 @@
                 "IsRelative": false,
                 "ComponentId": "0dcfaa50-6870-46df-9892-32f211c9dfa4:CharacterSelectionLayerComponent"
               }
-            },
-            {
-              "@type": "MOD.Core.TagComponent",
-              "Tags": [
-                "Screen"
-              ],
-              "Enable": true
             }
           ],
           "@version": 1

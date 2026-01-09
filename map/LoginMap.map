@@ -43,11 +43,7 @@
             {
               "@type": "script.LoginMapComponent",
               "Enable": true,
-              "LoginGroupEntity": {
-                "tempEntityId": null,
-                "IsRelative": false,
-                "EntityId": "646b1722-1314-48cf-bebc-da19ff08dc66"
-              }
+              "LoginGroupEntity": null
             }
           ],
           "@version": 1

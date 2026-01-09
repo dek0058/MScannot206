@@ -1,18 +1,16 @@
 @Component
 script LoginMapComponent extends Component
 	
-	readonly property Entity LoginGroupEntity = nil
+	@HideFromInspector()
+	property Entity LoginGroupEntity = nil
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
+		self.LoginGroupEntity = _EntityService:GetEntityByPath("/ui/LoginGroup")
 		if self.LoginGroupEntity == nil then
-			_GameServerLogic:Kick("LoginGroupEntity가 설정되지 않았습니다.")
-			return
+			log("LoginGroupEntity를 찾을 수 없습니다: /ui/LoginGroup")
 		end
-
 		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
 	end
 
 	@ExecSpace("Client")
@@ -149,6 +147,18 @@ script LoginMapComponent extends Component
 
 		LoginGroupCom.CharacterSelectionLayerCom:Setup()
 		LoginGroupCom.CharacterSelectionLayerCom:SetEmptySlot(e.slot)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestCharacterSelectAndPlayEvent(RequestCharacterSelectAndPlayEvent e)
+		local character = _UserProxy:GetCharacter(e.slot)
+		if character == nil then
+			log_warning("선택한 슬롯의 캐릭터를 찾을 수 없습니다: " .. e.slot)
+			return
+		end
+		_UserProxy:SetSelectCharacter(character)
+		_GameServerLogic:TeleportToMap("GameplayMap")
 	end
 
 end

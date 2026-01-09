@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://b81d30af-7478-4b02-9347-4fa3a3c23e55",
+  "EntryKey": "codeblock://7bc10f98-aa05-4581-aff0-795c248e5188",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "b81d30af-7478-4b02-9347-4fa3a3c23e55",
+      "Id": "7bc10f98-aa05-4581-aff0-795c248e5188",
       "Language": 1,
-      "Name": "LoginGroupComponent",
+      "Name": "GameplayMapComponent",
       "Type": 1,
       "Source": 0,
       "Target": null

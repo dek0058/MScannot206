@@ -1,13 +1,7 @@
 @Component
 script UserLocalPlayerComponent extends Component
 
-	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		if self.Entity ~= _UserService.LocalPlayer then
-			_GameServerLogic:Kick("UserLocalPlayer 컴포넌트는 로컬 플레이어에만 추가되어야 합니다.")
-			return
-		end
-		
 		-- 기본 컴포넌트 캐싱
 		self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
 		self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
@@ -38,24 +32,86 @@ script UserLocalPlayerComponent extends Component
 		-- UI
 		self._T["NameTagComponent"] = self.Entity:GetComponent(NameTagComponent)
 		self._T["ChatBalloonComponent"] = self.Entity:GetComponent(ChatBalloonComponent)
-		
-		-- 초기 플레이어 렌더링 컴포넌트 및 UI 비활성화
-		self:SetVisible(false)
+
+		if self:IsClient() == true then
+			_UserProxy:SetEnableCharacter(false)
+		end
 	end
 
-	@ExecSpace("ClientOnly")
-	method void SetVisible(boolean isVisible)
-		---@type AvatarRendererComponent
-		local avatarRendererCom = self._T["AvatarRendererComponent"]
-		if avatarRendererCom ~= nil then
-			avatarRendererCom.Enable = isVisible
-		end
-		
-		---@type NameTagComponent
-		local nameTagCom = self._T["NameTagComponent"]
-		if nameTagCom ~= nil then
-			nameTagCom.Enable = isVisible
-		end
+	method TransformComponent GetTransformComponent()
+		return self._T["TransformComponent"]
+	end
+
+	method MovementComponent GetMovementComponent()
+		return self._T["MovementComponent"]
+	end
+
+	method CameraComponent GetCameraComponent()
+		return self._T["CameraComponent"]
+	end
+
+	method SideviewbodyComponent GetSideviewbodyComponent()
+		return self._T["SideviewbodyComponent"]
+	end
+
+	method RigidbodyComponent GetRigidbodyComponent()
+		return self._T["RigidbodyComponent"]
+	end
+
+	method KinematicbodyComponent GetKinematicbodyComponent()
+		return self._T["KinematicbodyComponent"]
+	end
+
+	method TriggerComponent GetTriggerComponent()
+		return self._T["TriggerComponent"]
+	end
+
+	method AvatarRendererComponent GetAvatarRendererComponent()
+		return self._T["AvatarRendererComponent"]
+	end
+
+	method CostumeManagerComponent GetCostumeManagerComponent()
+		return self._T["CostumeManagerComponent"]
+	end
+
+	method AvatarStateAnimationComponent GetAvatarStateAnimationComponent()
+		return self._T["AvatarStateAnimationComponent"]
+	end
+
+	method HitComponent GetHitComponent()
+		return self._T["HitComponent"]
+	end
+
+	method HitEffectSpawnerComponent GetHitEffectSpawnerComponent()
+		return self._T["HitEffectSpawnerComponent"]
+	end
+
+	method DamageSkinSettingComponent GetDamageSkinSettingComponent()
+		return self._T["DamageSkinSettingComponent"]
+	end
+
+	method PlayerControllerComponent GetPlayerControllerComponent()
+		return self._T["PlayerControllerComponent"]
+	end
+
+	method PlayerComponent GetPlayerComponent()
+		return self._T["PlayerComponent"]
+	end
+
+	method StateComponent GetStateComponent()
+		return self._T["StateComponent"]
+	end
+
+	method InventoryComponent GetInventoryComponent()
+		return self._T["InventoryComponent"]
+	end
+
+	method NameTagComponent GetNameTagComponent()
+		return self._T["NameTagComponent"]
+	end
+
+	method ChatBalloonComponent GetChatBalloonComponent()
+		return self._T["ChatBalloonComponent"]
 	end
 
 	@ExecSpace("ClientOnly")
