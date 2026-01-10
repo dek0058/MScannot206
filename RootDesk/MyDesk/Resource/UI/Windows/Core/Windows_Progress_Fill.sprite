@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://d2589a7a733d41249d4bf4b4f969bda4",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/d2589a7a733d41249d4bf4b4f969bda4/639036554433740164",
+      "upload_hash": "033877DC19F5DA434C124EFD9CB571ED316616D1D10AD47B4DE517C28DF2A96D",
+      "name": "Windows_Progress_Fill",
+      "resource_guid": "d2589a7a733d41249d4bf4b4f969bda4",
+      "resource_version": "69626f137609a7e44b593619"
+    }
+  }
+}

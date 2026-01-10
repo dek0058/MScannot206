@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://6081d38b31d74f1595030790754fa098",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/6081d38b31d74f1595030790754fa098/639036554438840553",
+      "upload_hash": "FCBA2D46079D1302E1CD2650858AAD0B60202641516D9D3F0ADE88DDAC1A85E2",
+      "name": "Windows_Button_Inactive",
+      "resource_guid": "6081d38b31d74f1595030790754fa098",
+      "resource_version": "69626fdb4e03b99f8d336e6c"
+    }
+  }
+}

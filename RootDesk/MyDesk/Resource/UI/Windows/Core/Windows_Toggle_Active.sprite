@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://e990059556a14e6087ade3d379c20cc9",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/e990059556a14e6087ade3d379c20cc9/639036554433750961",
+      "upload_hash": "76F6DA490A6EFD5386E8D7875E98130BC8271D6060146C2E4097D95C408A8DEB",
+      "name": "Windows_Toggle_Active",
+      "resource_guid": "e990059556a14e6087ade3d379c20cc9",
+      "resource_version": "69626fdb7e2df1339cc3586d"
+    }
+  }
+}

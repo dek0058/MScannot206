@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://030e3528cd81404d806a8ff5ddc274d8",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/030e3528cd81404d806a8ff5ddc274d8/639036554433667261",
+      "upload_hash": "804D3655E195A38A38DDB78B8FD02E732BBF2865B42D8D845A7BE708D56B838A",
+      "name": "Windows_SideBar_Underside",
+      "resource_guid": "030e3528cd81404d806a8ff5ddc274d8",
+      "resource_version": "69626f13133d53e22b81c24d"
+    }
+  }
+}

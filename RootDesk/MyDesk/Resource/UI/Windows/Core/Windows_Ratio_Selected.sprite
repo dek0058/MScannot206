@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://0134999359694b1181f73cc5ee4be9ac",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/0134999359694b1181f73cc5ee4be9ac/639036554433799711",
+      "upload_hash": "77BEBF69DDC7CC22570FA65D25E6088982E1F27E1BF0B5F7C0F2E04F8F34F9ED",
+      "name": "Windows_Ratio_Selected",
+      "resource_guid": "0134999359694b1181f73cc5ee4be9ac",
+      "resource_version": "69626f137e2df1339cc3586c"
+    }
+  }
+}

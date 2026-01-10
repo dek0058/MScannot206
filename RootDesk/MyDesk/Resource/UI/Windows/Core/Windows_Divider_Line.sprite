@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://cd798ef7193e4657951a4b3ec67761e6",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/cd798ef7193e4657951a4b3ec67761e6/639036554438963009",
+      "upload_hash": "8B9DA9BBA1716F78E9F85D467D13BE9A17212382C0DC1615D2FDA12DCBD7A2A7",
+      "name": "Windows_Divider_Line",
+      "resource_guid": "cd798ef7193e4657951a4b3ec67761e6",
+      "resource_version": "69626f130201c6e5a76d531c"
+    }
+  }
+}

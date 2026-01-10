@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://4d8d37dd98894755ab63f9dbf1920b2f",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/4d8d37dd98894755ab63f9dbf1920b2f/639036554433737072",
+      "upload_hash": "3C00C3C1BB0F17075D045FC7215B61E971C2E847DD1E0AEDCE7FEAB74F755A5B",
+      "name": "Windows_Slider_Handle",
+      "resource_guid": "4d8d37dd98894755ab63f9dbf1920b2f",
+      "resource_version": "69626f13133d53e22b81c24e"
+    }
+  }
+}

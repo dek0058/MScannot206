@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://a329032ce5444f52936d7c18c679d84e",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/a329032ce5444f52936d7c18c679d84e/639036554438986934",
+      "upload_hash": "3EC989BB9743D7F231310B00AF67B4173F4B0C557C8A1B4D961CD726E62ECBC2",
+      "name": "Windows_Inner_Frame",
+      "resource_guid": "a329032ce5444f52936d7c18c679d84e",
+      "resource_version": "69626fdb7e2df1339cc3586e"
+    }
+  }
+}
