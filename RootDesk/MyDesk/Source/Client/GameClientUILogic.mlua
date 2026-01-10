@@ -1,6 +1,7 @@
 @Logic
 script GameClientUILogic extends Logic
 
+	property string Core = "Core"
 	property string Screen = "Screen"
 	property string Modal = "Modal"
 

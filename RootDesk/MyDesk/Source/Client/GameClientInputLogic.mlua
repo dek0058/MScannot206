@@ -1,0 +1,27 @@
+@Logic
+script GameClientInputLogic extends Logic
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["Normal"] = "3930c5d2e85b4bff8467aada64fda7f5"
+		self._T["Pressed"] = "79819392249746f88952f3b2321f2f17"
+		
+		_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+
+		local area = _EntityService:GetEntityByPath("/ui/Interaction/area")
+		if area ~= nil then
+			area:ConnectEvent(ButtonStateChangeEvent, function (e)
+				---@type ButtonState
+				local state = e.state
+				
+				if state == ButtonState.Pressed then
+					_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+				else
+					_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+				end
+			end)
+		end
+
+	end
+
+end

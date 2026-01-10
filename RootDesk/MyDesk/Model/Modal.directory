@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://c72feaf6cf7244dcb3b4fdb06ae3d318",
+  "EntryKey": "directory://6cfd0bd4484d4caebb5c2c8beacdcba7",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://c72feaf6cf7244dcb3b4fdb06ae3d318",
-      "name": "Resource",
+      "entry_id": "directory://6cfd0bd4484d4caebb5c2c8beacdcba7",
+      "name": "Modal",
       "lock": false,
       "folding": false,
       "nameEditable": true
