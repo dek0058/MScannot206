@@ -87,7 +87,8 @@ script ErrorLogic extends Logic
 			msg = "알 수 없는 오류가 발생했습니다"
 		end
 		log_error(msg)
-		_ScreenMessageLogic:PrivateMsg(msg)		
+		_GameClientUILogic:CreateModal(msg, nil)
+		-- _ScreenMessageLogic:PrivateMsg(msg)
 	end
 
 	method void PrintErrors(table err)

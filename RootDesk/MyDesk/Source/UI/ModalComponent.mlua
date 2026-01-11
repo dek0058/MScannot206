@@ -1,20 +1,20 @@
 @Component
 script ModalComponent extends Component
-
+	
 	property Entity TopBar = nil
 	property Entity ConfirmBtn = nil
 	property Entity MsgTxt = nil
-
+	
 	property any confirmBtnHandler = nil
 	property any topbarHandler = nil
-
+	
 	@HideFromInspector
 	property boolean isTopbarMoved = false
 	@HideFromInspector
 	property Vector2 firstPos = Vector2(0.0, 0.0)
 	@HideFromInspector
 	property Vector2 gapPos = Vector2(0.0, 0.0)
-
+	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		self._T["Transform"] = self.Entity.UITransformComponent
@@ -22,9 +22,9 @@ script ModalComponent extends Component
 			self.Entity.UITransformComponent.AnchorsMin = Vector2(0.0, 0.0)
 			self.Entity.UITransformComponent.AnchorsMax = Vector2(0.0, 0.0)
 		end
-
+		
 		if self.ConfirmBtn ~= nil then
-			self.confirmBtnHandler = self.ConfirmBtn:ConnectEvent(ButtonClickEvent, function ()
+			self.confirmBtnHandler = self.ConfirmBtn:ConnectEvent(ButtonClickEvent, function()
 				if self._T["OnConfirm"] ~= nil then
 					self._T["OnConfirm"]()
 				end
@@ -33,13 +33,13 @@ script ModalComponent extends Component
 		end
 		
 		if self.TopBar ~= nil then
-			self.topbarHandler = self.TopBar:ConnectEvent(ButtonStateChangeEvent, function (e)
+			self.topbarHandler = self.TopBar:ConnectEvent(ButtonStateChangeEvent, function(e)
 				if self._T["Transform"] == nil then
-					return		
+					return
 				end
 				---@type UITransformComponent
 				local transform = self._T["Transform"]
-
+				
 				---@type ButtonState
 				local state = e.state
 				if state == ButtonState.Pressed then
@@ -52,7 +52,7 @@ script ModalComponent extends Component
 			end)
 		end
 	end
-
+	
 	@ExecSpace("ClientOnly")
 	method void OnEndPlay()
 		if self.confirmBtnHandler ~= nil then
@@ -67,11 +67,11 @@ script ModalComponent extends Component
 		
 		self.isTopbarMoved = false
 	end
-
+	
 	@ExecSpace("ClientOnly")
 	method void OnUpdate(number delta)
 		
-
+		
 		if self.isTopbarMoved == false then
 			return
 		end
@@ -79,16 +79,16 @@ script ModalComponent extends Component
 		if self._T["Transform"] == nil then
 			return
 		end
-
+		
 		---@type UITransformComponent
 		local transform = self._T["Transform"]
 		
 		local pos = _InputService:GetCursorPosition()
 		local diff = pos - self.firstPos
-
+		
 		transform.anchoredPosition = self.firstPos + diff + self.gapPos
 	end
-
+	
 	@ExecSpace("ClientOnly")
 	method void Setup(string msg, table callback)
 		if self.MsgTxt ~= nil then
@@ -98,7 +98,10 @@ script ModalComponent extends Component
 				textCom.Text = msg
 			end
 		end
-		self._T["OnConfirm"] = callback["callback"]
+		
+		if callback ~= nil then
+			self._T["OnConfirm"] = callback["callback"]
+		end
 	end
-
+	
 end

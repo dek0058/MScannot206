@@ -6,8 +6,19 @@ script GameClientUILogic extends Logic
 	property string Modal = "Modal"
 
 	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["ui"] = _EntityService:GetEntityByPath("/ui")
+		self._T["modal"] = _EntityService:GetEntityByPath("/ui/Modal")
+	end
+
+	@ExecSpace("ClientOnly")
 	method Entity GetUI()
-		return _EntityService:GetEntityByPath("/ui")
+		return self._T["ui"]
+	end
+
+	@ExecSpace("ClientOnly")
+	method Entity GetModal()
+		return self._T["modal"]
 	end
 
 	@ExecSpace("ClientOnly")
@@ -27,6 +38,44 @@ script GameClientUILogic extends Logic
 				end
 			end
 		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetUILocation(Entity entity, Vector2 location)
+		if entity == nil then
+			log_error("UI Entity가 없습니다.")
+			return
+		end
+
+		---@type UITransformComponent
+		local transform = entity:GetComponent(UITransformComponent)
+		if transform == nil then
+			log_error("UITransformComponent가 없습니다.")
+			return
+		end
+
+		transform.anchoredPosition = location
+	end
+
+	@ExecSpace("Client")
+	method void CreateModal(string msg, table callback)
+		local modal = _SpawnService:SpawnByModelId("f1850135-a98e-4cc2-bc08-b047d62db034", "Modal", Vector3.zero, self:GetModal())
+
+		if modal == nil then
+			log_error("Modal 생성에 실패하였습니다.")
+			return
+		end
+
+		self:SetUILocation(modal, Vector2(_UILogic.ScreenWidth, _UILogic.ScreenHeight) / 2)
+
+		---@type ModalComponent
+		local modalCom = modal:GetComponent(ModalComponent)
+		if modalCom == nil then
+			log_error("ModalComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		modalCom:Setup(msg, callback)
 	end
 
 end
