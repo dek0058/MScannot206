@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://0cfd215117e34fb681ac7614b1afbb7f",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/0cfd215117e34fb681ac7614b1afbb7f/639037988824634958",
+      "upload_hash": "76E33BD6943BEE97FA1E9AF63A4810A0E9665E986807B23D3574CC4CDC612C9C",
+      "name": "Desktop3_7",
+      "resource_guid": "0cfd215117e34fb681ac7614b1afbb7f",
+      "resource_version": "69649f620201c6e5a76d5aad"
+    }
+  }
+}

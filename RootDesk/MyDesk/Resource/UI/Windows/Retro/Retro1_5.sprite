@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://eb96d108e0b64bc19ed050a7656d02bb",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/eb96d108e0b64bc19ed050a7656d02bb/639037988853900765",
+      "upload_hash": "15FE1C9D8CCA9C22D8226777AA5883720AA68307789607E98BF3E60EA1CD0C1C",
+      "name": "Retro1_5",
+      "resource_guid": "eb96d108e0b64bc19ed050a7656d02bb",
+      "resource_version": "69649f65ff1a54ef222a8c5e"
+    }
+  }
+}

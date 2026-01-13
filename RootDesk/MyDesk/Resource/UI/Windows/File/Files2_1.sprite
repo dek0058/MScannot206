@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "sprite://1bee03ce40dc47faa1f6512c0e679876",
+  "ContentType": "x-mod/sprite",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "upload_keyname": "fc/5a/fc5afe60ab1b49c09728a1adfe8cd8f4/sprite/1bee03ce40dc47faa1f6512c0e679876/639037988837406509",
+      "upload_hash": "2D7BA59DB714778FFA78F88ABACEEB6C769F34552C494F03A4E4F12D9F37E0DC",
+      "name": "Files2_1",
+      "resource_guid": "1bee03ce40dc47faa1f6512c0e679876",
+      "resource_version": "69649f63133d53e22b81ca50"
+    }
+  }
+}
