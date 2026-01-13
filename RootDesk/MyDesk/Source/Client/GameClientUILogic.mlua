@@ -6,18 +6,18 @@ script GameClientUILogic extends Logic
 	property string Modal = "Modal"
 
 	@ExecSpace("ClientOnly")
-	method void OnBeginPlay()
-		self._T["ui"] = _EntityService:GetEntityByPath("/ui")
-		self._T["modal"] = _EntityService:GetEntityByPath("/ui/Modal")
-	end
-
-	@ExecSpace("ClientOnly")
 	method Entity GetUI()
+		if self._T["ui"] == nil then
+			self._T["ui"] = _EntityService:GetEntityByPath("/ui")
+		end
 		return self._T["ui"]
 	end
 
 	@ExecSpace("ClientOnly")
 	method Entity GetModal()
+		if self._T["modal"] == nil then
+			self._T["modal"] = _EntityService:GetEntityByPath("/ui/Modal")
+		end
 		return self._T["modal"]
 	end
 
