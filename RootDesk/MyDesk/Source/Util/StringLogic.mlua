@@ -1,0 +1,14 @@
+@Logic
+script StringLogic extends Logic
+
+	method string GetTag(string fullPath, string prefix)
+		local path = _UtilLogic:Split(fullPath, ".")
+		for i = 1, #path do
+			if path[i] == prefix and i < #path then
+				return path[i + 1]
+			end
+		end
+		return ""
+	end
+
+end

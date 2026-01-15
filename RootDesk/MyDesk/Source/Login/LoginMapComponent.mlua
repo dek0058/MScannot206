@@ -50,8 +50,6 @@ script LoginMapComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
-		self.LoginGroupEntity.Enable = true
-
 		if e.needLogin == true then
 			self:SetLogin()
 		else

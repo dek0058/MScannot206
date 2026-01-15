@@ -16,7 +16,7 @@
       {
         "id": "34d28998-bc35-4c07-ad50-6f2edce7304f",
         "path": "/ui/Interaction",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent",
         "jsonString": {
           "name": "Interaction",
           "path": "/ui/Interaction",
@@ -90,10 +90,6 @@
             },
             {
               "@type": "MOD.Core.CanvasGroupComponent",
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],

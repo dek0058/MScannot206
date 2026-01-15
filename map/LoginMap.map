@@ -16,7 +16,7 @@
       {
         "id": "a2b225a1-2c6f-4c6c-958d-027a85a23ed2",
         "path": "/maps/LoginMap",
-        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent,script.LoginMapComponent",
+        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent,script.LoginMapComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "LoginMap",
           "path": "/maps/LoginMap",
@@ -44,6 +44,13 @@
               "@type": "script.LoginMapComponent",
               "Enable": true,
               "LoginGroupEntity": null
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Login"
+              ],
+              "Enable": true
             }
           ],
           "@version": 1

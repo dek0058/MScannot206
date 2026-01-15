@@ -1,9 +1,9 @@
 @Logic
 script GameClientUILogic extends Logic
 
-	property string Core = "Core"
-	property string Screen = "Screen"
-	property string Modal = "Modal"
+	property string TagMap = "Map"
+
+	property Entity currentScreen = nil
 
 	@ExecSpace("ClientOnly")
 	method Entity GetUI()
@@ -22,18 +22,19 @@ script GameClientUILogic extends Logic
 	end
 
 	@ExecSpace("ClientOnly")
-	method void EnterMap()
+	method void EnterMap(string tag)
 		for _, child in pairs(self:GetUI().Children) do
 			---@type TagComponent
 			local tagCom = child:GetComponent(TagComponent)
 			if tagCom == nil then
-				child:SetEnable(false)
 				continue
 			end
 
-			for _, tag in pairs(tagCom.Tags) do
-				if tag == self.Screen then
-					child:SetEnable(false)
+			for _, t in pairs(tagCom.Tags) do
+				local uiTag = _StringLogic:GetTag(t, self.TagMap)
+				child:SetEnable(uiTag == tag)
+				if uiTag == tag then
+					self.currentScreen = child
 					break
 				end
 			end

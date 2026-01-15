@@ -9,4 +9,17 @@ script GameClientLogic extends Logic
 		localPlayer:SendEvent(e)
 	end
 
+	@ExecSpace("Client")
+	method void OnFetchChannels(table channels, integer channelCount)
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return
+		end
+
+		local e = FetchChannelEvent()
+		e.channels = channels
+		e.channelCount = channelCount
+		localPlayer:SendEvent(e)
+	end
+
 end

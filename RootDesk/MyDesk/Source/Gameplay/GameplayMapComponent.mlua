@@ -13,7 +13,6 @@ script GameplayMapComponent extends Component
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
 		_UserProxy:SetEnableCharacter(true)
-		self.GameGroupEntity.Enable = true
 	end
 
 end

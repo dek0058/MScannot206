@@ -116,8 +116,15 @@ script UserLocalPlayerComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
+		---@type TagComponent
+		local tagCom = enteredMap:GetComponent(TagComponent)
+		local tag = ""
+		if tagCom ~= nil then
+			tag = tagCom.Tags[1]
+		end
+
 		_GameServerLogic:EnterMap()
-		_GameClientUILogic:EnterMap()
+		_GameClientUILogic:EnterMap(tag)
 	end
 
 	@ExecSpace("ClientOnly")

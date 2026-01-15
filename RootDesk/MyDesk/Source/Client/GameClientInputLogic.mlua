@@ -7,15 +7,19 @@ script GameClientInputLogic extends Logic
 		self._T["Pressed"] = "79819392249746f88952f3b2321f2f17"
 		_InputService:SetCursor(self._T["Normal"], Vector2.zero)
 	end
-
+	
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchEventEvent(ScreenTouchEvent event)
-		_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+		if self._T["Pressed"] ~= nil then
+			_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+		end
 	end
-
+	
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchReleaseEvent(ScreenTouchReleaseEvent event)
-		_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+		if self._T["Normal"] ~= nil then
+			_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+		end
 	end
 	
 end

@@ -16,7 +16,7 @@
       {
         "id": "d5b14fd8-1047-4aa0-9540-0604822ab9a6",
         "path": "/ui/Modal",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent",
         "jsonString": {
           "name": "Modal",
           "path": "/ui/Modal",
@@ -90,13 +90,6 @@
             },
             {
               "@type": "MOD.Core.CanvasGroupComponent",
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TagComponent",
-              "Tags": [
-                "Modal"
-              ],
               "Enable": true
             }
           ],

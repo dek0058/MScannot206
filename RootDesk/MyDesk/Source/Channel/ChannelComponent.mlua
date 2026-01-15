@@ -1,0 +1,128 @@
+@Component
+script ChannelComponent extends Component
+
+	property Entity LayoutEntity = nil
+
+	@HideFromInspector()
+	property integer channelCount = 0
+	property table<Channel> channels = {}
+	property table channelHandlers = {}
+	
+	@HideFromInspector()
+	property number doubleClickDuration = 0.0
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		for i, child in pairs(self.LayoutEntity.Children) do
+			if self.channelHandlers[child.Id] ~= nil then
+				child:DisconnectEvent(ButtonClickEvent, self.channelHandlers[child.Id])
+				self.channelHandlers[child.Id] = nil
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		if self.LayoutEntity == nil then
+			log_warning("ChannelComponent의 LayoutEntity가 설정되지 않았습니다.")
+			return
+		end
+
+		for i, child in pairs(self.LayoutEntity.Children) do
+			child.Enable = false			
+		end
+
+		_GameServerLogic:FetchChannels()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnFetchChannel()
+		if self.LayoutEntity == nil then
+			log_warning("ChannelComponent의 LayoutEntity가 설정되지 않았습니다.")
+			return
+		end
+
+		local callback = function(e)
+			---@type ButtonClickEvent
+			local buttonClickEvent = e
+
+			---@type ChannelEntryComponent
+			local entryCom = buttonClickEvent.Entity:GetComponent(ChannelEntryComponent)
+			if entryCom == nil then
+				return
+			end
+
+			if not entryCom:IsSelected() then
+				self:SelectChannel(buttonClickEvent.Entity)
+				return
+			end
+
+			local diff = _UtilLogic.ElapsedSeconds - self.doubleClickDuration
+			if diff > 0.2 then
+				self.doubleClickDuration = _UtilLogic.ElapsedSeconds
+				return
+			end
+
+			local channel = entryCom:GetChannel()
+			if channel == nil then
+				log_error("채널 정보를 찾을 수 없습니다.")
+				return
+			end
+
+			_GameServerLogic:WrapToWorldInstance(channel.Id)
+		end
+
+		local widgetCount = #self.LayoutEntity.Children
+		for i = widgetCount + 1, self.channelCount do
+			local newWidget = _SpawnService:SpawnByModelId("c2ffd18f-2c92-440e-b62a-87aff3a2a432", "Channel", Vector3.zero, self.LayoutEntity)
+			local widgetHandler = newWidget:ConnectEvent(ButtonClickEvent, callback)
+			self.channelHandlers[newWidget.Id] = widgetHandler
+		end
+
+		local channelIndex = 1
+		for i, child in ipairs(self.LayoutEntity.Children) do
+			---@type ChannelEntryComponent
+			local channelCom = child:GetComponent(ChannelEntryComponent)
+			if channelCom == nil then
+				child.Enable = false
+				continue
+			end
+
+			---@type Channel
+			local channel = self.channels[channelIndex]
+			if channel == nil then
+				break
+			end
+			channelIndex += 1
+
+			child.Enable = true
+			channelCom:Setup(channel)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SelectChannel(Entity entity)
+		for i, child in ipairs(self.LayoutEntity.Children) do
+			---@type ChannelEntryComponent
+			local channelCom = child:GetComponent(ChannelEntryComponent)
+			if channelCom == nil then
+				continue
+			end
+
+			if child.Id == entity.Id then
+				channelCom:Select()
+			else
+				channelCom:Unselect()
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleFetchChannelEvent(FetchChannelEvent e)
+		self.channels = e.channels
+		self.channelCount = e.channelCount
+		self:OnFetchChannel()
+	end
+
+end

@@ -14,8 +14,23 @@ script ProgressBarComponent extends Component
 		if self.FillBar == nil then
 			return
 		end
-		
+
+		---@type UITransformComponent
+		local transform = self.FillBar:GetComponent(UITransformComponent)
+		if transform == nil then
+			return
+		end
+
+		self._T["Transform"] = self.Entity:GetComponent(UITransformComponent)
+		self._T["FillTransform"] = transform
 		self._T["RendererComponent"] = self.FillBar:GetComponent(SpriteGUIRendererComponent)
+
+		if self.IsVertical then
+			transform.Pivot = Vector2(0.5, 0.0)
+		else
+			transform.Pivot = Vector2(1.0, 0.5)
+		end
+		
 		self:SetColor(self.FillColor)
 		self:UpdateProgressBar()
 	end
@@ -26,23 +41,25 @@ script ProgressBarComponent extends Component
 		if self.FillBar == nil then
 			return
 		end
-		
-		---@type SpriteGUIRendererComponent
-		local rendererCom = self._T["RendererComponent"]
-		if rendererCom == nil then
-			return
-		end
-		
-		local materialProperty = {}
-		local value = math.clamp(self.Value, 0.0, 1.0)
 
-		if self.IsVertical == true then
-			materialProperty["ClippingUp"] = 1 - value
+		---@type UITransformComponent
+		local transform = self._T["Transform"]
+
+		---@type UITransformComponent
+		local fillTransform = self._T["FillTransform"]
+
+		local width = transform.RectSize.x
+		local height = transform.RectSize.y
+
+		local value = (1.0 - math.clamp(self.Value, 0.0, 1.0))
+
+		if self.IsVertical then
+			fillTransform.OffsetMin = Vector2(0.0, height * value)
+			fillTransform.OffsetMax = Vector2(0.0, 0.0)
 		else
-			materialProperty["ClippingRight"] = 1 - value
+			fillTransform.OffsetMin = Vector2(0.0, 0.0)
+			fillTransform.OffsetMax = Vector2(-width * value, 0.0)
 		end
-
-		_MaterialService:ChangeMaterialProperty(rendererCom.MaterialId, materialProperty)
 	end
 
 	---@description "프로그레스 바의 값을 설정합니다."

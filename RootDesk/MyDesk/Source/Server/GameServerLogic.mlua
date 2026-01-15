@@ -1,33 +1,33 @@
 @Logic
 script GameServerLogic extends Logic
-
+	
 	property table tasks = {}
 	property table waits = {}
-
+	
 	@ExecSpace("Server")
 	method void Kick(string reason)
 		local uid = senderUserId
 		log("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
 		_UserService:KickUser(uid, KickReason.WorldError)
 	end
-
-	-- 
+	
+	--
 	@ExecSpace("ServerOnly")
 	method void EnqueueTask(table task)
 		if task == nil then
 			log_error("task is null")
 		end
-
+		
 		if task["event"] ~= nil then
 			log_error("task에서 event 타입을 찾을 수 없습니다.")
 			return
 		end
-
+		
 		if _UtilLogic:IsNilorEmptyString(task["event"]) then
 			log_error("task의 event 타입이 비어있습니다.")
 			return
 		end
-
+		
 		if task["callback"] == nil then
 			log_error("task에서 callback 함수를 찾을 수 없습니다.")
 			return
@@ -36,43 +36,43 @@ script GameServerLogic extends Logic
 		---@type
 		local eventType = task["event"]
 		table.insert(self.tasks[eventType], task)
-
+		
 		if self.waits[eventType] == nil then
 			self.waits[eventType] = 1
 		else
 			self.waits[eventType] += 1
 		end
 	end
-
+	
 	@ExecSpace("ServerOnly")
 	method table DequeueTask(string eventType)
 		if _UtilLogic:IsNilorEmptyString(eventType) then
 			log_error("eventType is null or empty")
 			return {}
 		end
-
+		
 		if self.tasks[eventType] == nil then
 			return {}
 		end
-
+		
 		local cnt = self.waits[eventType]
 		if cnt == nil or cnt <= 0 then
 			return {}
 		end
-
+		
 		local task = table.remove(self.tasks[eventType], 1)
 		self.waits[eventType] = cnt - 1
-
+		
 		return task
 	end
-
+	
 	@ExecSpace("Server")
 	method void EnterMap()
 		local uid = senderUserId
 		local callback = function()
-			_GameClientLogic:OnEnterMap(not(_UserLogic:IsUserExists(uid)), uid)	
+			_GameClientLogic:OnEnterMap(not (_UserLogic:IsUserExists(uid)), uid)
 		end
-
+		
 		if self.waits["EnterMap"] ~= nil then
 			---@type integer
 			local cnt = self.waits["EnterMap"]
@@ -84,21 +84,100 @@ script GameServerLogic extends Logic
 				return
 			end
 		end
-
+		
 		callback()
 	end
-
+	
 	@ExecSpace("Server")
 	method void TeleportToMap(string mapName)
 		local uid = senderUserId
-
+		
 		local userEntity = _UserService:GetUserEntityByUserId(uid)
 		if userEntity == nil then
 			log_error("유저 Entity를 찾을 수 없습니다: " .. uid)
 			return
 		end
-
+		
 		_TeleportService:TeleportToMapPosition(userEntity, Vector3.zero, mapName)
+	end
+	
+	@ExecSpace("Server")
+	method void FetchChannels()
+		local uid = senderUserId
+		local channels = {}
+		local channelCount = 0
+
+		if Environment:IsPublishedPlay() == false then
+			log_warning("출시 환경에서만 채널 정보를 불러올 수 있습니다.")
+			for i = 1, 5 do
+				local channel = Channel()
+				channel.Id = tostring(i)
+				channel.CurrentUserCount = math.random(0, 100)
+				channel.MaxUserCount = 100
+
+				table.insert(channels, channel)
+				channelCount += 1
+			end
+			_GameClientLogic:OnFetchChannels(channels, channelCount)
+			return
+		end
+
+		_WorldInstanceService:GetWorldInstanceInfoPagesAsync(function(success, pages)
+			local userEntity = _UserService:GetUserEntityByUserId(uid)
+			if userEntity == nil then
+				return
+			end
+
+			if success == false then
+				_GameClientLogic:OnFetchChannels(channels, channelCount)
+				return
+			end
+
+			---@type WorldInstanceInfoPages
+			local p = pages
+			while true do
+				local datas = p:GetCurrentPageDatas()
+
+				for i, data in ipairs(datas) do
+					local channel = Channel()
+					channel.Id = data.Id
+					channel.CurrentUserCount = data.CurrentUserCount
+					channel.MaxUserCount = data.MaxUserCount
+					
+					table.insert(channels, channel)
+					channelCount += 1
+				end
+
+				if p.IsLastPage == true then
+					break
+				end
+
+				p:MoveToNextPageAndWait()
+			end
+
+			_GameClientLogic:OnFetchChannels(channels, channelCount)
+		end)
+	end
+
+	@ExecSpace("Server")
+	method void WrapToWorldInstance(string id)
+		local uid = senderUserId
+
+		if _WorldInstanceService.WorldInstanceId == id then
+			return
+		end
+
+		---@type UserWarpRecord
+		local warpRecord = UserWarpRecord()
+		warpRecord.loggedin = _UserLogic:IsUserExists(uid)
+
+		_TeleportService:WarpUserToWorldInstanceAsync(
+			uid, id, warpRecord:ToJson(), function(success)
+				if success == false then
+					
+				end
+			end
+		)
 	end
 
 end

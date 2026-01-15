@@ -5,6 +5,7 @@ script UserWarpRecord
 
 	property string oldWorldId = ""
 
+	-- json
 	property boolean loggedin = false
 
 	method boolean HaveWarped()
@@ -14,6 +15,12 @@ script UserWarpRecord
 			return false
 		end
 		return true
+	end
+
+	method string ToJson()
+		local data = {}
+		data["loggedin"] = self.loggedin
+		return _HttpService:JSONEncode(data)
 	end
 
 end

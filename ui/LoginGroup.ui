@@ -95,7 +95,7 @@
             {
               "@type": "MOD.Core.TagComponent",
               "Tags": [
-                "Screen"
+                "Map.Login"
               ],
               "Enable": true
             },

@@ -1,0 +1,105 @@
+@Component
+script ChannelEntryComponent extends Component
+
+	property Entity NameEntity = nil
+	property Entity SelecteEntity = nil
+	property Entity ProgressBarEntity = nil
+
+	property Color LowColor = Color(0.0, 1.0, 0.0, 1.0)
+	property Color MediumColor = Color(1.0, 1.0, 0.0, 1.0)
+	property Color HighColor = Color(1.0, 0.0, 0.0, 1.0)
+
+	property string SelectedImageRUID = ""
+	property string UnselectedImageRUID = ""
+
+	@HideFromInspector()
+	property boolean selected = false
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.NameEntity ~= nil then
+			---@type TextComponent
+			local nameTextCom = self.NameEntity:GetComponent(TextComponent)
+			if nameTextCom ~= nil then
+				self._T["NameTextComponent"] = nameTextCom
+			end
+		end
+
+		if self.SelecteEntity ~= nil then
+			---@type SpriteGUIRendererComponent
+			local selectSpriteCom = self.SelecteEntity:GetComponent(SpriteGUIRendererComponent)
+			if selectSpriteCom ~= nil then
+				self._T["SelectSpriteComponent"] = selectSpriteCom
+			end
+		end
+
+		if self.ProgressBarEntity ~= nil then
+			---@type ProgressBarComponent
+			local progressBarCom = self.ProgressBarEntity:GetComponent(ProgressBarComponent)
+			if progressBarCom ~= nil then
+				self._T["ProgressBarComponent"] = progressBarCom
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup(Channel channel)
+		self._T["Channel"] = channel
+
+		---@type TextComponent
+		local nameTextCom = self._T["NameTextComponent"]
+
+		---@type ProgressBarComponent
+		local progressBarCom = self._T["ProgressBarComponent"]
+
+		if nameTextCom ~= nil then
+			nameTextCom.Text = string.format("채널. %s", channel.Id)
+		end
+
+		local ratio = channel.CurrentUserCount / channel.MaxUserCount
+		if progressBarCom ~= nil then
+			if ratio < 0.5 then
+				progressBarCom.FillColor = self.LowColor
+			elseif ratio < 0.8 then
+				progressBarCom.FillColor = self.MediumColor
+			else
+				progressBarCom.FillColor = self.HighColor
+			end
+		end
+
+		progressBarCom:SetColor(progressBarCom.FillColor)
+		progressBarCom:SetValue(ratio)
+		self:Unselect()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Select()
+		---@type SpriteGUIRendererComponent
+		local selectSpriteCom = self._T["SelectSpriteComponent"]
+		if selectSpriteCom ~= nil then
+			selectSpriteCom.ImageRUID = self.SelectedImageRUID
+		end
+		self.selected = true
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Unselect()
+		---@type SpriteGUIRendererComponent
+		local selectSpriteCom = self._T["SelectSpriteComponent"]
+		if selectSpriteCom ~= nil then
+			selectSpriteCom.ImageRUID = self.UnselectedImageRUID
+		end
+		self.selected = false
+	end
+
+	@ExecSpace("ClientOnly")
+	method boolean IsSelected()
+		return self.selected
+	end
+
+	@ExecSpace("ClientOnly")
+	method Channel GetChannel()
+		return self._T["Channel"]
+	end
+
+end

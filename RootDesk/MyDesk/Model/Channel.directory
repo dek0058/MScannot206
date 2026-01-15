@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://9231fd5dd6924ae9b116ebceee04f66a",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.26.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://9231fd5dd6924ae9b116ebceee04f66a",
+      "name": "Channel",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}
