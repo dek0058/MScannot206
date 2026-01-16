@@ -150,13 +150,26 @@ script LoginMapComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterSelectAndPlayEvent(RequestCharacterSelectAndPlayEvent e)
-		local character = _UserProxy:GetCharacter(e.slot)
-		if character == nil then
-			log_warning("선택한 슬롯의 캐릭터를 찾을 수 없습니다: " .. e.slot)
+		local params = {}
+		params["slot"] = e.slot
+		_GameServerLogic:RequestTeleportToMap(self.Entity, params)
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleTeleportToMapEvent(TeleportToMapEvent e)
+		if e.params == nil then
 			return
 		end
-		_UserProxy:SetSelectCharacter(character)
-		_GameServerLogic:TeleportToMap("GameplayMap")
+
+		if e.params["slot"] == nil then
+			return
+		end
+
+		local slot = e.params["slot"]
+
+		_UserProxy:SetSelectCharacter(slot, e.uid)
+		_GameServerLogic:TeleportToMapForUser(e.uid, "GameplayMap")
 	end
 
 end

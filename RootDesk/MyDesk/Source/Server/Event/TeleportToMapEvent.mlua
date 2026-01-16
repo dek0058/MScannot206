@@ -1,0 +1,7 @@
+@Event
+script TeleportToMapEvent extends EventType
+
+	property string uid = ""
+	property table params = {}
+
+end

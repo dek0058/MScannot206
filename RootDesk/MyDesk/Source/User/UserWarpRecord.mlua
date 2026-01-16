@@ -2,11 +2,13 @@
 script UserWarpRecord
 
 	property string worldId = ""
-
 	property string oldWorldId = ""
+	property boolean waitedForEnterMap = false
 
 	-- json
 	property boolean loggedin = false
+	property string mapName = ""
+	property Vector3 location = Vector3(0,0,0)
 
 	method boolean HaveWarped()
 		if  _UtilLogic:IsNilorEmptyString(self.worldId) or _UtilLogic:IsNilorEmptyString(self.oldWorldId) then
@@ -20,7 +22,35 @@ script UserWarpRecord
 	method string ToJson()
 		local data = {}
 		data["loggedin"] = self.loggedin
+		data["mapName"] = self.mapName
+		data["location"] = { self.location.x, self.location.y, self.location.z }
 		return _HttpService:JSONEncode(data)
+	end
+
+	method void FromJson(string json)
+		if _UtilLogic:IsNilorEmptyString(json) then
+			return
+		end
+
+		local data = _HttpService:JSONDecode(json)
+		if data == nil then
+			return
+		end
+		
+		if data["loggedin"] ~= nil then
+			self.loggedin = data["loggedin"]
+		end
+		
+		if data["mapName"] ~= nil then
+			self.mapName = data["mapName"]
+		end
+		
+		if data["location"] ~= nil then
+			local loc = data["location"]
+			if type(loc) == "table" and #loc == 3 then
+				self.location = Vector3(loc[1], loc[2], loc[3])
+			end
+		end
 	end
 
 end

@@ -123,7 +123,7 @@ script UserLocalPlayerComponent extends Component
 			tag = tagCom.Tags[1]
 		end
 
-		_GameServerLogic:EnterMap()
+		_GameServerLogic:EnterMap(enteredMap.Name)
 		_GameClientUILogic:EnterMap(tag)
 	end
 

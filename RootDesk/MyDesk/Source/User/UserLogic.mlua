@@ -52,15 +52,11 @@ script UserLogic extends Logic
 		local warpRecord = _TeleportService:GetWarpRecord(e.UserId)
 		if warpRecord ~= nil then
 			record.oldWorldId = warpRecord.PreviousWorldId
-		
+			record:FromJson(warpRecord.Data)
+
+			-- 맵 진입 대기 플래그 설정
 			if _UtilLogic:IsNilorEmptyString(warpRecord.Data) == false then
-				local data = _HttpService:JSONDecode(warpRecord.Data)
-				if data ~= nil then
-					-- 로그인 여부
-					if data["loggedin"] ~= nil then
-						record.loggedin = data["loggedin"]
-					end
-				end
+				record.waitedForEnterMap = true
 			end
 		end
 

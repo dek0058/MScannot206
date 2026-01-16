@@ -64,7 +64,7 @@ script LoginLogic extends Logic
 			or user["version"] == nil
 			or user["version"] ~= _DefLogic.Version
 
-			if needLogin ~= false then
+			if needLogin == false then
 				_UserLogic:AddUser(user)
 			end
 

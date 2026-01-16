@@ -54,6 +54,7 @@ script ChannelComponent extends Component
 
 			if not entryCom:IsSelected() then
 				self:SelectChannel(buttonClickEvent.Entity)
+				self.doubleClickDuration = _UtilLogic.ElapsedSeconds
 				return
 			end
 
