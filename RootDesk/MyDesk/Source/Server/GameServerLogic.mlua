@@ -18,7 +18,7 @@ script GameServerLogic extends Logic
 			log_error("task is null")
 		end
 		
-		if task["event"] ~= nil then
+		if task["event"] == nil then
 			log_error("task에서 event 타입을 찾을 수 없습니다.")
 			return
 		end
