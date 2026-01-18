@@ -15,11 +15,11 @@
     "Entities": [
       {
         "id": "cd7db763-feb9-4e24-8664-aba0b43b9e99",
-        "path": "/ui/GameplayGroup",
+        "path": "/ui/Gameplay",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.UIGroupComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent",
         "jsonString": {
-          "name": "GameplayGroup",
-          "path": "/ui/GameplayGroup",
+          "name": "Gameplay",
+          "path": "/ui/Gameplay",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -105,11 +105,11 @@
       },
       {
         "id": "7f9b9af8-54e5-4298-8041-bed6c7ac56f5",
-        "path": "/ui/GameplayGroup/MainMenu",
+        "path": "/ui/Gameplay/MainMenu",
         "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
           "name": "MainMenu",
-          "path": "/ui/GameplayGroup/MainMenu",
+          "path": "/ui/Gameplay/MainMenu",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -177,11 +177,11 @@
       },
       {
         "id": "d212b22c-91f3-4fdd-8576-a97ea8f7d78e",
-        "path": "/ui/GameplayGroup/MainMenu/Layout",
+        "path": "/ui/Gameplay/MainMenu/Layout",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ScrollLayoutGroupComponent",
         "jsonString": {
           "name": "Layout",
-          "path": "/ui/GameplayGroup/MainMenu/Layout",
+          "path": "/ui/Gameplay/MainMenu/Layout",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -358,11 +358,11 @@
       },
       {
         "id": "210e832e-0eb7-461a-aeb3-eef504679686",
-        "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn",
+        "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.ButtonComponent,script.ChannelButtonComponent",
         "jsonString": {
           "name": "ChannelBtn",
-          "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn",
+          "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -486,11 +486,11 @@
       },
       {
         "id": "25543356-14e3-4876-b94f-7d398087722b",
-        "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/Selected",
+        "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/Selected",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Selected",
-          "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/Selected",
+          "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/Selected",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -589,11 +589,11 @@
       },
       {
         "id": "eef4e295-98e1-472b-b2d3-9c644e216061",
-        "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/Icon",
+        "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/Icon",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Icon",
-          "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/Icon",
+          "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/Icon",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -685,11 +685,11 @@
       },
       {
         "id": "908dd85b-99b4-4950-8b43-d6a8eb44cad4",
-        "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/UIText",
+        "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/UIText",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
         "jsonString": {
           "name": "UIText",
-          "path": "/ui/GameplayGroup/MainMenu/Layout/ChannelBtn/UIText",
+          "path": "/ui/Gameplay/MainMenu/Layout/ChannelBtn/UIText",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -785,6 +785,294 @@
               "OverrideSorting": false,
               "SizeFit": false,
               "Text": "채널변경",
+              "UseConstraintX": false,
+              "UseConstraintY": false,
+              "UseOutLine": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "f17c2ee2-8afb-4c63-83bc-3ddc4bf38dd5",
+        "path": "/ui/Gameplay/ChannelDisplay",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "ChannelDisplay",
+          "path": "/ui/Gameplay/ChannelDisplay",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 220.0,
+                "y": -20.0
+              },
+              "OffsetMin": {
+                "x": 20.0,
+                "y": -60.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 200.0,
+                "y": 40.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 20.0,
+                "y": -20.0
+              },
+              "Position": {
+                "x": -940.0,
+                "y": 520.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "4046a6a1-dd9d-4ded-9da5-f035ca31022d",
+        "path": "/ui/Gameplay/ChannelDisplay/Background",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Background",
+          "path": "/ui/Gameplay/ChannelDisplay/Background",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 200.0,
+                "y": 40.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 100.0,
+                "y": -20.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "030e3528cd81404d806a8ff5ddc274d8"
+              },
+              "LocalPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "LocalScale": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "OverrideSorting": false,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.5
+              },
+              "Type": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "6c0936ca-acf2-4ff8-b8e0-04ae65748dc7",
+        "path": "/ui/Gameplay/ChannelDisplay/UIText",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "UIText",
+          "path": "/ui/Gameplay/ChannelDisplay/UIText",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 1,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 125.0,
+                "y": 14.0
+              },
+              "OffsetMin": {
+                "x": 10.0,
+                "y": -14.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 115.0,
+                "y": 28.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 10.0,
+                "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 10.0,
+                "y": -20.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "BestFit": false,
+              "DropShadow": true,
+              "DropShadowDistance": 2.0,
+              "Font": 1,
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 25,
+              "IsRichText": false,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "SizeFit": true,
+              "Text": "Channel.1",
               "UseConstraintX": false,
               "UseConstraintY": false,
               "UseOutLine": false,

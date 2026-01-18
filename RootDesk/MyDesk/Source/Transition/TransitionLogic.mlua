@@ -1,0 +1,179 @@
+@Logic
+script TransitionLogic extends Logic
+	
+	-- Transtion List
+	-- * Default
+	
+	@ExecSpace("Client")
+	method void Clear()
+		self._T["transition"] = {}
+		self._T["transitionIndexing"] = {}
+
+		local parent = _GameClientUILogic:GetTransition()
+		if parent == nil then
+			log_warning("Transition Group을 찾을 수 없습니다.")
+			return
+		end
+
+		for _, child in ipairs(parent.Children) do
+			child.Enable = false
+		end
+	end
+
+	@ExecSpace("Client")
+	method void Force(string tag)
+		if self._T["transition"] == nil then
+			self._T["transition"] = {}
+		end
+
+		if self._T["transitionIndexing"] == nil then
+			self._T["transitionIndexing"] = {}
+		end
+
+		if self._T["transitionIndexing"][tag] ~= nil then
+			log("이미 진행 중인 Transition가 있습니다: " .. tag)
+			return
+		end
+		
+		---@type Entity
+		local transition = self._T[tag]
+		if transition == nil then
+			local parent = _GameClientUILogic:GetTransition()
+			if parent == nil then
+				log_warning("Transition Group을 찾을 수 없습니다.")
+				return
+			end
+			
+			for _, child in ipairs(parent.Children) do
+				---@type TagComponent
+				local tagCom = child:GetComponent(TagComponent)
+				if tagCom == nil then
+					continue
+				end
+				
+				for _, t in pairs(tagCom.Tags) do
+					if t:equals(tag) then
+						transition = child
+						self._T[tag] = transition
+						break
+					end
+				end
+				
+				if transition ~= nil then
+					break
+				end
+			end
+
+			if transition == nil then
+				log_warning("Transition을 찾을 수 없습니다: " .. tag)
+				return
+			end
+		end
+		
+		transition.Enable = true
+		transition:SendEvent(ForceTransitionEvent())
+		
+		table.insert(self._T["transition"], transition)
+		self._T["transitionIndexing"][tag] = 1
+	end
+	
+	@ExecSpace("Client")
+	method void Push(string tag)
+		if self._T["transition"] == nil then
+			self._T["transition"] = {}
+		end
+
+		if self._T["transitionIndexing"] == nil then
+			self._T["transitionIndexing"] = {}
+		end
+
+		if self._T["transitionIndexing"][tag] ~= nil then
+			log("이미 진행 중인 Transition가 있습니다: " .. tag)
+			return
+		end
+		
+		---@type Entity
+		local transition = self._T[tag]
+		if transition == nil then
+			local parent = _GameClientUILogic:GetTransition()
+			if parent == nil then
+				log_warning("Transition Group을 찾을 수 없습니다.")
+				return
+			end
+			
+			for _, child in ipairs(parent.Children) do
+				---@type TagComponent
+				local tagCom = child:GetComponent(TagComponent)
+				if tagCom == nil then
+					continue
+				end
+				
+				for _, t in pairs(tagCom.Tags) do
+					if t:equals(tag) then
+						transition = child
+						self._T[tag] = transition
+						break
+					end
+				end
+				
+				if transition ~= nil then
+					break
+				end
+			end
+
+			if transition == nil then
+				log_warning("Transition을 찾을 수 없습니다: " .. tag)
+				return
+			end
+		end
+		
+		transition.Enable = true
+		transition:SendEvent(StartTransitionEvent())
+		
+		table.insert(self._T["transition"], transition)
+		self._T["transitionIndexing"][tag] = 1
+	end
+	
+	@ExecSpace("Client")
+	method void Pop()
+		if self._T["transition"] == nil then
+			self._T["transition"] = {}
+		end
+
+		if self._T["transitionIndexing"] == nil then
+			self._T["transitionIndexing"] = {}
+		end
+
+		if #self._T["transition"] == 0 then
+			log_warning("진행 중인 Transition이 없습니다.")
+			return
+		end
+		
+		---@type Entity
+		local transition = self._T["transition"][#self._T["transition"]]
+		transition:SendEvent(FinishTransitionEvent())
+		
+		table.remove(self._T["transition"], #self._T["transition"])
+		
+		local tag = ""
+		---@type TagComponent
+		local tagCom = transition:GetComponent(TagComponent)
+		if tagCom ~= nil then
+			for _, t in pairs(tagCom.Tags) do
+				tag = t
+				break
+			end
+		end
+		
+		if _UtilLogic:IsNilorEmptyString(tag) == false then
+			self._T["transitionIndexing"][tag] = nil
+		end
+	end
+	
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserEnterEvent(UserEnterEvent e)
+		self:Clear(e.UserId)
+		self:Force("Default", e.UserId)
+	end
+end

@@ -42,8 +42,7 @@
             },
             {
               "@type": "script.LoginMapComponent",
-              "Enable": true,
-              "LoginGroupEntity": null
+              "Enable": true
             },
             {
               "@type": "MOD.Core.TagComponent",

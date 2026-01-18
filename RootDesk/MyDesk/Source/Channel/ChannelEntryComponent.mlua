@@ -53,7 +53,7 @@ script ChannelEntryComponent extends Component
 		local progressBarCom = self._T["ProgressBarComponent"]
 
 		if nameTextCom ~= nil then
-			nameTextCom.Text = string.format("채널. %s", channel.Id)
+			nameTextCom.Text = string.format("채널. %s", channel.Index)
 		end
 
 		local ratio = channel.CurrentUserCount / channel.MaxUserCount

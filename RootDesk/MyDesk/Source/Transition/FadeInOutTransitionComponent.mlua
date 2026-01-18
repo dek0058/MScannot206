@@ -1,0 +1,73 @@
+@Component
+script FadeInOutTransitionComponent extends Component
+
+	property Entity FadeEntity = nil
+	
+	@MaxValue(3.0)
+	@MinValue(0.1)
+	property number FadeSeconds = 1.5
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number dt)
+		if self._T["state"] == nil then
+			return
+		end
+
+		if self._T["FadeSpriteComponent"] == nil then
+			---@type SpriteGUIRendererComponent
+			local spriteCom = self.FadeEntity:GetComponent(SpriteGUIRendererComponent)
+			if spriteCom == nil then
+				return
+			end
+			self._T["FadeSpriteComponent"] = spriteCom
+		end
+
+		---@type SpriteGUIRendererComponent
+		local fadeSpriteCom = self._T["FadeSpriteComponent"]
+		if self._T["state"] == "FadingIn" then
+			fadeSpriteCom.Color.a += dt / self.FadeSeconds
+			if fadeSpriteCom.Color.a >= 1.0 then
+				fadeSpriteCom.Color.a = 1.0
+				self._T["state"] = nil
+			end
+
+		elseif self._T["state"] == "FadingOut" then
+			fadeSpriteCom.Color.a -= dt / self.FadeSeconds
+			if fadeSpriteCom.Color.a <= 0.0 then
+				fadeSpriteCom.Color.a = 0.0
+				self.Entity.Enable = false
+				self._T["state"] = nil
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleForceTransitionEvent(ForceTransitionEvent event)
+		if self._T["FadeSpriteComponent"] == nil then
+			---@type SpriteGUIRendererComponent
+			local spriteCom = self.FadeEntity:GetComponent(SpriteGUIRendererComponent)
+			if spriteCom == nil then
+				return
+			end
+			self._T["FadeSpriteComponent"] = spriteCom
+		end
+
+		---@type SpriteGUIRendererComponent
+		local fadeSpriteCom = self._T["FadeSpriteComponent"]
+		fadeSpriteCom.Color.a = 1.0
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleStartTransitionEvent(StartTransitionEvent e)
+		self._T["state"] = "FadingIn"
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
+		self._T["state"] = "FadingOut"
+	end
+
+end

@@ -189,6 +189,7 @@ script GameServerLogic extends Logic
 			log_warning("출시 환경에서만 채널 정보를 불러올 수 있습니다.")
 			for i = 1, 5 do
 				local channel = Channel()
+				channel.Index = i
 				channel.Id = tostring(i)
 				channel.CurrentUserCount = math.random(0, 100)
 				channel.MaxUserCount = 100
@@ -227,6 +228,7 @@ script GameServerLogic extends Logic
 
 				for i, data in ipairs(datas) do
 					local channel = Channel()
+					channel.Index = channelCount + 1
 					channel.Id = data.Id
 					channel.CurrentUserCount = data.CurrentUserCount
 					channel.MaxUserCount = data.MaxUserCount

@@ -1,16 +1,13 @@
 @Component
 script LoginMapComponent extends Component
 	
-	@HideFromInspector()
-	property Entity LoginGroupEntity = nil
-
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self.LoginGroupEntity = _EntityService:GetEntityByPath("/ui/LoginGroup")
-		if self.LoginGroupEntity == nil then
-			log("LoginGroupEntity를 찾을 수 없습니다: /ui/LoginGroup")
+		local loginEntity = _EntityService:GetEntityByPath("/ui/Login")
+		if loginEntity == nil then
+			log("LoginEntity를 찾을 수 없습니다: /ui/Login")
 		end
-		self._T["LoginGroupComponent"] = self.LoginGroupEntity:GetComponent(LoginGroupComponent)
+		self._T["LoginGroupComponent"] = loginEntity:GetComponent(LoginGroupComponent)
 	end
 
 	@ExecSpace("Client")
@@ -50,6 +47,8 @@ script LoginMapComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
+		_TransitionLogic:Pop()
+
 		if e.needLogin == true then
 			self:SetLogin()
 		else

@@ -14,11 +14,27 @@ script GameClientUILogic extends Logic
 	end
 
 	@ExecSpace("ClientOnly")
+	method Entity GetInteraction()
+		if self._T["interaction"] == nil then
+			self._T["interaction"] = _EntityService:GetEntityByPath("/ui/Interaction")
+		end
+		return self._T["interaction"]
+	end
+
+	@ExecSpace("ClientOnly")
 	method Entity GetModal()
 		if self._T["modal"] == nil then
 			self._T["modal"] = _EntityService:GetEntityByPath("/ui/Modal")
 		end
 		return self._T["modal"]
+	end
+
+	@ExecSpace("ClientOnly")
+	method Entity GetTransition()
+		if self._T["transition"] == nil then
+			self._T["transition"] = _EntityService:GetEntityByPath("/ui/Transition")
+		end
+		return self._T["transition"]
 	end
 
 	@ExecSpace("ClientOnly")

@@ -1,17 +1,16 @@
 @Component
 script GameplayMapComponent extends Component
 
-	@HideFromInspector()
-	property Entity GameGroupEntity = nil
-
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self.GameGroupEntity = _EntityService:GetEntityByPath("/ui/GameGroup")
+		local gameplayEntity = _EntityService:GetEntityByPath("/ui/Gameplay")
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
+		_TransitionLogic:Pop()
+
 		_UserProxy:SetEnableCharacter(true)
 	end
 

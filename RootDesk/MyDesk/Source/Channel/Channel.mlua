@@ -1,6 +1,7 @@
 @Struct
 script Channel
-
+	
+	property integer Index = 0
 	property string Id = ""
 	property integer CurrentUserCount = 0
 	property integer MaxUserCount = 0

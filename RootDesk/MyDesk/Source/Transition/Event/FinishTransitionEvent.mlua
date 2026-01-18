@@ -1,0 +1,4 @@
+@Event
+script FinishTransitionEvent extends EventType
+
+end
