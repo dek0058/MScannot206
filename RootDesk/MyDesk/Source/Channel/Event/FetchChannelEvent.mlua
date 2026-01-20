@@ -2,7 +2,7 @@
 script FetchChannelEvent extends EventType
 
 	property table channels = {}
-
+	property integer myChannelIndex = 0
 	property integer channelCount = 0
 
 end

@@ -11,9 +11,13 @@ script ChannelEntryComponent extends Component
 
 	property string SelectedImageRUID = ""
 	property string UnselectedImageRUID = ""
+	property string UnavailableImageRUID = ""
 
 	@HideFromInspector()
 	property boolean selected = false
+
+	@HideFromInspector()
+	property boolean unavailable = false
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -69,7 +73,18 @@ script ChannelEntryComponent extends Component
 
 		progressBarCom:SetColor(progressBarCom.FillColor)
 		progressBarCom:SetValue(ratio)
+		self.unavailable = false
 		self:Unselect()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Unavailable()
+		---@type SpriteGUIRendererComponent
+		local selectSpriteCom = self._T["SelectSpriteComponent"]
+		if selectSpriteCom ~= nil then
+			selectSpriteCom.ImageRUID = self.UnavailableImageRUID
+		end
+		self.unavailable = true
 	end
 
 	@ExecSpace("ClientOnly")
@@ -95,6 +110,11 @@ script ChannelEntryComponent extends Component
 	@ExecSpace("ClientOnly")
 	method boolean IsSelected()
 		return self.selected
+	end
+
+	@ExecSpace("ClientOnly")
+	method boolean IsUnavailable()
+		return self.unavailable
 	end
 
 	@ExecSpace("ClientOnly")

@@ -5,7 +5,12 @@ script ChannelComponent extends Component
 
 	@HideFromInspector()
 	property integer channelCount = 0
+
+	@HideFromInspector()
+	property integer myChannelIndex = 0
+
 	property table<Channel> channels = {}
+
 	property table channelHandlers = {}
 	
 	@HideFromInspector()
@@ -31,8 +36,8 @@ script ChannelComponent extends Component
 		for i, child in pairs(self.LayoutEntity.Children) do
 			child.Enable = false			
 		end
-
-		_GameServerLogic:FetchChannels()
+		
+		_ChannelLogic:FetchChannels()
 	end
 
 	@ExecSpace("ClientOnly")
@@ -49,6 +54,10 @@ script ChannelComponent extends Component
 			---@type ChannelEntryComponent
 			local entryCom = buttonClickEvent.Entity:GetComponent(ChannelEntryComponent)
 			if entryCom == nil then
+				return
+			end
+
+			if entryCom:IsUnavailable() == true then
 				return
 			end
 
@@ -80,6 +89,16 @@ script ChannelComponent extends Component
 			self.channelHandlers[newWidget.Id] = widgetHandler
 		end
 
+		---@type table<Channel>
+		local channels = {}
+		for id, channl in pairs(self.channels) do
+			table.insert(channels, channl)
+		end
+
+		table.sort(channels, function(a, b)
+			return a.Index < b.Index
+		end)
+
 		local channelIndex = 1
 		for i, child in ipairs(self.LayoutEntity.Children) do
 			---@type ChannelEntryComponent
@@ -90,7 +109,7 @@ script ChannelComponent extends Component
 			end
 
 			---@type Channel
-			local channel = self.channels[channelIndex]
+			local channel = channels[channelIndex]
 			if channel == nil then
 				break
 			end
@@ -98,6 +117,11 @@ script ChannelComponent extends Component
 
 			child.Enable = true
 			channelCom:Setup(channel)
+
+			-- 내 채널은 선택 불가 처리
+			if channel.Index == self.myChannelIndex then
+				channelCom:Unavailable()
+			end
 		end
 	end
 
@@ -113,7 +137,9 @@ script ChannelComponent extends Component
 			if child.Id == entity.Id then
 				channelCom:Select()
 			else
-				channelCom:Unselect()
+				if not channelCom:IsUnavailable() then
+					channelCom:Unselect()					
+				end
 			end
 		end
 	end
@@ -122,6 +148,7 @@ script ChannelComponent extends Component
 	@EventSender("LocalPlayer")
 	handler HandleFetchChannelEvent(FetchChannelEvent e)
 		self.channels = e.channels
+		self.myChannelIndex = e.myChannelIndex
 		self.channelCount = e.channelCount
 		self:OnFetchChannel()
 	end

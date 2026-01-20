@@ -190,10 +190,6 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("ServerOnly")
 	method void OnRequestCreateCharacter_Doing()
-		local headers = {
-			["Content-Type"] = "application/json"
-		}
-		
 		local content = {
 			["requests"] = {}
 		}
@@ -216,8 +212,8 @@ script CharacterLogic extends Logic
 		local contentJson = _HttpService:JSONEncode(content)
 		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
-			_DefLogic.BackendUrl .. "/user/character/create",
-			"POST", contentJson, headers
+			_BackendLogic.Url .. "/user/character/create",
+			"POST", contentJson, _BackendLogic:GetHeaders()
 		)
 		self:OnRequestCreateCharacter_Complete(response, requests)
 		
@@ -228,7 +224,7 @@ script CharacterLogic extends Logic
 		if self.createCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
 			local diff = responseTime - requestTime
-			if diff >= _DefLogic.CreateCharacterRequestTimeSec then
+			if diff >= _BackendLogic.CreateCharacterRequestTimeSec then
 				self:OnRequestCreateCharacter_Doing()
 			end
 		end
@@ -372,8 +368,8 @@ script CharacterLogic extends Logic
 		local contentJson = _HttpService:JSONEncode(content)
 		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
-			_DefLogic.BackendUrl .. "/user/character/delete",
-			"POST", contentJson, headers
+			_BackendLogic.Url .. "/user/character/delete",
+			"POST", contentJson, _BackendLogic:GetHeaders()
 		)
 		self:OnRequestDeleteCharacter_Complete(response, requests)
 		
@@ -384,7 +380,7 @@ script CharacterLogic extends Logic
 		if self.deleteCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
 			local diff = responseTime - requestTime
-			if diff >= _DefLogic.DeleteCharacterRequestTimeSec then
+			if diff >= _BackendLogic.DeleteCharacterRequestTimeSec then
 				self:OnRequestDeleteCharacter_Doing()
 			end
 		end
@@ -501,7 +497,7 @@ script CharacterLogic extends Logic
 		local callback = function()
 			self:OnRequestCreateCharacter()
 		end
-		_TimerService:SetTimerOnce(callback, _DefLogic.CreateCharacterRequestTimeSec)
+		_TimerService:SetTimerOnce(callback, _BackendLogic.CreateCharacterRequestTimeSec)
 	end
 
 	@ExecSpace("ServerOnly")
@@ -516,7 +512,7 @@ script CharacterLogic extends Logic
 		local callback = function()
 			self:OnRequestDeleteCharacter()
 		end
-		_TimerService:SetTimerOnce(callback, _DefLogic.DeleteCharacterRequestTimeSec)
+		_TimerService:SetTimerOnce(callback, _BackendLogic.DeleteCharacterRequestTimeSec)
 	end
 
 end

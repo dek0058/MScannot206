@@ -1,0 +1,57 @@
+@Logic
+script BackendLogic extends Logic
+	--
+	-- 백엔드 서버에 대한 설정 및 공통 메서드가 정의 되어 있는 로직입니다.
+	--
+
+	---@description "백엔드 서버 URL"
+	property string Url = "http://localhost"
+
+	-- HTTP API 요청 제한 문서 참고
+	-- https://maplestoryworlds-creators.nexon.com/ko/apiReference/Services/HttpService
+
+	-- Update 2025-08-27 PM 04:56
+	-- 분당 최대 120회의 Http요청으로 제한합니다. 초과할 경우 30초간 HttpService요청이 불가능합니다.
+	-- 각 요청당 Timeout은 30초입니다.
+	-- Tls1.2 이상만 지원합니다. Tls1.0, Tls1.1의 경우 통신 시도를 하면 오류가 발생합니다.
+	-- 80, 443을 제외한 1024 미만 포트에서는 사용이 제한됩니다. (＜1024) MSW 임베디드 서버 지정 대역은 30011 ~ 30019입니다.
+	-- 응답 버퍼는 10MB로 제한합니다.
+
+	---@description "로그인 요청 대기 시간"
+	readonly property integer LoginRequestTimeSec = 1
+
+	---@description "캐릭터 생성 요청 대기 시간"
+	readonly property integer CreateCharacterRequestTimeSec = 3
+
+	---@description "캐릭터 삭제 요청 대기 시간"
+	readonly property integer DeleteCharacterRequestTimeSec = 3
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		_HttpService.httpEnabled = true
+		
+		local url = "http://localhost:8080"
+		-- not committed code
+		if Environment:IsPublishedPlay() == true then
+			url = ""
+			if _UtilLogic:IsNilorEmptyString(url) == true then
+				log_error("퍼블리싱 환경에서 BackendUrl이 설정되지 않았습니다.")
+			end
+		end
+		-- end
+		self.Url = url .. "/api/v1"
+
+		self._T["headers"] = {
+			["Content-Type"] = "application/json"
+		}
+	end
+
+	@ExecSpace("ServerOnly")
+	method table GetHeaders()
+		if self._T["headers"] == nil then
+			return {}
+		end
+		return self._T["headers"]
+	end
+
+end

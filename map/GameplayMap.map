@@ -1101,8 +1101,7 @@
             },
             {
               "@type": "script.GameplayMapComponent",
-              "Enable": true,
-              "GameGroupEntity": null
+              "Enable": true
             },
             {
               "@type": "MOD.Core.TagComponent",

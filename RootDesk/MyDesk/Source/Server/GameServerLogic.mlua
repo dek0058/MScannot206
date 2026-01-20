@@ -5,32 +5,29 @@ script GameServerLogic extends Logic
 	method void OnBeginPlay()
 		-- 작업 큐: table
 		self._T["tasks"] = {}
-
+		
 		-- 작업 대기 카운트: table
 		self._T["waits"] = {}
-
-		-- 유저 맵 진입 기록: table<string, string>
+		
+		-- 유저 맵 진입 기록: table<uid, string>
 		self._T["userEnteredMaps"] = {}
-
-		-- 유저 채널 정보 요청 목록: table<string, integer>
-		self._T["userRequestFetchChannels"] = {}
 	end
 	
 	---@description "사용자를 강제 퇴장시킵니다."
 	@ExecSpace("Server")
-	method void Kick(string reason)
+	method void Kick(string reason, any KickReason)
 		local uid = senderUserId
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
-		_UserService:KickUser(uid, KickReason.WorldError)
+		_UserService:KickUser(uid, KickReason)
 	end
 	
 	---@description "서버에서 사용자를 강제 퇴장시킵니다."
 	@ExecSpace("ServerOnly")
-	method void KickByServer(string uid, string reason)
+	method void KickByServer(string uid, string reason, any KickReason)
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
-		_UserService:KickUser(uid, KickReason.WorldError)
+		_UserService:KickUser(uid, KickReason)
 	end
-
+	
 	---@description "작업을 큐에 추가합니다."
 	@ExecSpace("ServerOnly")
 	method void EnqueueTask(table task)
@@ -52,13 +49,13 @@ script GameServerLogic extends Logic
 			log_error("task에서 callback 함수를 찾을 수 없습니다.")
 			return
 		end
-
+		
 		---@type table
 		local tasks = self._T["tasks"]
-
+		
 		---@type table
 		local waits = self._T["waits"]
-
+		
 		---@type string
 		local eventType = task["event"]
 		if tasks[eventType] == nil then
@@ -80,10 +77,10 @@ script GameServerLogic extends Logic
 			log_error("eventType is null or empty")
 			return {}
 		end
-
+		
 		---@type table
 		local tasks = self._T["tasks"]
-
+		
 		---@type table
 		local waits = self._T["waits"]
 		
@@ -106,22 +103,22 @@ script GameServerLogic extends Logic
 	@ExecSpace("Server")
 	method void EnterMap(string mapName)
 		local uid = senderUserId
-
+		
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
 		userEnteredMaps[uid] = mapName
-
+		
 		---@type table
 		local waits = self._T["waits"]
-
+		
 		local callback = function()
 			---@type UserWarpRecord
 			local warpRecord = _UserLogic.userWarpRecords[uid]
 			if warpRecord == nil then
-				self:KickByServer(uid, "비정상적인 맵 진입 시도 감지")
+				self:KickByServer(uid, "비정상적인 맵 진입 시도 감지", KickReason.RuleViolation)
 				return
 			end
-
+			
 			-- 다른 채널로부터 워프된 경우
 			if warpRecord.waitedForEnterMap then
 				if warpRecord.mapName ~= mapName then
@@ -132,7 +129,7 @@ script GameServerLogic extends Logic
 					end
 				end
 			end
-
+			
 			_GameClientLogic:OnEnterMap(not (_UserLogic:IsUserExists(uid)), uid)
 		end
 		
@@ -150,23 +147,23 @@ script GameServerLogic extends Logic
 		
 		callback()
 	end
-
+	
 	---@description "유저가 다른 맵으로 이동을 요청 합니다."
 	@ExecSpace("Server")
 	method void RequestTeleportToMap(Entity mapEntity, table params)
 		if mapEntity == nil then
 			return
 		end
-
+		
 		local uid = senderUserId
-
+		
 		local e = TeleportToMapEvent()
 		e.uid = uid
 		e.params = params
-
+		
 		mapEntity:SendEvent(e)
 	end
-
+	
 	---@description "유저를 특정 맵으로 이동시킵니다."
 	@ExecSpace("ServerOnly")
 	method void TeleportToMapForUser(string uid, string mapName)
@@ -178,77 +175,6 @@ script GameServerLogic extends Logic
 		_TeleportService:TeleportToMapPosition(userEntity, Vector3.zero, mapName)
 	end
 	
-	---@description "서버에서 채널 정보를 불러옵니다."
-	@ExecSpace("Server")
-	method void FetchChannels()
-		local uid = senderUserId
-		local channels = {}
-		local channelCount = 0
-
-		if Environment:IsPublishedPlay() == false then
-			log_warning("출시 환경에서만 채널 정보를 불러올 수 있습니다.")
-			for i = 1, 5 do
-				local channel = Channel()
-				channel.Index = i
-				channel.Id = tostring(i)
-				channel.CurrentUserCount = math.random(0, 100)
-				channel.MaxUserCount = 100
-
-				table.insert(channels, channel)
-				channelCount += 1
-			end
-			_GameClientLogic:OnFetchChannels(channels, channelCount)
-			return
-		end
-
-		---@type table<string, integer>
-		local requests = self._T["userRequestFetchChannels"]
-		if requests[uid] ~= nil and requests[uid] ~= 0 then
-			return
-		end
-
-		requests[uid] = 1
-		_WorldInstanceService:GetWorldInstanceInfoPagesAsync(function(success, pages)
-			local userEntity = _UserService:GetUserEntityByUserId(uid)
-			if userEntity == nil then
-				requests[uid] = nil
-				return
-			end
-
-			if success == false then
-				requests[uid] = nil
-				_GameClientLogic:OnFetchChannels(channels, channelCount)
-				return
-			end
-
-			---@type WorldInstanceInfoPages
-			local p = pages
-			while true do
-				local datas = p:GetCurrentPageDatas()
-
-				for i, data in ipairs(datas) do
-					local channel = Channel()
-					channel.Index = channelCount + 1
-					channel.Id = data.Id
-					channel.CurrentUserCount = data.CurrentUserCount
-					channel.MaxUserCount = data.MaxUserCount
-					
-					table.insert(channels, channel)
-					channelCount += 1
-				end
-
-				if p.IsLastPage == true then
-					break
-				end
-
-				p:MoveToNextPageAndWait()
-			end
-
-			requests[uid] = nil
-			_GameClientLogic:OnFetchChannels(channels, channelCount)
-		end)
-	end
-
 	---@description "유저를 다른 월드 인스턴스로 워프시킵니다."
 	@ExecSpace("Server")
 	method void WrapToWorldInstance(string id)
@@ -257,22 +183,22 @@ script GameServerLogic extends Logic
 		if _WorldInstanceService.WorldInstanceId == id then
 			return
 		end
-
+		
 		local userEntity = _UserService:GetUserEntityByUserId(uid)
 		if userEntity == nil then
 			log_error("유저 Entity를 찾을 수 없습니다: " .. uid)
 			return
 		end
-
+		
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
-
+		
 		---@type UserWarpRecord
 		local warpRecord = UserWarpRecord()
 		warpRecord.loggedin = _UserLogic:IsUserExists(uid)
 		warpRecord.mapName = userEnteredMaps[uid]
 		warpRecord.location = userEntity.TransformComponent.Position
-
+		
 		_TeleportService:WarpUserToWorldInstanceAsync(
 			uid, id, warpRecord:ToJson(), function(success)
 				if success == false then
@@ -282,21 +208,16 @@ script GameServerLogic extends Logic
 			end
 		)
 	end
-
+	
+	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
-
+		
 		if userEnteredMaps[e.UserId] ~= nil then
 			userEnteredMaps[e.UserId] = nil
 		end
-
-		---@type table<string, integer>
-		local requests = self._T["userRequestFetchChannels"]
-		if requests[e.UserId] ~= nil then
-			requests[e.UserId] = nil
-		end
 	end
-
+	
 end

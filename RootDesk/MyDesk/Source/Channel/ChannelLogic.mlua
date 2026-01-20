@@ -1,0 +1,255 @@
+@Logic
+script ChannelLogic extends Logic
+	
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		-- 채널 정보 요청 간격 (초)
+		self._T["ChannelRequestTimeSec"] = 60.0
+		
+		-- 채널 정보 갱신 함수
+		self._T["UpdateChannel"] = function()
+			if self._T["UpdateChannelTimerID"] ~= nil then
+				_TimerService:ClearTimer(self._T["UpdateChannelTimerID"])
+				self._T["UpdateChannelTimerID"] = nil
+			end
+
+			---@type number
+			local ChannelRequestTimeSec = self._T["ChannelRequestTimeSec"]
+			
+			local callback = function()
+				self._T["UpdateChannelTimerID"] = nil
+				self:OnRequestFetchChannels()
+			end
+
+			local timerId = _TimerService:SetTimerOnce(callback, ChannelRequestTimeSec)
+			if timerId == 0 then
+				log_error("채널 정보 갱신 타이머 설정에 실패했습니다.")
+				return
+			end
+			self._T["UpdateChannelTimerID"] = timerId
+		end
+
+		-- 유저 채널 정보 요청 목록: table<uid, integer>
+		self._T["userRequestFetchChannels"] = {}
+		
+		-- 채널 정보 캐시: table<WorldInstanceId, Channel>
+		self._T["channels"] = {}
+		
+		_TimerService:SetTimerOnce(function()
+			-- 채널은 출시 환경에서만 동작합니다.
+			if Environment:IsPublishedPlay() == false then
+				self._T["init"] = true
+				return
+			end
+			
+			-- 채널 시작 요청
+			self:RequestStartChannel()
+			
+			-- 채널 정보 가져오기 활성화
+			self:OnRequestFetchChannels()
+			
+			self._T["init"] = true
+		end, 1.0)
+	end
+	
+	@ExecSpace("ServerOnly")
+	method void OnEndPlay()
+		self:RequestStopChannel()
+
+		if self._T["UpdateChannelTimerID"] ~= nil then
+			_TimerService:ClearTimer(self._T["UpdateChannelTimerID"])
+			self._T["UpdateChannelTimerID"] = nil
+		end
+	end
+	
+	@ExecSpace("ServerOnly")
+	method boolean IsInit()
+		if self._T["init"] == nil then
+			return false
+		end
+		return self._T["init"]
+	end
+	
+	---@description "백엔드 서버에 채널이 시작되었음을 알립니다."
+	@ExecSpace("ServerOnly")
+	method void RequestStartChannel()
+		local content = {
+			["id"] = _WorldInstanceService.WorldInstanceId
+		}
+		
+		local contentJson = _HttpService:JSONEncode(content)
+		local response = _HttpService:RequestAndWait(
+			_BackendLogic.Url .. "/channel/start",
+			"POST", contentJson, _BackendLogic:GetHeaders()
+		)
+	end
+	
+	---@description "백엔드 서버에 채널이 종료되었음을 알립니다."
+	@ExecSpace("ServerOnly")
+	method void RequestStopChannel()
+		local content = {
+			["id"] = _WorldInstanceService.WorldInstanceId
+		}
+		
+		local contentJson = _HttpService:JSONEncode(content)
+		local response = _HttpService:RequestAndWait(
+			_BackendLogic.Url .. "/channel/stop",
+			"POST", contentJson, _BackendLogic:GetHeaders()
+		)
+	end
+	
+	---@description "백엔드 서버로부터 채널 정보를 불러옵니다."
+	@ExecSpace("ServerOnly")
+	method void OnRequestFetchChannels()
+		local response = _HttpService:RequestAndWait(
+			_BackendLogic.Url .. "/channel/list",
+			"GET", "", _BackendLogic:GetHeaders()
+		)
+		
+		if _UtilLogic:IsNilorEmptyString(response) then
+			log_warning("채널 목록을 불러오지 못했습니다.")
+			self._T["UpdateChannel"]()
+			return
+		end
+
+		local content = _HttpService:JSONDecode(response)
+
+		---@type table
+		local channels = content["channels"]
+
+		---@type table<string, Channel>
+		local newChannels = {}
+
+		for _, channel in ipairs(channels) do
+			local newChannel = Channel()
+			newChannel.Index = channel["index"]
+			newChannel.Id = channel["id"]
+			
+			newChannels[newChannel.Id] = newChannel
+		end
+
+		self._T["channels"] = newChannels
+		self._T["UpdateChannel"]()
+	end
+	
+	---@description "서버에서 채널 정보를 불러옵니다."
+	@ExecSpace("Server")
+	method void FetchChannels()
+		local uid = senderUserId
+		
+		if self:IsInit() == false then
+			_GameServerLogic:KickByServer(uid, "채널 로직이 초기화되지 않았습니다", KickReason.RuleViolation)
+			return
+		end
+		
+		if Environment:IsPublishedPlay() == false then
+			self:OnFetchTestChannels(uid)
+			return
+		end
+		
+		---@type table<string, integer>
+		local requests = self._T["userRequestFetchChannels"]
+		if requests[uid] ~= nil and requests[uid] ~= 0 then
+			return
+		end
+		
+		requests[uid] = 1
+		self:OnFetchChannels(uid)
+	end
+	
+	---@description "테스트용 채널 정보를 생성합니다."
+	@ExecSpace("ServerOnly")
+	method void OnFetchTestChannels(string uid)
+		---@type table<string, Channel>
+		local channels = {}
+		local channelCount = 0
+		
+		log_warning("출시 환경에서만 채널 정보를 불러올 수 있습니다.")
+		for i = 1, 5 do
+			local channel = Channel()
+			channel.Index = i
+			channel.Id = tostring(i)
+			channel.CurrentUserCount = math.random(0, 100)
+			channel.MaxUserCount = 100
+			
+			channels[channel.Id] = channel
+			channelCount += 1
+		end
+		_GameClientLogic:OnFetchChannels(channels, 1, channelCount, uid)
+	end
+	
+	---@description "MSW 서버로부터 채널 정보를 수집 후 저장 및 갱신 합니다."
+	@ExecSpace("ServerOnly")
+	method void OnFetchChannels(string uid)
+		if _UtilLogic:IsNilorEmptyString(uid) == true then
+			return
+		end
+		
+		_WorldInstanceService:GetWorldInstanceInfoPagesAsync(function(success, pages)
+			---@type table<string, Channel>
+			local channels = {}
+			local myChannelIndex = 0
+			local channelCount = 0
+			
+			if success == false then
+				---@type table<string, integer>
+				local requests = self._T["userRequestFetchChannels"]
+				requests[uid] = nil
+				_GameClientLogic:OnFetchChannels(channels, myChannelIndex, channelCount, uid)
+				return
+			end
+			
+			---@type WorldInstanceInfoPages
+			local p = pages
+			
+			---@type table<string, Channel>
+			local serverChannels = self._T["channels"]
+			
+			for id, channel in pairs(serverChannels) do
+				channels[id] = channel:Copy()
+				channels[id].unavailable = true
+				
+				if channel.Index == _WorldInstanceService.WorldInstanceId then
+					myChannelIndex = channel.Index
+				end
+			end
+			
+			while true do
+				local datas = p:GetCurrentPageDatas()
+				
+				for i, data in ipairs(datas) do
+					if channels[data.Id] == nil then
+						continue
+					end
+					
+					channels[data.Id].CurrentUserCount = data.CurrentUserCount
+					channels[data.Id].MaxUserCount = data.MaxUserCount
+					channels[data.Id].unavailable = false
+					channelCount += 1
+				end
+				
+				if p.IsLastPage == true then
+					break
+				end
+				
+				p:MoveToNextPageAndWait()
+			end
+			
+			---@type table<string, integer>
+			local requests = self._T["userRequestFetchChannels"]
+			requests[uid] = nil
+			_GameClientLogic:OnFetchChannels(channels, myChannelIndex, channelCount, uid)
+		end)
+	end
+	
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent e)
+		---@type table<string, integer>
+		local requests = self._T["userRequestFetchChannels"]
+		if requests[e.UserId] ~= nil then
+			requests[e.UserId] = nil
+		end
+	end
+	
+end

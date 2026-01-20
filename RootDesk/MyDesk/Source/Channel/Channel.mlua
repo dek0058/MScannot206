@@ -5,5 +5,17 @@ script Channel
 	property string Id = ""
 	property integer CurrentUserCount = 0
 	property integer MaxUserCount = 0
+
+	property boolean unavailable = false
 	
+	method Channel Copy()
+		local newChannel = Channel()
+		newChannel.Index = self.Index
+		newChannel.Id = self.Id
+		newChannel.CurrentUserCount = self.CurrentUserCount
+		newChannel.MaxUserCount = self.MaxUserCount
+		newChannel.unavailable = self.unavailable
+		return newChannel
+	end
+
 end

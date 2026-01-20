@@ -23,8 +23,8 @@
           "nameEditable": true,
           "enable": true,
           "visible": true,
-          "localize": false,
-          "displayOrder": 4,
+          "localize": true,
+          "displayOrder": 5,
           "pathConstraints": "//",
           "revision": 1,
           "origin": {
@@ -84,7 +84,7 @@
             {
               "@type": "MOD.Core.UIGroupComponent",
               "DefaultShow": true,
-              "GroupOrder": 4,
+              "GroupOrder": 5,
               "GroupType": 1,
               "Enable": true
             },
@@ -104,9 +104,9 @@
           "name": "DefaultTransition",
           "path": "/ui/Transition/DefaultTransition",
           "nameEditable": true,
-          "enable": true,
+          "enable": false,
           "visible": true,
-          "localize": false,
+          "localize": true,
           "displayOrder": 0,
           "pathConstraints": "///",
           "revision": 1,
@@ -178,8 +178,7 @@
                 "tempEntityId": null,
                 "IsRelative": false,
                 "EntityId": "3957dd35-e6a6-4467-96f2-0f5cf323ed43"
-              },
-              "FadeSpeed": 0.11
+              }
             }
           ],
           "@version": 1
@@ -195,7 +194,7 @@
           "nameEditable": true,
           "enable": true,
           "visible": true,
-          "localize": false,
+          "localize": true,
           "displayOrder": 0,
           "pathConstraints": "////",
           "revision": 1,
@@ -219,11 +218,11 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 1000.0,
+                "x": 999.999939,
                 "y": 1000.0
               },
               "OffsetMin": {
-                "x": -1000.0,
+                "x": -999.999939,
                 "y": -1000.0
               },
               "Pivot": {
@@ -255,17 +254,20 @@
             },
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "EndFrameIndex": 951,
               "ImageRUID": {
                 "DataId": ""
               },
               "MaterialId": "",
               "OverrideSorting": false,
+              "PlayRate": 12.2,
               "Color": {
                 "r": 0.0,
                 "g": 0.0,
                 "b": 0.0,
                 "a": 1.0
               },
+              "FrameColumn": 1021,
               "Enable": true
             }
           ],

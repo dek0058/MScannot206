@@ -11,7 +11,7 @@ script LoginLogic extends Logic
 		---@type UserDataStorage
 		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
 		if userDataStorage == nil then
-			_GameServerLogic:Kick("UserDataStorage를 찾을 수 없습니다: " .. uid)
+			_GameServerLogic:KickByServer(uid, "UserDataStorage를 찾을 수 없습니다: ", KickReason.WorldError)
 			return
 		end
 
@@ -33,28 +33,28 @@ script LoginLogic extends Logic
 
 		local callback = function(errorCode, _, data)
 			if errorCode ~= 0 then
-				_GameServerLogic:Kick("유저 데이터 로드에 실패했습니다 [uid:" .. uid .. "][errorcode:" .. errorCode .. "]")
+				_GameServerLogic:KickByServer(uid, "유저 데이터 로드에 실패했습니다 [uid:" .. uid .. "][errorcode:" .. errorCode .. "]", KickReason.WorldError)
 				return
 			end
 
 			if task == nil then
-				_GameServerLogic:Kick("task가 null입니다 [uid:" .. uid .. "]")
+				_GameServerLogic:KickByServer(uid, "task가 null입니다 [uid:" .. uid .. "]", KickReason.WorldError)
 				return 
 			end
 
 			if task["callback"] == nil then
-				_GameServerLogic:Kick("task의 callback이 null입니다 [uid:" .. uid .. "]")
+				_GameServerLogic:KickByServer(uid, "task의 callback이 null입니다 [uid:" .. uid .. "]", KickReason.WorldError)
 				return 
 			end
 
 			if _UtilLogic:IsNilorEmptyString(data) then
-				_GameServerLogic:Kick("유저 데이터가 비어있습니다 [uid:" .. uid .. "]")
+				_GameServerLogic:KickByServer(uid, "유저 데이터가 비어있습니다 [uid:" .. uid .. "]", KickReason.WorldError)
 				return
 			end
 
 			local user = _HttpService:JSONDecode(data)
 			if user == nil then
-				_GameServerLogic:Kick("유저 데이터 디코드에 실패했습니다 [uid:" .. uid .. "]")
+				_GameServerLogic:KickByServer(uid, "유저 데이터 디코드에 실패했습니다 [uid:" .. uid .. "]", KickReason.WorldError)
 				return
 			end
 
@@ -105,10 +105,6 @@ script LoginLogic extends Logic
 
 	@ExecSpace("ServerOnly")
 	method void OnRequestLogin_Doing()
-		local headers = {
-			["Content-Type"] = "application/json"
-		}
-		
 		local content = {
 			["uids"] = {}
 		}
@@ -121,8 +117,8 @@ script LoginLogic extends Logic
 		
 		local requestTime = _UtilLogic.ServerElapsedSeconds
 		local response = _HttpService:RequestAndWait(
-			_DefLogic.BackendUrl .. "/login",
-			"POST", contentJson, headers
+			_BackendLogic.Url .. "/login",
+			"POST", contentJson, _BackendLogic:GetHeaders()
 		)
 		self:OnRequestLogin_Complete(response, content["uids"])
 		
@@ -133,7 +129,7 @@ script LoginLogic extends Logic
 		if self.loginRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
 			local diff = responseTime - requestTime
-			if diff >= _DefLogic.LoginRequestTimeSec then
+			if diff >= _BackendLogic.LoginRequestTimeSec then
 				self:OnRequestLogin_Doing()
 			end
 		end
@@ -265,7 +261,7 @@ script LoginLogic extends Logic
 		local callback = function()
 			self:OnRequestLogin()
 		end
-		_TimerService:SetTimerOnce(callback, _DefLogic.LoginRequestTimeSec)
+		_TimerService:SetTimerOnce(callback, _BackendLogic.LoginRequestTimeSec)
 	end
 	
 end

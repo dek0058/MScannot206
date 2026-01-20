@@ -7,7 +7,6 @@ script ProgressBarComponent extends Component
 	@MinValue(0)
 	@MaxValue(1)
 	property number Value = 0.0
-	property boolean IsVertical = false
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -21,16 +20,7 @@ script ProgressBarComponent extends Component
 			return
 		end
 
-		self._T["Transform"] = self.Entity:GetComponent(UITransformComponent)
-		self._T["FillTransform"] = transform
-		self._T["RendererComponent"] = self.FillBar:GetComponent(SpriteGUIRendererComponent)
-
-		if self.IsVertical then
-			transform.Pivot = Vector2(0.5, 0.0)
-		else
-			transform.Pivot = Vector2(1.0, 0.5)
-		end
-		
+		self._T["SliderComponent"] = self.FillBar:GetComponent(SliderComponent)
 		self:SetColor(self.FillColor)
 		self:UpdateProgressBar()
 	end
@@ -42,24 +32,13 @@ script ProgressBarComponent extends Component
 			return
 		end
 
-		---@type UITransformComponent
-		local transform = self._T["Transform"]
-
-		---@type UITransformComponent
-		local fillTransform = self._T["FillTransform"]
-
-		local width = transform.RectSize.x
-		local height = transform.RectSize.y
-
-		local value = (1.0 - math.clamp(self.Value, 0.0, 1.0))
-
-		if self.IsVertical then
-			fillTransform.OffsetMin = Vector2(0.0, height * value)
-			fillTransform.OffsetMax = Vector2(0.0, 0.0)
-		else
-			fillTransform.OffsetMin = Vector2(0.0, 0.0)
-			fillTransform.OffsetMax = Vector2(-width * value, 0.0)
+		---@type SliderComponent
+		local sliderCom = self._T["SliderComponent"]
+		if sliderCom == nil then
+			return
 		end
+
+		sliderCom.Value = self.Value
 	end
 
 	---@description "프로그레스 바의 값을 설정합니다."
@@ -76,13 +55,11 @@ script ProgressBarComponent extends Component
 			return
 		end
 		
-		---@type SpriteGUIRendererComponent
-		local rendererCom = self._T["RendererComponent"]
-		if rendererCom == nil then
-			return
+		---@type SliderComponent
+		local sliderCom = self._T["SliderComponent"]
+		if sliderCom ~= nil then
+			sliderCom.FillRectColor = color
 		end
-
-		rendererCom.Color = color
 	end
 
 end

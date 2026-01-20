@@ -1,0 +1,34 @@
+@Component
+script ChannelDisplay extends Component
+
+	property Entity ChannelTxtEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self.Entity:SetVisible(false)
+		
+		if self.ChannelTxtEntity ~= nil then
+			self._T["ChannelTextComponent"] = self.ChannelTxtEntity:GetComponent(TextComponent)
+		end
+		
+		-- 채널 정보 요청
+		-- _ChannelLogic:FetchChannels()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleFetchChannelEvent(FetchChannelEvent e)
+		if e.myChannelIndex == 0 then
+			self.Entity:SetVisible(false)
+			return	
+		end
+
+		---@type TextComponent
+		local channelTextCom = self._T["ChannelTextComponent"]
+		if channelTextCom ~= nil then
+			channelTextCom.Text = "Channel. " .. tostring(e.myChannelIndex)
+			self.Entity:SetVisible(true)
+		end
+	end
+
+end
