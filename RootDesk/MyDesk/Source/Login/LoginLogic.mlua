@@ -77,8 +77,10 @@ script LoginLogic extends Logic
 	
 	---@description "유저가 로그인 요청을 합니다."
 	@ExecSpace("Server")
-	method void RequestLogin()
-		local uid = senderUserId
+	method void RequestLogin(string uid)
+		if uid ~= senderUserId then
+			return
+		end
 
 		for _, pendingUid in pairs(self.loginRequest:GetPendingRequests()) do
 			if pendingUid == uid then

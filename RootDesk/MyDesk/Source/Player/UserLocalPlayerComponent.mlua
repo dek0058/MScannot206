@@ -1,121 +1,147 @@
 @Component
 script UserLocalPlayerComponent extends Component
 
-	method void OnBeginPlay()
-		-- 기본 컴포넌트 캐싱
-		self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
-		self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
-		self._T["CameraComponent"] = self.Entity:GetComponent(CameraComponent)
-		self._T["SideviewbodyComponent"] = self.Entity:GetComponent(SideviewbodyComponent)
-		
-		-- Collision
-		self._T["RigidbodyComponent"] = self.Entity:GetComponent(RigidbodyComponent)
-		self._T["KinematicbodyComponent"] = self.Entity:GetComponent(KinematicbodyComponent)
-		self._T["TriggerComponent"] = self.Entity:GetComponent(TriggerComponent)
-		
-		-- Rendering & Animation
-		self._T["AvatarRendererComponent"] = self.Entity:GetComponent(AvatarRendererComponent)
-		self._T["CostumeManagerComponent"] = self.Entity:GetComponent(CostumeManagerComponent)
-		self._T["AvatarStateAnimationComponent"] = self.Entity:GetComponent(AvatarStateAnimationComponent)
-		
-		-- Hit
-		self._T["HitComponent"] = self.Entity:GetComponent(HitComponent)
-		self._T["HitEffectSpawnerComponent"] = self.Entity:GetComponent(HitEffectSpawnerComponent)
-		self._T["DamageSkinSettingComponent"] = self.Entity:GetComponent(DamageSkinSettingComponent)
-		
-		-- Player
-		self._T["PlayerControllerComponent"] = self.Entity:GetComponent(PlayerControllerComponent)
-		self._T["PlayerComponent"] = self.Entity:GetComponent(PlayerComponent)
-		self._T["StateComponent"] = self.Entity:GetComponent(StateComponent)
-		self._T["InventoryComponent"] = self.Entity:GetComponent(InventoryComponent)
-		
-		-- UI
-		self._T["NameTagComponent"] = self.Entity:GetComponent(NameTagComponent)
-		self._T["ChatBalloonComponent"] = self.Entity:GetComponent(ChatBalloonComponent)
-
-		if self:IsClient() == true then
-			_UserProxy:SetEnableCharacter(false)
-		end
-	end
-
 	method TransformComponent GetTransformComponent()
+		if self._T["TransformComponent"] == nil then
+			self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
+		end
 		return self._T["TransformComponent"]
 	end
 
 	method MovementComponent GetMovementComponent()
+		if self._T["MovementComponent"] == nil then
+			self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
+		end
 		return self._T["MovementComponent"]
 	end
 
 	method CameraComponent GetCameraComponent()
+		if self._T["CameraComponent"] == nil then
+			self._T["CameraComponent"] = self.Entity:GetComponent(CameraComponent)
+		end
 		return self._T["CameraComponent"]
 	end
 
 	method SideviewbodyComponent GetSideviewbodyComponent()
+		if self._T["SideviewbodyComponent"] == nil then
+			self._T["SideviewbodyComponent"] = self.Entity:GetComponent(SideviewbodyComponent)
+		end
 		return self._T["SideviewbodyComponent"]
 	end
 
 	method RigidbodyComponent GetRigidbodyComponent()
+		if self._T["RigidbodyComponent"] == nil then
+			self._T["RigidbodyComponent"] = self.Entity:GetComponent(RigidbodyComponent)
+		end
 		return self._T["RigidbodyComponent"]
 	end
 
 	method KinematicbodyComponent GetKinematicbodyComponent()
+		if self._T["KinematicbodyComponent"] == nil then
+			self._T["KinematicbodyComponent"] = self.Entity:GetComponent(KinematicbodyComponent)
+		end
 		return self._T["KinematicbodyComponent"]
 	end
 
 	method TriggerComponent GetTriggerComponent()
+		if self._T["TriggerComponent"] == nil then
+			self._T["TriggerComponent"] = self.Entity:GetComponent(TriggerComponent)
+		end
 		return self._T["TriggerComponent"]
 	end
 
 	method AvatarRendererComponent GetAvatarRendererComponent()
+		if self._T["AvatarRendererComponent"] == nil then
+			self._T["AvatarRendererComponent"] = self.Entity:GetComponent(AvatarRendererComponent)
+		end
 		return self._T["AvatarRendererComponent"]
 	end
 
 	method CostumeManagerComponent GetCostumeManagerComponent()
+		if self._T["CostumeManagerComponent"] == nil then
+			self._T["CostumeManagerComponent"] = self.Entity:GetComponent(CostumeManagerComponent)
+		end
 		return self._T["CostumeManagerComponent"]
 	end
 
 	method AvatarStateAnimationComponent GetAvatarStateAnimationComponent()
+		if self._T["AvatarStateAnimationComponent"] == nil then
+			self._T["AvatarStateAnimationComponent"] = self.Entity:GetComponent(AvatarStateAnimationComponent)
+		end
 		return self._T["AvatarStateAnimationComponent"]
 	end
 
 	method HitComponent GetHitComponent()
+		if self._T["HitComponent"] == nil then
+			self._T["HitComponent"] = self.Entity:GetComponent(HitComponent)
+		end
 		return self._T["HitComponent"]
 	end
 
 	method HitEffectSpawnerComponent GetHitEffectSpawnerComponent()
+		if self._T["HitEffectSpawnerComponent"] == nil then
+			self._T["HitEffectSpawnerComponent"] = self.Entity:GetComponent(HitEffectSpawnerComponent)
+		end
 		return self._T["HitEffectSpawnerComponent"]
 	end
 
 	method DamageSkinSettingComponent GetDamageSkinSettingComponent()
+		if self._T["DamageSkinSettingComponent"] == nil then
+			self._T["DamageSkinSettingComponent"] = self.Entity:GetComponent(DamageSkinSettingComponent)
+		end
 		return self._T["DamageSkinSettingComponent"]
 	end
 
 	method PlayerControllerComponent GetPlayerControllerComponent()
+		if self._T["PlayerControllerComponent"] == nil then
+			self._T["PlayerControllerComponent"] = self.Entity:GetComponent(PlayerControllerComponent)
+		end
 		return self._T["PlayerControllerComponent"]
 	end
 
 	method PlayerComponent GetPlayerComponent()
+		if self._T["PlayerComponent"] == nil then
+			self._T["PlayerComponent"] = self.Entity:GetComponent(PlayerComponent)
+		end
 		return self._T["PlayerComponent"]
 	end
 
 	method StateComponent GetStateComponent()
+		if self._T["StateComponent"] == nil then
+			self._T["StateComponent"] = self.Entity:GetComponent(StateComponent)
+		end
 		return self._T["StateComponent"]
 	end
 
 	method InventoryComponent GetInventoryComponent()
+		if self._T["InventoryComponent"] == nil then
+			self._T["InventoryComponent"] = self.Entity:GetComponent(InventoryComponent)
+		end
 		return self._T["InventoryComponent"]
 	end
 
 	method NameTagComponent GetNameTagComponent()
+		if self._T["NameTagComponent"] == nil then
+			self._T["NameTagComponent"] = self.Entity:GetComponent(NameTagComponent)
+		end
 		return self._T["NameTagComponent"]
 	end
 
 	method ChatBalloonComponent GetChatBalloonComponent()
+		if self._T["ChatBalloonComponent"] == nil then
+			self._T["ChatBalloonComponent"] = self.Entity:GetComponent(ChatBalloonComponent)
+		end
 		return self._T["ChatBalloonComponent"]
 	end
 
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
+		local playerCom = self:GetPlayerComponent()
+		if playerCom == nil then
+			log_warning("PlayerComponent를 찾을 수 없습니다.")
+			return
+		end
+
 		---@type TagComponent
 		local tagCom = enteredMap:GetComponent(TagComponent)
 		local tag = ""
@@ -123,8 +149,8 @@ script UserLocalPlayerComponent extends Component
 			tag = tagCom.Tags[1]
 		end
 
+		_UserProxy:SetEnableCharacter(playerCom.UserId, false)
 		self:EnterMap(enteredMap.Name, tag)
-		
 	end
 
 	@ExecSpace("ClientOnly")
@@ -139,7 +165,14 @@ script UserLocalPlayerComponent extends Component
 			end, 1.0)
 			return
 		end
-		_GameServerLogic:EnterMap(mapName)
+
+		local playerCom = self:GetPlayerComponent()
+		if playerCom == nil then
+			log_warning("PlayerComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		_GameServerLogic:EnterMap(playerCom.UserId, mapName)
 		_GameClientUILogic:EnterMap(tag)
 	end
 

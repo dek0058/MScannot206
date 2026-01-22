@@ -5,7 +5,7 @@ script GameClientLogic extends Logic
 	method void OnBeginPlay()
 		-- 서버 상태 요청 타이머 설정
 		self._T["FetchServerStateTimerId"] = _TimerService:SetTimerRepeat(function()
-			_GameServerLogic:FetchServerState()
+			_GameServerLogic:FetchServerState(_UserProxy:GetUid())
 		end, 1.0, 0.0)
 	end
 	
@@ -27,7 +27,7 @@ script GameClientLogic extends Logic
 	
 	@ExecSpace("ClientOnly")
 	@EventSender("Logic", "GameServerLogic")
-	handler HandleEvent(ServerStateEvent e)
+	handler HandleServerStateEvent(ServerStateEvent e)
 		if e.state ~= _GameServerLogic.State_Running then
 			return
 		end
@@ -40,7 +40,7 @@ script GameClientLogic extends Logic
 		self._T["init"] = true
 		log("게임 클라이언트 로직 초기화 완료")
 		
-		_ChannelLogic:FetchChannels()
+		_ChannelLogic:FetchChannels(_UserProxy:GetUid())
 	end
 	
 end

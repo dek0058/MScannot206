@@ -303,8 +303,10 @@ script ChannelLogic extends Logic
 	
 	---@description "서버에서 채널 정보를 불러옵니다."
 	@ExecSpace("Server")
-	method void FetchChannels()
-		local uid = senderUserId
+	method void FetchChannels(string uid)
+		if uid ~= senderUserId then
+			return
+		end
 		
 		if self:IsInit() == false then
 			_GameServerLogic:KickByServer(uid, "채널 로직이 초기화되지 않았습니다", KickReason.RuleViolation)

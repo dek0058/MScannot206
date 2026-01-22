@@ -38,8 +38,11 @@ script GameServerLogic extends Logic
 	end
 	
 	@ExecSpace("Server")
-	method void FetchServerState()
-		local uid = senderUserId
+	method void FetchServerState(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
 		if self._T["init"] == nil then
 			self:SendServerState(self.State_Initializing, uid)
 			return
@@ -61,8 +64,11 @@ script GameServerLogic extends Logic
 	end
 	
 	@ExecSpace("Server")
-	method void Kick(string reason, any KickReason)
-		local uid = senderUserId
+	method void Kick(string uid, string reason, any KickReason)
+		if uid ~= senderUserId then
+			return
+		end
+
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
 		_UserService:KickUser(uid, KickReason)
 	end
@@ -144,12 +150,14 @@ script GameServerLogic extends Logic
 		
 		return task
 	end
-	
+
 	---@description "유저가 맵에 입장시 이벤트를 처리합니다."
 	@ExecSpace("Server")
-	method void EnterMap(string mapName)
-		local uid = senderUserId
-		
+	method void EnterMap(string uid, string mapName)
+		if uid ~= senderUserId then
+			return
+		end
+
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
 		if userEnteredMaps ~= nil then
@@ -202,12 +210,14 @@ script GameServerLogic extends Logic
 	
 	---@description "유저가 다른 맵으로 이동을 요청 합니다."
 	@ExecSpace("Server")
-	method void RequestTeleportToMap(Entity mapEntity, table params)
+	method void RequestTeleportToMap(string uid, Entity mapEntity, table params)
+		if uid ~= senderUserId then
+			return
+		end
+
 		if mapEntity == nil then
 			return
 		end
-		
-		local uid = senderUserId
 		
 		local e = TeleportToMapEvent()
 		e.uid = uid
@@ -229,8 +239,10 @@ script GameServerLogic extends Logic
 	
 	---@description "유저를 다른 월드 인스턴스로 워프시킵니다."
 	@ExecSpace("Server")
-	method void WrapToWorldInstance(string id)
-		local uid = senderUserId
+	method void WrapToWorldInstance(string uid, string id)
+		if uid ~= senderUserId then
+			return
+		end
 		
 		if _WorldInstanceService.WorldInstanceId == id then
 			return

@@ -13,7 +13,7 @@ script ChannelDisplay extends Component
 		
 		-- 초기화 된 상태라면 바로 채널 정보 요청
 		if _GameClientLogic:IsInit() == true then
-			_ChannelLogic:FetchChannels()
+			_ChannelLogic:FetchChannels(_UserProxy:GetUid())
 			return
 		end
 	end

@@ -34,7 +34,7 @@ script ChannelComponent extends Component
 			child.Enable = false			
 		end
 		
-		_ChannelLogic:FetchChannels()
+		_ChannelLogic:FetchChannels(_UserProxy:GetUid())
 	end
 
 	@ExecSpace("ClientOnly")
@@ -76,7 +76,7 @@ script ChannelComponent extends Component
 				return
 			end
 
-			_GameServerLogic:WrapToWorldInstance(channel.Id)
+			_GameServerLogic:WrapToWorldInstance(_UserProxy:GetUid(), channel.Id)
 		end
 
 		local widgetCount = #self.LayoutEntity.Children
