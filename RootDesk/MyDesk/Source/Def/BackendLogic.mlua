@@ -33,7 +33,7 @@ script BackendLogic extends Logic
 		local url = "http://localhost:8080"
 		-- not committed code
 		if Environment:IsPublishedPlay() == true then
-			url = ""
+			url = "https://egregious-undatable-marie.ngrok-free.dev"
 			if _UtilLogic:IsNilorEmptyString(url) == true then
 				log_error("퍼블리싱 환경에서 BackendUrl이 설정되지 않았습니다.")
 			end

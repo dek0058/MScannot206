@@ -1,6 +1,14 @@
 @Logic
 script GameClientLogic extends Logic
-
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		-- 서버 상태 요청 타이머 설정
+		self._T["FetchServerStateTimerId"] = _TimerService:SetTimerRepeat(function()
+			_GameServerLogic:FetchServerState()
+		end, 1.0, 0.0)
+	end
+	
 	@ExecSpace("Client")
 	method void OnEnterMap(boolean needLogin)
 		local localPlayer = _UserService.LocalPlayer
@@ -9,18 +17,30 @@ script GameClientLogic extends Logic
 		localPlayer:SendEvent(e)
 	end
 
-	@ExecSpace("Client")
-	method void OnFetchChannels(table channels, integer myChannelIndex, integer channelCount)
-		local localPlayer = _UserService.LocalPlayer
-		if localPlayer == nil then
+	@ExecSpace("ClientOnly")
+	method boolean IsInit()
+		if self._T["init"] == nil then
+			return false
+		end
+		return self._T["init"]
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("Logic", "GameServerLogic")
+	handler HandleEvent(ServerStateEvent e)
+		if e.state ~= _GameServerLogic.State_Running then
 			return
 		end
+		
+		if self._T["FetchServerStateTimerId"] ~= nil then
+			_TimerService:ClearTimer(self._T["FetchServerStateTimerId"])
+			self._T["FetchServerStateTimerId"] = nil
+		end
 
-		local e = FetchChannelEvent()
-		e.channels = channels
-		e.myChannelIndex = myChannelIndex
-		e.channelCount = channelCount
-		localPlayer:SendEvent(e)
+		self._T["init"] = true
+		log("게임 클라이언트 로직 초기화 완료")
+		
+		_ChannelLogic:FetchChannels()
 	end
-
+	
 end

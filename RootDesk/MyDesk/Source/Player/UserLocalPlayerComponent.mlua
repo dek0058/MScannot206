@@ -123,12 +123,24 @@ script UserLocalPlayerComponent extends Component
 			tag = tagCom.Tags[1]
 		end
 
-		_GameServerLogic:EnterMap(enteredMap.Name)
-		_GameClientUILogic:EnterMap(tag)
+		self:EnterMap(enteredMap.Name, tag)
+		
 	end
 
 	@ExecSpace("ClientOnly")
 	method void OnMapLeave(Entity leftMap)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void EnterMap(string mapName, string tag)
+		if _GameClientLogic:IsInit() == false then
+			_TimerService:SetTimerOnce(function ()
+				self:EnterMap(mapName, tag)
+			end, 1.0)
+			return
+		end
+		_GameServerLogic:EnterMap(mapName)
+		_GameClientUILogic:EnterMap(tag)
 	end
 
 end

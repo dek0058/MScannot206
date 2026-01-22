@@ -1,0 +1,4 @@
+@Event
+script RequestFetchChannelsEvent extends EventType
+
+end

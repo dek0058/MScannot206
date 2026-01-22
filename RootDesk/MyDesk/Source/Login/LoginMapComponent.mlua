@@ -151,7 +151,17 @@ script LoginMapComponent extends Component
 	handler HandleRequestCharacterSelectAndPlayEvent(RequestCharacterSelectAndPlayEvent e)
 		local params = {}
 		params["slot"] = e.slot
-		_GameServerLogic:RequestTeleportToMap(self.Entity, params)
+
+		local transition = _TransitionLogic:Push(_TransitionLogic.Default)
+		if transition ~= nil then
+			local e = TransitionEvent()
+			e.complete = function()
+				_GameServerLogic:RequestTeleportToMap(self.Entity, params)
+			end
+			transition:SendEvent(e)
+		else
+			_GameServerLogic:RequestTeleportToMap(self.Entity, params)
+		end
 	end
 
 	@ExecSpace("ServerOnly")

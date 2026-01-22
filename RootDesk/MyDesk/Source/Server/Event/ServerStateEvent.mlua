@@ -1,0 +1,6 @@
+@Event
+script ServerStateEvent extends EventType
+
+	property string state = ""
+
+end

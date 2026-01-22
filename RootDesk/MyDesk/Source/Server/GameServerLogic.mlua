@@ -1,6 +1,12 @@
 @Logic
 script GameServerLogic extends Logic
 	
+	---@description "서버 상태: 초기화 중"
+	property string State_Initializing = "Initializing"
+
+	---@description "서버 상태: 실행 중"
+	property string State_Running = "Running"
+
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		-- 작업 큐: table
@@ -11,9 +17,49 @@ script GameServerLogic extends Logic
 		
 		-- 유저 맵 진입 기록: table<uid, string>
 		self._T["userEnteredMaps"] = {}
+		
+		self:OnInit()
 	end
 	
-	---@description "사용자를 강제 퇴장시킵니다."
+	@ExecSpace("ServerOnly")
+	method void OnInit()
+		local init =
+		_ChannelLogic:IsInit()
+		
+		if init == true then
+			self._T["init"] = init
+			log("게임 서버 로직 초기화 완료")
+			return
+		end
+		
+		_TimerService:SetTimerOnce(function()
+			self:OnInit()
+		end, 1.0)
+	end
+	
+	@ExecSpace("Server")
+	method void FetchServerState()
+		local uid = senderUserId
+		if self._T["init"] == nil then
+			self:SendServerState(self.State_Initializing, uid)
+			return
+		end
+
+		if self._T["init"] == false then
+			self:SendServerState(self.State_Initializing, uid)
+			return
+		end
+
+		self:SendServerState(self.State_Running, uid)
+	end
+
+	@ExecSpace("Client")
+	method void SendServerState(string state)
+		local e = ServerStateEvent()
+		e.state = state
+		self:SendEvent(e)
+	end
+	
 	@ExecSpace("Server")
 	method void Kick(string reason, any KickReason)
 		local uid = senderUserId
@@ -106,6 +152,12 @@ script GameServerLogic extends Logic
 		
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
+		if userEnteredMaps ~= nil then
+			-- 이미 같은 맵에 진입한 경우 무시
+			if userEnteredMaps[uid] == mapName then
+				return
+			end
+		end
 		userEnteredMaps[uid] = mapName
 		
 		---@type table

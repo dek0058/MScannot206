@@ -11,22 +11,33 @@ script ChannelDisplay extends Component
 			self._T["ChannelTextComponent"] = self.ChannelTxtEntity:GetComponent(TextComponent)
 		end
 		
-		-- 채널 정보 요청
-		-- _ChannelLogic:FetchChannels()
+		-- 초기화 된 상태라면 바로 채널 정보 요청
+		if _GameClientLogic:IsInit() == true then
+			_ChannelLogic:FetchChannels()
+			return
+		end
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleFetchChannelEvent(FetchChannelEvent e)
-		if e.myChannelIndex == 0 then
-			self.Entity:SetVisible(false)
-			return	
-		end
-
+	handler HandleFetchChannelsEvent(FetchChannelsEvent e)
 		---@type TextComponent
 		local channelTextCom = self._T["ChannelTextComponent"]
 		if channelTextCom ~= nil then
-			channelTextCom.Text = "Channel. " .. tostring(e.myChannelIndex)
+			local channelIndex = 0
+			for id, channel in pairs(e.channels) do
+				if id == _WorldInstanceService.WorldInstanceId then
+					channelIndex = channel.Index
+					break
+				end
+			end
+
+			if channelIndex == 0 then
+				self.Entity:SetVisible(false)
+				return
+			end
+
+			channelTextCom.Text = "Channel. " .. tostring(channelIndex)
 			self.Entity:SetVisible(true)
 		end
 	end

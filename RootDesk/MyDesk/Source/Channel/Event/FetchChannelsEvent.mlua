@@ -1,0 +1,7 @@
+@Event
+script FetchChannelsEvent extends EventType
+
+	property table channels = {}
+	property integer channelCount = 0
+
+end

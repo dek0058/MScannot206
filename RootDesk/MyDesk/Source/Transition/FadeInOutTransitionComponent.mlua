@@ -22,22 +22,36 @@ script FadeInOutTransitionComponent extends Component
 			self._T["FadeSpriteComponent"] = spriteCom
 		end
 
+		if self._T["update"] ~= nil then
+			self._T["update"](dt)
+		end
+
 		---@type SpriteGUIRendererComponent
 		local fadeSpriteCom = self._T["FadeSpriteComponent"]
 		if self._T["state"] == "FadingIn" then
 			fadeSpriteCom.Color.a += dt / self.FadeSeconds
 			if fadeSpriteCom.Color.a >= 1.0 then
 				fadeSpriteCom.Color.a = 1.0
-				self._T["state"] = nil
+				self:OnComplete()
 			end
 
 		elseif self._T["state"] == "FadingOut" then
 			fadeSpriteCom.Color.a -= dt / self.FadeSeconds
 			if fadeSpriteCom.Color.a <= 0.0 then
 				fadeSpriteCom.Color.a = 0.0
+				self:OnComplete()
 				self.Entity.Enable = false
-				self._T["state"] = nil
 			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnComplete()
+		self._T["state"] = nil
+		self._T["update"] = nil
+		if self._T["complete"] ~= nil then
+			self._T["complete"]()
+			self._T["complete"] = nil
 		end
 	end
 
@@ -68,6 +82,22 @@ script FadeInOutTransitionComponent extends Component
 	@EventSender("Self")
 	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
 		self._T["state"] = "FadingOut"
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleTransitionEvent(TransitionEvent e)
+		if e.start ~= nil then
+			e.start()
+		end
+
+		if e.update ~= nil then
+			self._T["update"] = e.update
+		end
+
+		if e.complete ~= nil then
+			self._T["complete"] = e.complete
+		end
 	end
 
 end
