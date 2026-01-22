@@ -1,0 +1,1 @@
+Fixed in https://github.com/dek0058/MScannot206/commit/49676db6f666803971853de7e8a239c09eb116bd
