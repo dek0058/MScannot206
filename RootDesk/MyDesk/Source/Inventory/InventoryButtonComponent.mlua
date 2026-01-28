@@ -1,0 +1,44 @@
+---@description "인벤토리 팝업을 제어하는 버튼 컴포넌트 입니다."
+@Component
+script InventoryButtonComponent extends Component
+
+	---@description "선택된 상태를 나타내는 UI Entity"
+	property Entity SelectedEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		
+	end
+
+	---@description "현재 선택된 상태인지 반환합니다."
+	@ExecSpace("ClientOnly")
+	method boolean IsSelected()
+		return self.SelectedEntity.Visible
+	end
+
+	---@description "선택된 상태로 설정합니다."
+	@ExecSpace("ClientOnly")
+	method void SetSelected()
+		if self.SelectedEntity ~= nil then
+			self.SelectedEntity:SetVisible(true)
+		end
+		
+		-- TODO:
+	end
+	
+	---@description "선택되지 않은 상태로 설정합니다."
+	@ExecSpace("ClientOnly")
+	method void SetUnselected()
+		if self.SelectedEntity ~= nil then
+			self.SelectedEntity:SetVisible(false)
+		end
+
+		-- TODO:
+	end
+
+end

@@ -1,0 +1,10 @@
+@Event
+script TransitionEvent extends EventType
+
+	property any start = nil
+
+	property any update = nil
+
+	property any complete = nil
+
+end

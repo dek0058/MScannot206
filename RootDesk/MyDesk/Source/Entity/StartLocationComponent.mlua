@@ -1,0 +1,26 @@
+@Component
+script StartLocationComponent extends Component
+
+	---@description "캐릭터가 바라보는 방향이 오른쪽인지 여부"
+	property boolean IsFaceRight = false
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local spriteRendererCom = self.Entity.SpriteRendererComponent
+		if spriteRendererCom ~= nil then
+			spriteRendererCom.Enable = false
+		end
+	end
+
+	---@description "시작 위치를 반환합니다."
+	method Vector2 GetLocation()
+		local transform = self.Entity.TransformComponent
+		return Vector2(transform.Position.x, transform.Position.y)
+	end
+
+	---@description "텔레포트할 위치를 반환합니다."
+	method Vector2 GetTeleportLocation()
+		return self:GetLocation() + Vector2(0, 0.05)
+	end
+
+end

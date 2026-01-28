@@ -1,0 +1,52 @@
+---@description "사용자 요청 대기열을 관리합니다."
+@Struct
+script UserRequestQueue
+
+	property table pendingUids = {}
+
+	property table pendingRequests = {}
+
+	---@description "대기열이 비어있는지 확인합니다."
+	method boolean IsEmpty()
+		if #self.pendingRequests == 0 then
+			return true
+		end
+		return false
+	end
+
+	---@description "특정 유저의 요청이 대기열에 존재하는지 확인합니다."
+	method boolean IsExists(string uid)
+		if self.pendingUids[uid] ~= nil then
+			return true
+		end
+		return false
+	end
+
+	---@description "대기열에서 최대 maxCount개의 요청을 꺼냅니다."
+	method table PullRequests(integer maxCount)
+		---@type table<UserRequest>
+		local requests = {}
+		
+		for i = 1, maxCount do
+			local userRequest = table.remove(self.pendingRequests, 1)
+			if userRequest == nil then
+				break
+			end
+		
+			self.pendingUids[userRequest.uid] = nil
+			table.insert(requests, userRequest)
+		end
+		
+		return requests
+	end
+
+	method void AddRequest(UserRequest userRequest)
+		if userRequest == nil then
+			return
+		end
+		
+		table.insert(self.pendingRequests, userRequest)
+		self.pendingUids[userRequest.uid] = true
+	end
+
+end

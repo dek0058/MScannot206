@@ -1,159 +1,182 @@
+---@description "로그인 맵에 대한 처리를 담당하는 컴포넌트 입니다."
 @Component
 script LoginMapComponent extends Component
-	
-	@ExecSpace("ClientOnly")
+
+	---@description "시작 카메라 엔티티"
+	@HideFromInspector()
+	property Entity OpeningCamera = nil
+
+	---@description "시작 위치 엔티티"
+	@HideFromInspector()
+	property Entity StartLocation = nil
+
 	method void OnBeginPlay()
-		local loginEntity = _EntityService:GetEntityByPath("/ui/Login")
-		if loginEntity == nil then
-			log("LoginEntity를 찾을 수 없습니다: /ui/Login")
-		end
-		self._T["LoginGroupComponent"] = loginEntity:GetComponent(LoginGroupComponent)
-	end
+		local err = ErrorType()
 
-	@ExecSpace("Client")
-	method void SetLogin()
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다", KickReason.WorldError)
-			return
+		self.OpeningCamera =_EntityService:GetEntityByTag("OpeningCamera")
+		if self.OpeningCamera == nil then
+			err:AddError("OpeningCamera 엔티티를 찾을 수 없습니다.")
 		end
 
-		local err = LoginGroupCom:SetLoginLayer()
+		self.StartLocation = _EntityService:GetEntityByTag("StartLocation")
+		if self.StartLocation == nil then
+			err:AddError("StartLocation 엔티티를 찾을 수 없습니다.")
+		end
+		
 		if err:IsError() == true then
 			_ErrorLogic:PrintErrors(err:ToError())
-			_GameServerLogic:Kick("로그인 레이어 설정 중 오류 발생", KickReason.WorldError)
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "로그인 맵 컴포넌트 초기화 중 오류 발생", "WorldError")
 			return
 		end
 	end
 
+	---@description "로그인 맵을 파괴합니다."
+	@ExecSpace("Server")
+	method void DestroyMap(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		local mapName = "LoginMap"
+		local destroyedMapName = mapName .. uid
+
+		local result = _DynamicMapService:DestroyDynamicMap(destroyedMapName)
+		if result == false then
+			log_error("로그인 맵 파괴에 실패했습니다: " .. destroyedMapName)
+		end
+	end
+
+	---@description "오프닝으로 이동 합니다."
+	@ExecSpace("Server")
+	method void SetOpening(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
+		if userLocalPlayerCom == nil then
+			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
+		userLocalPlayerCom:SetEnable(true)
+		userLocalPlayerCom:SetLocation(self.StartLocation.StartLocationComponent:GetTeleportLocation())
+		userLocalPlayerCom:SetFaceRight(self.StartLocation.StartLocationComponent.IsFaceRight)
+		userLocalPlayerCom:SetInputEnable(false)
+
+		self:OnOpening(uid)
+	end
+
+	---@description "클라이언트에 대한 오프닝 처리함수 입니다."
 	@ExecSpace("Client")
-	method void SetCharacterSelection()
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다", KickReason.WorldError)
+	method void OnOpening()
+		local currentScreen = _GameClientUILogic.currentScreen
+		if currentScreen == nil then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "현재 화면 엔티티를 찾을 수 없습니다", "WorldError")
 			return
 		end
 
-		local err = LoginGroupCom:SetCharacterSelectionLayer()
-		if err:IsError() == true then
-			_ErrorLogic:PrintErrors(err:ToError())
-			_GameServerLogic:Kick("캐릭터 선택 레이어 설정 중 오류 발생", KickReason.WorldError)
+		_CameraService:SwitchCameraTo(self.OpeningCamera.CameraComponent)
+
+		---@type LoginIntroComponent
+		local introCom = _GameplayStaticsLogic:FindComponentInChildren(currentScreen, "LoginIntroComponent")
+		if introCom == nil then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "LoginIntroComponent를 찾을 수 없습니다", "WorldError")
 			return
 		end
+
+		-- ui 설정
+		_GameClientUILogic:CurrentScreenClear()
+		introCom.Entity:SetEnable(true)
+		introCom:Setup()
 	end
 
+	---@description "로비로 이동합니다."
+	@ExecSpace("Server")
+	method void SetLobby(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		log("lobby: "..uid)
+
+		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
+		if userLocalPlayerCom == nil then
+			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
+		userLocalPlayerCom:SetInputEnable(true)
+
+		self:OnLobby(uid)
+	end
+
+	---@description "클라이언트에 대한 로비 처리함수 입니다."
+	@ExecSpace("Client")
+	method void OnLobby()
+		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByClient()
+		if userLocalPlayerCom == nil then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
+		_CameraService:SwitchCameraTo(userLocalPlayerCom:GetCameraComponent())
+
+		_GameClientUILogic:CurrentScreenClear()
+	end
+
+	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다."
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent e)
+		self:DestroyMap(e.UserId)
+	end
+
+	---@description "맵 입장 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
+		self:SetOpening(_UserProxy:GetUid())
+
+		wait(1.5)
 		_TransitionLogic:Pop()
-
-		if e.needLogin == true then
-			self:SetLogin()
-		else
-			self:SetCharacterSelection()
-		end
 	end
 
+	---@description "로그인 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleLoginCompleteEvent(LoginCompleteEvent e)
-		self:SetCharacterSelection()
-	end
-	
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleLoginFailureEvent(LoginFailureEvent e)
-		_ErrorLogic:Throw(e.errorCode)
-		
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginLayerComponent를 찾을 수 없습니다", KickReason.WorldError)
-			return
-		end
-		LoginGroupCom.LoginLayerCom:LoginFailure()
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleCreateCharacterFailureEvent(CreateCharacterFailureEvent e)
-		_ErrorLogic:Throw(e.errorCode)
-
-		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
-		local loginRequired = e.errorCode == _ErrorLogic.SESSION_TOKEN_INVALID_ERROR
-							or e.errorCode == _ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND
-
-		if loginRequired == true then
-			self:SetLogin()
-		end
-	end
-	
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleCreateCharacterCompleteEvent(CreateCharacterCompleteEvent e)
-		_ScreenMessageLogic:PrivateMsg("캐릭터가 생성되었습니다")
-
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다", KickReason.WorldError)
+	handler HandleLoginEvent(LoginEvent e)
+		if _UtilLogic:IsNilorEmptyString(e.errorCode) == false then
+			_ErrorLogic:Throw(e.errorCode)
+			self:SetOpening(_UserProxy:GetUid())
 			return
 		end
 
-		LoginGroupCom.CharacterSelectionLayerCom:Setup()
-		LoginGroupCom.CharacterSelectionLayerCom:SetSlot(e.newCharacter)
+		self:SetLobby(_UserProxy:GetUid())
 	end
 
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleDeleteCharacterFailureEvent(DeleteCharacterFailureEvent e)
-		_ErrorLogic:Throw(e.errorCode)
-
-		-- 유저를 찾을 수 없다는 오류면 로그인 화면으로 이동
-		local loginRequired = e.errorCode == _ErrorLogic.SESSION_TOKEN_INVALID_ERROR
-							or e.errorCode == _ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND
-
-		if loginRequired == true then
-			self:SetLogin()
-		else
-			_ScreenMessageLogic:PrivateMsg("캐릭터가 삭제에 실패하였습니다.")
-			---@type LoginGroupComponent
-			local LoginGroupCom = self._T["LoginGroupComponent"]
-			if LoginGroupCom == nil then
-				_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다", KickReason.WorldError)
-				return
-			end
-
-			LoginGroupCom.CharacterSelectionLayerCom:Setup()
-		end
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleDeleteCharacterCompleteEvent(DeleteCharacterCompleteEvent e)
-		_ScreenMessageLogic:PrivateMsg("캐릭터가 삭제되었습니다")
-
-		---@type LoginGroupComponent
-		local LoginGroupCom = self._T["LoginGroupComponent"]
-		if LoginGroupCom == nil then
-			_GameServerLogic:Kick("LoginGroupComponent를 찾을 수 없습니다", KickReason.WorldError)
-			return
-		end
-
-		LoginGroupCom.CharacterSelectionLayerCom:Setup()
-		LoginGroupCom.CharacterSelectionLayerCom:SetEmptySlot(e.slot)
-	end
-
+	---@description "캐릭터 선택 및 플레이 요청 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterSelectAndPlayEvent(RequestCharacterSelectAndPlayEvent e)
 		local params = {}
 		params["slot"] = e.slot
-		_GameServerLogic:RequestTeleportToMap(self.Entity, params)
+
+		local transition = _TransitionLogic:Push(_TransitionLogic.Default)
+		if transition ~= nil then
+			local transitionEvent = TransitionEvent()
+			transitionEvent.complete = function()
+				_GameServerLogic:RequestTeleportToMap(_UserProxy:GetUid(), self.Entity, params)
+				self:DestroyMap(_UserProxy:GetUid())
+			end
+			transition:SendEvent(transitionEvent)
+		else
+			_GameServerLogic:RequestTeleportToMap(_UserProxy:GetUid(), self.Entity, params)
+			self:DestroyMap(_UserProxy:GetUid())
+		end
 	end
 
+	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다."
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleTeleportToMapEvent(TeleportToMapEvent e)

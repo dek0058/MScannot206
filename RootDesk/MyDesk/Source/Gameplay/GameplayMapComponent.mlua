@@ -11,7 +11,7 @@ script GameplayMapComponent extends Component
 	handler HandleMapEnterEvent(MapEnterEvent e)
 		_TransitionLogic:Pop()
 
-		_UserProxy:SetEnableCharacter(true)
+		-- _UserProxy:SetEnableCharacter(_UserProxy:GetUid(), true)
 	end
 
 end

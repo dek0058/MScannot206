@@ -1,10 +1,14 @@
+---@description "게임 클라이언트의 UI 로직을 관리하는 스크립트"
 @Logic
 script GameClientUILogic extends Logic
 
+	---@description "Map에 대응하는 Tag 키"
 	property string TagMap = "Map"
 
+	---@description "현재 활성화된 화면 엔티티"
 	property Entity currentScreen = nil
 
+	---@description "root UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetUI()
 		if self._T["ui"] == nil then
@@ -13,6 +17,7 @@ script GameClientUILogic extends Logic
 		return self._T["ui"]
 	end
 
+	---@description "인터렉션 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetInteraction()
 		if self._T["interaction"] == nil then
@@ -21,6 +26,7 @@ script GameClientUILogic extends Logic
 		return self._T["interaction"]
 	end
 
+	---@description "모달 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetModal()
 		if self._T["modal"] == nil then
@@ -29,6 +35,7 @@ script GameClientUILogic extends Logic
 		return self._T["modal"]
 	end
 
+	---@description "트랜지션 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetTransition()
 		if self._T["transition"] == nil then
@@ -37,6 +44,8 @@ script GameClientUILogic extends Logic
 		return self._T["transition"]
 	end
 
+	---@description "맵에 입장 시, 해당 태그에 맞는 UI Group으로 전환합니다."
+	---@param tag string "Map에서 사용하는 UI태그"
 	@ExecSpace("ClientOnly")
 	method void EnterMap(string tag)
 		for _, child in pairs(self:GetUI().Children) do
@@ -56,7 +65,8 @@ script GameClientUILogic extends Logic
 			end
 		end
 	end
-
+	
+	---@description "UI 엔티티의 위치를 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetUILocation(Entity entity, Vector2 location)
 		if entity == nil then
@@ -74,6 +84,9 @@ script GameClientUILogic extends Logic
 		transform.anchoredPosition = location
 	end
 
+	---@description "모달 창을 생성합니다."
+	---@param msg string "모달에 표시할 메시지"
+	---@param callback table "모달의 버튼 클릭 콜백 함수 테이블"
 	@ExecSpace("Client")
 	method void CreateModal(string msg, table callback)
 		local modal = _SpawnService:SpawnByModelId("f1850135-a98e-4cc2-bc08-b047d62db034", "Modal", Vector3.zero, self:GetModal())
@@ -93,6 +106,18 @@ script GameClientUILogic extends Logic
 		end
 
 		modalCom:Setup(msg, callback)
+	end
+
+	---@description "현재 화면 엔티티를 초기화합니다."
+	@ExecSpace("Client")
+	method void CurrentScreenClear()
+		if self.currentScreen == nil then
+			return
+		end
+
+		for _, child in pairs(self.currentScreen.Children) do
+			child:SetEnable(false)
+		end
 	end
 
 end

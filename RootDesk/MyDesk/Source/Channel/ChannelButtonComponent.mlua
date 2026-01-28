@@ -1,23 +1,17 @@
+---@description "채널 팝업을 제어하는 버튼 컴포넌트 입니다."
 @Component
 script ChannelButtonComponent extends Component
 	
+	---@description "선택된 상태를 나타내는 UI Entity"
 	property Entity SelectedEntity = nil
 	
-	@HideFromInspector()
-	property Entity channelEntity = nil
-	
-	property any state = 0
-	
+	---@description "버튼 이벤트 바인딩 및 채널 Entity 생성 및 초기화 합니다."
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self._T["Transform"] = self.Entity:GetComponent(UITransformComponent)
-		self._T["ButtonComponent"] = self.Entity:GetComponent(ButtonComponent)
-		if self._T["ButtonComponent"] ~= nil then
+		if self.Entity.ButtonComponent ~= nil then
 			self._T["ButtonStateChangeEventHandler"] = self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
-				
 				---@type ButtonState
 				local state = e.state
-				self.state = e.state
 				
 				if state == ButtonState.Clicked then
 					if self:IsSelected() then
@@ -37,15 +31,18 @@ script ChannelButtonComponent extends Component
 			parent = parent.Parent
 		end
 		
-		self.channelEntity = _SpawnService:SpawnByModelId("036e01df-98b0-45b0-9396-3416887074c7", "Channel", Vector3.zero, parent)
-		---@type UITransformComponent
-		local channelTransform = self.channelEntity:GetComponent(UITransformComponent)
-		if channelTransform ~= nil then
-			channelTransform.AnchorsMin = Vector2(0.0, 0.0)
-			channelTransform.AnchorsMax = Vector2(0.0, 0.0)
-			channelTransform.Pivot = Vector2(0.0, 0.0)
+		local channelEntity = _SpawnService:SpawnByModelId("036e01df-98b0-45b0-9396-3416887074c7", "Channel", Vector3.zero, parent)
+		if channelEntity ~= nil then
+			local channelTransform = channelEntity.UITransformComponent
+			if channelEntity ~= nil then
+				channelTransform.AnchorsMin = Vector2(0.0, 0.0)
+				channelTransform.AnchorsMax = Vector2(0.0, 0.0)
+				channelTransform.Pivot = Vector2(0.0, 0.0)
+			end
+			channelEntity:SetEnable(false)
+			self._T["ChannelEntity"] = channelEntity
 		end
-		self.channelEntity.Enable = false
+		
 		self:SetUnselected()
 	end
 	
@@ -56,55 +53,54 @@ script ChannelButtonComponent extends Component
 			self._T["ButtonStateChangeEventHandler"] = nil
 		end
 		
-		if self.channelEntity ~= nil then
-			self.channelEntity:Destroy()
-			self.channelEntity = nil
+		if self._T["ChannelEntity"] ~= nil then
+			self._T["ChannelEntity"]:Destroy()
+			self._T["ChannelEntity"] = nil
 		end
 	end
 	
+	---@description "현재 선택된 상태인지 반환합니다."
 	@ExecSpace("ClientOnly")
 	method boolean IsSelected()
 		return self.SelectedEntity.Visible
 	end
 	
+	---@description "선택된 상태로 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetSelected()
 		if self.SelectedEntity ~= nil then
 			self.SelectedEntity:SetVisible(true)
 		end
 		
-		if self.channelEntity ~= nil then
-			---@type UITransformComponent
-			local transform = self._T["Transform"]
-			
-			---@type UITransformComponent
-			local channelTransform = self.channelEntity:GetComponent(UITransformComponent)
-			
+		---@type Entity
+		local channelEntity = self._T["ChannelEntity"]
+		if channelEntity ~= nil then
+			local transform = self.Entity.UITransformComponent
+			local channelTransform = channelEntity.UITransformComponent
 			---@type ChannelComponent
-			local channelCom = self.channelEntity:GetComponent(ChannelComponent)
-
+			local channelCom = channelEntity:GetComponent(ChannelComponent)
+			
 			if transform ~= nil and channelTransform ~= nil and channelCom ~= nil then
-				self.channelEntity:SetEnable(true)
+				channelEntity:SetEnable(true)
 				channelTransform.WorldPosition = transform.WorldPosition
 				channelTransform.anchoredPosition = channelTransform.anchoredPosition + Vector2(-transform.RectSize.x / 2.0, transform.RectSize.y / 2.0)
-
+				
 				channelCom:Setup()
 			end
 		end
 	end
 	
+	---@description "선택되지 않은 상태로 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetUnselected()
 		if self.SelectedEntity ~= nil then
 			self.SelectedEntity:SetVisible(false)
 		end
 		
-		if self.channelEntity ~= nil then
-			---@type UITransformComponent
-			local channelTransform = self.channelEntity:GetComponent(UITransformComponent)
-			if channelTransform ~= nil then
-				self.channelEntity:SetEnable(false)
-			end
+		---@type Entity
+		local channelEntity = self._T["ChannelEntity"]
+		if channelEntity ~= nil then
+			channelEntity:SetEnable(false)
 		end
 	end
 	

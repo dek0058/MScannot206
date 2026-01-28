@@ -1,0 +1,16 @@
+---@description "모바일 컨트롤러를 제어하는 컴포넌트 입니다."
+@Component
+script MobileController extends Component
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		for _, child in ipairs(self.Entity.Children) do
+			local joystickCom = child:GetComponent(JoystickComponent)
+			if joystickCom ~= nil then
+				self._T["Joystick"] = joystickCom
+				continue
+			end
+		end
+	end
+	
+end

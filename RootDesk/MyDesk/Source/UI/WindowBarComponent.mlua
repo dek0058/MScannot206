@@ -1,0 +1,88 @@
+---@description "UI창의 이동을 제어하는 바 컴포넌트 입니다."
+@Component
+script WindowBarComponent extends Component
+	
+	---@description "이동을 제어할 터치 영역 Entity"
+	property Entity TouchAreaEntity = nil
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.TouchAreaEntity == nil then
+			return
+		end
+		
+		if self.Entity.UITransformComponent ~= nil then
+			self.Entity.UITransformComponent.AnchorsMin = Vector2(0.0, 0.0)
+			self.Entity.UITransformComponent.AnchorsMax = Vector2(0.0, 0.0)
+		end
+		
+		self._T["move"] = false
+		self._T["firstPos"] = Vector2(0.0, 0.0)
+		self._T["gapPos"] = Vector2(0.0, 0.0)
+		
+		local buttonCom = self.TouchAreaEntity.ButtonComponent
+		if buttonCom == nil then
+			buttonCom = self.TouchAreaEntity:AddComponent(ButtonComponent)
+		end
+		
+		if buttonCom ~= nil then
+			self._T["Handler"] = self.TouchAreaEntity:ConnectEvent(ButtonStateChangeEvent, function(e)
+				local transform = self.Entity.UITransformComponent
+				if transform == nil then
+					return
+				end
+				
+				---@type ButtonState
+				local state = e.state
+				local moved = self._T["move"]
+				
+				if state == ButtonState.Pressed then
+					self._T["move"] = true
+					local firstPos = _InputService:GetCursorPosition()
+					self._T["firstPos"] = firstPos
+					self._T["gapPos"] = transform.anchoredPosition - firstPos
+				elseif moved == true and (state == ButtonState.Released or state == ButtonState.Clicked) then
+					self._T["move"] = false
+				end
+			end)
+		end
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["Handler"] ~= nil then
+			self.TouchAreaEntity:DisconnectEvent(ButtonStateChangeEvent, self._T["Handler"])
+			self._T["Handler"] = nil
+		end
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if self._T["Handler"] == nil then
+			return
+		end
+		
+		---@type boolean
+		local move = self._T["move"]
+		if move == false then
+			return
+		end
+		
+		local transform = self.Entity.UITransformComponent
+		if transform == nil then
+			return
+		end
+		
+		---@type Vector2
+		local firstPos = self._T["firstPos"]
+		
+		---@type Vector2
+		local gapPos = self._T["gapPos"]
+		
+		local pos = _InputService:GetCursorPosition()
+		local diff = pos - firstPos
+		
+		transform.anchoredPosition = firstPos + diff + gapPos
+	end
+	
+end

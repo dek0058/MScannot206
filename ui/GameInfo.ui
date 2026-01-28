@@ -119,31 +119,31 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 4,
+              "AlignmentOption": 7,
               "AnchorsMax": {
                 "x": 0.0,
-                "y": 1.0
+                "y": 0.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 1.0
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 220.000122,
-                "y": -19.9998779
+                "x": 220.0,
+                "y": 79.99988
               },
               "OffsetMin": {
-                "x": 20.0001221,
-                "y": -59.9998779
+                "x": 20.0,
+                "y": 20.0
               },
               "Pivot": {
                 "x": 0.0,
-                "y": 1.0
+                "y": 0.0
               },
               "RectSize": {
                 "x": 200.0,
-                "y": 40.0
+                "y": 59.9998779
               },
               "UIMode": 1,
               "UIScale": {
@@ -153,12 +153,12 @@
               },
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": 20.0001221,
-                "y": -19.9998779
+                "x": 20.0,
+                "y": 20.0
               },
               "Position": {
-                "x": -939.9999,
-                "y": 520.0001,
+                "x": -940.0,
+                "y": -520.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -234,7 +234,7 @@
               },
               "RectSize": {
                 "x": 200.0,
-                "y": 40.0
+                "y": 59.9998779
               },
               "UIMode": 1,
               "UIVersion": 2,
@@ -244,7 +244,7 @@
               },
               "Position": {
                 "x": 100.0,
-                "y": -20.0,
+                "y": 29.999939,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -349,7 +349,7 @@
               },
               "Position": {
                 "x": 20.0,
-                "y": -20.0,
+                "y": 29.999939,
                 "z": 0.0
               },
               "QuaternionRotation": {

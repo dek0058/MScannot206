@@ -1,6 +1,13 @@
+---@description "게임 서버에 대한 공통적인 처리를 담당하는 로직입니다."
 @Logic
 script GameServerLogic extends Logic
 	
+	---@description "서버 상태: 초기화 중"
+	property string State_Initializing = "Initializing"
+
+	---@description "서버 상태: 실행 중"
+	property string State_Running = "Running"
+
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		-- 작업 큐: table
@@ -11,21 +18,70 @@ script GameServerLogic extends Logic
 		
 		-- 유저 맵 진입 기록: table<uid, string>
 		self._T["userEnteredMaps"] = {}
+		
+		self:OnInit()
 	end
 	
-	---@description "사용자를 강제 퇴장시킵니다."
-	@ExecSpace("Server")
-	method void Kick(string reason, any KickReason)
-		local uid = senderUserId
-		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
-		_UserService:KickUser(uid, KickReason)
-	end
-	
-	---@description "서버에서 사용자를 강제 퇴장시킵니다."
 	@ExecSpace("ServerOnly")
-	method void KickByServer(string uid, string reason, any KickReason)
+	method void OnInit()
+		local init =
+		_ChannelLogic:IsInit()
+		
+		if init == true then
+			self._T["init"] = init
+			log("게임 서버 로직 초기화 완료")
+			return
+		end
+		
+		_TimerService:SetTimerOnce(function()
+			self:OnInit()
+		end, 1.0)
+	end
+	
+	---@description "특정 유저에게 서버 상태를 클라이언트에게 알립니다."
+	@ExecSpace("Server")
+	method void FetchServerState(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		if self._T["init"] == nil then
+			self:SendServerState(self.State_Initializing, uid)
+			return
+		end
+
+		if self._T["init"] == false then
+			self:SendServerState(self.State_Initializing, uid)
+			return
+		end
+
+		self:SendServerState(self.State_Running, uid)
+	end
+
+	---@description "서버 상태를 전파합니다."
+	@ExecSpace("Client")
+	method void SendServerState(string state)
+		local e = ServerStateEvent()
+		e.state = state
+		self:SendEvent(e)
+	end
+	
+	---@description "특정 유저를 서버에서 강제 퇴장시킵니다."
+	@ExecSpace("Server")
+	method void Kick(string uid, string reason, string kickReason)
+		if uid ~= senderUserId then
+			return
+		end
+
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
-		_UserService:KickUser(uid, KickReason)
+		_UserService:KickUser(uid, KickReason.CastFrom(kickReason))
+	end
+	
+	---@description "서버에서 특정 유저를 강제 퇴장시킵니다."
+	@ExecSpace("ServerOnly")
+	method void KickByServer(string uid, string reason, string kickReason)
+		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
+		_UserService:KickUser(uid, KickReason.CastFrom(kickReason))
 	end
 	
 	---@description "작업을 큐에 추가합니다."
@@ -98,39 +154,36 @@ script GameServerLogic extends Logic
 		
 		return task
 	end
-	
+
 	---@description "유저가 맵에 입장시 이벤트를 처리합니다."
 	@ExecSpace("Server")
-	method void EnterMap(string mapName)
-		local uid = senderUserId
-		
+	method void EnterMap(string uid, string mapName)
+		if uid ~= senderUserId then
+			return
+		end
+
+		local userPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
+		if userPlayerCom == nil then
+			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
 		---@type table<string, string>
 		local userEnteredMaps = self._T["userEnteredMaps"]
+		if userEnteredMaps ~= nil then
+			-- 이미 같은 맵에 진입한 경우 무시
+			if userEnteredMaps[uid] == mapName then
+				return
+			end
+		end
 		userEnteredMaps[uid] = mapName
-		
+		userPlayerCom:SetEnable(false)
+
 		---@type table
 		local waits = self._T["waits"]
 		
 		local callback = function()
-			---@type UserWarpRecord
-			local warpRecord = _UserLogic.userWarpRecords[uid]
-			if warpRecord == nil then
-				self:KickByServer(uid, "비정상적인 맵 진입 시도 감지", KickReason.RuleViolation)
-				return
-			end
-			
-			-- 다른 채널로부터 워프된 경우
-			if warpRecord.waitedForEnterMap then
-				if warpRecord.mapName ~= mapName then
-					if _UserLogic:IsUserExists(uid) == true then
-						warpRecord.waitedForEnterMap = false
-						self:TeleportToMapForUser(uid, warpRecord.mapName)
-						return
-					end
-				end
-			end
-			
-			_GameClientLogic:OnEnterMap(not (_UserLogic:IsUserExists(uid)), uid)
+			_GameClientLogic:SendEventToLocalPlayer(MapEnterEvent(), uid)
 		end
 		
 		if waits["EnterMap"] ~= nil then
@@ -150,12 +203,14 @@ script GameServerLogic extends Logic
 	
 	---@description "유저가 다른 맵으로 이동을 요청 합니다."
 	@ExecSpace("Server")
-	method void RequestTeleportToMap(Entity mapEntity, table params)
+	method void RequestTeleportToMap(string uid, Entity mapEntity, table params)
+		if uid ~= senderUserId then
+			return
+		end
+
 		if mapEntity == nil then
 			return
 		end
-		
-		local uid = senderUserId
 		
 		local e = TeleportToMapEvent()
 		e.uid = uid
@@ -174,11 +229,23 @@ script GameServerLogic extends Logic
 		end
 		_TeleportService:TeleportToMapPosition(userEntity, Vector3.zero, mapName)
 	end
+
+	---@description "유저가 다른 맵으로 이동을 요청 합니다."
+	@ExecSpace("Server")
+	method void TeleportToBanishMapForUser(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+		
+		self:TeleportToMapForUser(uid, "BanishMap")
+	end
 	
 	---@description "유저를 다른 월드 인스턴스로 워프시킵니다."
 	@ExecSpace("Server")
-	method void WrapToWorldInstance(string id)
-		local uid = senderUserId
+	method void WrapToWorldInstance(string uid, string id)
+		if uid ~= senderUserId then
+			return
+		end
 		
 		if _WorldInstanceService.WorldInstanceId == id then
 			return

@@ -1,9 +1,17 @@
 @Logic
 script LoginLogic extends Logic
 	
-	---@type BatchRequest
-	property any loginRequest = BatchRequest()
-	property boolean isDoingLogin = false
+	---@description "로그인 요청 대기 시간"
+	readonly property integer LoginRequestTimeSec = 2
+
+	---@description "로그인 요청 최대 처리 개수"
+	readonly property integer MaxLoginRequestPerFlush = 10
+	
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		-- 로그인 요청 대기열 초기화
+		self._T["LoginRequestQueue"] = UserRequestQueue()
+	end
 
 	---@description "유저의 로그인 상태를 가져옵니다."
 	@ExecSpace("ServerOnly")
@@ -11,7 +19,7 @@ script LoginLogic extends Logic
 		---@type UserDataStorage
 		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
 		if userDataStorage == nil then
-			_GameServerLogic:KickByServer(uid, "UserDataStorage를 찾을 수 없습니다: ", KickReason.WorldError)
+			_GameServerLogic:KickByServer(uid, "UserDataStorage를 찾을 수 없습니다: ", "WorldError")
 			return
 		end
 
@@ -33,28 +41,28 @@ script LoginLogic extends Logic
 
 		local callback = function(errorCode, _, data)
 			if errorCode ~= 0 then
-				_GameServerLogic:KickByServer(uid, "유저 데이터 로드에 실패했습니다 [uid:" .. uid .. "][errorcode:" .. errorCode .. "]", KickReason.WorldError)
+				_GameServerLogic:KickByServer(uid, "유저 데이터 로드에 실패했습니다 [uid:" .. uid .. "][errorcode:" .. errorCode .. "]", "WorldError")
 				return
 			end
 
 			if task == nil then
-				_GameServerLogic:KickByServer(uid, "task가 null입니다 [uid:" .. uid .. "]", KickReason.WorldError)
+				_GameServerLogic:KickByServer(uid, "task가 null입니다 [uid:" .. uid .. "]", "WorldError")
 				return 
 			end
 
 			if task["callback"] == nil then
-				_GameServerLogic:KickByServer(uid, "task의 callback이 null입니다 [uid:" .. uid .. "]", KickReason.WorldError)
+				_GameServerLogic:KickByServer(uid, "task의 callback이 null입니다 [uid:" .. uid .. "]", "WorldError")
 				return 
 			end
 
 			if _UtilLogic:IsNilorEmptyString(data) then
-				_GameServerLogic:KickByServer(uid, "유저 데이터가 비어있습니다 [uid:" .. uid .. "]", KickReason.WorldError)
+				_GameServerLogic:KickByServer(uid, "유저 데이터가 비어있습니다 [uid:" .. uid .. "]", "WorldError")
 				return
 			end
 
 			local user = _HttpService:JSONDecode(data)
 			if user == nil then
-				_GameServerLogic:KickByServer(uid, "유저 데이터 디코드에 실패했습니다 [uid:" .. uid .. "]", KickReason.WorldError)
+				_GameServerLogic:KickByServer(uid, "유저 데이터 디코드에 실패했습니다 [uid:" .. uid .. "]", "WorldError")
 				return
 			end
 
@@ -77,191 +85,210 @@ script LoginLogic extends Logic
 	
 	---@description "유저가 로그인 요청을 합니다."
 	@ExecSpace("Server")
-	method void RequestLogin()
-		local uid = senderUserId
-
-		for _, pendingUid in pairs(self.loginRequest:GetPendingRequests()) do
-			if pendingUid == uid then
-				-- 이미 로그인 요청을 한 유저
-				self:LoginFailure(_ErrorLogic.LOGIN_ALREADY_REQUEST, uid)
-				return
-			end
-		end
-		
-		self.loginRequest:AddRequest(uid)
-		self:SendEvent(LoginEvent())
-	end
-	
-	@ExecSpace("ServerOnly")
-	method void OnRequestLogin()
-		self:OnRequestLogin_Doing()
-		self.isDoingLogin = false
-		
-		-- 추가적인 로그인 요청이 있었는지 확인
-		if self.loginRequest:HasPendingRequests() == true then
-			self:SendEvent(LoginEvent())
-		end
-	end
-
-	@ExecSpace("ServerOnly")
-	method void OnRequestLogin_Doing()
-		local content = {
-			["uids"] = {}
-		}
-		
-		for _, uid in pairs(self.loginRequest:GetPendingRequests()) do
-			table.insert(content["uids"], uid)
-		end
-		
-		local contentJson = _HttpService:JSONEncode(content)
-		
-		local requestTime = _UtilLogic.ServerElapsedSeconds
-		local response = _HttpService:RequestAndWait(
-			_BackendLogic.Url .. "/login",
-			"POST", contentJson, _BackendLogic:GetHeaders()
-		)
-		self:OnRequestLogin_Complete(response, content["uids"])
-		
-		self.loginRequest:ClearProcessedRequests()
-		self.loginRequest:FlushRequests()
-		
-		-- 추가 요청이 존재하고 로그인 Delay 시간을 초과했다면 즉시 재실행
-		if self.loginRequest:HasPendingRequests() == true then
-			local responseTime = _UtilLogic.ServerElapsedSeconds
-			local diff = responseTime - requestTime
-			if diff >= _BackendLogic.LoginRequestTimeSec then
-				self:OnRequestLogin_Doing()
-			end
-		end
-	end
-	
-	@ExecSpace("ServerOnly")
-	method void OnRequestLogin_Complete(string response, table requestUids)
-		if _UtilLogic:IsNilorEmptyString(response) then
-			for i, uid in ipairs(requestUids) do
-				self:LoginFailure(_ErrorLogic.LOGIN_UNABLE, uid)
-			end
+	method void RequestLogin(string uid)
+		if uid ~= senderUserId then
 			return
 		end
-		
-		local content = _HttpService:JSONDecode(response)
-		
-		local successUids = content["success_uids"]
-		local failUids = content["fail_uids"]
 
-		local doneUids = {}
-		if failUids ~= nil then
-			for i, entry in ipairs(failUids) do
-				if entry == nil then
-					continue
-				end
-
-				if entry["uid"] == nil then
-					continue
-				end
-
-				if entry["error_code"] == nil then
-					---@type string
-					local uid = entry["uid"]
-					doneUids[uid] = _ErrorLogic.LOGIN_UNKNOWN_ERROR
-					continue
-				end
-
-				---@type string
-				local uid = entry["uid"]
-				---@type string
-				local errorCode = entry["error_code"]
-				doneUids[uid] = errorCode
-			end
-		end
-	
-		if successUids ~= nil then
-			for i, entry in ipairs(successUids) do
-				if entry == nil then
-					continue
-				end
-
-				if entry["user_entity"] == nil then
-					continue
-				end
-
-				---@type table
-				local userEntity = entry["user_entity"]
-				if userEntity["uid"] == nil then
-					continue
-				end
-
-				---@type string
-				local uid = userEntity["uid"]
-				
-				if entry["token"] == nil then
-					doneUids[uid] = _ErrorLogic.LOGIN_SESSION_CREATE_ERROR
-					continue
-				end
-
-				---@type UserDataStorage
-				local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
-				if userDataStorage == nil then
-					error("UserDataStorage를 찾을 수 없습니다: " .. uid)
-					_UserService:KickUser(uid, KickReason.ETC)
-					continue
-				end
-
-				doneUids[uid] = "SUCCESS"
-				entry["version"] = _DefLogic.Version
-				local jsonData = _HttpService:JSONEncode(entry)
-				userDataStorage:SetAsync("user", jsonData, function(errorCode, data)
-					if errorCode ~= 0 then
-						log_error("유저 데이터 저장에 실패했습니다 [uid" .. uid .. "][errorcode:" .. errorCode .. "]")
-						self:LoginFailure(_ErrorLogic.USER_DATA_STORAGE_WRITE_ERROR, uid)
-						return
-					else
-						_UserLogic:AddUser(entry)
-						self:LoginComplete(uid)
-					end
-				end)
-			end
-		end
-
-		for i, uid in ipairs(requestUids) do
-			local result = doneUids[uid]
-			if result == nil then
-				self:LoginFailure(_ErrorLogic.LOGIN_UNKNOWN_ERROR, uid)
-			elseif result == "SUCCESS" then
-				-- 로그인 대기
-			else
-				self:LoginFailure(result, uid)
-			end
-		end
-	end
-	
-	@ExecSpace("Client")
-	method void LoginComplete()
-		local localPlayer = _UserService.LocalPlayer
-		localPlayer:SendEvent(LoginCompleteEvent())
-	end
-	
-	@ExecSpace("Client")
-	method void LoginFailure(string errorCode)
-		local localPlayer = _UserService.LocalPlayer
-		local e = LoginFailureEvent()
-		e.errorCode = errorCode
-		localPlayer:SendEvent(e)
-	end
-
-	@ExecSpace("ServerOnly")
-	@EventSender("Self")
-	handler HandleLoginEvent(LoginEvent e)
-		-- 이미 로그인 요청 중
-		if self.isDoingLogin then
+		---@type UserRequestQueue
+		local loginRequestQueue = self._T["LoginRequestQueue"]
+		if loginRequestQueue == nil then
+			error("LoginRequestQueue가 없습니다.")
 			return
 		end
-		
-		self.isDoingLogin = true
+
+		if loginRequestQueue:IsExists(uid) == true then
+			local e = LoginEvent()
+			e.errorCode = _ErrorLogic.LOGIN_ALREADY_REQUEST
+			_GameClientLogic:SendEventToLocalPlayer(e, uid)
+			return
+		end
+
+		local request = UserRequest()
+		request.uid = uid
+
+		loginRequestQueue:AddRequest(request)
+
+		self:OnReserveLogin()
+	end
+
+	---@description "요청받은 로그인을 처리합니다."
+	@ExecSpace("ServerOnly")
+	method void OnReserveLogin()
+		if self._T["LoginTimerId"] ~= nil then
+			return
+		end
+
 		local callback = function()
 			self:OnRequestLogin()
+			self._T["LoginTimerId"] = nil
+
+			---@type UserRequestQueue
+			local loginRequestQueue = self._T["LoginRequestQueue"]
+
+			if loginRequestQueue == nil then
+				return
+			end
+
+			if loginRequestQueue:IsEmpty() == true then
+				return
+			end
+
+			self:OnReserveLogin()
 		end
-		_TimerService:SetTimerOnce(callback, _BackendLogic.LoginRequestTimeSec)
+
+		local timerId = _TimerService:SetTimerOnce(callback, self.LoginRequestTimeSec)
+		if timerId == 0 then
+			log_error("로그인 요청 타이머 설정에 실패했습니다.")
+
+			--- 3초 대기 후 재시도
+			_TimerService:SetTimerOnce(function()
+				self:OnReserveLogin()
+			end, 3.0)
+			return
+		end
+
+		self._T["LoginTimerId"] = timerId
+	end
+	
+	---@description "로그인 요청을 전송하며 응답받은 결과를 처리합니다."
+	@ExecSpace("ServerOnly")
+	method void OnRequestLogin()
+		---@type UserRequestQueue
+		local loginRequestQueue = self._T["LoginRequestQueue"]
+
+		if loginRequestQueue == nil then
+			log_error("LoginRequestQueue가 없습니다.")
+			return
+		end
+
+		if loginRequestQueue:IsEmpty() == true then
+			return
+		end
+
+		local requests = loginRequestQueue:PullRequests(self.MaxLoginRequestPerFlush)
+
+		local content = {
+			["uids"] = {},
+			["api"] = "login",
+			["body"] = {},
+		}
+
+		for _, r in pairs(requests) do
+			table.insert(content["uids"], r.uid)
+			table.insert(content["body"], r.uid)
+		end
+
+		local callback = function(response, request)
+			---@type table<string>
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
+
+			local success_uids = response["success_uids"]
+			local fail_uids = response["fail_uids"]
+
+			local passedUids = {}
+			
+			-- 성공한 uid들에 대해 데이터 저장 및 로그인 완료 전송
+			if success_uids ~= nil then
+				for i, data in ipairs(success_uids) do
+					---@type table
+					local user_entity = data["user_entity"]
+
+					---@type string
+					local token = data["token"]
+
+					if user_entity == nil or token == nil then
+						continue
+					end
+
+					---@type string
+					local uid = user_entity["uid"]
+
+					---@type table
+					local characters = user_entity["characters"]
+
+					if uid == nil or characters == nil then
+						continue
+					end
+
+					---@type UserDataStorage
+					local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
+					if userDataStorage == nil then
+						error("UserDataStorage를 찾을 수 없습니다: " .. uid)
+						continue
+					end
+
+					data["version"] = _DefLogic.Version
+					local saveData = _HttpService:JSONEncode(data)
+					userDataStorage:SetAsync("user", saveData, function(errorCode, key)
+						if errorCode ~= 0 then
+							log_error("유저 데이터 저장에 실패했습니다 [uid" .. uid .. "][errorcode:" .. errorCode .. "]")
+							local e = LoginEvent()
+							e.errorCode = _ErrorLogic.USER_DATA_STORAGE_WRITE_ERROR
+							_GameClientLogic:SendEventToLocalPlayer(e, uid)	
+							return
+						end
+
+						_UserLogic:AddUser(data)
+						_GameClientLogic:SendEventToLocalPlayer(LoginEvent(), uid)	
+					end)
+
+					passedUids[uid] = true
+				end
+			end
+
+			-- 실패한 uid들에 대해 오류 전송
+			if fail_uids ~= nil then
+				for i, data in ipairs(fail_uids) do
+					---@type string
+					local uid = data["uid"]
+
+					---@type string
+					local errorCode = data["error_code"]
+
+					if uid == nil or errorCode == nil then
+						continue
+					end
+
+					if passedUids[uid] == true then
+						continue
+					end
+
+					local e = LoginEvent()
+					e.errorCode = errorCode
+					_GameClientLogic:SendEventToLocalPlayer(e, uid)
+				end
+			end
+
+			-- 처리되지 않은 uid들에 대해 알 수 없는 오류 전송
+			for _, uid in pairs(uids) do
+				if passedUids[uid] == true then
+					continue
+				end
+
+				local e = LoginEvent()
+				e.errorCode = _ErrorLogic.LOGIN_UNKNOWN_ERROR
+				_GameClientLogic:SendEventToLocalPlayer(e, uid)
+			end
+		end
+
+		local errorCallback = function (request)
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
+
+			for _, uid in pairs(uids) do
+				local e = LoginEvent()
+				e.errorCode = _ErrorLogic.LOGIN_UNABLE
+				_GameClientLogic:SendEventToLocalPlayer(e, uid)
+			end
+		end
+
+		_BackendLogic:PushRequest(_BackendLogic:CreateRequest(content, callback, errorCallback))
 	end
 	
 end

@@ -9,7 +9,7 @@ script GameClientInputLogic extends Logic
 	end
 	
 	@EventSender("Service", "InputService")
-	handler HandleScreenTouchEventEvent(ScreenTouchEvent event)
+	handler HandleScreenTouchEvent(ScreenTouchEvent event)
 		if self._T["Pressed"] ~= nil then
 			_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
 		end

@@ -1,0 +1,55 @@
+---@description "유저가 처음으로 게임에 접속했을 때 실행되는 맵 컴포넌트 입니다."
+@Component
+script StartupMapComponent extends Component
+
+	---@description "유저가 로그인 맵에 진입합니다."
+	@ExecSpace("ServerOnly")
+	method void JoinLoginMap(string uid)
+		local loginMapName = "LoginMap"
+		local createMapName = loginMapName .. uid
+
+		local result = _DynamicMapService:CreateDynamicMap(loginMapName, createMapName)
+		if result ~= DynamicMapResultCode.Success then
+			if result ~= DynamicMapResultCode.DuplicateMapName then
+				local msg = "로그인 맵 생성에 실패했습니다. [uid:" .. uid .. "][mapName:" .. loginMapName .. "][errorCode:" .. tostring(result) .. "]"
+				_GameServerLogic:KickByServer(uid, msg, "WorldError")
+				return
+			end
+		end
+
+		_GameServerLogic:TeleportToMapForUser(uid, createMapName)
+	end
+
+	---@description "유저가 워프 기록에 따라 맵에 진입합니다."
+	@ExecSpace("ServerOnly")
+	method void JoinWarpMap(string uid, UserWarpRecord warpRecord)
+		_GameServerLogic:TeleportToMapForUser(uid, warpRecord.mapName)
+	end
+
+	---@description "유저의 상태에 따라 적절한 맵으로 진입을 처리합니다."
+	@ExecSpace("Server")
+	method void OnProcess(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		---@type UserWarpRecord
+		local warpRecord = _UserLogic.userWarpRecords[uid]
+		if warpRecord == nil then
+			_GameServerLogic:KickByServer(uid, "비정상적인 맵 진입 시도 감지", "RuleViolation")
+			return
+		end
+
+		if _UtilLogic:IsNilorEmptyString(warpRecord.mapName) == true then
+			self:JoinLoginMap(uid)
+		else
+			self:JoinWarpMap(uid, warpRecord)
+		end
+	end
+
+	@EventSender("LocalPlayer")
+	handler HandleMapEnterEvent(MapEnterEvent e)
+		self:OnProcess(_UserProxy:GetUid())
+	end
+
+end

@@ -99,7 +99,7 @@ script CharacterSelectionDeletePopup extends Component
 			self.Buffer:SetVisible(true)
 		end
 
-		_CharacterLogic:RequestDeleteCharacter(self._T["slot"])
+		_CharacterLogic:RequestDeleteCharacter(_UserProxy:GetUid(), self._T["slot"])
 	end
 
 	@ExecSpace("ClientOnly")

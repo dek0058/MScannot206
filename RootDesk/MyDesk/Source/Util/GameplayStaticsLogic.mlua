@@ -1,0 +1,21 @@
+@Logic
+script GameplayStaticsLogic extends Logic
+
+	method Component FindComponentInChildren(Entity parent, string componentType)
+		for _, child in pairs(parent.Children) do
+			---@type Component
+			local comp = child:GetComponent(componentType)
+			if comp ~= nil then
+				return comp
+			end
+		
+			comp = self:FindComponentInChildren(child, componentType)
+			if comp ~= nil then
+				return comp
+			end
+		end
+		
+		return nil
+	end
+
+end

@@ -1,0 +1,110 @@
+---@description "로그인 인트로를 관리하는 컴포넌트"
+@Component
+script LoginIntroComponent extends Component
+
+	---@description "상태 텍스트 엔티티"
+	readonly property Entity StateTxtEntity = nil
+
+	---@description "터치 엔티티"
+	readonly property Entity TouchEntity = nil
+
+	---@description "현재 상태"
+	@HideFromInspector()
+	property string state = ""
+
+	---@description "기본 상태"
+	@HideFromInspector()
+	readonly property string State_Default = "Default"
+
+	---@description "연결 중 상태"
+	@HideFromInspector()
+	readonly property string State_Connecting = "Connecting"
+
+	@ExecSpace("ClientOnly")
+	method void OnInitialize()
+		if self._T["Txt"] == nil then
+			self._T["Txt"] = {}			
+		end
+		self._T["Txt"][self.State_Default] = "화면을 터치해주세요."
+		self._T["Txt"][self.State_Connecting] = "서버에 연결 중입니다."
+	end
+
+	---@description "인트로를 설정합니다."
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		self.state = self.State_Default
+
+		self:OnUpdateState()
+	end
+
+	---@description "상태를 설정합니다."
+	---@param newState string "새로운 상태"
+	@ExecSpace("ClientOnly")
+	method void SetState(string newState)
+		if self.state == newState then
+			return
+		end
+		self.state = newState
+		self:OnUpdateState()
+	end
+
+	---@description "상태를 업데이트합니다."
+	@ExecSpace("ClientOnly")
+	method void OnUpdateState()
+		-- 텍스트 갱신
+		if self.StateTxtEntity ~= nil then
+			local textCom = self.StateTxtEntity.TextGUIRendererComponent
+			if textCom ~= nil then
+				---@type table<string, string>
+				local txts = self._T["Txt"]
+				if txts ~= nil then
+					local txt = txts[self.state]
+					if txt ~= nil then
+						textCom.Text = txt
+					end
+				end
+			end
+		end
+
+		if self.state == self.State_Default then
+			-- 터치 활성화
+			if self.TouchEntity ~= nil then
+				self.TouchEntity:SetEnable(true)
+			end
+
+			local filckerCom = self.StateTxtEntity.UIFlickerComponent
+			if filckerCom ~= nil then
+				filckerCom.Enable = true
+			end
+		else
+			-- 터치 비활성화
+			if self.TouchEntity ~= nil then
+				self.TouchEntity:SetEnable(false)
+			end
+
+			if self.StateTxtEntity ~= nil then
+				local filckerCom = self.StateTxtEntity.UIFlickerComponent
+				if filckerCom ~= nil then
+					filckerCom.Enable = false
+				end
+
+				local canvasGroupCom = self.StateTxtEntity.CanvasGroupComponent
+				if canvasGroupCom ~= nil then
+					canvasGroupCom.GroupAlpha = 1.0
+				end
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "2eeda442-daad-44cf-a19b-eee043a9b7f4")
+	handler HandleTouchEntityClickEvent(ButtonClickEvent e)
+		if self.state ~= self.State_Default then
+			return
+		end
+
+		self:SetState(self.State_Connecting)
+		_LoginLogic:RequestLogin(_UserProxy:GetUid())
+	end
+
+end

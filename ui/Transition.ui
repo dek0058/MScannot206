@@ -218,20 +218,20 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 999.999939,
-                "y": 1000.0
+                "x": 300.0,
+                "y": 300.0
               },
               "OffsetMin": {
-                "x": -999.999939,
-                "y": -1000.0
+                "x": -300.0,
+                "y": -300.0
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 3920.0,
-                "y": 3080.0
+                "x": 2520.0,
+                "y": 1680.0
               },
               "UIMode": 1,
               "UIVersion": 2,
@@ -254,20 +254,20 @@
             },
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "EndFrameIndex": 951,
+              "EndFrameIndex": 2147483647,
               "ImageRUID": {
                 "DataId": ""
               },
               "MaterialId": "",
               "OverrideSorting": false,
-              "PlayRate": 12.2,
+              "PlayRate": 1.0,
               "Color": {
                 "r": 0.0,
                 "g": 0.0,
                 "b": 0.0,
                 "a": 1.0
               },
-              "FrameColumn": 1021,
+              "FrameColumn": 1,
               "Enable": true
             }
           ],

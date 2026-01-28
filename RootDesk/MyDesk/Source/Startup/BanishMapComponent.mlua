@@ -1,0 +1,9 @@
+@Component
+script BanishMapComponent extends Component
+
+	@EventSender("LocalPlayer")
+	handler HandleEvent(MapEnterEvent event)
+		_GameServerLogic:Kick(_UserProxy:GetUid(), "추방당하였습니다.", "WorldContent")
+	end
+
+end

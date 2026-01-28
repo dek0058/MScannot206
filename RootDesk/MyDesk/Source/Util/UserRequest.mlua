@@ -1,0 +1,8 @@
+@Struct
+script UserRequest
+
+	property string uid = ""
+
+	property table request = {}
+
+end

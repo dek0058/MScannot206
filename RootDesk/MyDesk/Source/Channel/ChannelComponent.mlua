@@ -6,9 +6,6 @@ script ChannelComponent extends Component
 	@HideFromInspector()
 	property integer channelCount = 0
 
-	@HideFromInspector()
-	property integer myChannelIndex = 0
-
 	property table<Channel> channels = {}
 
 	property table channelHandlers = {}
@@ -37,7 +34,7 @@ script ChannelComponent extends Component
 			child.Enable = false			
 		end
 		
-		_ChannelLogic:FetchChannels()
+		_ChannelLogic:FetchChannels(_UserProxy:GetUid())
 	end
 
 	@ExecSpace("ClientOnly")
@@ -79,7 +76,7 @@ script ChannelComponent extends Component
 				return
 			end
 
-			_GameServerLogic:WrapToWorldInstance(channel.Id)
+			_GameServerLogic:WrapToWorldInstance(_UserProxy:GetUid(), channel.Id)
 		end
 
 		local widgetCount = #self.LayoutEntity.Children
@@ -119,7 +116,7 @@ script ChannelComponent extends Component
 			channelCom:Setup(channel)
 
 			-- 내 채널은 선택 불가 처리
-			if channel.Index == self.myChannelIndex then
+			if channel.Id == _WorldInstanceService.WorldInstanceId then
 				channelCom:Unavailable()
 			end
 		end
@@ -146,9 +143,8 @@ script ChannelComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleFetchChannelEvent(FetchChannelEvent e)
+	handler HandleFetchChannelsEvent(FetchChannelsEvent e)
 		self.channels = e.channels
-		self.myChannelIndex = e.myChannelIndex
 		self.channelCount = e.channelCount
 		self:OnFetchChannel()
 	end

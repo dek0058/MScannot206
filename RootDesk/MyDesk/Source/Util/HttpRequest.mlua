@@ -1,0 +1,12 @@
+@Struct
+script HttpRequest
+
+	property table headers = {}
+
+	property table content = {}
+
+	property any callback = nil
+
+	property any errorCallback = nil
+
+end

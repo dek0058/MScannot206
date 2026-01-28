@@ -1,4 +1,8 @@
+---@description "로그인 이벤트입니다."
 @Event
 script LoginEvent extends EventType
+
+	---@description "에러 코드"
+	property string errorCode = ""
 
 end

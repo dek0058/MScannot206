@@ -87,7 +87,7 @@ script LoginLayerComponent extends Component
 			self.LoginBuffer:SetVisible(true)
 		end
 
-		_LoginLogic:RequestLogin()
+		_LoginLogic:RequestLogin(_UserProxy:GetUid())
 	end
 	
 end

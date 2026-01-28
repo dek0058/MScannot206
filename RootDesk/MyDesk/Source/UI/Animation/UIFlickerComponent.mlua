@@ -1,0 +1,62 @@
+@Component
+script UIFlickerComponent extends Component
+	
+	---@description "깜빡이는 속도"
+	property number Speed = 1.0
+	
+	---@description "불 켜지는 지속 시간"
+	property number PowerDuration = 0.5
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local canvasGroupCom = self.Entity.CanvasGroupComponent
+		if canvasGroupCom == nil then
+			canvasGroupCom = self.Entity:AddComponent(CanvasGroupComponent)
+		end
+		
+		canvasGroupCom.Interactable = false
+		canvasGroupCom.BlocksRaycasts = false
+		
+		canvasGroupCom.GroupAlpha = 1.0
+		
+		self._T["Alpha"] = 1.0
+		self._T["Duration"] = 0.0
+		self._T["PowerOn"] = false
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		local canvasGroupCom = self.Entity.CanvasGroupComponent
+		if canvasGroupCom == nil then
+			return
+		end
+		
+		local alpha = self._T["Alpha"]
+		local powerOn = self._T["PowerOn"]
+		
+		local changeAmount = self.Speed * delta
+		
+		if powerOn == true then
+			alpha += changeAmount
+			if alpha >= 1.0 then
+				alpha = 1.0
+				if self._T["Duration"] < self.PowerDuration then
+					self._T["Duration"] += delta
+				else
+					self._T["Duration"] = 0.0
+					self._T["PowerOn"] = false
+				end
+			end
+		else
+			alpha -= changeAmount
+			if alpha <= 0.0 then
+				alpha = 0.0
+				self._T["PowerOn"] = true
+			end
+		end
+		
+		self._T["Alpha"] = alpha
+		canvasGroupCom.GroupAlpha = alpha
+	end
+	
+end

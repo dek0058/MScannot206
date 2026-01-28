@@ -1,21 +1,19 @@
 @Struct
 script Channel
 	
+	---@description "채널 인덱스"
 	property integer Index = 0
+
+	---@description "채널 고유 ID"
 	property string Id = ""
+
+	---@description "채널 현재 사용자 수"
 	property integer CurrentUserCount = 0
+
+	---@description "채널 최대 사용자 수"
 	property integer MaxUserCount = 0
 
-	property boolean unavailable = false
-	
-	method Channel Copy()
-		local newChannel = Channel()
-		newChannel.Index = self.Index
-		newChannel.Id = self.Id
-		newChannel.CurrentUserCount = self.CurrentUserCount
-		newChannel.MaxUserCount = self.MaxUserCount
-		newChannel.unavailable = self.unavailable
-		return newChannel
-	end
+	---@description "채널 사용 불가 여부"
+	property boolean Unavailable = false
 
 end

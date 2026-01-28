@@ -1,6 +1,4 @@
 @Event
 script MapEnterEvent extends EventType
 
-	property boolean needLogin = true
-
 end

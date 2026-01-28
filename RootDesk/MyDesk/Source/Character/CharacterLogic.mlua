@@ -7,6 +7,12 @@ script CharacterLogic extends Logic
 	property any deleteCharacterRequest = BatchRequest()
 	property boolean isDoingDeleteCharacter = false
 
+	---@description "캐릭터 생성 요청 대기 시간"
+	readonly property integer CreateCharacterRequestTimeSec = 3
+
+	---@description "캐릭터 삭제 요청 대기 시간"
+	readonly property integer DeleteCharacterRequestTimeSec = 3
+	
 	@ExecSpace("ServerOnly")
 	method string GetCharacterKey(integer slot)
 		return "character_" .. tostring(slot)
@@ -39,8 +45,11 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("Server")
-	method void LoadCharacters()
-		local uid = senderUserId
+	method void LoadCharacters(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
 		if _UserLogic.users[uid] == nil then
 			log("로드하려는 사용자를 찾을 수 없습니다: " .. uid)
 			return
@@ -139,8 +148,10 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("Server")
-	method void RequestCreateCharacter(CreateCharacterParams params)
-		local uid = senderUserId
+	method void RequestCreateCharacter(string uid, CreateCharacterParams params)
+		if uid ~= senderUserId then
+			return
+		end
 		
 		if params == nil then
 			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
@@ -224,7 +235,7 @@ script CharacterLogic extends Logic
 		if self.createCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
 			local diff = responseTime - requestTime
-			if diff >= _BackendLogic.CreateCharacterRequestTimeSec then
+			if diff >= self.CreateCharacterRequestTimeSec then
 				self:OnRequestCreateCharacter_Doing()
 			end
 		end
@@ -299,8 +310,10 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("Server")
-	method void RequestDeleteCharacter(integer slot)
-		local uid = senderUserId
+	method void RequestDeleteCharacter(string uid, integer slot)
+		if uid ~= senderUserId then
+			return
+		end
 		
 		if slot <= 0 or slot > _DefLogic.MaxCharacterSlot then
 			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_INVALID_ERROR, uid)
@@ -380,7 +393,7 @@ script CharacterLogic extends Logic
 		if self.deleteCharacterRequest:HasPendingRequests() == true then
 			local responseTime = _UtilLogic.ServerElapsedSeconds
 			local diff = responseTime - requestTime
-			if diff >= _BackendLogic.DeleteCharacterRequestTimeSec then
+			if diff >= self.DeleteCharacterRequestTimeSec then
 				self:OnRequestDeleteCharacter_Doing()
 			end
 		end
@@ -497,7 +510,7 @@ script CharacterLogic extends Logic
 		local callback = function()
 			self:OnRequestCreateCharacter()
 		end
-		_TimerService:SetTimerOnce(callback, _BackendLogic.CreateCharacterRequestTimeSec)
+		_TimerService:SetTimerOnce(callback, self.CreateCharacterRequestTimeSec)
 	end
 
 	@ExecSpace("ServerOnly")
@@ -512,7 +525,7 @@ script CharacterLogic extends Logic
 		local callback = function()
 			self:OnRequestDeleteCharacter()
 		end
-		_TimerService:SetTimerOnce(callback, _BackendLogic.DeleteCharacterRequestTimeSec)
+		_TimerService:SetTimerOnce(callback, self.DeleteCharacterRequestTimeSec)
 	end
 
 end

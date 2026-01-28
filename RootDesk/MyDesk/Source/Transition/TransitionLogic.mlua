@@ -1,8 +1,8 @@
 @Logic
 script TransitionLogic extends Logic
-	
-	-- Transtion List
-	-- * Default
+
+	---@description "기본 Transition 태그"
+	property string Default = "Default"
 	
 	@ExecSpace("Client")
 	method void Clear()
@@ -78,7 +78,7 @@ script TransitionLogic extends Logic
 	end
 	
 	@ExecSpace("Client")
-	method void Push(string tag)
+	method Entity Push(string tag)
 		if self._T["transition"] == nil then
 			self._T["transition"] = {}
 		end
@@ -89,7 +89,7 @@ script TransitionLogic extends Logic
 
 		if self._T["transitionIndexing"][tag] ~= nil then
 			log("이미 진행 중인 Transition가 있습니다: " .. tag)
-			return
+			return nil
 		end
 		
 		---@type Entity
@@ -98,7 +98,7 @@ script TransitionLogic extends Logic
 			local parent = _GameClientUILogic:GetTransition()
 			if parent == nil then
 				log_warning("Transition Group을 찾을 수 없습니다.")
-				return
+				return nil
 			end
 			
 			for _, child in ipairs(parent.Children) do
@@ -123,7 +123,7 @@ script TransitionLogic extends Logic
 
 			if transition == nil then
 				log_warning("Transition을 찾을 수 없습니다: " .. tag)
-				return
+				return nil
 			end
 		end
 		
@@ -132,6 +132,8 @@ script TransitionLogic extends Logic
 		
 		table.insert(self._T["transition"], transition)
 		self._T["transitionIndexing"][tag] = 1
+
+		return transition
 	end
 	
 	@ExecSpace("Client")
@@ -174,6 +176,6 @@ script TransitionLogic extends Logic
 	@EventSender("Service", "UserService")
 	handler HandleUserEnterEvent(UserEnterEvent e)
 		self:Clear(e.UserId)
-		self:Force("Default", e.UserId)
+		self:Force(self.Default, e.UserId)
 	end
 end

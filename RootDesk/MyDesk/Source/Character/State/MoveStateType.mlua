@@ -1,0 +1,8 @@
+@State
+script MoveStateType extends StateType
+
+	method void OnEnter()
+		log("Enter Move State")
+	end
+
+end

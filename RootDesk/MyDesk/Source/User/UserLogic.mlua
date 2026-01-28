@@ -53,11 +53,6 @@ script UserLogic extends Logic
 		if warpRecord ~= nil then
 			record.oldWorldId = warpRecord.PreviousWorldId
 			record:FromJson(warpRecord.Data)
-
-			-- 맵 진입 대기 플래그 설정
-			if _UtilLogic:IsNilorEmptyString(warpRecord.Data) == false then
-				record.waitedForEnterMap = true
-			end
 		end
 
 		if record.loggedin == true then

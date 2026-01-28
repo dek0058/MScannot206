@@ -38,7 +38,7 @@ script CharacterSelectionLayerComponent extends Component
 		local err = self:Setup()
 		if err:IsError() == true then
 			_ErrorLogic:PrintErrors(err:ToError())
-			_GameServerLogic:Kick("캐릭터 선택 레이어 설정 중 오류 발생", KickReason.WorldError)
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "캐릭터 선택 레이어 설정 중 오류 발생", "WorldError")
 		end
 	end
 
@@ -111,7 +111,7 @@ script CharacterSelectionLayerComponent extends Component
 			end
 		end
 		
-		_CharacterLogic:LoadCharacters()
+		_CharacterLogic:LoadCharacters(_UserProxy:GetUid())
 	end
 
 	@ExecSpace("ClientOnly")

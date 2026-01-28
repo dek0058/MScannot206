@@ -3,7 +3,6 @@ script UserWarpRecord
 
 	property string worldId = ""
 	property string oldWorldId = ""
-	property boolean waitedForEnterMap = false
 
 	-- json
 	property boolean loggedin = false

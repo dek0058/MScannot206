@@ -1,11 +1,23 @@
+---@description "문자열 관련 유틸리티"
 @Logic
 script StringLogic extends Logic
 
+	---@description "문자열에서 특정 접두사를 가진 태그의 값을 반환합니다."
 	method string GetTag(string fullPath, string prefix)
 		local path = _UtilLogic:Split(fullPath, ".")
 		for i = 1, #path do
 			if path[i] == prefix and i < #path then
 				return path[i + 1]
+			end
+		end
+		return ""
+	end
+
+	---@description "문자열에서 특정 태그를 찾습니다. 만약 찾지 못하였다면 빈 문자열을 반환합니다."
+	method string FindTag(table tags, string findTag)
+		for i = 1, #tags do
+			if tags[i] == findTag then
+				return tags[i]
 			end
 		end
 		return ""

@@ -1,134 +1,236 @@
+---@description "플레이어 Entity를 제어하는 컴포넌트 입니다."
 @Component
 script UserLocalPlayerComponent extends Component
 
-	method void OnBeginPlay()
-		-- 기본 컴포넌트 캐싱
-		self._T["TransformComponent"] = self.Entity:GetComponent(TransformComponent)
-		self._T["MovementComponent"] = self.Entity:GetComponent(MovementComponent)
-		self._T["CameraComponent"] = self.Entity:GetComponent(CameraComponent)
-		self._T["SideviewbodyComponent"] = self.Entity:GetComponent(SideviewbodyComponent)
-		
-		-- Collision
-		self._T["RigidbodyComponent"] = self.Entity:GetComponent(RigidbodyComponent)
-		self._T["KinematicbodyComponent"] = self.Entity:GetComponent(KinematicbodyComponent)
-		self._T["TriggerComponent"] = self.Entity:GetComponent(TriggerComponent)
-		
-		-- Rendering & Animation
-		self._T["AvatarRendererComponent"] = self.Entity:GetComponent(AvatarRendererComponent)
-		self._T["CostumeManagerComponent"] = self.Entity:GetComponent(CostumeManagerComponent)
-		self._T["AvatarStateAnimationComponent"] = self.Entity:GetComponent(AvatarStateAnimationComponent)
-		
-		-- Hit
-		self._T["HitComponent"] = self.Entity:GetComponent(HitComponent)
-		self._T["HitEffectSpawnerComponent"] = self.Entity:GetComponent(HitEffectSpawnerComponent)
-		self._T["DamageSkinSettingComponent"] = self.Entity:GetComponent(DamageSkinSettingComponent)
-		
-		-- Player
-		self._T["PlayerControllerComponent"] = self.Entity:GetComponent(PlayerControllerComponent)
-		self._T["PlayerComponent"] = self.Entity:GetComponent(PlayerComponent)
-		self._T["StateComponent"] = self.Entity:GetComponent(StateComponent)
-		self._T["InventoryComponent"] = self.Entity:GetComponent(InventoryComponent)
-		
-		-- UI
-		self._T["NameTagComponent"] = self.Entity:GetComponent(NameTagComponent)
-		self._T["ChatBalloonComponent"] = self.Entity:GetComponent(ChatBalloonComponent)
-
-		if self:IsClient() == true then
-			_UserProxy:SetEnableCharacter(false)
-		end
-	end
-
 	method TransformComponent GetTransformComponent()
-		return self._T["TransformComponent"]
+		return self.Entity.TransformComponent
 	end
 
 	method MovementComponent GetMovementComponent()
-		return self._T["MovementComponent"]
+		return self.Entity.MovementComponent
 	end
 
 	method CameraComponent GetCameraComponent()
-		return self._T["CameraComponent"]
+		return self.Entity.CameraComponent
 	end
 
 	method SideviewbodyComponent GetSideviewbodyComponent()
-		return self._T["SideviewbodyComponent"]
+		return self.Entity.SideviewbodyComponent
 	end
 
 	method RigidbodyComponent GetRigidbodyComponent()
-		return self._T["RigidbodyComponent"]
+		return self.Entity.RigidbodyComponent
 	end
 
 	method KinematicbodyComponent GetKinematicbodyComponent()
-		return self._T["KinematicbodyComponent"]
+		return self.Entity.KinematicbodyComponent
 	end
 
 	method TriggerComponent GetTriggerComponent()
-		return self._T["TriggerComponent"]
+		return self.Entity.TriggerComponent
 	end
 
 	method AvatarRendererComponent GetAvatarRendererComponent()
-		return self._T["AvatarRendererComponent"]
+		return self.Entity.AvatarRendererComponent
 	end
 
 	method CostumeManagerComponent GetCostumeManagerComponent()
-		return self._T["CostumeManagerComponent"]
+		return self.Entity.CostumeManagerComponent
 	end
 
 	method AvatarStateAnimationComponent GetAvatarStateAnimationComponent()
-		return self._T["AvatarStateAnimationComponent"]
+		return self.Entity.AvatarStateAnimationComponent
 	end
 
 	method HitComponent GetHitComponent()
-		return self._T["HitComponent"]
+		return self.Entity.HitComponent
 	end
 
 	method HitEffectSpawnerComponent GetHitEffectSpawnerComponent()
-		return self._T["HitEffectSpawnerComponent"]
+		return self.Entity.HitEffectSpawnerComponent
 	end
 
 	method DamageSkinSettingComponent GetDamageSkinSettingComponent()
-		return self._T["DamageSkinSettingComponent"]
+		return self.Entity.DamageSkinSettingComponent
 	end
 
 	method PlayerControllerComponent GetPlayerControllerComponent()
-		return self._T["PlayerControllerComponent"]
+		return self.Entity.PlayerControllerComponent
 	end
 
 	method PlayerComponent GetPlayerComponent()
-		return self._T["PlayerComponent"]
+		return self.Entity.PlayerComponent
 	end
 
 	method StateComponent GetStateComponent()
-		return self._T["StateComponent"]
+		return self.Entity.StateComponent
 	end
 
 	method InventoryComponent GetInventoryComponent()
-		return self._T["InventoryComponent"]
+		return self.Entity.InventoryComponent
 	end
 
 	method NameTagComponent GetNameTagComponent()
-		return self._T["NameTagComponent"]
+		return self.Entity.NameTagComponent
 	end
 
 	method ChatBalloonComponent GetChatBalloonComponent()
-		return self._T["ChatBalloonComponent"]
+		return self.Entity.ChatBalloonComponent
 	end
 
+	---@description "플레이어의 캐릭터 활성화 상태를 설정합니다."
+	---@param enable boolean "활성화 여부"
+	@ExecSpace("ServerOnly")
+	method ErrorType SetEnable(boolean enable)
+		local err = ErrorType()
+
+		local movementComponent = self:GetMovementComponent()
+		if movementComponent == nil then
+			err:AddError("MovementComponent를 찾을 수 없습니다")
+		end
+
+		local sideviewBodyCom = self:GetSideviewbodyComponent()
+		if sideviewBodyCom == nil then
+			err:AddError("SideviewbodyComponent를 찾을 수 없습니다")
+		end
+
+		local avatarRendererCom = self:GetAvatarRendererComponent()
+		if avatarRendererCom == nil then
+			err:AddError("AvatarRendererComponent를 찾을 수 없습니다")
+		end
+
+		local nameTagCom = self:GetNameTagComponent()
+		if nameTagCom == nil then
+			err:AddError("NameTagComponent를 찾을 수 없습니다")
+		end
+
+		local triggerCom = self:GetTriggerComponent()
+		if triggerCom == nil then
+			err:AddError("TriggerComponent를 찾을 수 없습니다")
+		end
+
+		local hitCom = self:GetHitComponent()
+		if hitCom == nil then
+			err:AddError("HitComponent를 찾을 수 없습니다")
+		end
+
+		local kinematicbodyCom = self:GetKinematicbodyComponent()
+		if kinematicbodyCom == nil then
+			err:AddError("KinematicbodyComponent를 찾을 수 없습니다")
+		end
+
+		local rigdbodyCom = self:GetRigidbodyComponent()
+		if rigdbodyCom == nil then
+			err:AddError("RigidbodyComponent를 찾을 수 없습니다")
+		end
+
+		if err:IsError() == true then
+			return err
+		end
+
+		movementComponent.Enable = enable
+		sideviewBodyCom.Enable = enable
+		avatarRendererCom.Enable = enable
+		nameTagCom.Enable = enable
+		triggerCom.Enable = enable
+		hitCom.Enable = enable
+		kinematicbodyCom.Enable = enable
+		rigdbodyCom.Enable = enable
+
+		return err
+	end
+
+	---@description "플레이어의 위치를 설정합니다."
+	---@param location Vector2 "이동할 위치"
+	@ExecSpace("ServerOnly")
+	method ErrorType SetLocation(Vector2 location)
+		local err = ErrorType()
+		local rigidbodyCom = self:GetRigidbodyComponent()
+		if rigidbodyCom == nil then
+			err:AddError("RigidbodyComponent를 찾을 수 없습니다")
+			return err
+		end
+
+		rigidbodyCom:SetPosition(location)
+		return err
+	end
+
+	---@description "플레이어의 바라보는 방향을 설정합니다."
+	---@param isFaceRight boolean "오른쪽을 바라보는지 여부"
+	@ExecSpace("ServerOnly")
+	method ErrorType SetFaceRight(boolean isFaceRight)
+		local err = ErrorType()
+		local playerControllerCom = self:GetPlayerControllerComponent()
+		if playerControllerCom == nil then
+			err:AddError("PlayerControllerComponent를 찾을 수 없습니다")
+			return err
+		end
+
+		if isFaceRight == true then
+			playerControllerCom.LookDirectionX = 1.0
+		else
+			playerControllerCom.LookDirectionX = -1.0
+		end
+
+		return err
+	end
+
+	---@description "플레이어의 입력 활성화 상태를 설정합니다."
+	---@param enable boolean "활성화 여부"
+	@ExecSpace("ServerOnly")
+	method ErrorType SetInputEnable(boolean enable)
+		local err = ErrorType()
+		local playerControllerCom = self:GetPlayerControllerComponent()
+		if playerControllerCom == nil then
+			err:AddError("PlayerControllerComponent를 찾을 수 없습니다")
+			return err
+		end
+
+		playerControllerCom.Enable = enable
+		return err
+	end
+
+	---@description "플레이어의 맵 입장 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	method void OnMapEnter(Entity enteredMap)
+		local playerCom = self:GetPlayerComponent()
+		if playerCom == nil then
+			log_warning("PlayerComponent를 찾을 수 없습니다.")
+			return
+		end
+
 		---@type TagComponent
 		local tagCom = enteredMap:GetComponent(TagComponent)
 		local tag = ""
 		if tagCom ~= nil then
 			tag = tagCom.Tags[1]
 		end
-
-		_GameServerLogic:EnterMap(enteredMap.Name)
-		_GameClientUILogic:EnterMap(tag)
+		self:EnterMap(enteredMap.Name, tag)
 	end
 
+	---@description "플레이어의 맵 퇴장 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	method void OnMapLeave(Entity leftMap)
+	end
+
+	---@description "플레이어가 맵에 입장함을 서버에게 알립니다."
+	@ExecSpace("ClientOnly")
+	method void EnterMap(string mapName, string tag)
+		if _GameClientLogic:IsInit() == false then
+			_TimerService:SetTimerOnce(function ()
+				self:EnterMap(mapName, tag)
+			end, 1.0)
+			return
+		end
+
+		local playerCom = self:GetPlayerComponent()
+		if playerCom == nil then
+			log_warning("PlayerComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		_GameServerLogic:EnterMap(playerCom.UserId, mapName)
+		_GameClientUILogic:EnterMap(tag)
 	end
 
 end
