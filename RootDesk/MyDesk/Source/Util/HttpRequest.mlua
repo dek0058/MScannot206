@@ -1,6 +1,8 @@
 @Struct
 script HttpRequest
 
+	property string api = ""
+
 	property table headers = {}
 
 	property table content = {}

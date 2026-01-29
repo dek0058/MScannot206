@@ -26,6 +26,7 @@ script BackendLogic extends Logic
 		
 		local url = "http://localhost:8080"
 		-- not committed code
+		-- 백엔드 서버 URL 노출이 되지 않도록 관리 필요함
 		if Environment:IsPublishedPlay() == true then
 			url = ""
 			if _UtilLogic:IsNilorEmptyString(url) == true then
@@ -82,8 +83,9 @@ script BackendLogic extends Logic
 	
 	---@description "백엔드 서버에 보낼 HTTP 요청을 생성합니다."
 	@ExecSpace("ServerOnly")
-	method HttpRequest CreateRequest(table<string, any> content, any callback, any errorCallback)
+	method HttpRequest CreateRequest(string api, table<string, any> content, any callback, any errorCallback)
 		local request = HttpRequest()
+		request.api = api
 		request.content = content
 		request.callback = callback
 		request.errorCallback = errorCallback
@@ -124,9 +126,11 @@ script BackendLogic extends Logic
 
 		---@type table<string, string>
 		local headers = self:GetHeaders()
-		local contents = {}
+		local contents = {
+			["dto"] = {}
+		}
 
-		---@type table<integer, HttpRequest>
+		---@type table<string, HttpRequest>
 		local sendRequests = {}
 
 		for i = 1, self.MaxRequestPerFlush do
@@ -153,8 +157,9 @@ script BackendLogic extends Logic
 				body = {}
 			end
 
-			sendRequests[i] = request
-			contents[i] = {
+			local key = request.api .. "?" .. tostring(i)
+			sendRequests[key] = request
+			contents[i]["dto"] = {
 				["api"] = api,
 				["body"] = _HttpService:JSONEncode(body)
 			}
@@ -175,13 +180,32 @@ script BackendLogic extends Logic
 			return
 		end
 
+		---@type table<string, any>
+		local passedApiKey = {}
+
 		local datas = _HttpService:JSONDecode(response)
 		for i, data in pairs(datas) do
+			local dt = data["dto"]
+			if dt == nil then
+				continue
+			end
+
+			if dt["api"] == nil then
+				continue
+			end
+
+			local key = dt["api"]
+			if _UtilLogic:IsNilorEmptyString(key) == true then
+				continue
+			end
+
 			---@type HttpRequest
-			local request = sendRequests[i]
+			local request = sendRequests[key]
 			if request == nil then
 				continue
 			end
+
+			passedApiKey[key] = true
 
 			---@type string
 			local body = data["body"]
@@ -194,8 +218,16 @@ script BackendLogic extends Logic
 				request.callback(responseData, request.content)
 			end
 		end
+
+		-- 처리되지 않은 요청에 대해 에러 콜백 호출
+		for key, request in pairs(sendRequests) do
+			if passedApiKey[key] == nil then
+				self:SendError(request)
+			end
+		end
 	end
 
+	---@description "백엔드 서버 요청에 대한 에러 콜백을 호출합니다."
 	@ExecSpace("ServerOnly")
 	method void SendError(HttpRequest request)
 		if request == nil then

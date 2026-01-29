@@ -90,6 +90,11 @@ script LoginLogic extends Logic
 			return
 		end
 
+		_GameClientLogic:SendEventToLocalPlayer(LoginEvent(), uid)
+		if true then
+			return
+		end
+
 		---@type UserRequestQueue
 		local loginRequestQueue = self._T["LoginRequestQueue"]
 		if loginRequestQueue == nil then
@@ -170,7 +175,6 @@ script LoginLogic extends Logic
 
 		local content = {
 			["uids"] = {},
-			["api"] = "login",
 			["body"] = {},
 		}
 
@@ -288,7 +292,7 @@ script LoginLogic extends Logic
 			end
 		end
 
-		_BackendLogic:PushRequest(_BackendLogic:CreateRequest(content, callback, errorCallback))
+		_BackendLogic:PushRequest(_BackendLogic:CreateRequest("login", content, callback, errorCallback))
 	end
 	
 end

@@ -7,7 +7,7 @@
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -68,8 +68,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.03000021,
@@ -100,8 +99,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.27999973,
@@ -132,8 +130,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -164,8 +161,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.899999142,
@@ -196,8 +192,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -228,8 +223,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -260,8 +254,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -292,8 +285,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -324,8 +316,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -356,8 +347,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -388,8 +378,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -420,8 +409,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -452,8 +440,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000006,
@@ -484,8 +471,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000015,
@@ -516,8 +502,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000015,
@@ -548,8 +533,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.28000069,
@@ -580,8 +564,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.86,
@@ -612,8 +595,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6,
@@ -644,8 +626,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -676,8 +657,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -708,8 +688,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -740,8 +719,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.600000143,
@@ -772,8 +750,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.86,
@@ -804,8 +781,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6,
@@ -836,8 +812,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -868,8 +843,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -900,8 +874,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -932,8 +905,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.600000143,
@@ -964,8 +936,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   }
                 ],
                 "2": [
@@ -989,17 +960,16 @@
                     "Id": 3,
                     "StartPoint": {
                       "x": 0.9699999,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 2.25,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000001,
@@ -1020,18 +990,17 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 4,
                     "StartPoint": {
-                      "x": 2.25,
-                      "y": -0.64
+                      "x": 2.24999976,
+                      "y": -0.6400001
                     },
                     "EndPoint": {
-                      "x": 3.15,
-                      "y": -0.64
+                      "x": 3.14999986,
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.899999857,
@@ -1053,17 +1022,16 @@
                     "Id": 5,
                     "StartPoint": {
                       "x": 3.14999986,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 4.04999971,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1085,20 +1053,19 @@
                     "Id": 6,
                     "StartPoint": {
                       "x": 4.05,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 4.95,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 0.8999996,
+                    "Length": 0.9000001,
                     "NextFootholdId": 8,
                     "PreviousFootholdId": 6,
                     "groupID": 4,
@@ -1116,8 +1083,8 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 7,
                     "StartPoint": {
-                      "x": 4.95000029,
-                      "y": -0.64
+                      "x": 4.95,
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 5.85,
@@ -1125,9 +1092,8 @@
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": -1.32454829E-07
-                    },
-                    "IsDynamic": false
+                      "y": 0.0
+                    }
                   },
                   {
                     "Length": 1.081665,
@@ -1158,8 +1124,7 @@
                     "Variance": {
                       "x": 0.8320502,
                       "y": -0.554700255
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000006,
@@ -1190,8 +1155,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": -1.32454687E-07
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.08166456,
@@ -1222,8 +1186,7 @@
                     "Variance": {
                       "x": 0.832050145,
                       "y": -0.554700553
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000006,
@@ -1254,8 +1217,7 @@
                     "Variance": {
                       "x": 1.0,
                       "y": -1.32454687E-07
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.081665,
@@ -1286,8 +1248,7 @@
                     "Variance": {
                       "x": 0.8320502,
                       "y": -0.554700255
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1313,13 +1274,12 @@
                     },
                     "EndPoint": {
                       "x": 11.249999,
-                      "y": -2.4400003
+                      "y": -2.44
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": -2.64909659E-07
-                    },
-                    "IsDynamic": false
+                      "y": 0.0
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1340,18 +1300,17 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 14,
                     "StartPoint": {
-                      "x": 11.249999,
-                      "y": -2.4400003
+                      "x": 11.25,
+                      "y": -2.44
                     },
                     "EndPoint": {
-                      "x": 12.1499987,
-                      "y": -2.4400003
+                      "x": 12.15,
+                      "y": -2.44
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1373,17 +1332,16 @@
                     "Id": 15,
                     "StartPoint": {
                       "x": 12.15,
-                      "y": -2.4400003
+                      "y": -2.44
                     },
                     "EndPoint": {
                       "x": 13.0499992,
-                      "y": -2.4400003
+                      "y": -2.44
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1404,18 +1362,17 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 16,
                     "StartPoint": {
-                      "x": 13.0499992,
-                      "y": -2.4400003
+                      "x": 13.05,
+                      "y": -2.44
                     },
                     "EndPoint": {
-                      "x": 13.9499989,
-                      "y": -2.4400003
+                      "x": 13.95,
+                      "y": -2.44
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1437,7 +1394,7 @@
                     "Id": 17,
                     "StartPoint": {
                       "x": 13.95,
-                      "y": -2.4400003
+                      "y": -2.44
                     },
                     "EndPoint": {
                       "x": 14.8499994,
@@ -1445,9 +1402,8 @@
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": 2.64909659E-07
-                    },
-                    "IsDynamic": false
+                      "y": 0.0
+                    }
                   },
                   {
                     "Length": 1.081665,
@@ -1478,11 +1434,10 @@
                     "Variance": {
                       "x": 0.8320502,
                       "y": 0.554700255
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 0.899998665,
+                    "Length": 0.9000006,
                     "NextFootholdId": 20,
                     "PreviousFootholdId": 18,
                     "groupID": 4,
@@ -1504,14 +1459,13 @@
                       "y": -1.84000015
                     },
                     "EndPoint": {
-                      "x": 16.6499977,
+                      "x": 16.65,
                       "y": -1.84
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": 1.32454957E-07
-                    },
-                    "IsDynamic": false
+                      "y": 1.32454687E-07
+                    }
                   },
                   {
                     "Length": 1.08166659,
@@ -1532,21 +1486,20 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 20,
                     "StartPoint": {
-                      "x": 16.6499977,
+                      "x": 16.65,
                       "y": -1.84
                     },
                     "EndPoint": {
-                      "x": 17.55,
+                      "x": 17.5500011,
                       "y": -1.24000013
                     },
                     "Variance": {
                       "x": 0.8320508,
                       "y": 0.5546995
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 0.8999996,
+                    "Length": 0.8999977,
                     "NextFootholdId": 22,
                     "PreviousFootholdId": 20,
                     "groupID": 4,
@@ -1564,7 +1517,7 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 21,
                     "StartPoint": {
-                      "x": 17.55,
+                      "x": 17.5500011,
                       "y": -1.24000013
                     },
                     "EndPoint": {
@@ -1573,9 +1526,8 @@
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": 1.32454829E-07
-                    },
-                    "IsDynamic": false
+                      "y": 1.324551E-07
+                    }
                   },
                   {
                     "Length": 1.08166659,
@@ -1606,8 +1558,7 @@
                     "Variance": {
                       "x": 0.8320508,
                       "y": 0.5546995
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.8999996,
@@ -1633,13 +1584,12 @@
                     },
                     "EndPoint": {
                       "x": 20.25,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
-                      "y": 1.32454829E-07
-                    },
-                    "IsDynamic": false
+                      "y": 0.0
+                    }
                   },
                   {
                     "Length": 0.9000015,
@@ -1661,17 +1611,16 @@
                     "Id": 24,
                     "StartPoint": {
                       "x": 20.2499981,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 21.15,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.9000015,
@@ -1693,20 +1642,19 @@
                     "Id": 25,
                     "StartPoint": {
                       "x": 21.1499977,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 22.05,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 1.28000069,
+                    "Length": 1.27999878,
                     "NextFootholdId": 37,
                     "PreviousFootholdId": 25,
                     "groupID": 4,
@@ -1724,18 +1672,17 @@
                     "OwnerId": "b30cd2e1-788a-4bf4-a4ea-6bfb250591cd",
                     "Id": 26,
                     "StartPoint": {
-                      "x": 22.0499973,
-                      "y": -0.64
+                      "x": 22.05,
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 23.329998,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 1.66000032,
@@ -1757,20 +1704,19 @@
                     "Id": 27,
                     "StartPoint": {
                       "x": 5.47,
-                      "y": 1.16000009
+                      "y": 1.16
                     },
                     "EndPoint": {
                       "x": 7.13,
-                      "y": 1.16000009
+                      "y": 1.16
                     },
                     "Variance": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 0.860000134,
+                    "Length": 0.86,
                     "NextFootholdId": 3,
                     "PreviousFootholdId": 29,
                     "groupID": 4,
@@ -1793,13 +1739,12 @@
                     },
                     "EndPoint": {
                       "x": 0.9699999,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6,
@@ -1830,8 +1775,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -1862,8 +1806,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -1885,17 +1828,16 @@
                     "Id": 31,
                     "StartPoint": {
                       "x": 0.9699999,
-                      "y": -3.30000019
+                      "y": -3.3
                     },
                     "EndPoint": {
                       "x": 0.9699999,
-                      "y": -2.70000029
+                      "y": -2.7
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -1926,8 +1868,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.600000143,
@@ -1958,8 +1899,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -1990,8 +1930,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -2022,8 +1961,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -2045,20 +1983,19 @@
                     "Id": 36,
                     "StartPoint": {
                       "x": 0.9699999,
-                      "y": -6.30000067
+                      "y": -6.3
                     },
                     "EndPoint": {
                       "x": 0.9699999,
-                      "y": -5.70000029
+                      "y": -5.7
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
-                    "Length": 0.860000134,
+                    "Length": 0.86,
                     "NextFootholdId": 38,
                     "PreviousFootholdId": 26,
                     "groupID": 4,
@@ -2077,7 +2014,7 @@
                     "Id": 37,
                     "StartPoint": {
                       "x": 23.329998,
-                      "y": -0.64
+                      "y": -0.6400001
                     },
                     "EndPoint": {
                       "x": 23.329998,
@@ -2086,8 +2023,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6,
@@ -2118,8 +2054,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -2150,8 +2085,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -2173,17 +2107,16 @@
                     "Id": 40,
                     "StartPoint": {
                       "x": 23.329998,
-                      "y": -2.70000029
+                      "y": -2.7
                     },
                     "EndPoint": {
                       "x": 23.329998,
-                      "y": -3.30000019
+                      "y": -3.3
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.5999999,
@@ -2214,8 +2147,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.600000143,
@@ -2246,8 +2178,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -2278,8 +2209,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -2310,8 +2240,7 @@
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.6000004,
@@ -2333,17 +2262,16 @@
                     "Id": 45,
                     "StartPoint": {
                       "x": 23.329998,
-                      "y": -5.70000029
+                      "y": -5.7
                     },
                     "EndPoint": {
                       "x": 23.329998,
-                      "y": -6.30000067
+                      "y": -6.3
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.26,
@@ -2365,17 +2293,16 @@
                     "Id": 46,
                     "StartPoint": {
                       "x": 5.47,
-                      "y": 0.9000001
+                      "y": 0.9
                     },
                     "EndPoint": {
                       "x": 5.47,
-                      "y": 1.16000009
+                      "y": 1.16
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": 1.0
-                    },
-                    "IsDynamic": false
+                    }
                   },
                   {
                     "Length": 0.26,
@@ -2397,17 +2324,16 @@
                     "Id": 47,
                     "StartPoint": {
                       "x": 7.13,
-                      "y": 1.16000009
+                      "y": 1.16
                     },
                     "EndPoint": {
                       "x": 7.13,
-                      "y": 0.9000001
+                      "y": 0.9
                     },
                     "Variance": {
                       "x": 0.0,
                       "y": -1.0
-                    },
-                    "IsDynamic": false
+                    }
                   }
                 ]
               },
@@ -2473,7 +2399,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2513,7 +2441,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2548,11 +2478,11 @@
       },
       {
         "id": "60f4fc98-288b-4aa5-95e2-299ec747990b",
-        "path": "/maps/LoginMap/CharacterSlot/Slot_1_1",
+        "path": "/maps/LoginMap/CharacterSlot/Slot_2",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
         "jsonString": {
-          "name": "Slot_1_1",
-          "path": "/maps/LoginMap/CharacterSlot/Slot_1_1",
+          "name": "Slot_2",
+          "path": "/maps/LoginMap/CharacterSlot/Slot_2",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2563,7 +2493,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2599,11 +2531,11 @@
       },
       {
         "id": "911498de-8259-4e6a-b460-446f7f55172b",
-        "path": "/maps/LoginMap/CharacterSlot/Slot_1_1_1",
+        "path": "/maps/LoginMap/CharacterSlot/Slot_3",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
         "jsonString": {
-          "name": "Slot_1_1_1",
-          "path": "/maps/LoginMap/CharacterSlot/Slot_1_1_1",
+          "name": "Slot_3",
+          "path": "/maps/LoginMap/CharacterSlot/Slot_3",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2614,7 +2546,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2666,7 +2600,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2706,7 +2642,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -2746,7 +2684,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -2754,7 +2694,7 @@
               "@type": "MOD.Core.TransformComponent",
               "Position": {
                 "x": 15.7045,
-                "y": 0.5278,
+                "y": 0.557,
                 "z": 999.999
               },
               "QuaternionRotation": {
@@ -2802,7 +2742,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -2858,7 +2800,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -2914,7 +2858,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -2970,7 +2916,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3026,7 +2974,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3082,7 +3032,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "Foothold",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "foothold",
           "@components": [
@@ -3163,7 +3115,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "Foothold",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "foothold",
           "@components": [
@@ -3235,7 +3189,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -3280,7 +3236,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3336,7 +3294,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3392,7 +3352,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3448,7 +3410,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3504,7 +3468,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3560,7 +3526,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3615,7 +3583,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -3660,7 +3630,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3715,7 +3687,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3771,7 +3745,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3826,7 +3802,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3881,7 +3859,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3937,7 +3917,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -3993,7 +3975,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "MapObject",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapobject",
           "@components": [
@@ -4048,7 +4032,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "maplemaplayer",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "maplemaplayer",
           "@components": [
@@ -4082,7 +4068,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "tilemap",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "tilemap",
           "@components": [
@@ -10651,7 +10639,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "maplemaplayer",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "maplemaplayer",
           "@components": [
@@ -10685,7 +10675,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "tilemap",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "tilemap",
           "@components": [
@@ -13966,7 +13958,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "maplemaplayer",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "maplemaplayer",
           "@components": [
@@ -14000,7 +13994,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "tilemap",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "tilemap",
           "@components": [
@@ -14056,7 +14052,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "mapempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "mapempty",
           "@components": [
@@ -14108,7 +14106,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "83e79c25-1013-4973-bcbb-607f15405be3",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "83e79c25-1013-4973-bcbb-607f15405be3",
           "@components": [

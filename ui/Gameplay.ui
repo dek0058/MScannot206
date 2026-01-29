@@ -7,7 +7,7 @@
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -30,7 +30,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uigroup",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uigroup",
           "@components": [
@@ -120,7 +122,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -197,7 +201,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -284,7 +290,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -356,7 +364,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "UISprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -537,7 +547,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -640,7 +652,8 @@
               "SelectedEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
-                "EntityId": "25543356-14e3-4876-b94f-7d398087722b"
+                "EntityId": "25543356-14e3-4876-b94f-7d398087722b",
+                "Version2": false
               }
             }
           ],
@@ -664,7 +677,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -778,7 +793,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -874,7 +891,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uitext",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uitext",
           "@components": [
@@ -991,7 +1010,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -1113,7 +1134,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -1217,7 +1240,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -1314,7 +1339,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uitext",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uitext",
           "@components": [
@@ -1432,7 +1459,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -1497,7 +1526,8 @@
               "TouchAreaEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
-                "EntityId": "725aa2dd-58cc-4e0b-998d-0ac9cb45f976"
+                "EntityId": "725aa2dd-58cc-4e0b-998d-0ac9cb45f976",
+                "Version2": false
               }
             },
             {
@@ -1525,7 +1555,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -1605,7 +1637,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -1688,7 +1722,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -1760,7 +1796,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -1832,7 +1870,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [

@@ -7,7 +7,7 @@
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -30,7 +30,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uigroup",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uigroup",
           "@components": [
@@ -120,7 +122,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -177,12 +181,14 @@
               "StateTxtEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
-                "EntityId": "915ca448-d6d0-4dc5-bade-4dcefc5e371a"
+                "EntityId": "915ca448-d6d0-4dc5-bade-4dcefc5e371a",
+                "Version2": false
               },
               "TouchEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
-                "EntityId": "2eeda442-daad-44cf-a19b-eee043a9b7f4"
+                "EntityId": "2eeda442-daad-44cf-a19b-eee043a9b7f4",
+                "Version2": false
               },
               "state": "",
               "State_Default": "Default",
@@ -209,7 +215,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uisprite",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uisprite",
           "@components": [
@@ -305,7 +313,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
@@ -419,7 +429,9 @@
           "origin": {
             "type": "Model",
             "entry_id": "uiempty",
-            "sub_entity_id": null
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
           },
           "modelId": "uiempty",
           "@components": [
