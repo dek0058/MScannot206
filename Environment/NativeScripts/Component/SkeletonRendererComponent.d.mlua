@@ -1,8 +1,8 @@
----@description "Provides the ability to draw and control skeleton resources created with Spine. Only resources created with Spine 4.1 can be used."
+---@description "Provides a function that can draw and control skeleton resources created with Spine. Only resources made with Spine 4.1 can be used."
 @Component
 script SkeletonRendererComponent extends Component
 
-	---@description "Sets the animation for track 1. Animations play in index order."
+	---@description "Sets the animation for track 1. Animations play in index order. Adding or removing values to property will make the animation play from the beginning again."
 	---@sealed
 	@Sync
 	property SyncList<string> AnimationNames
@@ -22,17 +22,17 @@ script SkeletonRendererComponent extends Component
 	@Sync
 	property boolean FlipY = false
 
-	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@description "An automatic substitution won't be made when a map layer name is set to the SortingLayer."
 	---@sealed
 	@Sync
 	property boolean IgnoreMapLayerCheck = false
 
-	---@description "Sets whether to repeat playback of the animation."
+	---@description "Set the play status to repeat the animation."
 	---@sealed
 	@Sync
 	property boolean Loop = true
 
-	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@description "Determines the priority within the same Layer. A higher number indicates higher priority."
 	---@sealed
 	@Sync
 	property int32 OrderInLayer = 0
@@ -42,7 +42,7 @@ script SkeletonRendererComponent extends Component
 	@Sync
 	property float PlayRate = 1
 
-	---@description "Sets the RUID for the skeleton resource."
+	---@description "Set the skeleton resource RUID."
 	---@sealed
 	@Sync
 	property string SkeletonRUID = ""
@@ -57,11 +57,11 @@ script SkeletonRendererComponent extends Component
 	@Sync
 	property string SortingLayer = "Default"
 
-	---@description "Adds an animation to the track. Sets the track number, animation name, and misc properties to animationClip. Track 1 can't be used."
+	---@description "Adds an animation to the track. Track 1 can't be used. Sets the track number, animation name, and misc properties to animationClip. Plays the animation from the start again."
 	---@sealed
 	method void AddAnimation(SkeletonAnimationClip animationClip) end
 
-	---@description "Adds an empty animation to the track. Sets the track number and misc properties to animationClip. Track 1 can't be used."
+	---@description "Adds an empty animation to the track. Track 1 can't be used. Sets the track number and misc properties to animationClip. Plays the animation from the start again."
 	---@sealed
 	method void AddEmptyAnimation(SkeletonAnimationClip animationClip) end
 
@@ -74,7 +74,7 @@ script SkeletonRendererComponent extends Component
 	@ExecSpace("ClientOnly")
 	method SkeletonAnimationClip GetCurrentAnimation(int32 trackIndex) end
 
-	---@description "Clear the track and add an animation. Specify the track number, animation name, and other properties in the animationClip. Track 1 is unavailable."
+	---@description "Empties a track and adds an animation to it. Sets the track number, animation name, and misc properties to animationClip. Track 1 can't be used."
 	---@sealed
 	method void SetAnimation(SkeletonAnimationClip animationClip) end
 
@@ -82,7 +82,7 @@ script SkeletonRendererComponent extends Component
 	---@sealed
 	method void SetAttachment(string slotName, string attachmentName) end
 
-	---@description "Clear the track and add an empty animation. Specify the track number and other properties in the animationClip. Track 1 cannot be used."
+	---@description "Empties a track and adds an empty animation to it. Sets the track number and misc properties to animationClip. Track 1 can't be used."
 	---@sealed
 	method void SetEmptyAnimation(SkeletonAnimationClip animationClip) end
 

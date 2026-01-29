@@ -17,7 +17,7 @@ script CustomFootholdComponent extends Component
 	@Sync
 	property float FootholdWalkSpeedFactor = 1
 
-	---@description "Determines whether the entity is blocked by the vertical platforms of the tile map. Applies only to entities with a RigidbodyComponent."
+	---@description "Determines whether the Entity is blocked by vertical footholds in its TileMap. Only pertains to Entities with RigidbodyComponent."
 	---@sealed
 	@Sync
 	property boolean IsBlockVerticalLine = false

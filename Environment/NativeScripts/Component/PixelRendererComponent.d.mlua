@@ -37,7 +37,7 @@ script PixelRendererComponent extends Component
 	@ExecSpace("ClientOnly")
 	method table<Color> GetPixels() end
 
-	---@description "Sets the entire pixel value as an RGBA integer. The table length must match the total pixel count (Width*Height) and is row-major."
+	---@description "Returns all pixel values as RGBA represented as integers. Prioritizes rows. (Row-major)"
 	---@sealed
 	@ExecSpace("ClientOnly")
 	method table<integer> GetPixelsAsRGBAInt() end
@@ -67,7 +67,7 @@ script PixelRendererComponent extends Component
 	@ExecSpace("ClientOnly")
 	method void SetPixels(table<Color> pixels) end
 
-	---@description "Returns the entire pixel value as an RGBA integer. Row-major order."
+	---@description "Sets all pixels values as RGBA represented as integers. The length of the table must be the same as the total pixel count (Width*Height) and prioritizes rows. (Row-major)"
 	---@sealed
 	@ExecSpace("ClientOnly")
 	method void SetPixelsByRGBAInt(table<integer> pixels) end
