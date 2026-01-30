@@ -55,7 +55,7 @@
     <thead>
         <tr>
             <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">HttpRequest</span> <span style="font-weight: bold;">CreateRequest</span>(<span style="color: #3167ad;">any></span> content, <span style="color: #3167ad;">any</span> callback, <span style="color: #3167ad;">any</span> errorCallback) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">HttpRequest</span> <span style="font-weight: bold;">CreateRequest</span>(<span style="color: #3167ad;">string</span> api, <span style="color: #3167ad;">any></span> content, <span style="color: #3167ad;">any</span> callback, <span style="color: #3167ad;">any</span> errorCallback) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
             </th>
         </tr>
     </thead>
@@ -108,5 +108,10 @@
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                백엔드 서버 요청에 대한 에러 콜백을 호출합니다.
+            </td>
+        </tr>
     </tbody>
 </table>
