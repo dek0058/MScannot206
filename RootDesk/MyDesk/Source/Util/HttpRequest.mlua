@@ -1,14 +1,20 @@
+---@description "HTTP 요청 정보를 담는 구조체"
 @Struct
 script HttpRequest
 
+	---@description "요청할 API 경로"
 	property string api = ""
 
+	---@description "요청에 포함될 Header 정보"
 	property table headers = {}
 
+	---@description "요청에 포함될 Body 내용"
 	property table content = {}
 
+	---@description "요청이 완료되었을 때 호출될 콜백 함수 func(response: table, request: HttpRequest)"
 	property any callback = nil
 
+	---@description "요청이 실패했을 때 호출될 에러 콜백 함수 func(request: HttpRequest)"
 	property any errorCallback = nil
 
 end

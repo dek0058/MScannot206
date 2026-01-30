@@ -90,11 +90,6 @@ script LoginLogic extends Logic
 			return
 		end
 
-		_GameClientLogic:SendEventToLocalPlayer(LoginEvent(), uid)
-		if true then
-			return
-		end
-
 		---@type UserRequestQueue
 		local loginRequestQueue = self._T["LoginRequestQueue"]
 		if loginRequestQueue == nil then
@@ -175,13 +170,15 @@ script LoginLogic extends Logic
 
 		local content = {
 			["uids"] = {},
-			["body"] = {},
+			["body"] = {
+				["uids"] = {}
+			},
 		}
 
 		for _, r in pairs(requests) do
 			table.insert(content["uids"], r.uid)
-			table.insert(content["body"], r.uid)
 		end
+		content["body"]["uids"] = content["uids"]
 
 		local callback = function(response, request)
 			---@type table<string>

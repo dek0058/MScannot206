@@ -126,9 +126,7 @@ script BackendLogic extends Logic
 
 		---@type table<string, string>
 		local headers = self:GetHeaders()
-		local contents = {
-			["dto"] = {}
-		}
+		local contents = {}
 
 		---@type table<string, HttpRequest>
 		local sendRequests = {}
@@ -145,7 +143,7 @@ script BackendLogic extends Logic
 			end
 
 			---@type string
-			local api = request.content["api"]
+			local api = request.api
 			if _UtilLogic:IsNilorEmptyString(api) == true then
 				log_error("request의 api가 비어있습니다.")
 				continue
@@ -159,9 +157,11 @@ script BackendLogic extends Logic
 
 			local key = request.api .. "?" .. tostring(i)
 			sendRequests[key] = request
-			contents[i]["dto"] = {
-				["api"] = api,
-				["body"] = _HttpService:JSONEncode(body)
+			contents[i] = {
+				["dto"] = {
+					["api"] = key,
+					["body"] = _HttpService:JSONEncode(body)
+				}
 			}
 		end
 
@@ -183,18 +183,24 @@ script BackendLogic extends Logic
 		---@type table<string, any>
 		local passedApiKey = {}
 
-		local datas = _HttpService:JSONDecode(response)
-		for i, data in pairs(datas) do
-			local dt = data["dto"]
-			if dt == nil then
+		local data = _HttpService:JSONDecode(response)
+
+		---@type table
+		local dto = data["dto"]
+		
+		if dto == nil then
+			for _, request in pairs(sendRequests) do
+				self:SendError(request)
+			end
+			return
+		end
+
+		for _, item in ipairs(dto) do
+			if item["api"] == nil then
 				continue
 			end
 
-			if dt["api"] == nil then
-				continue
-			end
-
-			local key = dt["api"]
+			local key = item["api"]
 			if _UtilLogic:IsNilorEmptyString(key) == true then
 				continue
 			end
@@ -208,7 +214,7 @@ script BackendLogic extends Logic
 			passedApiKey[key] = true
 
 			---@type string
-			local body = data["body"]
+			local body = item["body"]
 			local responseData = {}
 			if _UtilLogic:IsNilorEmptyString(body) == false then
 				responseData = _HttpService:JSONDecode(body)
