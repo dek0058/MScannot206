@@ -1,0 +1,72 @@
+---@description "UI 텍스트를 애니메이션화 하는 컴포넌트 입니다."
+@Component
+script UITextAnimationComponent extends Component
+
+	---@description "애니메이션 속도"
+	property number Speed = 1.0
+
+	---@description "핑퐁 모드 여부"
+	property boolean PingPong = false
+
+	---@description "애니메이션에 사용할 텍스트 목록"
+	property SyncTable<string> Texts
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.Entity.TextComponent ~= nil then
+			self._T["TextComponent"] = 0
+		elseif self.Entity.TextGUIRendererComponent ~= nil then
+			self._T["TextComponent"] = 1
+		end
+		
+		self._T["Index"] = 1
+		self._T["Duration"] = 0.0
+		self._T["PingPong"] = false
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if self.Texts == nil or #self.Texts == 0 then
+			return
+		end
+		
+		if self._T["TextComponent"] == nil then
+			return
+		end
+		
+		local index = self._T["Index"]
+		
+		self._T["Duration"] += delta * self.Speed
+		if self._T["Duration"] >= 1.0 then
+			self._T["Duration"] = 0.0
+			if self.PingPong == true then
+				if self._T["PingPong"] == false then
+					index += 1
+					if index > #self.Texts then
+						index = #self.Texts - 1
+						self._T["PingPong"] = true
+					end
+				else
+					index -= 1
+					if index <= 1 then
+						index = 1
+						self._T["PingPong"] = false
+					end
+				end
+			else
+				index += 1
+				if index > #self.Texts then
+					index = 1
+				end
+			end
+			self._T["Index"] = index
+		
+			if self._T["TextComponent"] == 0 then
+				self.Entity.TextComponent.Text = self.Texts[index]
+			else
+				self.Entity.TextGUIRendererComponent.Text = self.Texts[index]
+			end
+		end
+	end
+
+end

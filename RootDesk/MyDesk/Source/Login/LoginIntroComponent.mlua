@@ -2,8 +2,11 @@
 @Component
 script LoginIntroComponent extends Component
 
-	---@description "상태 텍스트 엔티티"
-	readonly property Entity StateTxtEntity = nil
+	---@description "터치 텍스트 엔티티"
+	readonly property Entity TouchTxtEntity = nil
+
+	---@description "로그인 텍스트 엔티티"
+	readonly property Entity LoginTxtEntity = nil
 
 	---@description "터치 엔티티"
 	readonly property Entity TouchEntity = nil
@@ -25,8 +28,6 @@ script LoginIntroComponent extends Component
 		if self._T["Txt"] == nil then
 			self._T["Txt"] = {}			
 		end
-		self._T["Txt"][self.State_Default] = "화면을 터치해주세요."
-		self._T["Txt"][self.State_Connecting] = "서버에 연결 중입니다."
 	end
 
 	---@description "인트로를 설정합니다."
@@ -52,8 +53,8 @@ script LoginIntroComponent extends Component
 	@ExecSpace("ClientOnly")
 	method void OnUpdateState()
 		-- 텍스트 갱신
-		if self.StateTxtEntity ~= nil then
-			local textCom = self.StateTxtEntity.TextGUIRendererComponent
+		if self.LoginTxtEntity ~= nil then
+			local textCom = self.LoginTxtEntity.TextGUIRendererComponent
 			if textCom ~= nil then
 				---@type table<string, string>
 				local txts = self._T["Txt"]
@@ -72,26 +73,46 @@ script LoginIntroComponent extends Component
 				self.TouchEntity:SetEnable(true)
 			end
 
-			local filckerCom = self.StateTxtEntity.UIFlickerComponent
-			if filckerCom ~= nil then
-				filckerCom.Enable = true
+			-- 터치 텍스트 활성화
+			if self.TouchTxtEntity ~= nil then
+				self.TouchTxtEntity:SetEnable(true)
 			end
+			
+			-- 로그인 텍스트 비활성화
+			if self.LoginTxtEntity ~= nil then
+				self.LoginTxtEntity:SetEnable(false)
+			end
+		
+		elseif self.state == self.State_Connecting then
+			-- 터치 비활성화
+			if self.TouchEntity ~= nil then
+				self.TouchEntity:SetEnable(false)
+			end
+
+			-- 터치 텍스트 비활성화
+			if self.TouchTxtEntity ~= nil then
+				self.TouchTxtEntity:SetEnable(false)
+			end
+
+			-- 로그인 텍스트 활성화
+			if self.LoginTxtEntity ~= nil then
+				self.LoginTxtEntity:SetEnable(true)
+			end
+
 		else
 			-- 터치 비활성화
 			if self.TouchEntity ~= nil then
 				self.TouchEntity:SetEnable(false)
 			end
 
-			if self.StateTxtEntity ~= nil then
-				local filckerCom = self.StateTxtEntity.UIFlickerComponent
-				if filckerCom ~= nil then
-					filckerCom.Enable = false
-				end
+			-- 터치 텍스트 비활성화
+			if self.TouchTxtEntity ~= nil then
+				self.TouchTxtEntity:SetEnable(false)
+			end
 
-				local canvasGroupCom = self.StateTxtEntity.CanvasGroupComponent
-				if canvasGroupCom ~= nil then
-					canvasGroupCom.GroupAlpha = 1.0
-				end
+			-- 로그인 텍스트 비활성화
+			if self.LoginTxtEntity ~= nil then
+				self.LoginTxtEntity:SetEnable(false)
 			end
 		end
 	end

@@ -178,10 +178,16 @@
             {
               "@type": "script.LoginIntroComponent",
               "Enable": true,
-              "StateTxtEntity": {
+              "TouchTxtEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
                 "EntityId": "915ca448-d6d0-4dc5-bade-4dcefc5e371a",
+                "Version2": false
+              },
+              "LoginTxtEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "05a009f8-4d5d-46c4-b9c6-62ed322bf9e5",
                 "Version2": false
               },
               "TouchEntity": {
@@ -298,11 +304,11 @@
       },
       {
         "id": "915ca448-d6d0-4dc5-bade-4dcefc5e371a",
-        "path": "/ui/Login/Intro/Txt_State",
+        "path": "/ui/Login/Intro/Txt_Touch",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.CanvasGroupComponent,script.UIFlickerComponent",
         "jsonString": {
-          "name": "Txt_State",
-          "path": "/ui/Login/Intro/Txt_State",
+          "name": "Txt_Touch",
+          "path": "/ui/Login/Intro/Txt_Touch",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -388,7 +394,7 @@
               "OutlineWidth": 0.08949117,
               "OverrideSorting": false,
               "SizeFit": false,
-              "Text": "화면을 터치해주세요...",
+              "Text": "화면을 터치해주세요",
               "Underlay": false,
               "UnderlayOffsetX": 0.3284082,
               "UnderlayOffsetY": 0.2891253,
@@ -413,6 +419,124 @@
         }
       },
       {
+        "id": "05a009f8-4d5d-46c4-b9c6-62ed322bf9e5",
+        "path": "/ui/Login/Intro/Txt_Login",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.CanvasGroupComponent,script.UITextAnimationComponent",
+        "jsonString": {
+          "name": "Txt_Login",
+          "path": "/ui/Login/Intro/Txt_Login",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 500.0,
+                "y": -250.0
+              },
+              "OffsetMin": {
+                "x": -500.0,
+                "y": -330.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1000.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -290.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -290.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "BestFit": false,
+              "Font": "Maple",
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 45.0,
+              "MaxSize": 50.0,
+              "MinSize": 10.0,
+              "OutlineColor": {
+                "r": 0.294117659,
+                "g": 0.172549024,
+                "b": 0.1254902,
+                "a": 1.0
+              },
+              "OutlineWidth": 0.08949117,
+              "OverrideSorting": false,
+              "SizeFit": false,
+              "SortingLayer": "MapLayer2",
+              "Text": "로그인 요청 중 입니다",
+              "Underlay": false,
+              "UnderlayOffsetX": 0.3284082,
+              "UnderlayOffsetY": 0.2891253,
+              "UseConstraintX": false,
+              "UseConstraintY": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CanvasGroupComponent",
+              "BlocksRaycasts": false,
+              "GroupAlpha": 1.0,
+              "Interactable": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.UITextAnimationComponent",
+              "Enable": true,
+              "Speed": 3.0,
+              "Texts": "{\"k\":\"number\",\"v\":\"string\",\"e\":{\"1\":\"로그인 요청 중 입니다\",\"2\":\"로그인 요청 중 입니다.\",\"3\":\"로그인 요청 중 입니다..\",\"4\":\"로그인 요청 중 입니다...\"}}"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
         "id": "2eeda442-daad-44cf-a19b-eee043a9b7f4",
         "path": "/ui/Login/Intro/Touch",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.ButtonComponent,MOD.Core.SpriteGUIRendererComponent",
@@ -423,7 +547,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 2,
+          "displayOrder": 3,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {

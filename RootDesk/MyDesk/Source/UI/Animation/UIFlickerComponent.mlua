@@ -1,3 +1,4 @@
+---@description "UI를 깜빡이게 하는 컴포넌트 입니다."
 @Component
 script UIFlickerComponent extends Component
 	
