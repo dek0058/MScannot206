@@ -1,0 +1,85 @@
+---@description "RUID로 지정된 스프라이트들을 순차적으로 재생하는 컴포넌트입니다."
+@Component
+script SpriteAnimationComponent extends Component
+
+	---@description "프레임 속도"
+	property number FrameRate = 12
+
+	---@description "애니메이션을 반복 재생할지 여부"
+	property boolean Loop = true
+
+	---@description "시작 시 자동 재생 여부"
+	property boolean PlayOnStart = true
+
+	---@description "재생할 스프라이트들의 RUID 목록"
+	property SyncTable<string> RUIDs
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.Entity.SpriteGUIRendererComponent ~= nil then
+			self._T["SpriteComponent"] = 0
+		elseif self.Entity.SpriteRendererComponent ~= nil then
+			self._T["SpriteComponent"] = 1
+		end
+
+		if self.PlayOnStart then
+			self:Play()
+		end
+
+		self._T["Index"] = 1
+		self._T["Duration"] = 0.0
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if self.RUIDs == nil or #self.RUIDs == 0 then
+			return
+		end
+
+		if self._T["SpriteComponent"] == nil then
+			return
+		end
+
+		if self._T["Started"] == false then
+			return
+		end
+
+		local index = self._T["Index"]
+
+		self._T["Duration"] += delta * self.FrameRate
+		if self._T["Duration"] >= 1.0 then
+			self._T["Duration"] = 0.0
+			index += 1
+			if index > #self.RUIDs then
+				if self.Loop == true then
+					index = 1
+				else
+					index = #self.RUIDs
+					self._T["Started"] = false
+				end
+			end
+
+			self._T["Index"] = index
+			if self._T["SpriteComponent"] == 0 then
+				self.Entity.SpriteGUIRendererComponent.ImageRUID = self.RUIDs[index]
+			elseif self._T["SpriteComponent"] == 1 then
+				self.Entity.SpriteRendererComponent.SpriteRUID = self.RUIDs[index]
+			end
+		end
+	end
+
+	---@description "애니메이션 재생을 시작합니다."
+	@ExecSpace("ClientOnly")
+	method void Play()
+		self._T["Started"] = true
+		self._T["Index"] = 1
+		self._T["Duration"] = 0.0
+	end
+
+	---@description "애니메이션 재생을 중지합니다."
+	@ExecSpace("ClientOnly")
+	method void Stop()
+		self._T["Started"] = false
+	end
+
+end

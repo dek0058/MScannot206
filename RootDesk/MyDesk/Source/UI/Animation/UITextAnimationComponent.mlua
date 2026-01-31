@@ -17,6 +17,8 @@ script UITextAnimationComponent extends Component
 			self._T["TextComponent"] = 0
 		elseif self.Entity.TextGUIRendererComponent ~= nil then
 			self._T["TextComponent"] = 1
+		elseif self.Entity.TextRendererComponent ~= nil then
+			self._T["TextComponent"] = 2
 		end
 		
 		self._T["Index"] = 1
@@ -63,8 +65,10 @@ script UITextAnimationComponent extends Component
 		
 			if self._T["TextComponent"] == 0 then
 				self.Entity.TextComponent.Text = self.Texts[index]
-			else
+			elseif self._T["TextComponent"] == 1 then
 				self.Entity.TextGUIRendererComponent.Text = self.Texts[index]
+			elseif self._T["TextComponent"] == 2 then
+				self.Entity.TextRendererComponent.Text = self.Texts[index]
 			end
 		end
 	end
