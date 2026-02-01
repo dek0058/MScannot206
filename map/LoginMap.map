@@ -2470,9 +2470,11 @@
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
+              "EndFrameIndex": 2147483647,
               "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer2",
+              "StartFrameIndex": 0,
               "Enable": true
             },
             {
@@ -2530,9 +2532,11 @@
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
+              "EndFrameIndex": 2147483647,
               "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer2",
+              "StartFrameIndex": 0,
               "Enable": true
             },
             {
@@ -2593,9 +2597,11 @@
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
+              "EndFrameIndex": 2147483647,
               "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer2",
+              "StartFrameIndex": 0,
               "Enable": true
             },
             {
@@ -2653,10 +2659,12 @@
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
+              "EndFrameIndex": 2147483647,
               "FlipX": true,
               "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer2",
+              "StartFrameIndex": 0,
               "Enable": true
             },
             {
