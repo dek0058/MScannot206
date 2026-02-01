@@ -7,7 +7,7 @@
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -37,6 +37,10 @@
         {
           "Id": "MOD@Climbable",
           "Name": "Climbable"
+        },
+        {
+          "Id": "ec73397d09e243bebade6be294560b33",
+          "Name": "EntityInteraction"
         }
       ],
       "Matrix": {
@@ -57,7 +61,8 @@
         ],
         "MOD@Climbable": [
           "MOD@Climbable"
-        ]
+        ],
+        "ec73397d09e243bebade6be294560b33": []
       }
     }
   }

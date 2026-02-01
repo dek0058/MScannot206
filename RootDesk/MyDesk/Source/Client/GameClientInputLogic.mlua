@@ -1,24 +1,121 @@
 @Logic
 script GameClientInputLogic extends Logic
-	
+
+	readonly property integer State_Normal = 0
+	readonly property integer State_Pressed = 1
+	readonly property integer State_Interaction = 2
+
+	property integer state = 0
+
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		self._T["Normal"] = "3930c5d2e85b4bff8467aada64fda7f5"
-		self._T["Pressed"] = "79819392249746f88952f3b2321f2f17"
-		_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+		-- 마우스 커서 설정
+		self._T["Normal"] = "73bb74df5a394475832607399a41dbc0"
+		self._T["Pressed"] = "599d3850068b422089207198c1911031"
+		self._T["Interaction"] = "351d209678ad47a99508e711a78cd2d4"
+		self._T["Context"] = "6870ecfc579442f198f761c94a93c087"
+		self._T["Catch"] = "137063b7a94b4efeb2fc1d0449df7e9d"
+
+		self._T["IsPressed"] = false
+		self._T["Entity"] = {}
 	end
 	
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if not _GameClientLogic:IsPC() then
+			return
+		end
+
+		---@type boolean
+		local isPressed = self._T["IsPressed"]
+
+		-- 터치가 눌려있는 상태라면 처리하지 않음
+		if isPressed then
+			return
+		end
+
+		local cursorPosition = _InputService:GetCursorPosition()
+
+		-- 커서가 UI 위에 있는지 판별
+		local isOverUI = _InputService:IsPointerOverUI()
+		if isOverUI then
+			-- 커서가 UI 위에 있을 때의 처리
+			self:SetCursor(self.State_Normal)
+			return
+		end
+
+		local worldPosition = _UILogic:ScreenToWorldPosition(cursorPosition)
+
+		local result = self:FindEntityTriggerComponents(worldPosition)
+		self._T["Entity"] = result
+
+		if #result == 0 then
+			self:SetCursor(self.State_Normal)
+			return
+		end
+
+		self:SetCursor(self.State_Interaction)
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void SetCursor(integer state)
+		if self.state == state then
+			return
+		end
+
+		self.state = state
+		if state == self.State_Normal then
+			if self._T["IsPressed"] == true then
+				_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+			else
+				_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+			end
+		elseif state == self.State_Pressed then
+			_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+		elseif state == self.State_Interaction then
+			_InputService:SetCursor(self._T["Interaction"], Vector2.zero)
+		end
+	end
+
+	---@description "주어진 월드 좌표에 겹치는 EntityTriggerComponent들을 찾습니다."
+	---@param worldPosition Vector2 "월드 좌표"
+	---@return table<EntityTriggerComponent> "겹치는 EntityTriggerComponent들의 테이블"
+	@ExecSpace("ClientOnly")
+	method table<EntityTriggerComponent> FindEntityTriggerComponents(Vector2 worldPosition)
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return {}
+		end
+
+		local map = localPlayer.CurrentMap
+		if map == nil then
+			return {}
+		end
+
+		local simulator = _CollisionService:GetSimulator(map)
+		if simulator == nil then
+			return {}
+		end
+
+		---@type table<EntityTriggerComponent>
+		local result = {}
+		local count = simulator:OverlapPointAllFast("EntityInteraction", worldPosition, result)
+		return result
+	end
+
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchEvent(ScreenTouchEvent event)
+		self._T["IsPressed"] = true
 		if self._T["Pressed"] ~= nil then
-			_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+			self:SetCursor(self.State_Pressed)
 		end
 	end
 	
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchReleaseEvent(ScreenTouchReleaseEvent event)
+		self._T["IsPressed"] = false
 		if self._T["Normal"] ~= nil then
-			_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+			self:SetCursor(self.State_Normal)
 		end
 	end
 	

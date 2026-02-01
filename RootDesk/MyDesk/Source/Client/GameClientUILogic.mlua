@@ -20,28 +20,36 @@ script GameClientUILogic extends Logic
 	---@description "인터렉션 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetInteraction()
-		if self._T["interaction"] == nil then
-			self._T["interaction"] = _EntityService:GetEntityByPath("/ui/Interaction")
+		if self._T["Interaction"] == nil then
+			self._T["Interaction"] = _EntityService:GetEntityByPath("/ui/Interaction")
 		end
-		return self._T["interaction"]
+		return self._T["Interaction"]
+	end
+
+	@ExecSpace("ClientOnly")
+	method Entity GetGameInfo()
+		if self._T["GameInfo"] == nil then
+			self._T["GameInfo"] = _EntityService:GetEntityByPath("/ui/GameInfo")
+		end
+		return self._T["GameInfo"]
 	end
 
 	---@description "모달 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetModal()
-		if self._T["modal"] == nil then
-			self._T["modal"] = _EntityService:GetEntityByPath("/ui/Modal")
+		if self._T["Modal"] == nil then
+			self._T["Modal"] = _EntityService:GetEntityByPath("/ui/Modal")
 		end
-		return self._T["modal"]
+		return self._T["Modal"]
 	end
 
 	---@description "트랜지션 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetTransition()
-		if self._T["transition"] == nil then
-			self._T["transition"] = _EntityService:GetEntityByPath("/ui/Transition")
+		if self._T["Transition"] == nil then
+			self._T["Transition"] = _EntityService:GetEntityByPath("/ui/Transition")
 		end
-		return self._T["transition"]
+		return self._T["Transition"]
 	end
 
 	---@description "맵에 입장 시, 해당 태그에 맞는 UI Group으로 전환합니다."

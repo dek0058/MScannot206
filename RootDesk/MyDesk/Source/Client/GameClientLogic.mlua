@@ -8,8 +8,35 @@ script GameClientLogic extends Logic
 		self._T["FetchServerStateTimerId"] = _TimerService:SetTimerRepeat(function()
 			_GameServerLogic:FetchServerState(_UserProxy:GetUid())
 		end, 1.0, 0.0)
+		
+		-- 플랫폼 찾기
+		local pcEntity = _EntityService:GetEntityByPath("/ui/GameInfo/IsPC")
+		local mobileEntity = _EntityService:GetEntityByPath("/ui/GameInfo/IsMobile")
+		if pcEntity ~= nil and pcEntity.UITransformComponent.ActivePlatform == PlatformType.PC then
+			self._T["Platform"] = "PC"
+		elseif mobileEntity ~= nil and mobileEntity.UITransformComponent.ActivePlatform == PlatformType.Mobile then
+			self._T["Platform"] = "Mobile"
+		else
+			self._T["Platform"] = "None"
+		end
 	end
 
+	@ExecSpace("ClientOnly")
+	method boolean IsPC()
+		if self._T["Platform"] == nil then
+			return false
+		end
+		return self._T["Platform"] == "PC"
+	end
+
+	@ExecSpace("ClientOnly")
+	method boolean IsMobile()
+		if self._T["Platform"] == nil then
+			return false
+		end
+		return self._T["Platform"] == "Mobile"
+	end
+	
 	---@description "게임 클라이언트 로직이 초기화되었는지 반환합니다."
 	@ExecSpace("ClientOnly")
 	method boolean IsInit()
@@ -18,7 +45,7 @@ script GameClientLogic extends Logic
 		end
 		return self._T["init"]
 	end
-
+	
 	---@description "로컬 플레이어에게 이벤트를 전송합니다."
 	---@param e any "전송할 이벤트"
 	@ExecSpace("Client")
@@ -38,7 +65,7 @@ script GameClientLogic extends Logic
 			_TimerService:ClearTimer(self._T["FetchServerStateTimerId"])
 			self._T["FetchServerStateTimerId"] = nil
 		end
-
+		
 		self._T["init"] = true
 		log("게임 클라이언트 로직 초기화 완료")
 		

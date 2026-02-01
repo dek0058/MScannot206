@@ -293,7 +293,7 @@
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
               "ImageRUID": {
-                "DataId": "5e113bc3928a45c985c11d2e996dc558"
+                "DataId": "b4a88eec4e614cf7a1d956206f9aebe8"
               },
               "OverrideSorting": false,
               "Enable": true
