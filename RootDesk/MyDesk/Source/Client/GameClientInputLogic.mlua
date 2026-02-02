@@ -18,6 +18,8 @@ script GameClientInputLogic extends Logic
 
 		self._T["IsPressed"] = false
 		self._T["Entity"] = {}
+
+		self:SetCursor(self.State_Normal)
 	end
 	
 	@ExecSpace("ClientOnly")
@@ -64,16 +66,17 @@ script GameClientInputLogic extends Logic
 		end
 
 		self.state = state
+		local offset = Vector2(-10, -10)
 		if state == self.State_Normal then
 			if self._T["IsPressed"] == true then
-				_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+				_InputService:SetCursor(self._T["Pressed"], offset)
 			else
-				_InputService:SetCursor(self._T["Normal"], Vector2.zero)
+				_InputService:SetCursor(self._T["Normal"], offset)
 			end
 		elseif state == self.State_Pressed then
-			_InputService:SetCursor(self._T["Pressed"], Vector2.zero)
+			_InputService:SetCursor(self._T["Pressed"], offset)
 		elseif state == self.State_Interaction then
-			_InputService:SetCursor(self._T["Interaction"], Vector2.zero)
+			_InputService:SetCursor(self._T["Interaction"], offset)
 		end
 	end
 

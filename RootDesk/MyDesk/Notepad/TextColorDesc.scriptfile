@@ -1,0 +1,22 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "scriptfile://f05b66ac-eb25-48e5-9ce0-6e15e37cb97f",
+  "ContentType": "x-mod/scriptfile",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "Name": "TextColorDesc",
+      "Id": "f05b66ac-eb25-48e5-9ce0-6e15e37cb97f",
+      "Script": "-- <color=#{색상표}>{메세지}</color>\n\n-- Default Popup\n-- 기본: 6d7578\n-- 강조: 53b3c9\n-- 주의: 9ca6ab\n\n\n-- Solid Popup\n-- 기존: ffffff\n-- 강조: eaff00\n",
+      "ModifyTime": "02/02/2026 03:55:12"
+    }
+  }
+}
