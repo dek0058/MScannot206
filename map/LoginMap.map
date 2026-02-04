@@ -2538,7 +2538,7 @@
       {
         "id": "514578f1-1c26-4ca7-be0c-e38d1d7b38e0",
         "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Avatar",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent,MOD.Core.NameTagComponent",
         "jsonString": {
           "name": "Slot_Avatar",
           "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Avatar",
@@ -2575,6 +2575,10 @@
             {
               "@type": "MOD.Core.CostumeManagerComponent",
               "DefaultEquipUserId": "",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.NameTagComponent",
               "Enable": true
             }
           ],
@@ -2779,7 +2783,7 @@
       {
         "id": "80bb24b7-5fbb-4d2a-948f-c47358069abf",
         "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Avatar",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent,MOD.Core.NameTagComponent",
         "jsonString": {
           "name": "Slot_Avatar",
           "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Avatar",
@@ -2816,6 +2820,10 @@
             {
               "@type": "MOD.Core.CostumeManagerComponent",
               "DefaultEquipUserId": "",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.NameTagComponent",
               "Enable": true
             }
           ],
@@ -3020,7 +3028,7 @@
       {
         "id": "6a1265c6-edb6-4e57-990e-6c7616ff14dd",
         "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Avatar",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent,MOD.Core.NameTagComponent",
         "jsonString": {
           "name": "Slot_Avatar",
           "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Avatar",
@@ -3057,6 +3065,10 @@
             {
               "@type": "MOD.Core.CostumeManagerComponent",
               "DefaultEquipUserId": "",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.NameTagComponent",
               "Enable": true
             }
           ],
@@ -3261,7 +3273,7 @@
       {
         "id": "ab476dd6-9c96-4d52-95cd-f59419220c50",
         "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Avatar",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent,MOD.Core.NameTagComponent",
         "jsonString": {
           "name": "Slot_Avatar",
           "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Avatar",
@@ -3298,6 +3310,10 @@
             {
               "@type": "MOD.Core.CostumeManagerComponent",
               "DefaultEquipUserId": "",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.NameTagComponent",
               "Enable": true
             }
           ],
