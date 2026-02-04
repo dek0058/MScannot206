@@ -1,0 +1,4 @@
+@Event
+script LoginMapEvent extends EventType
+
+end

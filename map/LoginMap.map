@@ -2385,7 +2385,7 @@
       {
         "id": "6c35ce4c-7f8f-4c9f-b5ff-6a9a1577d881",
         "path": "/maps/LoginMap/CharacterSlot",
-        "componentNames": "MOD.Core.TransformComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "CharacterSlot",
           "path": "/maps/LoginMap/CharacterSlot",
@@ -2419,18 +2419,25 @@
                 "w": 1.0
               },
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "CharacterSlot"
+              ],
+              "Enable": true
             }
           ],
           "@version": 1
         }
       },
       {
-        "id": "316048a4-6b15-4bf9-bdf1-1c4bded2448c",
-        "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_1",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent",
+        "id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent,script.CharacterSelectionSlotComponent",
         "jsonString": {
-          "name": "Model_CharacterSlot_1",
-          "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_1",
+          "name": "CharacterSelectionSlot_1",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2442,7 +2449,7 @@
             "type": "Model",
             "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
             "sub_entity_id": null,
-            "root_entity_id": "316048a4-6b15-4bf9-bdf1-1c4bded2448c",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
             "replaced_model_id": null
           },
           "modelId": "a0baf349-5995-43d9-a75a-ff5b79774653",
@@ -2450,7 +2457,7 @@
             {
               "@type": "MOD.Core.TransformComponent",
               "Position": {
-                "x": 9.0478,
+                "x": 9.0622,
                 "y": -1.86,
                 "z": 999.997
               },
@@ -2458,28 +2465,70 @@
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
-              },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "w": -1.0
               },
               "Enable": true
             },
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "OrderInLayer": 1,
               "RenderSetting": 0,
-              "SortingLayer": "MapLayer2",
-              "StartFrameIndex": 0,
               "Enable": true
             },
             {
               "@type": "script.EntityTriggerComponent",
               "IsLegacy": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.CharacterSelectionSlotComponent",
+              "Enable": true,
+              "Slot": 1,
+              "state": 0,
+              "State_Empty": 1,
+              "State_Avatar": 2
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "441e6195-baf0-4e9d-a5f0-838562d43431",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Empty",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "Slot_Empty",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Empty",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
               "Enable": true
             }
           ],
@@ -2487,12 +2536,149 @@
         }
       },
       {
-        "id": "d694886d-6620-43ba-93ae-205322f3214b",
-        "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_2",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent",
+        "id": "514578f1-1c26-4ca7-be0c-e38d1d7b38e0",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Avatar",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
         "jsonString": {
-          "name": "Model_CharacterSlot_2",
-          "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_2",
+          "name": "Slot_Avatar",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/Slot_Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarRendererComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "60449d90-0338-4a4a-aff6-398d0b2d184e",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/SelectEffect1",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "SelectEffect1",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/SelectEffect1",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "17216b6c-1634-4316-ac88-e83b87b997d7",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "17216b6c-1634-4316-ac88-e83b87b997d7",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "c72da19f-6db2-4f44-8e4a-1a68f2159a3a",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/SelectEffect2",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.SpriteAnimationComponent",
+        "jsonString": {
+          "name": "SelectEffect2",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_1/SelectEffect2",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "6d64a58c-1636-4134-aa97-5396250e09a8",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "6d64a58c-1636-4134-aa97-5396250e09a8",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.SpriteAnimationComponent",
+              "Enable": true,
+              "RUIDs": "{\"k\":\"number\",\"v\":\"string\",\"e\":{\"1\":\"03c96fab948743c5b0bf8219f15b12e8\",\"2\":\"8b0a7177cd0f4d09a36c21561c8893d0\",\"3\":\"0b75598a3788423da6b48b48f4f0b72b\",\"4\":\"80860dee82eb4e94abeb5708be940487\",\"5\":\"5dd222fdda764c458a0730ba9df267ae\"}}"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "6eac6976-3e55-481b-8622-3475d3a65c51",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent,script.CharacterSelectionSlotComponent",
+        "jsonString": {
+          "name": "CharacterSelectionSlot_2",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2504,7 +2690,7 @@
             "type": "Model",
             "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
             "sub_entity_id": null,
-            "root_entity_id": "316048a4-6b15-4bf9-bdf1-1c4bded2448c",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
             "replaced_model_id": null
           },
           "modelId": "a0baf349-5995-43d9-a75a-ff5b79774653",
@@ -2512,8 +2698,8 @@
             {
               "@type": "MOD.Core.TransformComponent",
               "Position": {
-                "x": 11.4273,
-                "y": -2.46,
+                "x": 11.3558,
+                "y": -2.453429,
                 "z": 999.997
               },
               "QuaternionRotation": {
@@ -2522,29 +2708,68 @@
                 "z": 0.0,
                 "w": 1.0
               },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.EntityTriggerComponent",
+              "IsLegacy": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.CharacterSelectionSlotComponent",
+              "Enable": true,
+              "Slot": 2,
+              "state": 0,
+              "State_Empty": 1,
+              "State_Avatar": 2
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "e476961c-eb1c-46a5-9013-940bd8c1d1de",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Empty",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "Slot_Empty",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Empty",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
               },
               "Enable": true
             },
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "OrderInLayer": 1,
               "RenderSetting": 0,
-              "SortingLayer": "MapLayer2",
-              "StartFrameIndex": 0,
-              "Enable": true
-            },
-            {
-              "@type": "script.EntityTriggerComponent",
-              "CollisionGroup": {
-                "Id": "ec73397d09e243bebade6be294560b33"
-              },
-              "IsLegacy": false,
               "Enable": true
             }
           ],
@@ -2552,12 +2777,149 @@
         }
       },
       {
-        "id": "6a7bb10e-9d01-400e-a345-d25ea29105c6",
-        "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_3",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent",
+        "id": "80bb24b7-5fbb-4d2a-948f-c47358069abf",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Avatar",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
         "jsonString": {
-          "name": "Model_CharacterSlot_3",
-          "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_3",
+          "name": "Slot_Avatar",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/Slot_Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarRendererComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "28cf4104-33fc-4fdd-87e7-ae221c59fec6",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/SelectEffect1",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "SelectEffect1",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/SelectEffect1",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "17216b6c-1634-4316-ac88-e83b87b997d7",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "17216b6c-1634-4316-ac88-e83b87b997d7",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "1e3e0409-ce49-494b-9c8e-24c4d1f74d4c",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/SelectEffect2",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.SpriteAnimationComponent",
+        "jsonString": {
+          "name": "SelectEffect2",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_2/SelectEffect2",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "6d64a58c-1636-4134-aa97-5396250e09a8",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "6d64a58c-1636-4134-aa97-5396250e09a8",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.SpriteAnimationComponent",
+              "Enable": true,
+              "RUIDs": "{\"k\":\"number\",\"v\":\"string\",\"e\":{\"1\":\"03c96fab948743c5b0bf8219f15b12e8\",\"2\":\"8b0a7177cd0f4d09a36c21561c8893d0\",\"3\":\"0b75598a3788423da6b48b48f4f0b72b\",\"4\":\"80860dee82eb4e94abeb5708be940487\",\"5\":\"5dd222fdda764c458a0730ba9df267ae\"}}"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "962d8575-b8ec-4929-8e38-c5368936e240",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent,script.CharacterSelectionSlotComponent",
+        "jsonString": {
+          "name": "CharacterSelectionSlot_3",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2569,7 +2931,7 @@
             "type": "Model",
             "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
             "sub_entity_id": null,
-            "root_entity_id": "316048a4-6b15-4bf9-bdf1-1c4bded2448c",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
             "replaced_model_id": null
           },
           "modelId": "a0baf349-5995-43d9-a75a-ff5b79774653",
@@ -2577,8 +2939,8 @@
             {
               "@type": "MOD.Core.TransformComponent",
               "Position": {
-                "x": 13.4627,
-                "y": -2.46,
+                "x": 13.407,
+                "y": -2.453429,
                 "z": 999.997
               },
               "QuaternionRotation": {
@@ -2587,26 +2949,68 @@
                 "z": 0.0,
                 "w": 1.0
               },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.EntityTriggerComponent",
+              "IsLegacy": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.CharacterSelectionSlotComponent",
+              "Enable": true,
+              "Slot": 3,
+              "state": 0,
+              "State_Empty": 1,
+              "State_Avatar": 2
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "52bb939a-b0e9-45cc-a959-1c9a6edca7b3",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Empty",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "Slot_Empty",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Empty",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
               },
               "Enable": true
             },
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "OrderInLayer": 1,
               "RenderSetting": 0,
-              "SortingLayer": "MapLayer2",
-              "StartFrameIndex": 0,
-              "Enable": true
-            },
-            {
-              "@type": "script.EntityTriggerComponent",
-              "IsLegacy": false,
               "Enable": true
             }
           ],
@@ -2614,12 +3018,149 @@
         }
       },
       {
-        "id": "c4d51958-59c9-4b29-ae36-140ecafad175",
-        "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_4",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent",
+        "id": "6a1265c6-edb6-4e57-990e-6c7616ff14dd",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Avatar",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
         "jsonString": {
-          "name": "Model_CharacterSlot_4",
-          "path": "/maps/LoginMap/CharacterSlot/Model_CharacterSlot_4",
+          "name": "Slot_Avatar",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/Slot_Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarRendererComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "eef4f0d4-3a8d-456a-b63d-2d6095466a15",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/SelectEffect1",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "SelectEffect1",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/SelectEffect1",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "17216b6c-1634-4316-ac88-e83b87b997d7",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "17216b6c-1634-4316-ac88-e83b87b997d7",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "6e0cd109-2473-495f-a843-dde6781e6c49",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/SelectEffect2",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.SpriteAnimationComponent",
+        "jsonString": {
+          "name": "SelectEffect2",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_3/SelectEffect2",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "6d64a58c-1636-4134-aa97-5396250e09a8",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "6d64a58c-1636-4134-aa97-5396250e09a8",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.SpriteAnimationComponent",
+              "Enable": true,
+              "RUIDs": "{\"k\":\"number\",\"v\":\"string\",\"e\":{\"1\":\"03c96fab948743c5b0bf8219f15b12e8\",\"2\":\"8b0a7177cd0f4d09a36c21561c8893d0\",\"3\":\"0b75598a3788423da6b48b48f4f0b72b\",\"4\":\"80860dee82eb4e94abeb5708be940487\",\"5\":\"5dd222fdda764c458a0730ba9df267ae\"}}"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "424709d6-3aed-4f5c-801e-bc4a612557ab",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.EntityTriggerComponent,script.CharacterSelectionSlotComponent",
+        "jsonString": {
+          "name": "CharacterSelectionSlot_4",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2631,7 +3172,7 @@
             "type": "Model",
             "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
             "sub_entity_id": null,
-            "root_entity_id": "316048a4-6b15-4bf9-bdf1-1c4bded2448c",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
             "replaced_model_id": null
           },
           "modelId": "a0baf349-5995-43d9-a75a-ff5b79774653",
@@ -2639,8 +3180,8 @@
             {
               "@type": "MOD.Core.TransformComponent",
               "Position": {
-                "x": 16.1506,
-                "y": -1.8514,
+                "x": 16.1872,
+                "y": -1.8696,
                 "z": 999.997
               },
               "QuaternionRotation": {
@@ -2649,28 +3190,206 @@
                 "z": 0.0,
                 "w": 1.0
               },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
               "Enable": true
             },
             {
               "@type": "MOD.Core.SpriteRendererComponent",
               "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "FlipX": true,
-              "OrderInLayer": 1,
               "RenderSetting": 0,
-              "SortingLayer": "MapLayer2",
-              "StartFrameIndex": 0,
               "Enable": true
             },
             {
               "@type": "script.EntityTriggerComponent",
               "IsLegacy": false,
               "Enable": true
+            },
+            {
+              "@type": "script.CharacterSelectionSlotComponent",
+              "Enable": true,
+              "Slot": 4,
+              "state": 0,
+              "State_Empty": 1,
+              "State_Avatar": 2
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "33973d69-2563-434c-b7ef-00954b511925",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Empty",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "Slot_Empty",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Empty",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "9716888f-1a50-4971-9d60-d4d98c8fdb01",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "ab476dd6-9c96-4d52-95cd-f59419220c50",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Avatar",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.AvatarRendererComponent,MOD.Core.CostumeManagerComponent",
+        "jsonString": {
+          "name": "Slot_Avatar",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/Slot_Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+            "root_entity_id": "980ac2f4-1465-476a-ba38-fbc11abd5a0e",
+            "replaced_model_id": null
+          },
+          "modelId": "c4f56570-b65d-49a3-b69e-1999c7acfbb5",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarRendererComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "05094eeb-cf07-4004-9f9d-7206ac19dbc0",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/SelectEffect1",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "jsonString": {
+          "name": "SelectEffect1",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/SelectEffect1",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "17216b6c-1634-4316-ac88-e83b87b997d7",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "17216b6c-1634-4316-ac88-e83b87b997d7",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "c35b0c89-17c2-4ca8-8c63-186e08bbe97e",
+        "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/SelectEffect2",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,script.SpriteAnimationComponent",
+        "jsonString": {
+          "name": "SelectEffect2",
+          "path": "/maps/LoginMap/CharacterSlot/CharacterSelectionSlot_4/SelectEffect2",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "a0baf349-5995-43d9-a75a-ff5b79774653",
+            "sub_entity_id": "6d64a58c-1636-4134-aa97-5396250e09a8",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "6d64a58c-1636-4134-aa97-5396250e09a8",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.SpriteAnimationComponent",
+              "Enable": true,
+              "RUIDs": "{\"k\":\"number\",\"v\":\"string\",\"e\":{\"1\":\"03c96fab948743c5b0bf8219f15b12e8\",\"2\":\"8b0a7177cd0f4d09a36c21561c8893d0\",\"3\":\"0b75598a3788423da6b48b48f4f0b72b\",\"4\":\"80860dee82eb4e94abeb5708be940487\",\"5\":\"5dd222fdda764c458a0730ba9df267ae\"}}"
             }
           ],
           "@version": 1

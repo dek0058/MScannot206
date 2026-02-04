@@ -1,12 +1,38 @@
+---@description "유저 관리 및 데이터를 처리하는 로직입니다"
 @Logic
 script UserLogic extends Logic
 
+	---@description "로그인 한 유저 목록"
 	property table users = {}
+
+	---@description "유저 워프 기록 목록"
 	property table userWarpRecords = {}
 
+	---@description "유저가 존재하는지 확인합니다."
 	@ExecSpace("ServerOnly")
 	method boolean IsUserExists(string uid)
 		return self.users[uid] ~= nil
+	end
+
+	---@description "유저의 엔티티 정보를 가져옵니다."
+	@ExecSpace("ServerOnly")
+	method table GetUserEntity(string uid)
+		local user = self.users[uid]
+		if user == nil then
+			return nil
+		end
+		return user["user_entity"]
+	end
+
+	---@description "유저의 캐릭터 목록을 가져옵니다."
+	@ExecSpace("ServerOnly")
+	method table GetCharacters(string uid)
+		local userEntity = self:GetUserEntity(uid)
+		if userEntity == nil then
+			return nil
+		end
+		
+		return userEntity["characters"]
 	end
 
 	@ExecSpace("ServerOnly")

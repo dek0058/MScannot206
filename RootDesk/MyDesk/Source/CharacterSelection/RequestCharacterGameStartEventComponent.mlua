@@ -1,0 +1,11 @@
+@Component
+script RequestCharacterGameStartEventComponent extends Component
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "86fb983c-6c1e-4b63-9b9a-8f7e07fd060c")
+	handler HandleButtonClickEvent(ButtonClickEvent event)
+		local e = RequestCharacterGameStartEvent()
+		_UserService.LocalPlayer:SendEvent(e)		
+	end
+
+end

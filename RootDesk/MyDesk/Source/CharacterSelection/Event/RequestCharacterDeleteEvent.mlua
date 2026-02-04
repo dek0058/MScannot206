@@ -1,0 +1,4 @@
+@Event
+script RequestCharacterDeleteEvent extends EventType
+
+end

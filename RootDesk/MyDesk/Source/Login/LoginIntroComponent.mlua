@@ -3,10 +3,13 @@
 script LoginIntroComponent extends Component
 
 	---@description "터치 텍스트 엔티티"
-	readonly property Entity TouchTxtEntity = nil
+	readonly property Entity Txt_TouchEntity = nil
 
 	---@description "로그인 텍스트 엔티티"
-	readonly property Entity LoginTxtEntity = nil
+	readonly property Entity Txt_LoginEntity = nil
+
+	---@description "캐릭터 로드 텍스트 엔티티"
+	readonly property Entity Txt_CharacterLoadEntity = nil
 
 	---@description "터치 엔티티"
 	readonly property Entity TouchEntity = nil
@@ -23,11 +26,45 @@ script LoginIntroComponent extends Component
 	@HideFromInspector()
 	readonly property string State_Connecting = "Connecting"
 
+	---@description "캐릭터 로드 상태"
+	@HideFromInspector()
+	readonly property string State_CharacterLoad = "CharacterLoad"
+
 	@ExecSpace("ClientOnly")
 	method void OnInitialize()
 		if self._T["Txt"] == nil then
 			self._T["Txt"] = {}			
 		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.Txt_TouchEntity == nil then
+			err:AddError("Txt_TouchEntity가 설정되지 않았습니다.")
+		end
+
+		if self.Txt_LoginEntity == nil then
+			err:AddError("Txt_LoginEntity가 설정되지 않았습니다.")
+		end
+
+		if self.Txt_CharacterLoadEntity == nil then
+			err:AddError("Txt_CharacterLoadEntity가 설정되지 않았습니다.")
+		end
+
+		if err:IsError() then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "LoginIntroComponent 오류:\n" .. err:ToString(), "WorldError")
+			return
+		end
+
+		err:Empty()
+
+		self._T["Texts"] = {
+			[self.State_Default] = self.Txt_TouchEntity,
+			[self.State_Connecting] = self.Txt_LoginEntity,
+			[self.State_CharacterLoad] = self.Txt_CharacterLoadEntity,
+		}
 	end
 
 	---@description "인트로를 설정합니다."
@@ -52,67 +89,18 @@ script LoginIntroComponent extends Component
 	---@description "상태를 업데이트합니다."
 	@ExecSpace("ClientOnly")
 	method void OnUpdateState()
-		-- 텍스트 갱신
-		if self.LoginTxtEntity ~= nil then
-			local textCom = self.LoginTxtEntity.TextGUIRendererComponent
-			if textCom ~= nil then
-				---@type table<string, string>
-				local txts = self._T["Txt"]
-				if txts ~= nil then
-					local txt = txts[self.state]
-					if txt ~= nil then
-						textCom.Text = txt
-					end
-				end
-			end
+		local texts = self._T["Texts"]
+		if texts == nil then
+			return
 		end
 
-		if self.state == self.State_Default then
-			-- 터치 활성화
-			if self.TouchEntity ~= nil then
-				self.TouchEntity:SetEnable(true)
-			end
-
-			-- 터치 텍스트 활성화
-			if self.TouchTxtEntity ~= nil then
-				self.TouchTxtEntity:SetEnable(true)
-			end
-			
-			-- 로그인 텍스트 비활성화
-			if self.LoginTxtEntity ~= nil then
-				self.LoginTxtEntity:SetEnable(false)
-			end
-		
-		elseif self.state == self.State_Connecting then
-			-- 터치 비활성화
-			if self.TouchEntity ~= nil then
-				self.TouchEntity:SetEnable(false)
-			end
-
-			-- 터치 텍스트 비활성화
-			if self.TouchTxtEntity ~= nil then
-				self.TouchTxtEntity:SetEnable(false)
-			end
-
-			-- 로그인 텍스트 활성화
-			if self.LoginTxtEntity ~= nil then
-				self.LoginTxtEntity:SetEnable(true)
-			end
-
-		else
-			-- 터치 비활성화
-			if self.TouchEntity ~= nil then
-				self.TouchEntity:SetEnable(false)
-			end
-
-			-- 터치 텍스트 비활성화
-			if self.TouchTxtEntity ~= nil then
-				self.TouchTxtEntity:SetEnable(false)
-			end
-
-			-- 로그인 텍스트 비활성화
-			if self.LoginTxtEntity ~= nil then
-				self.LoginTxtEntity:SetEnable(false)
+		for key, txtEntity in pairs(texts) do
+			if txtEntity ~= nil then
+				if key == self.state then
+					txtEntity:SetEnable(true)
+				else
+					txtEntity:SetEnable(false)
+				end
 			end
 		end
 	end
@@ -126,6 +114,34 @@ script LoginIntroComponent extends Component
 
 		self:SetState(self.State_Connecting)
 		_LoginLogic:RequestLogin(_UserProxy:GetUid())
+	end
+
+	---@description "로그인 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleLoginEvent(LoginEvent e)
+		if _UtilLogic:IsNilorEmptyString(e.errorCode) == false then
+			_ErrorLogic:Throw(e.errorCode)
+			self:SetState(self.State_Default)
+			return
+		end
+
+		self:SetState(self.State_CharacterLoad)
+		_CharacterLogic:RequestLoadCharacters(_UserProxy:GetUid())
+	end
+
+	---@description "캐릭터 불러오기 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCharactersLoadEvent(CharactersLoadEvent e)
+		if _UtilLogic:IsNilorEmptyString(e.errorCode) == false then
+			_ErrorLogic:Throw(e.errorCode)
+			self:SetState(self.State_Default)
+			return
+		end
+
+		local sendEvent = LoginMapEvent()
+		_UserProxy:SendEventToLocalPlayer(sendEvent)
 	end
 
 end

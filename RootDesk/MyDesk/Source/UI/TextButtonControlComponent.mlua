@@ -1,0 +1,195 @@
+@Component
+script TextButtonControlComponent extends Component
+
+	property string LocalizationKey = ""
+
+	@HideFromInspector
+	property string Tag_Normal = "Normal"
+
+	@HideFromInspector
+	property string Tag_Hover = "Hover"
+
+	@HideFromInspector
+	property string Tag_Press = "Press"
+
+	@HideFromInspector
+	property string Tag_Disable = "Disable"
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		for _, child in ipairs(self.Entity.Children) do
+			local tagCom = child.TagComponent
+			if tagCom == nil then
+				continue
+			end
+		
+			for _, tag in ipairs(tagCom.Tags) do
+				if tag == self.Tag_Normal then
+					self._T["Normal"] = child
+					break
+				elseif tag == self.Tag_Hover then
+					self._T["Hover"] = child
+					break
+				elseif tag == self.Tag_Press then
+					self._T["Press"] = child
+					break
+				elseif tag == self.Tag_Disable then
+					self._T["Disable"] = child
+					break
+				end
+			end
+		end
+		
+		if self.Entity.ButtonComponent == nil then
+			return
+		end
+		
+		self._T["ButtonStateChangeEvent"] =  self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
+			self._T["State"] = e.state
+			self:OnUpdateState()
+		end)
+		
+		if _UtilLogic:IsNilorEmptyString(self.LocalizationKey) == false then
+			self:SetText(_LocalizationService:GetText(self.LocalizationKey))
+		end
+
+		self:OnUpdateState()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["ButtonStateChangeEvent"] ~= nil then
+			self.Entity:DisconnectEvent(ButtonStateChangeEvent, self._T["ButtonStateChangeEvent"])
+			self._T["ButtonStateChangeEvent"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetText(string text)
+		---@type table<Entity>
+		local bts = {}
+		if self._T["Normal"] ~= nil then
+			table.insert(bts, self._T["Normal"])
+		end
+		if self._T["Hover"] ~= nil then
+			table.insert(bts, self._T["Hover"])
+		end
+		if self._T["Press"] ~= nil then
+			table.insert(bts, self._T["Press"])
+		end
+		if self._T["Disable"] ~= nil then
+			table.insert(bts, self._T["Disable"])
+		end
+		
+		for _, btn in ipairs(bts) do
+			if btn.TextComponent ~= nil then
+				btn.TextComponent.Text = text
+			elseif btn.TextGUIRendererComponent ~= nil then
+				btn.TextGUIRendererComponent.Text = text
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdateState()
+		if self.Entity.ButtonComponent == nil then
+			return
+		end
+		
+		---@type Entity
+		local normal = self._T["Normal"]
+		
+		---@type Entity
+		local hover = self._T["Hover"]
+		
+		---@type Entity
+		local press = self._T["Press"]
+		
+		---@type Entity
+		local disable = self._T["Disable"]
+		
+		if self.Entity.ButtonComponent.Enable == false then
+			if normal ~= nil then
+				normal:SetVisible(false)
+			end
+		
+			if hover ~= nil then
+				hover:SetVisible(false)
+			end
+		
+			if press ~= nil then
+				press:SetVisible(false)
+			end
+		
+			if disable ~= nil then
+				disable:SetVisible(true)
+			end
+			return
+		end
+		
+		---@type ButtonState
+		local state = self._T["State"]
+		if state == nil or state == ButtonState.Normal or state == ButtonState.Clicked or state == ButtonState.Released then
+			if normal ~= nil then
+				normal:SetVisible(true)
+			end
+		
+			if hover ~= nil then
+				hover:SetVisible(false)
+			end
+		
+			if press ~= nil then
+				press:SetVisible(false)
+			end
+		
+			if disable ~= nil then
+				disable:SetVisible(false)
+			end
+				
+		elseif state == ButtonState.Hover then
+			if normal ~= nil then
+				normal:SetVisible(false)
+			end
+		
+			if hover ~= nil then
+				hover:SetVisible(true)
+			end
+		
+			if press ~= nil then
+				press:SetVisible(false)
+			end
+		
+			if disable ~= nil then
+				disable:SetVisible(false)
+			end
+		
+		elseif state == ButtonState.Pressed then
+			if normal ~= nil then
+				normal:SetVisible(false)
+			end
+		
+			if hover ~= nil then
+				hover:SetVisible(false)
+			end
+		
+			if press ~= nil then
+				press:SetVisible(true)
+			end
+		
+			if disable ~= nil then
+				disable:SetVisible(false)
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetEnable(boolean value)
+		if self.Entity.ButtonComponent == nil then
+			return
+		end
+		
+		self.Entity.ButtonComponent.Enable = value
+		self:OnUpdateState()
+	end
+
+end

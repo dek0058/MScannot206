@@ -1,0 +1,4 @@
+@Event
+script EntityTriggerReleaseEvent extends EventType
+
+end

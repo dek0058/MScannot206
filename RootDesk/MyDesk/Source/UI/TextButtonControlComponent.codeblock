@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://098021e2-43cd-4407-85f8-515ab3bb1e87",
+  "EntryKey": "codeblock://4a95cd4c-deda-42f6-b12e-49af544865c1",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "098021e2-43cd-4407-85f8-515ab3bb1e87",
+      "Id": "4a95cd4c-deda-42f6-b12e-49af544865c1",
       "Language": 1,
-      "Name": "LoginGroupComponent",
+      "Name": "TextButtonControlComponent",
       "Type": 1,
       "Source": 0,
       "Target": null

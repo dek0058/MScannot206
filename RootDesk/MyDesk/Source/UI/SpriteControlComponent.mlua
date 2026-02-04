@@ -1,0 +1,16 @@
+---@description "스프라이트 컴포넌트를 제어하기 위한 컴포넌트 입니다."
+@Component
+script SpriteControlComponent extends Component
+
+	---@description "현지화 키값"
+	property string LocalizationKey = ""
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local spriteCom = self.Entity.SpriteGUIRendererComponent
+		if spriteCom ~= nil and _UtilLogic:IsNilorEmptyString(self.LocalizationKey) == false then
+			spriteCom.ImageRUID = _LocalizationService:GetText(self.LocalizationKey)
+		end
+	end
+
+end

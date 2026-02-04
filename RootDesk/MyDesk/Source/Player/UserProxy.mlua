@@ -12,7 +12,42 @@ script UserProxy extends Logic
 		return localPlayer.PlayerComponent.UserId
 	end
 
-	---@description "로컬플레이어 Entity의 UserLocalPlayerComponent를 반환 합니다."
+	---@description "로컬플레이어에게 이벤트를 전송합니다."
+	---@param e EventType "전송할 이벤트"
+	@ExecSpace("Client")
+	method void SendEventToLocalPlayer(EventType e)
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return
+		end
+		localPlayer:SendEvent(e)
+	end
+
+	---@description "특정 플레이어에게 이벤트를 전송합니다."
+	---@param uid string "이벤트를 전송할 플레이어의 UID"
+	---@param e EventType "전송할 이벤트"
+	@ExecSpace("ServerOnly")
+	method void SendEventToSpecificPlayer(EventType e, string uid)
+		local user = _UserService:GetUserEntityByUserId(uid)
+		if user == nil then
+			return
+		end
+		user:SendEvent(e)
+	end
+
+	---@description "특정 플레이어에게 이벤트를 전송합니다."
+	---@param uid string "이벤트를 전송할 플레이어의 UID"
+	---@param e EventType "전송할 이벤트"
+	@ExecSpace("Multicast")
+	method void SendEventToPlayer(EventType e, string uid)
+		local user = _UserService:GetUserEntityByUserId(uid)
+		if user == nil then
+			return
+		end
+		user:SendEvent(e)
+	end
+
+	---@description "로컬플레이어 Entity의 UserLocalPlayerComponent를 반환 합니다"
 	@ExecSpace("ClientOnly")
 	method UserLocalPlayerComponent GetUserLocalPlayerComponentByClient()
 		local localPlayer = _UserService.LocalPlayer
@@ -24,7 +59,7 @@ script UserProxy extends Logic
 		return userLocalPlayerCom
 	end
 
-	---@description "특정 플레이어 Entity의 UserLocalPlayerComponent를 반환 합니다."
+	---@description "특정 플레이어 Entity의 UserLocalPlayerComponent를 반환 합니다"
 	@ExecSpace("ServerOnly")
 	method UserLocalPlayerComponent GetUserLocalPlayerComponentByServer(string uid)
 		local entity = _UserService:GetUserEntityByUserId(uid)
@@ -36,86 +71,28 @@ script UserProxy extends Logic
 		return userLocalPlayerCom
 	end
 
-	---@description "플레이어가 슬롯에서 선택한 캐릭터를 설정합니다."
-	@ExecSpace("Client")
-	method void SetSelectCharacter(integer slot)
-		local character = _UserProxy:GetCharacter(slot)
-		if character == nil then
-			log_warning("선택한 슬롯의 캐릭터를 찾을 수 없습니다: " .. slot)
-			return
-		end
-		self:OnSelectCharacter(_UserProxy:GetUid(), character)
-	end
-
-	---@description "Internal Function"
-	@ExecSpace("Server")
-	method void OnSelectCharacter(string uid, Character character)
-		if uid ~= senderUserId then
-			return
-		end
-
-		local err = ErrorType()
-
-		local userLocalPlayerCom = self:GetUserLocalPlayerComponentByServer(uid)
-		if userLocalPlayerCom == nil then
-			err:AddError("UserLocalPlayerComponent를 찾을 수 없습니다")
-		end
-
-		local nameTagCom = userLocalPlayerCom:GetNameTagComponent()
-		if nameTagCom == nil then
-			err:AddError("NameTagComponent를 찾을 수 없습니다")
-		end
-
-		if character == nil then
-			err:AddError("선택된 캐릭터가 없습니다")
-		end
-
-		if err:IsError() == true then
-			_ErrorLogic:PrintErrors(err:ToError())
-			return
-		end
-
-		nameTagCom.Name = character.name
-	end
-
-	---@description "특정 슬롯의 캐릭터 정보를 반환합니다."
+	---@description "로컬플레이어 Entity의 UserStorageComponent를 반환 합니다"
 	@ExecSpace("ClientOnly")
-	method Character GetCharacter(integer slot)
-		local charTable = self:GetCharacterTable()
-		return charTable[slot]
-	end
-
-	---@description "캐릭터 정보 테이블을 반환합니다."
-	@ExecSpace("ClientOnly")
-	method table GetCharacterTable()
-		if self._T["character"] == nil then
-			self._T["character"] = {}
+	method UserStorageComponent GetUserStorageComponentByClient()
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return nil
 		end
-		return self._T["character"]
+		---@type UserStorageComponent
+		local userStorageCom = localPlayer:GetComponent(UserStorageComponent)
+		return userStorageCom
 	end
 
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleUserCharacterLoadCompleteEvent(UserCharacterLoadCompleteEvent e)
-		local charTable = self:GetCharacterTable()
-		table.clear(charTable)
-		for _, ch in ipairs(e.characters) do
-			charTable[ch.slot] = ch
+	---@description "특정 플레이어 Entity의 UserStorageComponent를 반환 합니다"
+	@ExecSpace("ServerOnly")
+	method UserStorageComponent GetUserStorageComponentByServer(string uid)
+		local entity = _UserService:GetUserEntityByUserId(uid)
+		if entity == nil then
+			return nil
 		end
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleCreateCharacterCompleteEvent(CreateCharacterCompleteEvent e)
-		local charTable = self:GetCharacterTable()
-		charTable[e.newCharacter.slot] = e.newCharacter
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
-	handler HandleDeleteCharacterCompleteEvent(DeleteCharacterCompleteEvent e)
-		local charTable = self:GetCharacterTable()
-		charTable[e.slot] = nil
+		---@type UserStorageComponent
+		local userStorageCom = entity:GetComponent(UserStorageComponent)
+		return userStorageCom
 	end
 
 end

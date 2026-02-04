@@ -1,0 +1,162 @@
+---@description "캐릭터 선택 슬롯 컴포넌트 입니다"
+@Component
+script CharacterSelectionSlotComponent extends Component
+	
+	---@description "빈 슬롯 엔티티"
+	property Entity EmptyEntity = nil
+	
+	---@description "아바타 엔티티"
+	property Entity AvatarEntity = nil
+	
+	---@description "선택 이펙트1 엔티티"
+	property Entity SelectEffect1Entity = nil
+
+	---@description "선택 이펙트2 엔티티"
+	property Entity SelectEffect2Entity = nil
+
+	---@description "캐릭터 슬롯 번호"
+	property integer Slot = 0
+
+	---@description "상태"
+	@HideFromInspector()
+	property integer state = 0
+
+	---@description "빈 상태"
+	@HideFromInspector()
+	readonly property integer State_Empty = 1
+
+	---@description "캐릭터가 있는 상태"
+	@HideFromInspector()
+	readonly property integer State_Avatar = 2
+	
+	method void OnBeginPlay()
+		if self:IsServer() then
+			-- 에디터 보여주기용 이미지 비활성화
+			local spriteCom = self.Entity.SpriteRendererComponent
+			if spriteCom ~= nil then
+				spriteCom.Enable = false
+			end
+		end
+		
+		if self:IsClient() then
+			self._T["EntityTriggerPressEvent"] = self.Entity:ConnectEvent(EntityTriggerPressEvent, self.OnEntityTriggerPressEvent)
+			self._T["EntityTriggerReleaseEvent"] = self.Entity:ConnectEvent(EntityTriggerReleaseEvent, self.OnEntityTriggerReleaseEvent)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["EntityTriggerPressEvent"] ~= nil then
+			self.Entity:DisconnectEvent(EntityTriggerPressEvent, self._T["EntityTriggerPressEvent"])
+			self._T["EntityTriggerPressEvent"] = nil
+		end
+
+		if self._T["EntityTriggerReleaseEvent"] ~= nil then
+			self.Entity:DisconnectEvent(EntityTriggerReleaseEvent, self._T["EntityTriggerReleaseEvent"])
+			self._T["EntityTriggerReleaseEvent"] = nil
+		end
+	end
+	
+	---@description "캐릭터 선택 슬롯을 설정합니다."
+	@ExecSpace("ServerOnly")
+	method void Setup(string uid)
+		if self.EmptyEntity == nil or self.AvatarEntity == nil then
+			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
+			return
+		end
+		
+		local playerStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if playerStorageCom == nil then
+			_GameServerLogic:KickByServer(uid, "UserStorageComponen를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+		
+		local character = playerStorageCom.characters[self.Slot]
+		if character == nil then
+			self:SetEmpty(uid)
+		else
+			self:SetAvatar(uid, character)
+		end
+	end
+	
+	---@description "빈 슬롯으로 설정합니다."
+	@ExecSpace("ServerOnly")
+	method void SetEmpty(string uid)
+		self.state = self.State_Empty
+		if self.EmptyEntity == nil or self.AvatarEntity == nil then
+			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
+			return
+		end
+		
+		self.EmptyEntity:SetEnable(true)
+		self.AvatarEntity:SetEnable(false)
+		self:SetUnselect()
+
+		local spriteCom = self.AvatarEntity.SpriteRendererComponent
+		local emptySpriteCom = self.EmptyEntity.SpriteRendererComponent
+		if spriteCom ~= nil and emptySpriteCom ~= nil then
+			emptySpriteCom.SortingLayer = spriteCom.SortingLayer
+			emptySpriteCom.OrderInLayer = spriteCom.OrderInLayer
+		end
+	end
+	
+	---@description "아바타로 설정합니다."
+	@ExecSpace("ServerOnly")
+	method void SetAvatar(string uid, Character character)
+		self.state = self.State_Avatar
+		if self.EmptyEntity == nil or self.AvatarEntity == nil then
+			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
+			return
+		end
+		
+		self.EmptyEntity:SetEnable(false)
+		self.AvatarEntity:SetEnable(true)
+		self:SetUnselect()
+
+		local spriteCom = self.AvatarEntity.SpriteRendererComponent
+		local avatarCom = self.EmptyEntity.AvatarRendererComponent
+		if spriteCom ~= nil and avatarCom ~= nil then
+			avatarCom.SortingLayer = spriteCom.SortingLayer
+			avatarCom.OrderInLayer = spriteCom.OrderInLayer
+		end
+
+		local nameTagCom = self.AvatarEntity.NameTagComponent
+		if nameTagCom ~= nil then
+			nameTagCom.Name = character.name
+		end
+	end
+
+	---@description "선택 상태로 설정합니다."
+	@ExecSpace("ServerOnly")
+	method void SetSelect()
+		if self.SelectEffect1Entity == nil or self.SelectEffect2Entity == nil then
+			return
+		end
+		self.SelectEffect1Entity:SetEnable(true)
+		self.SelectEffect2Entity:SetEnable(true)
+	end
+
+	---@description "선택 해제 상태로 설정합니다."
+	@ExecSpace("ServerOnly")
+	method void SetUnselect()
+		if self.SelectEffect1Entity == nil or self.SelectEffect2Entity == nil then
+			return
+		end
+		self.SelectEffect1Entity:SetEnable(false)
+		self.SelectEffect2Entity:SetEnable(false)
+	end
+
+	---@description "엔티티 트리거 눌림 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	method void OnEntityTriggerPressEvent(EntityTriggerPressEvent e)
+	end
+
+	---@description "엔티티 트리거 해제 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	method void OnEntityTriggerReleaseEvent(EntityTriggerReleaseEvent e)
+		local sendEvent = CharacterSlotSelectEvent()
+		sendEvent.slot = self.Slot
+		_UserProxy:SendEventToLocalPlayer(sendEvent)
+	end
+	
+end

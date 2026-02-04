@@ -28,6 +28,18 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("ServerOnly")
 	method Character ToCharacter(table data)
+		if data == nil then
+			return nil
+		end
+
+		if data["slot"] == nil then
+			return nil
+		end
+
+		if data["name"] == nil then
+			return nil
+		end
+
 		local character = Character()
 		character.slot = data["slot"]
 		character.name = data["name"]
@@ -45,106 +57,40 @@ script CharacterLogic extends Logic
 	end
 
 	@ExecSpace("Server")
-	method void LoadCharacters(string uid)
+	method void RequestLoadCharacters(string uid)
 		if uid ~= senderUserId then
 			return
 		end
 
-		if _UserLogic.users[uid] == nil then
-			log("로드하려는 사용자를 찾을 수 없습니다: " .. uid)
+		if not _UserLogic:IsUserExists(uid) then
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 		
-		---@type table
-		local entry = _UserLogic.users[uid]
-		if entry["user_entity"] == nil then
+		local charactersData = _UserLogic:GetCharacters(uid)
+		if charactersData == nil then
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 		
-		---@type table
-		local userEntity = entry["user_entity"]
-		if userEntity["characters"] == nil then
-			self:UserCharacterLoadComplete({}, uid)
-			return
-		end
-		
-		---@type table
-		local characters = userEntity["characters"]
-		local charactersKeys = {}
-		local characterCaches = {}
-		for _, ch in ipairs(characters) do
-			if ch == nil then
+		---@type table<Character>
+		local characters = {}
+		for _, ch in ipairs(charactersData) do
+			local character = self:ToCharacter(ch)
+			if character == nil then
 				continue
 			end
-			
-			if ch["slot"] == nil or ch["name"] == nil then
-				continue
-			end
-			
-			local chKey = self:GetCharacterKey(ch["slot"])
-			table.insert(charactersKeys, chKey)
-			table.insert(characterCaches, self:NewCharacter(ch["slot"], ch["name"]))
+
+			table.insert(characters, character)
 		end
-		
-		---@type UserDataStorage
-		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
-		if userDataStorage == nil then
-			_UserService:KickUser(uid, KickReason.ETC)
-			return
-		end
-		
-		userDataStorage:BatchGetAsync(charactersKeys, function(errorCode, keys, datas)
-			if errorCode ~= 0 then
-				return
-			end
-			
-			---@type DataStorageItemPages
-			local pages = datas
-			local characterMap = {}
-			while true do
-				for _, data in ipairs(pages:GetCurrentPageDatas()) do
-					local ch = _HttpService:JSONDecode(data.Value)
-					if ch == nil then
-						continue
-					end
-					
-					if ch["slot"] == nil then
-						continue
-					end
-					
-					characterMap[ch["slot"]] = ch
-				end
-				
-				if pages.IsLastPage == true then
-					break
-				end
-				
-				local loadResultCode = pages:LoadNextPageAndWait()
-				if loadResultCode ~= 0 then
-					break
-				end
-				
-				pages:MoveToNextPageAndWait()
-			end
-			
-			local params = {}
-			for _, cache in ipairs(characterCaches) do
-				---@type Character
-				local ch = cache
-				
-				local slot = tostring(ch.slot)
-				if characterMap[slot] ~= nil then
-					local data = characterMap[slot]
-					ch.slot = data["slot"]
-					ch.name = data["name"]
-					table.insert(params, ch)
-				else
-					table.insert(params, ch)
-				end
-			end
-			
-			self:UserCharacterLoadComplete(params, uid)
-		end)
+
+		local e = CharactersLoadEvent()
+		e.characters = characters
+		_UserProxy:SendEventToPlayer(e, uid)
 	end
 
 	@ExecSpace("Server")

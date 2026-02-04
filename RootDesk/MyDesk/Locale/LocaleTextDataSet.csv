@@ -1,0 +1,15 @@
+﻿Key,Source,Note
+confirm,확인,
+login_intro_touchscreen,화면을 터치해주세요,Intro
+login_intro_login_1,로그인 요청 중 입니다,Intro
+login_intro_login_2,로그인 요청 중 입니다.,Intro
+login_intro_login_3,로그인 요청 중 입니다..,Intro
+login_intro_login_4,로그인 요청 중 입니다...,Intro
+login_intro_csload_1,캐릭터를 불러오는 중 입니다,Intro
+login_intro_csload_2,캐릭터를 불러오는 중 입니다.,Intro
+login_intro_csload_3,캐릭터를 불러오는 중 입니다..,Intro
+login_intro_csload_4,캐릭터를 불러오는 중 입니다...,Intro
+cs_btn_createcharacter,캐릭터 생성,CharacterSelection
+cs_btn_deletecharacter,캐릭터 삭제,CharacterSelection
+cs_btn_gamestart,게임 시작,CharacterSelection
+,,

@@ -19,6 +19,7 @@ script GameClientInputLogic extends Logic
 		self._T["IsPressed"] = false
 		self._T["Entity"] = {}
 
+		self._T["init"] = true
 		self:SetCursor(self.State_Normal)
 	end
 	
@@ -47,7 +48,6 @@ script GameClientInputLogic extends Logic
 		end
 
 		local worldPosition = _UILogic:ScreenToWorldPosition(cursorPosition)
-
 		local result = self:FindEntityTriggerComponents(worldPosition)
 		self._T["Entity"] = result
 
@@ -61,6 +61,10 @@ script GameClientInputLogic extends Logic
 	
 	@ExecSpace("ClientOnly")
 	method void SetCursor(integer state)
+		if self._T["init"] == nil then
+			return
+		end
+		
 		if self.state == state then
 			return
 		end
@@ -109,16 +113,54 @@ script GameClientInputLogic extends Logic
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchEvent(ScreenTouchEvent event)
 		self._T["IsPressed"] = true
-		if self._T["Pressed"] ~= nil then
-			self:SetCursor(self.State_Pressed)
+		self:SetCursor(self.State_Pressed)
+
+		local cursorPosition = _InputService:GetCursorPosition()
+		local isOverUI = _InputService:IsPointerOverUI()
+		if isOverUI then
+			return
+		end
+
+		local worldPosition = _UILogic:ScreenToWorldPosition(cursorPosition)
+		local result = self:FindEntityTriggerComponents(worldPosition)
+		self._T["Entity"] = result
+
+		if #result == 0 then
+			return
+		end
+		
+		for _, entityTriggerCom in ipairs(result) do
+			entityTriggerCom.Entity:SendEvent(EntityTriggerPressEvent())
 		end
 	end
 	
 	@EventSender("Service", "InputService")
 	handler HandleScreenTouchReleaseEvent(ScreenTouchReleaseEvent event)
 		self._T["IsPressed"] = false
-		if self._T["Normal"] ~= nil then
+
+		local cursorPosition = _InputService:GetCursorPosition()
+
+		-- 커서가 UI 위에 있는지 판별
+		local isOverUI = _InputService:IsPointerOverUI()
+		if isOverUI then
+			-- 커서가 UI 위에 있을 때의 처리
 			self:SetCursor(self.State_Normal)
+			return
+		end
+
+		local worldPosition = _UILogic:ScreenToWorldPosition(cursorPosition)
+		local result = self:FindEntityTriggerComponents(worldPosition)
+		self._T["Entity"] = result
+
+		if #result == 0 then
+			self:SetCursor(self.State_Normal)
+			return
+		end
+
+		self:SetCursor(self.State_Interaction)
+
+		for _, entityTriggerCom in ipairs(result) do
+			entityTriggerCom.Entity:SendEvent(EntityTriggerReleaseEvent())
 		end
 	end
 	

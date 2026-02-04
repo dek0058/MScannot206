@@ -1,7 +1,6 @@
----@description "Tween Ease 함수에 대한 유틸리티 로직입니다. EaseType.d.mlua를 참고하세요."
 @Logic
 script TweenUtility extends Logic
-	
+
 	method void OnBeginPlay()
 		self._T[EaseType.Linear] = function(value) return self:Linear(value) end
 		self._T[EaseType.QuadEaseOut] = function(value) return self:QuadEaseOut(value) end
@@ -64,22 +63,18 @@ script TweenUtility extends Logic
 		end
 	end
 
-	---@description "EaseType = 0"
 	method number Linear(number t)
 		return t
 	end
-	
-	---@description "EaseType = 1"
+
 	method number QuadEaseOut(number t)
 		return t * (2 - t)
 	end
-	
-	---@description "EaseType = 2"
+
 	method number QuadEaseIn(number t)
 		return t * t
 	end
-	
-	---@description "EaseType = 3"
+
 	method number QuadEaseInOut(number t)
 		if t < 0.5 then
 			return 2 * t * t
@@ -87,8 +82,7 @@ script TweenUtility extends Logic
 			return -1 + (4 - 2 * t) * t
 		end
 	end
-	
-	---@description "EaseType = 4"
+
 	method number QuadEaseOutIn(number t)
 		if t < 0.5 then
 			return self:QuadEaseOut(t * 2) / 2
@@ -96,8 +90,7 @@ script TweenUtility extends Logic
 			return self:QuadEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 5"
+
 	method number ExpoEaseOut(number t)
 		if t == 1 then
 			return 1
@@ -105,8 +98,7 @@ script TweenUtility extends Logic
 			return 1 - math.pow(2, -10 * t)
 		end
 	end
-	
-	---@description "EaseType = 6"
+
 	method number ExpoEaseIn(number t)
 		if t == 0 then
 			return 0
@@ -114,8 +106,7 @@ script TweenUtility extends Logic
 			return math.pow(2, 10 * (t - 1))
 		end
 	end
-	
-	---@description "EaseType = 7"
+
 	method number ExpoEaseInOut(number t)
 		if t == 0 then
 			return 0
@@ -129,8 +120,7 @@ script TweenUtility extends Logic
 			return (2 - math.pow(2, -20 * t + 10)) / 2
 		end
 	end
-	
-	---@description "EaseType = 8"
+
 	method number ExpoEaseOutIn(number t)
 		if t < 0.5 then
 			return self:ExpoEaseOut(t * 2) / 2
@@ -138,19 +128,16 @@ script TweenUtility extends Logic
 			return self:ExpoEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 9"
+
 	method number CubicEaseOut(number t)
 		t -= 1
 		return t * t * t + 1
 	end
-	
-	---@description "EaseType = 10"
+
 	method number CubicEaseIn(number t)
 		return t * t * t
 	end
-	
-	---@description "EaseType = 11"
+
 	method number CubicEaseInOut(number t)
 		if t < 0.5 then
 			return 4 * t * t * t
@@ -158,8 +145,7 @@ script TweenUtility extends Logic
 			return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
 		end
 	end
-	
-	---@description "EaseType = 12"
+
 	method number CubicEaseOutIn(number t)
 		if t < 0.5 then
 			return self:CubicEaseOut(t * 2) / 2
@@ -167,19 +153,16 @@ script TweenUtility extends Logic
 			return self:CubicEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 13"
+
 	method number QuartEaseOut(number t)
 		t -= 1
 		return 1 - t * t * t * t
 	end
-	
-	---@description "EaseType = 14"
+
 	method number QuartEaseIn(number t)
 		return t * t * t * t
 	end
-	
-	---@description "EaseType = 15"
+
 	method number QuartEaseInOut(number t)
 		if t < 0.5 then
 			return 8 * t * t * t * t
@@ -188,8 +171,7 @@ script TweenUtility extends Logic
 			return 1 - 8 * t * t * t * t
 		end
 	end
-	
-	---@description "EaseType = 16"
+
 	method number QuartEaseOutIn(number t)
 		if t < 0.5 then
 			return self:QuartEaseOut(t * 2) / 2
@@ -197,19 +179,16 @@ script TweenUtility extends Logic
 			return self:QuartEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 17"
+
 	method number QuintEaseOut(number t)
 		t -= 1
 		return 1 + t * t * t * t * t
 	end
-	
-	---@description "EaseType = 18"
+
 	method number QuintEaseIn(number t)
 		return t * t * t * t * t
 	end
-	
-	---@description "EaseType = 19"
+
 	method number QuintEaseInOut(number t)
 		if t < 0.5 then
 			return 16 * t * t * t * t * t
@@ -218,8 +197,7 @@ script TweenUtility extends Logic
 			return 1 + 16 * t * t * t * t * t
 		end
 	end
-	
-	---@description "EaseType = 20"
+
 	method number QuintEaseOutIn(number t)
 		if t < 0.5 then
 			return self:QuintEaseOut(t * 2) / 2
@@ -227,19 +205,16 @@ script TweenUtility extends Logic
 			return self:QuintEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 21"
+
 	method number CircEaseOut(number t)
 		t -= 1
 		return math.sqrt(1 - t * t)
 	end
-	
-	---@description "EaseType = 22"
+
 	method number CircEaseIn(number t)
 		return 1 - math.sqrt(1 - t * t)
 	end
-	
-	---@description "EaseType = 23"
+
 	method number CircEaseInOut(number t)
 		if t < 0.5 then
 			return (1 - math.sqrt(1 - 4 * t * t)) / 2
@@ -248,8 +223,7 @@ script TweenUtility extends Logic
 			return (math.sqrt(1 - t * t) + 1) / 2
 		end
 	end
-	
-	---@description "EaseType = 24"
+
 	method number CircEaseOutIn(number t)
 		if t < 0.5 then
 			return self:CircEaseOut(t * 2) / 2
@@ -257,23 +231,19 @@ script TweenUtility extends Logic
 			return self:CircEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 25"
+
 	method number SineEaseOut(number t)
 		return math.sin((t * math.pi) / 2)
 	end
-	
-	---@description "EaseType = 26"
+
 	method number SineEaseIn(number t)
 		return 1 - math.cos((t * math.pi) / 2)
 	end
-	
-	---@description "EaseType = 27"
+
 	method number SineEaseInOut(number t)
 		return -(math.cos(math.pi * t) - 1) / 2
 	end
-	
-	---@description "EaseType = 28"
+
 	method number SineEaseOutIn(number t)
 		if t < 0.5 then
 			return self:SineEaseOut(t * 2) / 2
@@ -281,8 +251,7 @@ script TweenUtility extends Logic
 			return self:SineEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 29"
+
 	method number ElasticEaseOut(number t)
 		local c4 = (2 * math.pi) / 3
 		if t == 0 then
@@ -293,8 +262,7 @@ script TweenUtility extends Logic
 		end
 		return math.pow(2, -10 * t) * math.sin((t * 10 - 0.75) * c4) + 1
 	end
-	
-	---@description "EaseType = 30"
+
 	method number ElasticEaseIn(number t)
 		local c4 = (2 * math.pi) / 3
 		if t == 0 then
@@ -305,8 +273,7 @@ script TweenUtility extends Logic
 		end
 		return -math.pow(2, 10 * t - 10) * math.sin((t * 10 - 10.75) * c4)
 	end
-	
-	---@description "EaseType = 31"
+
 	method number ElasticEaseInOut(number t)
 		local c5 = (2 * math.pi) / 4.5
 		if t == 0 then
@@ -320,8 +287,7 @@ script TweenUtility extends Logic
 		end
 		return (math.pow(2, -20 * t + 10) * math.sin((20 * t - 11.125) * c5)) / 2 + 1
 	end
-	
-	---@description "EaseType = 32"
+
 	method number ElasticEaseOutIn(number t)
 		if t < 0.5 then
 			return self:ElasticEaseOut(t * 2) / 2
@@ -329,8 +295,7 @@ script TweenUtility extends Logic
 			return self:ElasticEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 33"
+
 	method number BounceEaseOut(number t)
 		local n1 = 7.5625
 		local d1 = 2.75
@@ -347,13 +312,11 @@ script TweenUtility extends Logic
 			return n1 * t * t + 0.984375
 		end
 	end
-	
-	---@description "EaseType = 34"
+
 	method number BounceEaseIn(number t)
 		return 1 - self:BounceEaseOut(1 - t)
 	end
-	
-	---@description "EaseType = 35"
+
 	method number BounceEaseInOut(number t)
 		if t < 0.5 then
 			return (1 - self:BounceEaseOut(1 - 2 * t)) / 2
@@ -361,8 +324,7 @@ script TweenUtility extends Logic
 			return (1 + self:BounceEaseOut(2 * t - 1)) / 2
 		end
 	end
-	
-	---@description "EaseType = 36"
+
 	method number BounceEaseOutIn(number t)
 		if t < 0.5 then
 			return self:BounceEaseOut(t * 2) / 2
@@ -370,22 +332,19 @@ script TweenUtility extends Logic
 			return self:BounceEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
-	---@description "EaseType = 37"
+
 	method number BackEaseOut(number t)
 		local c1 = 1.70158
 		local c3 = c1 + 1
 		return 1 + c3 * math.pow(t - 1, 3) + c1 * math.pow(t - 1, 2)
 	end
-	
-	---@description "EaseType = 38"
+
 	method number BackEaseIn(number t)
 		local c1 = 1.70158
 		local c3 = c1 + 1
 		return c3 * t * t * t - c1 * t * t
 	end
-	
-	---@description "EaseType = 39"
+
 	method number BackEaseInOut(number t)
 		local c1 = 1.70158
 		local c2 = c1 * 1.525
@@ -395,7 +354,6 @@ script TweenUtility extends Logic
 		return (math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
 	end
 
-	---@description "EaseType = 40"
 	method number BackEaseOutIn(number t)
 		if t < 0.5 then
 			return self:BackEaseOut(t * 2) / 2
@@ -403,5 +361,5 @@ script TweenUtility extends Logic
 			return self:BackEaseIn((t - 0.5) * 2) / 2 + 0.5
 		end
 	end
-	
+
 end

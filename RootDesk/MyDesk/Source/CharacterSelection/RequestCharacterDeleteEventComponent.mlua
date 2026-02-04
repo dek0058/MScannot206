@@ -1,0 +1,11 @@
+@Component
+script RequestCharacterDeleteEventComponent extends Component
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "62c88678-bf62-4a84-b3a4-47bfe81d9595")
+	handler HandleButtonClickEvent(ButtonClickEvent event)
+		local e = RequestCharacterDeleteEvent()
+		_UserService.LocalPlayer:SendEvent(e)		
+	end
+
+end

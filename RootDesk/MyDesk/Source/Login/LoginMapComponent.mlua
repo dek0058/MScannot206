@@ -1,23 +1,23 @@
----@description "로그인 맵에 대한 처리를 담당하는 컴포넌트 입니다."
+---@description "로그인 맵에 대한 처리를 담당하는 컴포넌트 입니다"
 @Component
 script LoginMapComponent extends Component
-
+	
 	---@description "시작 카메라 엔티티"
 	@HideFromInspector()
 	property Entity OpeningCamera = nil
-
+	
 	---@description "시작 위치 엔티티"
 	@HideFromInspector()
 	property Entity StartLocation = nil
-
+	
 	method void OnBeginPlay()
 		local err = ErrorType()
-
-		self.OpeningCamera =_EntityService:GetEntityByTag("OpeningCamera")
+		
+		self.OpeningCamera = _EntityService:GetEntityByTag("OpeningCamera")
 		if self.OpeningCamera == nil then
 			err:AddError("OpeningCamera 엔티티를 찾을 수 없습니다.")
 		end
-
+		
 		self.StartLocation = _EntityService:GetEntityByTag("StartLocation")
 		if self.StartLocation == nil then
 			err:AddError("StartLocation 엔티티를 찾을 수 없습니다.")
@@ -29,45 +29,45 @@ script LoginMapComponent extends Component
 			return
 		end
 	end
-
-	---@description "로그인 맵을 파괴합니다."
+	
+	---@description "로그인 맵을 파괴합니다"
 	@ExecSpace("Server")
 	method void DestroyMap(string uid)
 		if uid ~= senderUserId then
 			return
 		end
-
+		
 		local mapName = "LoginMap"
 		local destroyedMapName = mapName .. uid
-
+		
 		local result = _DynamicMapService:DestroyDynamicMap(destroyedMapName)
 		if result == false then
 			log_error("로그인 맵 파괴에 실패했습니다: " .. destroyedMapName)
 		end
 	end
-
-	---@description "오프닝으로 이동 합니다."
+	
+	---@description "오프닝으로 이동 합니다"
 	@ExecSpace("Server")
 	method void SetOpening(string uid)
 		if uid ~= senderUserId then
 			return
 		end
-
+		
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
 		if userLocalPlayerCom == nil then
 			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
-
+		
 		userLocalPlayerCom:SetEnable(true)
 		userLocalPlayerCom:SetLocation(self.StartLocation.StartLocationComponent:GetTeleportLocation())
 		userLocalPlayerCom:SetFaceRight(self.StartLocation.StartLocationComponent.IsFaceRight)
 		userLocalPlayerCom:SetInputEnable(false)
-
+		
 		self:OnOpening(uid)
 	end
-
-	---@description "클라이언트에 대한 오프닝 처리함수 입니다."
+	
+	---@description "클라이언트에 대한 오프닝 처리함수 입니다"
 	@ExecSpace("Client")
 	method void OnOpening()
 		local currentScreen = _GameClientUILogic.currentScreen
@@ -75,121 +75,149 @@ script LoginMapComponent extends Component
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "현재 화면 엔티티를 찾을 수 없습니다", "WorldError")
 			return
 		end
-
+		
 		_CameraService:SwitchCameraTo(self.OpeningCamera.CameraComponent)
-
+		
 		---@type LoginIntroComponent
 		local introCom = _GameplayStaticsLogic:FindComponentInChildren(currentScreen, "LoginIntroComponent")
 		if introCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "LoginIntroComponent를 찾을 수 없습니다", "WorldError")
 			return
 		end
-
+		
 		-- ui 설정
 		_GameClientUILogic:CurrentScreenClear()
 		introCom.Entity:SetEnable(true)
 		introCom:Setup()
 	end
-
-	---@description "로비로 이동합니다."
+	
+	---@description "로비로 이동합니다"
 	@ExecSpace("Server")
 	method void SetLobby(string uid)
 		if uid ~= senderUserId then
 			return
 		end
-
+		
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
 		if userLocalPlayerCom == nil then
 			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
-
+		
+		-- 로컬 플레이어 설정
 		userLocalPlayerCom:SetInputEnable(true)
-
+		
+		-- 캐릭터 슬롯 설정
+		local characterSlotEntity = _EntityService:GetEntityByTag("CharacterSlot")
+		if characterSlotEntity ~= nil then
+			for _, child in ipairs(characterSlotEntity.Children) do
+				local slotCom = child.CharacterSelectionSlotComponent
+				if slotCom == nil then
+					continue
+				end
+				
+				slotCom:Setup(uid)
+			end
+		end
+		
+		-- 클라이언트 처리
 		self:OnLobby(uid)
 	end
-
-	---@description "클라이언트에 대한 로비 처리함수 입니다."
+	
+	---@description "클라이언트에 대한 로비 처리함수 입니다"
 	@ExecSpace("Client")
 	method void OnLobby()
+		local currentScreen = _GameClientUILogic.currentScreen
+		if currentScreen == nil then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "현재 화면 엔티티를 찾을 수 없습니다", "WorldError")
+			return
+		end
+		
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByClient()
 		if userLocalPlayerCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
-
+		
 		_CameraService:SwitchCameraTo(userLocalPlayerCom:GetCameraComponent())
-
+		
+		---@type CharacterSelectionComponent
+		local charSelectCom = _GameplayStaticsLogic:FindComponentInChildren(currentScreen, "CharacterSelectionComponent")
+		if charSelectCom == nil then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionComponent를 찾을 수 없습니다", "WorldError")
+			return
+		end
+		
+		-- ui 설정
 		_GameClientUILogic:CurrentScreenClear()
+		charSelectCom.Entity:SetEnable(true)
+		charSelectCom:Setup()
 	end
 
-	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다."
+	---@description "캐릭터 슬롯을 선택합니다."
+	@ExecSpace("Server")
+	method void SetSelectCharacterSlot(string uid, integer slot)
+		if uid ~= senderUserId then
+			return
+		end
+	
+		local characterSlotEntity = _EntityService:GetEntityByTag("CharacterSlot")
+		if characterSlotEntity ~= nil then
+			for _, child in ipairs(characterSlotEntity.Children) do
+				local slotCom = child.CharacterSelectionSlotComponent
+				if slotCom == nil then
+					continue
+				end
+				
+				if slotCom.Slot ~= slot then
+					slotCom:SetUnselect()
+					continue
+				end
+
+				if slotCom.state == slotCom.State_Empty then
+					slotCom:SetUnselect()
+				else
+					slotCom:SetSelect()
+				end
+			end
+		end
+	end
+	
+	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
 		self:DestroyMap(e.UserId)
 	end
-
-	---@description "맵 입장 이벤트를 처리합니다."
+	
+	---@description "맵 입장 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleMapEnterEvent(MapEnterEvent e)
 		self:SetOpening(_UserProxy:GetUid())
-
 		wait(1.5)
 		_TransitionLogic:Pop()
 	end
-
-	---@description "로그인 이벤트를 처리합니다."
+	
+	---@description "로그인 맵에 대한 이벤트를 처리 합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleLoginEvent(LoginEvent e)
-		if _UtilLogic:IsNilorEmptyString(e.errorCode) == false then
-			_ErrorLogic:Throw(e.errorCode)
-			self:SetOpening(_UserProxy:GetUid())
-			return
-		end
-
+	handler HandleLoginMapEvent(LoginMapEvent e)
 		self:SetLobby(_UserProxy:GetUid())
 	end
 
-	---@description "캐릭터 선택 및 플레이 요청 이벤트를 처리합니다."
+	---@description "캐릭터 슬롯 선택 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleRequestCharacterSelectAndPlayEvent(RequestCharacterSelectAndPlayEvent e)
-		local params = {}
-		params["slot"] = e.slot
-
-		local transition = _TransitionLogic:Push(_TransitionLogic.Default)
-		if transition ~= nil then
-			local transitionEvent = TransitionEvent()
-			transitionEvent.complete = function()
-				_GameServerLogic:RequestTeleportToMap(_UserProxy:GetUid(), self.Entity, params)
-				self:DestroyMap(_UserProxy:GetUid())
-			end
-			transition:SendEvent(transitionEvent)
-		else
-			_GameServerLogic:RequestTeleportToMap(_UserProxy:GetUid(), self.Entity, params)
-			self:DestroyMap(_UserProxy:GetUid())
-		end
+	handler HandleCharacterSlotSelectEvent(CharacterSlotSelectEvent e)
+		self:SetSelectCharacterSlot(_UserProxy:GetUid(), e.slot)
 	end
-
-	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다."
+	
+	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다"
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleTeleportToMapEvent(TeleportToMapEvent e)
-		if e.params == nil then
-			return
-		end
-
-		if e.params["slot"] == nil then
-			return
-		end
-
-		local slot = e.params["slot"]
-
-		_UserProxy:SetSelectCharacter(slot, e.uid)
 		_GameServerLogic:TeleportToMapForUser(e.uid, "GameplayMap")
 	end
-
+	
 end

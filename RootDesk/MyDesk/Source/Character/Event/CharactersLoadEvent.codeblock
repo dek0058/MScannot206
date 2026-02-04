@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://8ceae4b8-2d7e-4f73-b772-6e273fe11c63",
+  "EntryKey": "codeblock://d3b388ae-a761-40de-8b11-b29f5955dba3",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "8ceae4b8-2d7e-4f73-b772-6e273fe11c63",
+      "Id": "d3b388ae-a761-40de-8b11-b29f5955dba3",
       "Language": 1,
-      "Name": "CharacterSelectionLayerComponent",
-      "Type": 1,
+      "Name": "CharactersLoadEvent",
+      "Type": 3,
       "Source": 0,
       "Target": null
     }

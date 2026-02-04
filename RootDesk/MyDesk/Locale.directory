@@ -1,20 +1,20 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://281875eba51f44189b5343b2ca7340c7",
+  "EntryKey": "directory://11d35bb6de5e4085abf1f94317ab462d",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://281875eba51f44189b5343b2ca7340c7",
-      "name": "BT",
+      "entry_id": "directory://11d35bb6de5e4085abf1f94317ab462d",
+      "name": "Locale",
       "lock": false,
       "folding": false,
       "nameEditable": true

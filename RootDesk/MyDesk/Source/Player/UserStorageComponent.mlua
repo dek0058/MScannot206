@@ -1,0 +1,29 @@
+---@description "유저 정보를 관리하는 컴포넌트 입니다"
+@Component
+script UserStorageComponent extends Component
+	
+	property table<integer, Character> characters = {}
+	
+	method void OnBeginPlay()
+		self._T["CharactersLoadEvent"] = self.Entity:ConnectEvent(CharactersLoadEvent, self.OnCharactersLoadEvent)
+	end
+
+	method void OnEndPlay()
+		if self._T["CharactersLoadEvent"] ~= nil then
+			self.Entity:DisconnectEvent(CharactersLoadEvent, self._T["CharactersLoadEvent"])
+			self._T["CharactersLoadEvent"] = nil
+		end
+	end
+
+	---@description "캐릭터 로드 이벤트를 처리합니다."
+	method void OnCharactersLoadEvent(CharactersLoadEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			return
+		end
+		
+		for _, char in ipairs(e.characters) do
+			self.characters[char.slot] = char
+		end
+	end
+
+end

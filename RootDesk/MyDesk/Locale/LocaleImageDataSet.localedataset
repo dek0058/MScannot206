@@ -1,0 +1,24 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "localedataset://ef0200ee-4173-4b86-a329-f135d45776dd",
+  "ContentType": "x-mod/localedataset",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "LocaleImageDataSet",
+      "id": "ef0200ee-4173-4b86-a329-f135d45776dd",
+      "serveronly": false,
+      "syncDataSetWebUrl": "",
+      "iswebsync": true,
+      "websyncedtime": 0
+    }
+  }
+}

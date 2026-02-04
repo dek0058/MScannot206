@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://bc27c147-4b0a-4a9a-8684-f4c78487f05e",
+  "EntryKey": "codeblock://30e6fb95-96fc-4d10-ad99-4878635a49ad",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "bc27c147-4b0a-4a9a-8684-f4c78487f05e",
+      "Id": "30e6fb95-96fc-4d10-ad99-4878635a49ad",
       "Language": 1,
-      "Name": "CharacterSelectionCreatePopup",
-      "Type": 1,
+      "Name": "RequestCharacterDeleteEvent",
+      "Type": 3,
       "Source": 0,
       "Target": null
     }

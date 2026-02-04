@@ -46,14 +46,6 @@ script GameClientLogic extends Logic
 		return self._T["init"]
 	end
 	
-	---@description "로컬 플레이어에게 이벤트를 전송합니다."
-	---@param e any "전송할 이벤트"
-	@ExecSpace("Client")
-	method void SendEventToLocalPlayer(EventType e)
-		local localPlayer = _UserService.LocalPlayer
-		localPlayer:SendEvent(e)
-	end
-	
 	@ExecSpace("ClientOnly")
 	@EventSender("Logic", "GameServerLogic")
 	handler HandleServerStateEvent(ServerStateEvent e)

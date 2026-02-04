@@ -1,0 +1,4 @@
+@Event
+script EntityTriggerPressEvent extends EventType
+
+end

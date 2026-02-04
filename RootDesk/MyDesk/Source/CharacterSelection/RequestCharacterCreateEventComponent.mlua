@@ -1,0 +1,11 @@
+@Component
+script RequestCharacterCreateEventComponent extends Component
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "5561c457-9d91-44dc-b529-6fe9e17da212")
+	handler HandleButtonClickEvent(ButtonClickEvent event)
+		local e = RequestCharacterCreateEvent()
+		_UserService.LocalPlayer:SendEvent(e)		
+	end
+
+end

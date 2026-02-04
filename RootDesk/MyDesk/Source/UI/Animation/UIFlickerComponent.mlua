@@ -8,6 +8,9 @@ script UIFlickerComponent extends Component
 	---@description "불 켜지는 지속 시간"
 	property number PowerDuration = 0.5
 	
+	---@description "Tween Ease 타입"
+	property string EaseType = "ExpoEaseIn"
+
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		local canvasGroupCom = self.Entity.CanvasGroupComponent
@@ -57,7 +60,7 @@ script UIFlickerComponent extends Component
 		end
 		
 		self._T["Alpha"] = alpha
-		canvasGroupCom.GroupAlpha = alpha
+		canvasGroupCom.GroupAlpha = _TweenUtility:GetValueByString(self.EaseType, alpha)
 	end
 	
 end

@@ -8,6 +8,9 @@ script UITextAnimationComponent extends Component
 	---@description "핑퐁 모드 여부"
 	property boolean PingPong = false
 
+	---@description "현지화 키 사용 여부"
+	property boolean UseLocalizationKey = false
+
 	---@description "애니메이션에 사용할 텍스트 목록"
 	property SyncTable<string> Texts
 
@@ -62,13 +65,18 @@ script UITextAnimationComponent extends Component
 				end
 			end
 			self._T["Index"] = index
-		
+	
+			local msg = self.Texts[index]
+			if self.UseLocalizationKey == true then
+				msg = _LocalizationService:GetText(msg)
+			end
+
 			if self._T["TextComponent"] == 0 then
-				self.Entity.TextComponent.Text = self.Texts[index]
+				self.Entity.TextComponent.Text = msg
 			elseif self._T["TextComponent"] == 1 then
-				self.Entity.TextGUIRendererComponent.Text = self.Texts[index]
+				self.Entity.TextGUIRendererComponent.Text = msg
 			elseif self._T["TextComponent"] == 2 then
-				self.Entity.TextRendererComponent.Text = self.Texts[index]
+				self.Entity.TextRendererComponent.Text = msg
 			end
 		end
 	end

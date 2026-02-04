@@ -183,7 +183,7 @@ script GameServerLogic extends Logic
 		local waits = self._T["waits"]
 		
 		local callback = function()
-			_GameClientLogic:SendEventToLocalPlayer(MapEnterEvent(), uid)
+			_UserProxy:SendEventToLocalPlayer(MapEnterEvent(), uid)
 		end
 		
 		if waits["EnterMap"] ~= nil then

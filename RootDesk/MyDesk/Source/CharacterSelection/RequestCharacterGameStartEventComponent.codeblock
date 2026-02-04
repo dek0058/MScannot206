@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://ad2a7546-d938-4a46-b595-7e53d36bd985",
+  "EntryKey": "codeblock://b894657c-3f5a-427f-9ffc-4e1b784c93e1",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "ad2a7546-d938-4a46-b595-7e53d36bd985",
+      "Id": "b894657c-3f5a-427f-9ffc-4e1b784c93e1",
       "Language": 1,
-      "Name": "LoginLayerComponent",
+      "Name": "RequestCharacterGameStartEventComponent",
       "Type": 1,
       "Source": 0,
       "Target": null

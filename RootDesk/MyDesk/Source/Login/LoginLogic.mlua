@@ -100,7 +100,7 @@ script LoginLogic extends Logic
 		if loginRequestQueue:IsExists(uid) == true then
 			local e = LoginEvent()
 			e.errorCode = _ErrorLogic.LOGIN_ALREADY_REQUEST
-			_GameClientLogic:SendEventToLocalPlayer(e, uid)
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 
@@ -229,12 +229,12 @@ script LoginLogic extends Logic
 							log_error("유저 데이터 저장에 실패했습니다 [uid" .. uid .. "][errorcode:" .. errorCode .. "]")
 							local e = LoginEvent()
 							e.errorCode = _ErrorLogic.USER_DATA_STORAGE_WRITE_ERROR
-							_GameClientLogic:SendEventToLocalPlayer(e, uid)	
+							_UserProxy:SendEventToLocalPlayer(e, uid)	
 							return
 						end
 
 						_UserLogic:AddUser(data)
-						_GameClientLogic:SendEventToLocalPlayer(LoginEvent(), uid)	
+						_UserProxy:SendEventToLocalPlayer(LoginEvent(), uid)	
 					end)
 
 					passedUids[uid] = true
@@ -260,7 +260,7 @@ script LoginLogic extends Logic
 
 					local e = LoginEvent()
 					e.errorCode = errorCode
-					_GameClientLogic:SendEventToLocalPlayer(e, uid)
+					_UserProxy:SendEventToLocalPlayer(e, uid)
 				end
 			end
 
@@ -272,7 +272,7 @@ script LoginLogic extends Logic
 
 				local e = LoginEvent()
 				e.errorCode = _ErrorLogic.LOGIN_UNKNOWN_ERROR
-				_GameClientLogic:SendEventToLocalPlayer(e, uid)
+				_UserProxy:SendEventToLocalPlayer(e, uid)
 			end
 		end
 
@@ -285,7 +285,7 @@ script LoginLogic extends Logic
 			for _, uid in pairs(uids) do
 				local e = LoginEvent()
 				e.errorCode = _ErrorLogic.LOGIN_UNABLE
-				_GameClientLogic:SendEventToLocalPlayer(e, uid)
+				_UserProxy:SendEventToLocalPlayer(e, uid)
 			end
 		end
 

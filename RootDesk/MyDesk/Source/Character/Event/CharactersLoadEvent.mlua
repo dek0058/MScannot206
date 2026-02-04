@@ -1,0 +1,8 @@
+@Event
+script CharactersLoadEvent extends EventType
+
+	property table characters = {}
+
+	property string errorCode = ""
+
+end

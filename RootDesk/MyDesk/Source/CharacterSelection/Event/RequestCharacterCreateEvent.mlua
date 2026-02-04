@@ -1,0 +1,4 @@
+@Event
+script RequestCharacterCreateEvent extends EventType
+
+end

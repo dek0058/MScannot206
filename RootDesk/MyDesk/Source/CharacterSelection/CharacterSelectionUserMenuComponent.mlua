@@ -1,0 +1,95 @@
+---@description "캐릭터 선택창 유저 메뉴 제어 컴포넌트 입니다"
+@Component
+script CharacterSelectionUserMenuComponent extends Component
+	
+	---@description "캐릭터 생성 버튼 엔티티"
+	readonly property Entity Btn_CharacterCreate = nil
+	
+	---@description "캐릭터 삭제 버튼 엔티티"
+	readonly property Entity Btn_CharacterDelete = nil
+	
+	---@description "게임 시작 버튼 엔티티"
+	readonly property Entity Btn_GameStart = nil
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.Btn_CharacterCreate == nil then
+			err:AddError("Btn_CharacterCreate가 설정되지 않았습니다.")
+		end
+
+		if self.Btn_CharacterDelete == nil then
+			err:AddError("Btn_CharacterDelete가 설정되지 않았습니다.")
+		end
+
+		if self.Btn_GameStart == nil then
+			err:AddError("Btn_GameStart가 설정되지 않았습니다.")
+		end
+
+		if err:IsError() then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionUserMenuComponent 오류:\n" .. err:ToString(), "WorldError")
+			return
+		end
+
+		err:Empty()
+
+		if self.Btn_CharacterCreate.TextButtonControlComponent == nil then
+			err:AddError("Btn_CharacterCreate에 TextButtonControlComponent가 없습니다.")
+		end
+
+		if self.Btn_CharacterDelete.TextButtonControlComponent == nil then
+			err:AddError("Btn_CharacterDelete에 TextButtonControlComponent가 없습니다.")
+		end
+
+		if self.Btn_GameStart.TextButtonControlComponent == nil then
+			err:AddError("Btn_GameStart에 TextButtonControlComponent가 없습니다.")
+		end
+
+		if err:IsError() then
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionUserMenuComponent 오류:\n" .. err:ToString(), "WorldError")
+		end
+	end
+	
+	---@description "캐릭터 선택창의 유저 메뉴를 설정합니다."
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		self.Btn_CharacterCreate.TextButtonControlComponent:SetEnable(false)
+		self.Btn_CharacterDelete.TextButtonControlComponent:SetEnable(false)
+		self.Btn_GameStart.TextButtonControlComponent:SetEnable(false)
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			return
+		end
+
+		local availableCharacterCreate = #userStorageCom.characters <= _DefLogic.MaxCharacterSlot
+		self.Btn_CharacterCreate.TextButtonControlComponent:SetEnable(availableCharacterCreate)
+	end
+
+	---@description "선택된 캐릭터 슬롯에 따라 유저 메뉴를 갱신합니다."
+	@ExecSpace("ClientOnly")
+	method void SetSelectCharacterSlot(integer slot)
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			return
+		end
+
+		local character = userStorageCom.characters[slot]
+		if character == nil then
+			self.Btn_CharacterDelete.TextButtonControlComponent:SetEnable(false)
+			self.Btn_GameStart.TextButtonControlComponent:SetEnable(false)
+		else
+			self.Btn_CharacterDelete.TextButtonControlComponent:SetEnable(true)
+			self.Btn_GameStart.TextButtonControlComponent:SetEnable(true)
+		end
+	end
+
+	---@description "캐릭터 슬롯 선택 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCharacterSlotSelectEvent(CharacterSlotSelectEvent e)
+		self:SetSelectCharacterSlot(e.slot)
+	end
+	
+end
