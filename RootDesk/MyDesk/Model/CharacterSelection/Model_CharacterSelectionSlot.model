@@ -487,7 +487,8 @@
             "Components": [
               "MOD.Core.TransformComponent",
               "MOD.Core.AvatarRendererComponent",
-              "MOD.Core.CostumeManagerComponent"
+              "MOD.Core.CostumeManagerComponent",
+              "MOD.Core.NameTagComponent"
             ],
             "Properties": [],
             "Values": [
@@ -582,6 +583,27 @@
                   "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 },
                 "Value": 0
+              },
+              {
+                "TargetType": "MOD.Core.NameTagComponent",
+                "Name": "NameTagRUID",
+                "ValueType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.MODDataRef, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "Value": {
+                  "$type": "MOD.Core.MODDataRef, MOD.Core",
+                  "DataId": "9bf18287398c44699c20fc5123d1a1ae"
+                }
+              },
+              {
+                "TargetType": "MOD.Core.NameTagComponent",
+                "Name": "Enable",
+                "ValueType": {
+                  "$type": "MODNativeType",
+                  "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                },
+                "Value": true
               }
             ],
             "EventLinks": [],
@@ -655,9 +677,9 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector3, MOD.Core",
-                  "x": 0.6,
-                  "y": 0.6,
-                  "z": 0.6
+                  "x": 0.8,
+                  "y": 0.8,
+                  "z": 0.8
                 }
               },
               {
