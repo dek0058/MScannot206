@@ -55,23 +55,23 @@ script TextTabButtonControlComponent extends Component
 			for _, tag in ipairs(tagCom.Tags) do
 				if tag == self.Tag_Select then
 					self.texts[self.Tag_Select] = child
-					self.RUIDMap[self.RUID_Select] = self.Tag_Select
+					self.RUIDMap[self.Tag_Select] = self.RUID_Select
 					break
 				elseif tag == self.Tag_Unselect then
 					self.texts[self.Tag_Unselect] = child
-					self.RUIDMap[self.RUID_Unselect] = self.Tag_Unselect
+					self.RUIDMap[self.Tag_Unselect] = self.RUID_Unselect
 					break
 				elseif tag == self.Tag_Hover then
 					self.texts[self.Tag_Hover] = child
-					self.RUIDMap[self.RUID_Hover] = self.Tag_Hover
+					self.RUIDMap[self.Tag_Hover] = self.RUID_Hover
 					break
 				elseif tag == self.Tag_Press then
 					self.texts[self.Tag_Press] = child
-					self.RUIDMap[self.RUID_Press] = self.Tag_Press
+					self.RUIDMap[self.Tag_Press] = self.RUID_Press
 					break
 				elseif tag == self.Tag_Disable then
 					self.texts[self.Tag_Disable] = child
-					self.RUIDMap[self.RUID_Disable] = self.Tag_Disable
+					self.RUIDMap[self.Tag_Disable] = self.RUID_Disable
 					break
 				end
 			end
@@ -82,15 +82,26 @@ script TextTabButtonControlComponent extends Component
 		end
 		
 		self._T["ButtonStateChangeEvent"] = self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
-			self._T["State"] = e.state
+			---@type ButtonState
+			local state = e.state
+			self._T["State"] = state
+			if state == ButtonState.Clicked then
+				self.IsSelected = not self.IsSelected
+			end
 			self:OnUpdateState()
 		end)
+
+		if _UtilLogic:IsNilorEmptyString(self.LocalizationKey) == false then
+			self:SetText(_LocalizationService:GetText(self.LocalizationKey))
+		end
+
+		self:OnUpdateState()
 	end
 	
 	@ExecSpace("ClientOnly")
 	method void OnEndPlay()
 		if self._T["ButtonStateChangeEvent"] ~= nil then
-			self._T["ButtonStateChangeEvent"]:Disconnect()
+			self.Entity:DisconnectEvent(ButtonStateChangeEvent, self._T["ButtonStateChangeEvent"])
 			self._T["ButtonStateChangeEvent"] = nil
 		end
 	end
