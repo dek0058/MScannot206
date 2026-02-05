@@ -1,46 +1,49 @@
 ---@description "텍스트 버튼을 제어 하는 컴포넌트 입니다"
 @Component
 script TextButtonControlComponent extends Component
-
+	
 	---@description "현지화 키"
 	property string LocalizationKey = ""
-
+	
+	property table<string, Entity> texts = {}
+	
 	---@description "노멀 상태 태그"
 	@HideFromInspector
 	property string Tag_Normal = "Normal"
-
+	
 	---@description "호버 상태 태그"
 	@HideFromInspector
 	property string Tag_Hover = "Hover"
-
+	
 	---@description "눌림 상태 태그"
 	@HideFromInspector
 	property string Tag_Press = "Press"
-
+	
 	---@description "비활성 상태 태그"
 	@HideFromInspector
 	property string Tag_Disable = "Disable"
-
+	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
+		
 		for _, child in ipairs(self.Entity.Children) do
 			local tagCom = child.TagComponent
 			if tagCom == nil then
 				continue
 			end
-		
+			
 			for _, tag in ipairs(tagCom.Tags) do
 				if tag == self.Tag_Normal then
-					self._T[self.Tag_Normal] = child
+					self.texts[self.Tag_Normal] = child
 					break
 				elseif tag == self.Tag_Hover then
-					self._T[self.Tag_Hover] = child
+					self.texts[self.Tag_Hover] = child
 					break
 				elseif tag == self.Tag_Press then
-					self._T[self.Tag_Press] = child
+					self.texts[self.Tag_Press] = child
 					break
 				elseif tag == self.Tag_Disable then
-					self._T[self.Tag_Disable] = child
+					self.texts[self.Tag_Disable] = child
 					break
 				end
 			end
@@ -50,7 +53,7 @@ script TextButtonControlComponent extends Component
 			return
 		end
 		
-		self._T["ButtonStateChangeEvent"] =  self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
+		self._T["ButtonStateChangeEvent"] = self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
 			self._T["State"] = e.state
 			self:OnUpdateState()
 		end)
@@ -58,10 +61,10 @@ script TextButtonControlComponent extends Component
 		if _UtilLogic:IsNilorEmptyString(self.LocalizationKey) == false then
 			self:SetText(_LocalizationService:GetText(self.LocalizationKey))
 		end
-
+		
 		self:OnUpdateState()
 	end
-
+	
 	@ExecSpace("ClientOnly")
 	method void OnEndPlay()
 		if self._T["ButtonStateChangeEvent"] ~= nil then
@@ -69,34 +72,19 @@ script TextButtonControlComponent extends Component
 			self._T["ButtonStateChangeEvent"] = nil
 		end
 	end
-
+	
 	---@description "버튼의 텍스트를 설정합니다"
 	@ExecSpace("ClientOnly")
 	method void SetText(string text)
-		---@type table<Entity>
-		local bts = {}
-		if self._T[self.Tag_Normal] ~= nil then
-			table.insert(bts, self._T[self.Tag_Normal])
-		end
-		if self._T[self.Tag_Hover] ~= nil then
-			table.insert(bts, self._T[self.Tag_Hover])
-		end
-		if self._T[self.Tag_Press] ~= nil then
-			table.insert(bts, self._T[self.Tag_Press])
-		end
-		if self._T[self.Tag_Disable] ~= nil then
-			table.insert(bts, self._T[self.Tag_Disable])
-		end
-		
-		for _, btn in ipairs(bts) do
-			if btn.TextComponent ~= nil then
-				btn.TextComponent.Text = text
-			elseif btn.TextGUIRendererComponent ~= nil then
-				btn.TextGUIRendererComponent.Text = text
+		for _, t in pairs(self.texts) do
+			if t.TextComponent ~= nil then
+				t.TextComponent.Text = text
+			elseif t.TextGUIRendererComponent ~= nil then
+				t.TextGUIRendererComponent.Text = text
 			end
 		end
 	end
-
+	
 	---@description "버튼의 상태에 따라 텍스트를 갱신 합니다"
 	@ExecSpace("ClientOnly")
 	method void OnUpdateState()
@@ -104,33 +92,13 @@ script TextButtonControlComponent extends Component
 			return
 		end
 		
-		---@type Entity
-		local normal = self._T[self.Tag_Normal]
-		
-		---@type Entity
-		local hover = self._T[self.Tag_Hover]
-		
-		---@type Entity
-		local press = self._T[self.Tag_Press]
-		
-		---@type Entity
-		local disable = self._T[self.Tag_Disable]
-		
 		if self.Entity.ButtonComponent.Enable == false then
-			if normal ~= nil then
-				normal:SetVisible(false)
-			end
-		
-			if hover ~= nil then
-				hover:SetVisible(false)
-			end
-		
-			if press ~= nil then
-				press:SetVisible(false)
-			end
-		
-			if disable ~= nil then
-				disable:SetVisible(true)
+			for tag, t in pairs(self.texts) do
+				if tag == self.Tag_Disable then
+					t:SetVisible(true)
+				else
+					t:SetVisible(false)
+				end
 			end
 			return
 		end
@@ -138,58 +106,34 @@ script TextButtonControlComponent extends Component
 		---@type ButtonState
 		local state = self._T["State"]
 		if state == nil or state == ButtonState.Normal or state == ButtonState.Clicked or state == ButtonState.Released then
-			if normal ~= nil then
-				normal:SetVisible(true)
+			for tag, t in pairs(self.texts) do
+				if tag == self.Tag_Normal then
+					t:SetVisible(true)
+				else
+					t:SetVisible(false)
+				end
 			end
-		
-			if hover ~= nil then
-				hover:SetVisible(false)
-			end
-		
-			if press ~= nil then
-				press:SetVisible(false)
-			end
-		
-			if disable ~= nil then
-				disable:SetVisible(false)
-			end
-				
+			
 		elseif state == ButtonState.Hover then
-			if normal ~= nil then
-				normal:SetVisible(false)
+			for tag, t in pairs(self.texts) do
+				if tag == self.Tag_Hover then
+					t:SetVisible(true)
+				else
+					t:SetVisible(false)
+				end
 			end
-		
-			if hover ~= nil then
-				hover:SetVisible(true)
-			end
-		
-			if press ~= nil then
-				press:SetVisible(false)
-			end
-		
-			if disable ~= nil then
-				disable:SetVisible(false)
-			end
-		
+			
 		elseif state == ButtonState.Pressed then
-			if normal ~= nil then
-				normal:SetVisible(false)
-			end
-		
-			if hover ~= nil then
-				hover:SetVisible(false)
-			end
-		
-			if press ~= nil then
-				press:SetVisible(true)
-			end
-		
-			if disable ~= nil then
-				disable:SetVisible(false)
+			for tag, t in pairs(self.texts) do
+				if tag == self.Tag_Press then
+					t:SetVisible(true)
+				else
+					t:SetVisible(false)
+				end
 			end
 		end
 	end
-
+	
 	---@description "버튼의 활성화 상태를 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetEnable(boolean value)
@@ -200,5 +144,5 @@ script TextButtonControlComponent extends Component
 		self.Entity.ButtonComponent.Enable = value
 		self:OnUpdateState()
 	end
-
+	
 end
