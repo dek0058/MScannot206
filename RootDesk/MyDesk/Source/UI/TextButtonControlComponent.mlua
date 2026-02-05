@@ -109,8 +109,8 @@ script TextButtonControlComponent extends Component
 			end
 		end
 		
-		for tag, t in pairs(self.texts) do
-			if tag == self.Tag_Normal then
+		for ttag, t in pairs(self.texts) do
+			if ttag == tag then
 				t:SetVisible(true)
 			else
 				t:SetVisible(false)
