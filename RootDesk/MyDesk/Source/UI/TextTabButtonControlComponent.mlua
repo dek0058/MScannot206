@@ -1,32 +1,51 @@
----@description "텍스트 버튼을 제어 하는 컴포넌트 입니다"
+---@description "텍스트 탭 버튼 컨트롤 컴포넌트"
 @Component
-script TextButtonControlComponent extends Component
+script TextTabButtonControlComponent extends Component
 	
 	---@description "현지화 키"
 	property string LocalizationKey = ""
 	
+	---@description "선택 여부"
+	property boolean IsSelected = false
+	
 	---@description "텍스트 엔티티들"
 	property table<string, Entity> texts = {}
 	
-	---@description "노멀 상태 태그"
-	@HideFromInspector
-	property string Tag_Normal = "Normal"
+	---@description "RUID 매핑 테이블"
+	property table<string, string> RUIDMap = {}
 	
-	---@description "호버 상태 태그"
+	---@description "선택된 상태 RUID"
+	property string RUID_Select = ""
+	
+	---@description "선택되지 않은 상태 RUID"
+	property string RUID_Unselect = ""
+	
+	---@description "호버 상태 RUID"
+	property string RUID_Hover = ""
+	
+	---@description "눌림 상태 RUID"
+	property string RUID_Press = ""
+	
+	---@description "비활성 상태 RUID"
+	property string RUID_Disable = ""
+	
+	@HideFromInspector
+	property string Tag_Select = "Select"
+	
+	@HideFromInspector
+	property string Tag_Unselect = "Unselect"
+	
 	@HideFromInspector
 	property string Tag_Hover = "Hover"
 	
-	---@description "눌림 상태 태그"
 	@HideFromInspector
 	property string Tag_Press = "Press"
 	
-	---@description "비활성 상태 태그"
 	@HideFromInspector
 	property string Tag_Disable = "Disable"
 	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		
 		for _, child in ipairs(self.Entity.Children) do
 			local tagCom = child.TagComponent
 			if tagCom == nil then
@@ -34,17 +53,25 @@ script TextButtonControlComponent extends Component
 			end
 			
 			for _, tag in ipairs(tagCom.Tags) do
-				if tag == self.Tag_Normal then
-					self.texts[self.Tag_Normal] = child
+				if tag == self.Tag_Select then
+					self.texts[self.Tag_Select] = child
+					self.RUIDMap[self.RUID_Select] = self.Tag_Select
+					break
+				elseif tag == self.Tag_Unselect then
+					self.texts[self.Tag_Unselect] = child
+					self.RUIDMap[self.RUID_Unselect] = self.Tag_Unselect
 					break
 				elseif tag == self.Tag_Hover then
 					self.texts[self.Tag_Hover] = child
+					self.RUIDMap[self.RUID_Hover] = self.Tag_Hover
 					break
 				elseif tag == self.Tag_Press then
 					self.texts[self.Tag_Press] = child
+					self.RUIDMap[self.RUID_Press] = self.Tag_Press
 					break
 				elseif tag == self.Tag_Disable then
 					self.texts[self.Tag_Disable] = child
+					self.RUIDMap[self.RUID_Disable] = self.Tag_Disable
 					break
 				end
 			end
@@ -58,18 +85,12 @@ script TextButtonControlComponent extends Component
 			self._T["State"] = e.state
 			self:OnUpdateState()
 		end)
-		
-		if _UtilLogic:IsNilorEmptyString(self.LocalizationKey) == false then
-			self:SetText(_LocalizationService:GetText(self.LocalizationKey))
-		end
-		
-		self:OnUpdateState()
 	end
 	
 	@ExecSpace("ClientOnly")
 	method void OnEndPlay()
 		if self._T["ButtonStateChangeEvent"] ~= nil then
-			self.Entity:DisconnectEvent(ButtonStateChangeEvent, self._T["ButtonStateChangeEvent"])
+			self._T["ButtonStateChangeEvent"]:Disconnect()
 			self._T["ButtonStateChangeEvent"] = nil
 		end
 	end
@@ -88,7 +109,7 @@ script TextButtonControlComponent extends Component
 		end
 	end
 	
-	---@description "버튼의 상태에 따라 텍스트를 갱신 합니다"
+	---@description "버튼의 상태에 따라 텍스트 및 이미지를 갱신 합니다"
 	@ExecSpace("ClientOnly")
 	method void OnUpdateState()
 		if self.Entity.ButtonComponent == nil then
@@ -102,12 +123,18 @@ script TextButtonControlComponent extends Component
 			---@type ButtonState
 			local state = self._T["State"]
 			if state == nil or state == ButtonState.Normal or state == ButtonState.Clicked or state == ButtonState.Released then
-				tag = self.Tag_Normal
+				if self.IsSelected == true then
+					tag = self.Tag_Select
+				else
+					tag = self.Tag_Unselect
+				end
+				
 			elseif state == ButtonState.Hover then
 				tag = self.Tag_Hover
 				
 			elseif state == ButtonState.Pressed then
 				tag = self.Tag_Press
+				
 			end
 		end
 		
@@ -117,6 +144,21 @@ script TextButtonControlComponent extends Component
 			else
 				t:SetVisible(false)
 			end
+		end
+		
+		local RUID = ""
+		if self.RUIDMap[tag] ~= nil then
+			RUID = self.RUIDMap[tag]
+		end
+		
+		if _UtilLogic:IsNilorEmptyString(RUID) == true then
+			return
+		end
+		
+		if self.Entity.SpriteGUIRendererComponent ~= nil then
+			self.Entity.SpriteGUIRendererComponent.ImageRUID = RUID
+		elseif self.Entity.SpriteRendererComponent ~= nil then
+			self.Entity.SpriteRendererComponent.SpriteRUID = RUID
 		end
 	end
 	
