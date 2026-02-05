@@ -12,4 +12,9 @@ login_intro_csload_4,캐릭터를 불러오는 중 입니다...,Intro
 cs_btn_createcharacter,캐릭터 생성,CharacterSelection
 cs_btn_deletecharacter,캐릭터 삭제,CharacterSelection
 cs_btn_gamestart,게임 시작,CharacterSelection
-,,
+cs_cc_tab_male,남성,CreateCharacter
+cs_cc_tab_female,여성,CreateCharacter
+cs_cc_btn_create,생성,CreateCharacter
+cs_cc_btn_cancel,취소,CreateCharacter
+cs_cc_msg,"<color=#53b3c9>캐릭터</color>를 생성해주세요
+<color=#9ca6ab>나머지는 옵션은 랜덤으로 설정 됩니다.</color>",CreateCharacter
