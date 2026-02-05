@@ -1,17 +1,23 @@
+---@description "텍스트 버튼을 제어 하는 컴포넌트 입니다"
 @Component
 script TextButtonControlComponent extends Component
 
+	---@description "현지화 키"
 	property string LocalizationKey = ""
 
+	---@description "노멀 상태 태그"
 	@HideFromInspector
 	property string Tag_Normal = "Normal"
 
+	---@description "호버 상태 태그"
 	@HideFromInspector
 	property string Tag_Hover = "Hover"
 
+	---@description "눌림 상태 태그"
 	@HideFromInspector
 	property string Tag_Press = "Press"
 
+	---@description "비활성 상태 태그"
 	@HideFromInspector
 	property string Tag_Disable = "Disable"
 
@@ -25,16 +31,16 @@ script TextButtonControlComponent extends Component
 		
 			for _, tag in ipairs(tagCom.Tags) do
 				if tag == self.Tag_Normal then
-					self._T["Normal"] = child
+					self._T[self.Tag_Normal] = child
 					break
 				elseif tag == self.Tag_Hover then
-					self._T["Hover"] = child
+					self._T[self.Tag_Hover] = child
 					break
 				elseif tag == self.Tag_Press then
-					self._T["Press"] = child
+					self._T[self.Tag_Press] = child
 					break
 				elseif tag == self.Tag_Disable then
-					self._T["Disable"] = child
+					self._T[self.Tag_Disable] = child
 					break
 				end
 			end
@@ -64,21 +70,22 @@ script TextButtonControlComponent extends Component
 		end
 	end
 
+	---@description "버튼의 텍스트를 설정합니다"
 	@ExecSpace("ClientOnly")
 	method void SetText(string text)
 		---@type table<Entity>
 		local bts = {}
-		if self._T["Normal"] ~= nil then
-			table.insert(bts, self._T["Normal"])
+		if self._T[self.Tag_Normal] ~= nil then
+			table.insert(bts, self._T[self.Tag_Normal])
 		end
-		if self._T["Hover"] ~= nil then
-			table.insert(bts, self._T["Hover"])
+		if self._T[self.Tag_Hover] ~= nil then
+			table.insert(bts, self._T[self.Tag_Hover])
 		end
-		if self._T["Press"] ~= nil then
-			table.insert(bts, self._T["Press"])
+		if self._T[self.Tag_Press] ~= nil then
+			table.insert(bts, self._T[self.Tag_Press])
 		end
-		if self._T["Disable"] ~= nil then
-			table.insert(bts, self._T["Disable"])
+		if self._T[self.Tag_Disable] ~= nil then
+			table.insert(bts, self._T[self.Tag_Disable])
 		end
 		
 		for _, btn in ipairs(bts) do
@@ -90,6 +97,7 @@ script TextButtonControlComponent extends Component
 		end
 	end
 
+	---@description "버튼의 상태에 따라 텍스트를 갱신 합니다"
 	@ExecSpace("ClientOnly")
 	method void OnUpdateState()
 		if self.Entity.ButtonComponent == nil then
@@ -97,16 +105,16 @@ script TextButtonControlComponent extends Component
 		end
 		
 		---@type Entity
-		local normal = self._T["Normal"]
+		local normal = self._T[self.Tag_Normal]
 		
 		---@type Entity
-		local hover = self._T["Hover"]
+		local hover = self._T[self.Tag_Hover]
 		
 		---@type Entity
-		local press = self._T["Press"]
+		local press = self._T[self.Tag_Press]
 		
 		---@type Entity
-		local disable = self._T["Disable"]
+		local disable = self._T[self.Tag_Disable]
 		
 		if self.Entity.ButtonComponent.Enable == false then
 			if normal ~= nil then
@@ -182,6 +190,7 @@ script TextButtonControlComponent extends Component
 		end
 	end
 
+	---@description "버튼의 활성화 상태를 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetEnable(boolean value)
 		if self.Entity.ButtonComponent == nil then
