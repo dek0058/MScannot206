@@ -92,44 +92,27 @@ script TextButtonControlComponent extends Component
 			return
 		end
 		
+		local tag = ""
 		if self.Entity.ButtonComponent.Enable == false then
-			for tag, t in pairs(self.texts) do
-				if tag == self.Tag_Disable then
-					t:SetVisible(true)
-				else
-					t:SetVisible(false)
-				end
+			tag = self.Tag_Disable
+		else
+			---@type ButtonState
+			local state = self._T["State"]
+			if state == nil or state == ButtonState.Normal or state == ButtonState.Clicked or state == ButtonState.Released then
+				tag = self.Tag_Normal
+			elseif state == ButtonState.Hover then
+				tag = self.Tag_Hover
+				
+			elseif state == ButtonState.Pressed then
+				tag = self.Tag_Press
 			end
-			return
 		end
 		
-		---@type ButtonState
-		local state = self._T["State"]
-		if state == nil or state == ButtonState.Normal or state == ButtonState.Clicked or state == ButtonState.Released then
-			for tag, t in pairs(self.texts) do
-				if tag == self.Tag_Normal then
-					t:SetVisible(true)
-				else
-					t:SetVisible(false)
-				end
-			end
-			
-		elseif state == ButtonState.Hover then
-			for tag, t in pairs(self.texts) do
-				if tag == self.Tag_Hover then
-					t:SetVisible(true)
-				else
-					t:SetVisible(false)
-				end
-			end
-			
-		elseif state == ButtonState.Pressed then
-			for tag, t in pairs(self.texts) do
-				if tag == self.Tag_Press then
-					t:SetVisible(true)
-				else
-					t:SetVisible(false)
-				end
+		for tag, t in pairs(self.texts) do
+			if tag == self.Tag_Normal then
+				t:SetVisible(true)
+			else
+				t:SetVisible(false)
 			end
 		end
 	end
