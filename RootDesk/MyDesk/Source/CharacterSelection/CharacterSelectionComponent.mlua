@@ -5,8 +5,11 @@ script CharacterSelectionComponent extends Component
 	---@description "첫 페이드인 속도"
 	readonly property number FadeInSpeed = 1.0
 
-	---@description "유저 메뉴 컴포넌트"
+	---@description "유저 메뉴 컴포넌트 (UI)"
 	readonly property CharacterSelectionUserMenuComponent UserMenuComponent = nil
+
+	---@description "캐릭터 생성 컴포넌트 (UI)"
+	readonly property CharacterCreateComponent CharacterCreateComponent = nil
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -61,7 +64,25 @@ script CharacterSelectionComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterCreateEvent(RequestCharacterCreateEvent e)
+		local err = ErrorType()
 
+		if self.CharacterCreateComponent == nil then
+			err:AddError("CharacterCreateComponent를 찾지 못하였습니다.")
+		end
+
+		if self.UserMenuComponent == nil then
+			err:AddError("CharacterSelectionUserMenuComponent를 찾지 못하였습니다.")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+			return
+		end
+
+		self.UserMenuComponent.Entity.Enable = false
+		self.CharacterCreateComponent.Entity.Enable = true
+
+		self.CharacterCreateComponent:Setup()
 	end
 
 	---@description "캐릭터 삭제 요청 이벤트를 처리합니다."

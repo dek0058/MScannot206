@@ -887,6 +887,11 @@
                 "IsRelative": false,
                 "ComponentId": "aad82d70-aea8-472e-b41b-a8791624ffa2:CharacterSelectionUserMenuComponent",
                 "UseNested": false
+              },
+              "CharacterCreateComponent": {
+                "IsRelative": false,
+                "ComponentId": "489d6d44-9cdc-4d42-bd4c-dc7f458493dc:CharacterCreateComponent",
+                "UseNested": false
               }
             }
           ],
@@ -2809,7 +2814,7 @@
       {
         "id": "489d6d44-9cdc-4d42-bd4c-dc7f458493dc",
         "path": "/ui/Login/CreateCharacter",
-        "componentNames": "MOD.Core.UITransformComponent",
+        "componentNames": "MOD.Core.UITransformComponent,script.CharacterCreateComponent",
         "jsonString": {
           "name": "CreateCharacter",
           "path": "/ui/Login/CreateCharacter",
@@ -2875,6 +2880,31 @@
                 "w": 1.0
               },
               "Enable": true
+            },
+            {
+              "@type": "script.CharacterCreateComponent",
+              "Enable": true,
+              "MaleTabButton": {
+                "IsRelative": false,
+                "ComponentId": "28f0f472-2b43-4077-b437-699668d6e372:TextTabButtonControlComponent",
+                "UseNested": false
+              },
+              "FemaleTabButton": {
+                "IsRelative": false,
+                "ComponentId": "1dbbae8d-cf61-449a-bca2-dbd4e643ad59:TextTabButtonControlComponent",
+                "UseNested": false
+              },
+              "CreateButton": {
+                "IsRelative": false,
+                "ComponentId": "1b43e5dd-5de7-4d2f-a0e1-9add012c37e1:TextButtonControlComponent",
+                "UseNested": false
+              },
+              "NameInput": {
+                "IsRelative": false,
+                "ComponentId": "6af2e695-71ff-4c60-a38f-096754305f23:TextInputComponent",
+                "UseNested": false
+              },
+              "selectedTabIndex": -1
             }
           ],
           "@version": 1
@@ -3134,6 +3164,7 @@
             },
             {
               "@type": "MOD.Core.TextGUIRendererComponent",
+              "AllowAutomaticTranslation": false,
               "FaceDilate": 0.273336649,
               "FaceSoftness": 0.3834797,
               "Font": "Football",
@@ -3686,6 +3717,7 @@
             },
             {
               "@type": "MOD.Core.TextComponent",
+              "AllowAutomaticTranslation": false,
               "Font": 3,
               "FontColor": {
                 "r": 0.427450985,
@@ -3694,6 +3726,7 @@
                 "a": 1.0
               },
               "FontSize": 22,
+              "IsLocalizationKey": true,
               "MaxSize": 40,
               "MinSize": 10,
               "OutlineDistance": {
@@ -3701,7 +3734,7 @@
                 "y": -1.0
               },
               "OverrideSorting": false,
-              "Text": "<color=#53b3c9>캐릭터</color>를 생성해주세요",
+              "Text": "cs_cc_msg",
               "Enable": true
             }
           ],
@@ -3976,9 +4009,502 @@
         }
       },
       {
+        "id": "28f0f472-2b43-4077-b437-699668d6e372",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.TextTabButtonControlComponent",
+        "jsonString": {
+          "name": "Tab_Male",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": null,
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -10.0,
+                "y": 30.0
+              },
+              "OffsetMin": {
+                "x": -260.0,
+                "y": -30.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 250.0,
+                "y": 60.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -135.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -135.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": {
+                  "DataId": "47fb9f270d024ccd9e156e13438d9ecb"
+                },
+                "PressedSprite": {
+                  "DataId": "69338214d4f545b996752e4eb0f5b55e"
+                },
+                "SelectedSprite": {
+                  "DataId": "69338214d4f545b996752e4eb0f5b55e"
+                },
+                "DisabledSprite": {
+                  "DataId": "8806025b86914a88a74004fac48ef8e3"
+                }
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.TextTabButtonControlComponent",
+              "Enable": true,
+              "LocalizationKey": "cs_cc_tab_male",
+              "IsSelected": true,
+              "Tag_Select": "Select",
+              "Tag_Unselect": "Unselect",
+              "Tag_Hover": "Hover",
+              "Tag_Press": "Press",
+              "Tag_Disable": "Disable"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "06fd60f1-7c15-4d9d-a333-50f692bae04b",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Unselect",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Unselect",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Unselect",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": "52b117be-3371-4fe6-98fc-5409cdb3b78e",
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "52b117be-3371-4fe6-98fc-5409cdb3b78e",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -64.5,
+                "y": -14.5
+              },
+              "OffsetMin": {
+                "x": 64.5,
+                "y": 14.5
+              },
+              "RectSize": {
+                "x": 121.0,
+                "y": 31.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "2085af2b-2fb7-4a56-a5e1-de53edd563dd",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Press",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Press",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Press",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": "79dc79e3-b98a-425b-aec9-caad8cb3078f",
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "79dc79e3-b98a-425b-aec9-caad8cb3078f",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -64.5,
+                "y": -14.509
+              },
+              "OffsetMin": {
+                "x": 64.5,
+                "y": 14.491
+              },
+              "RectSize": {
+                "x": 121.0,
+                "y": 31.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "5faab048-a637-4c9e-9f4d-2f20c62df234",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Hover",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Hover",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Hover",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": "1b601cdd-4a5d-46e2-9aea-c7dd9c2f0d86",
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "1b601cdd-4a5d-46e2-9aea-c7dd9c2f0d86",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -64.5,
+                "y": -14.5
+              },
+              "OffsetMin": {
+                "x": 64.5,
+                "y": 14.5
+              },
+              "RectSize": {
+                "x": 121.0,
+                "y": 31.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "1d9f83fb-ade8-4c6b-8fa7-d48bf9ee35b6",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Disable",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Disable",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Disable",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 3,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": "7e868c83-c911-4457-a52d-3306a86f3a66",
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "7e868c83-c911-4457-a52d-3306a86f3a66",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -64.5,
+                "y": -14.5
+              },
+              "OffsetMin": {
+                "x": 64.5,
+                "y": 14.5
+              },
+              "RectSize": {
+                "x": 121.0,
+                "y": 31.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "f0cc76d0-d8e7-4c9f-820c-d66c4c7fa5d8",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Select",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Select",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Select",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 4,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
+            "sub_entity_id": "0e78762e-9d11-44dd-a7c0-269352586490",
+            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
+            "replaced_model_id": null
+          },
+          "modelId": "0e78762e-9d11-44dd-a7c0-269352586490",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -64.5,
+                "y": -14.5
+              },
+              "OffsetMin": {
+                "x": 64.5,
+                "y": 14.5
+              },
+              "RectSize": {
+                "x": 121.0,
+                "y": 31.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
         "id": "1dbbae8d-cf61-449a-bca2-dbd4e643ad59",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.TextTabButtonControlComponent",
         "jsonString": {
           "name": "Tab_Female",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female",
@@ -3986,7 +4512,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 0,
+          "displayOrder": 1,
           "pathConstraints": "//////",
           "revision": 1,
           "origin": {
@@ -4119,6 +4645,16 @@
               },
               "OverrideSorting": false,
               "Enable": true
+            },
+            {
+              "@type": "script.TextTabButtonControlComponent",
+              "Enable": true,
+              "LocalizationKey": "cs_cc_tab_female",
+              "Tag_Select": "Select",
+              "Tag_Unselect": "Unselect",
+              "Tag_Hover": "Hover",
+              "Tag_Press": "Press",
+              "Tag_Disable": "Disable"
             }
           ],
           "@version": 1
@@ -4127,7 +4663,7 @@
       {
         "id": "64f38d72-edf4-4946-8780-7d7928bcfe32",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Unselect",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Unselect",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Unselect",
@@ -4191,6 +4727,10 @@
               "SortingLayer": "MapLayer0",
               "Text": "여성",
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -4199,7 +4739,7 @@
       {
         "id": "09f4f453-90d8-4065-8d68-be0bbb3b6feb",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Press",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Press",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Press",
@@ -4263,6 +4803,10 @@
               "SortingLayer": "MapLayer0",
               "Text": "여성",
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -4271,7 +4815,7 @@
       {
         "id": "630f44d9-e440-43c7-9ab9-52e85231010a",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Hover",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Hover",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Hover",
@@ -4335,6 +4879,10 @@
               "SortingLayer": "MapLayer0",
               "Text": "여성",
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -4343,7 +4891,7 @@
       {
         "id": "535c7f0f-9a5f-4a22-96e1-da814300ee31",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Disable",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Disable",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Disable",
@@ -4407,6 +4955,10 @@
               "SortingLayer": "MapLayer0",
               "Text": "여성",
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -4415,7 +4967,7 @@
       {
         "id": "a29bf54f-a65e-464a-9a2f-5f37f7511e18",
         "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Select",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Select",
           "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Female/Txt_Select",
@@ -4479,503 +5031,9 @@
               "SortingLayer": "MapLayer0",
               "Text": "여성",
               "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "28f0f472-2b43-4077-b437-699668d6e372",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
-        "jsonString": {
-          "name": "Tab_Male",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male",
-          "nameEditable": true,
-          "enable": true,
-          "visible": true,
-          "localize": true,
-          "displayOrder": 1,
-          "pathConstraints": "//////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": null,
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 0,
-              "AnchorsMax": {
-                "x": 0.5,
-                "y": 0.5
-              },
-              "AnchorsMin": {
-                "x": 0.5,
-                "y": 0.5
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": -10.0,
-                "y": 30.0
-              },
-              "OffsetMin": {
-                "x": -260.0,
-                "y": -30.0
-              },
-              "Pivot": {
-                "x": 0.5,
-                "y": 0.5
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIScale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
-              "UIVersion": 2,
-              "anchoredPosition": {
-                "x": -135.0,
-                "y": 0.0
-              },
-              "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-              },
-              "Position": {
-                "x": -135.0,
-                "y": 0.0,
-                "z": 0.0
-              },
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": -1.0
-              },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
-              "ZRotation": 0.0,
-              "Enable": true
             },
             {
-              "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "OverrideSorting": false,
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.ButtonComponent",
-              "Colors": {
-                "NormalColor": {
-                  "r": 1.0,
-                  "g": 1.0,
-                  "b": 1.0,
-                  "a": 1.0
-                },
-                "HighlightedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "PressedColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 1.0
-                },
-                "SelectedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "DisabledColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 0.5019608
-                },
-                "ColorMultiplier": 1.0,
-                "FadeDuration": 0.1
-              },
-              "ImageRUIDs": {
-                "HighlightedSprite": {
-                  "DataId": "47fb9f270d024ccd9e156e13438d9ecb"
-                },
-                "PressedSprite": {
-                  "DataId": "69338214d4f545b996752e4eb0f5b55e"
-                },
-                "SelectedSprite": {
-                  "DataId": "69338214d4f545b996752e4eb0f5b55e"
-                },
-                "DisabledSprite": {
-                  "DataId": "8806025b86914a88a74004fac48ef8e3"
-                }
-              },
-              "OverrideSorting": false,
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "06fd60f1-7c15-4d9d-a333-50f692bae04b",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Unselect",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
-        "jsonString": {
-          "name": "Txt_Unselect",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Unselect",
-          "nameEditable": true,
-          "enable": true,
-          "visible": false,
-          "localize": true,
-          "displayOrder": 0,
-          "pathConstraints": "///////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": "52b117be-3371-4fe6-98fc-5409cdb3b78e",
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "52b117be-3371-4fe6-98fc-5409cdb3b78e",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "OffsetMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TextGUIRendererComponent",
-              "FontSize": 22.0,
-              "MaxSize": 40.0,
-              "MinSize": 10.0,
-              "OverrideSorting": false,
-              "Text": "남성",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "2085af2b-2fb7-4a56-a5e1-de53edd563dd",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Press",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
-        "jsonString": {
-          "name": "Txt_Press",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Press",
-          "nameEditable": true,
-          "enable": true,
-          "visible": false,
-          "localize": true,
-          "displayOrder": 1,
-          "pathConstraints": "///////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": "79dc79e3-b98a-425b-aec9-caad8cb3078f",
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "79dc79e3-b98a-425b-aec9-caad8cb3078f",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 0.0,
-                "y": -0.009
-              },
-              "OffsetMin": {
-                "x": 0.0,
-                "y": -0.009
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TextGUIRendererComponent",
-              "FontSize": 22.0,
-              "MaxSize": 40.0,
-              "MinSize": 10.0,
-              "OverrideSorting": false,
-              "Text": "남성",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "5faab048-a637-4c9e-9f4d-2f20c62df234",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Hover",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
-        "jsonString": {
-          "name": "Txt_Hover",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Hover",
-          "nameEditable": true,
-          "enable": true,
-          "visible": false,
-          "localize": true,
-          "displayOrder": 2,
-          "pathConstraints": "///////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": "1b601cdd-4a5d-46e2-9aea-c7dd9c2f0d86",
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "1b601cdd-4a5d-46e2-9aea-c7dd9c2f0d86",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "OffsetMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TextGUIRendererComponent",
-              "FontSize": 22.0,
-              "MaxSize": 40.0,
-              "MinSize": 10.0,
-              "OverrideSorting": false,
-              "Text": "남성",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "1d9f83fb-ade8-4c6b-8fa7-d48bf9ee35b6",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Disable",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
-        "jsonString": {
-          "name": "Txt_Disable",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Disable",
-          "nameEditable": true,
-          "enable": true,
-          "visible": false,
-          "localize": true,
-          "displayOrder": 3,
-          "pathConstraints": "///////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": "7e868c83-c911-4457-a52d-3306a86f3a66",
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "7e868c83-c911-4457-a52d-3306a86f3a66",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "OffsetMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TextGUIRendererComponent",
-              "FontSize": 22.0,
-              "MaxSize": 40.0,
-              "MinSize": 10.0,
-              "OverrideSorting": false,
-              "Text": "남성",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "f0cc76d0-d8e7-4c9f-820c-d66c4c7fa5d8",
-        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Select",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
-        "jsonString": {
-          "name": "Txt_Select",
-          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Gender/Tab_Male/Txt_Select",
-          "nameEditable": true,
-          "enable": true,
-          "visible": true,
-          "localize": true,
-          "displayOrder": 4,
-          "pathConstraints": "///////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "e39ae3c1-8fa7-402c-ac5b-72c46cc62879",
-            "sub_entity_id": "0e78762e-9d11-44dd-a7c0-269352586490",
-            "root_entity_id": "28f0f472-2b43-4077-b437-699668d6e372",
-            "replaced_model_id": null
-          },
-          "modelId": "0e78762e-9d11-44dd-a7c0-269352586490",
-          "@components": [
-            {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "OffsetMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "RectSize": {
-                "x": 250.0,
-                "y": 60.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.TextGUIRendererComponent",
-              "FontSize": 22.0,
-              "MaxSize": 40.0,
-              "MinSize": 10.0,
-              "OverrideSorting": false,
-              "Text": "남성",
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],
@@ -5203,6 +5261,7 @@
             {
               "@type": "script.TextButtonControlComponent",
               "Enable": true,
+              "LocalizationKey": "cs_cc_btn_create",
               "Tag_Normal": "Normal",
               "Tag_Hover": "Hover",
               "Tag_Press": "Press",
@@ -5675,6 +5734,7 @@
             {
               "@type": "script.TextButtonControlComponent",
               "Enable": true,
+              "LocalizationKey": "cs_cc_btn_cancel",
               "Tag_Normal": "Normal",
               "Tag_Hover": "Hover",
               "Tag_Press": "Press",

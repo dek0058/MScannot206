@@ -5,7 +5,7 @@ script TextTabButtonControlComponent extends Component
 	---@description "현지화 키"
 	property string LocalizationKey = ""
 	
-	---@description "선택 여부"
+	---@description "선택 여부 (외부 호출은 SetSelected 메서드를 사용하세요)"
 	property boolean IsSelected = false
 	
 	---@description "텍스트 엔티티들"
@@ -82,12 +82,7 @@ script TextTabButtonControlComponent extends Component
 		end
 		
 		self._T["ButtonStateChangeEvent"] = self.Entity:ConnectEvent(ButtonStateChangeEvent, function(e)
-			---@type ButtonState
-			local state = e.state
-			self._T["State"] = state
-			if state == ButtonState.Clicked then
-				self.IsSelected = not self.IsSelected
-			end
+			self._T["State"] = e.state
 			self:OnUpdateState()
 		end)
 
@@ -184,4 +179,10 @@ script TextTabButtonControlComponent extends Component
 		self:OnUpdateState()
 	end
 	
+	@ExecSpace("ClientOnly")
+	method void SetSelected(boolean value)
+		self.IsSelected = value
+		self:OnUpdateState()
+	end
+
 end

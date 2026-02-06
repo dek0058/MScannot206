@@ -227,6 +227,7 @@ script GameServerLogic extends Logic
 			log_error("유저 Entity를 찾을 수 없습니다: " .. uid)
 			return
 		end
+
 		_TeleportService:TeleportToMapPosition(userEntity, Vector3.zero, mapName)
 	end
 

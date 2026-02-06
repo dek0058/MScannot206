@@ -1,6 +1,8 @@
+---@description "캐릭터 슬롯 선택 이벤트"
 @Event
 script CharacterSlotSelectEvent extends EventType
 
+	---@description "선택된 캐릭터 슬롯"
 	property integer slot = 0
 
 end

@@ -1,0 +1,112 @@
+---@description "캐릭터 생성 요청을 하는 UI 컴포넌트입니다"
+@Component
+script CharacterCreateComponent extends Component
+
+	---@description "남성 탭 버튼 컴포넌트"
+	property TextTabButtonControlComponent MaleTabButton = nil
+
+	---@description "여성 탭 버튼 컴포넌트"
+	property TextTabButtonControlComponent FemaleTabButton = nil
+
+	---@description "생성 버튼 컴포넌트"
+	property TextButtonControlComponent CreateButton = nil
+
+	---@description "이름 입력 컴포넌트"
+	property TextInputComponent NameInput = nil
+
+	---@description "탭 버튼 컴포넌트들"
+	property table<TextTabButtonControlComponent> tabButtons = {}
+
+	---@description "선택된 탭 버튼 컴포넌트"
+	@HideFromInspector()
+	property integer selectedTabIndex = -1
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.MaleTabButton == nil then
+			err:AddError("MaleTabButton이 할당되지 않았습니다.")
+		end
+
+		if self.FemaleTabButton == nil then
+			err:AddError("FemaleTabButton이 할당되지 않았습니다.")
+		end
+
+		if self.CreateButton == nil then
+			err:AddError("CreateButton이 할당되지 않았습니다.")
+		end
+
+		if self.NameInput == nil then
+			err:AddError("NameInput이 할당되지 않았습니다.")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterCreateComponent 초기화 중 오류가 발생하였습니다.", "WorldError")
+		end
+
+		self.tabButtons = { self.MaleTabButton, self.FemaleTabButton }
+
+		local tabButtonsEventHandlers = {}
+		for i, tab in ipairs(self.tabButtons) do
+			local h = tab.Entity:ConnectEvent(ButtonClickEvent, function (e)
+				self:SelectTab(i)
+			end)
+			tabButtonsEventHandlers[tab.Entity] = h
+		end
+		self._T["TabButtonsEventHandlers"] = tabButtonsEventHandlers
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		local tabButtonsEventHandlers = self._T["TabButtonsEventHandlers"]
+		if tabButtonsEventHandlers ~= nil then
+			for entity, h in pairs(tabButtonsEventHandlers) do
+				entity:DisconnectEvent(ButtonClickEvent, h)
+				h = nil
+			end
+			self._T["TabButtonsEventHandlers"] = nil
+		end
+	end
+
+	---@description "캐릭터 생성 화면을 설정합니다."
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		self.selectedTabIndex = -1
+		self:SelectTab(1)
+
+		self.NameInput.Text = ""
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SelectTab(integer selectedIndex)
+		if selectedIndex == self.selectedTabIndex then
+			return
+		end
+
+		self.selectedTabIndex = selectedIndex
+		for i, tab in ipairs(self.tabButtons) do
+			tab:SetSelected(i == selectedIndex)
+		end
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "1b43e5dd-5de7-4d2f-a0e1-9add012c37e1")
+	handler HandleCreateEvent(ButtonClickEvent event)
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "541df53a-ca0a-421e-9611-3c41d0371cbb")
+	handler HandleCancelEvent(ButtonClickEvent event)
+
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "6af2e695-71ff-4c60-a38f-096754305f23")
+	handler HandleNameChangeEvent(TextInputValueChangeEvent event)
+		
+	end
+
+end

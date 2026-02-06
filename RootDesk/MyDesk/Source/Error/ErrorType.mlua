@@ -56,4 +56,14 @@ script ErrorType
 		return self._T["error"]
 	end
 
+	method void PrintErrors()
+		if self._T["error"] == nil then
+			return
+		end
+
+		for _, msg in pairs(self._T["error"]) do
+			print(msg)
+		end
+	end
+
 end

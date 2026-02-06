@@ -150,12 +150,12 @@ script ErrorLogic extends Logic
 	end
 
 	---@description "오류 목록을 로그로 출력합니다."
-	method void PrintErrors(table err)
-		if err == nil then
+	method void PrintErrors(table errorCodeList)
+		if errorCodeList == nil then
 			return
 		end
 
-		for _, errorCode in pairs(err) do
+		for _, errorCode in pairs(errorCodeList) do
 			local msg = self:GetErrorMessage(errorCode)
 			log_error(msg .. " [" .. errorCode .. "]")
 		end

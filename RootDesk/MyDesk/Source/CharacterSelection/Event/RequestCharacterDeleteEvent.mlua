@@ -1,3 +1,4 @@
+---@description "캐릭터 삭제 요청 이벤트"
 @Event
 script RequestCharacterDeleteEvent extends EventType
 

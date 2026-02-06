@@ -101,7 +101,7 @@
       {
         "id": "1733af80-f10a-4206-989d-2311159eb5da",
         "path": "/ui/Transition/DefaultTransition",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TagComponent,script.FadeInOutTransitionComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TagComponent,script.FadeInOutTransitionComponent,MOD.Core.CanvasGroupComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "DefaultTransition",
           "path": "/ui/Transition/DefaultTransition",
@@ -177,104 +177,21 @@
             },
             {
               "@type": "script.FadeInOutTransitionComponent",
-              "Enable": true,
-              "FadeEntity": {
-                "tempEntityId": null,
-                "IsRelative": false,
-                "EntityId": "3957dd35-e6a6-4467-96f2-0f5cf323ed43",
-                "Version2": false
-              }
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
-        "id": "3957dd35-e6a6-4467-96f2-0f5cf323ed43",
-        "path": "/ui/Transition/DefaultTransition/Background",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
-        "jsonString": {
-          "name": "Background",
-          "path": "/ui/Transition/DefaultTransition/Background",
-          "nameEditable": true,
-          "enable": true,
-          "visible": true,
-          "localize": true,
-          "displayOrder": 0,
-          "pathConstraints": "////",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "uisprite",
-            "sub_entity_id": null,
-            "root_entity_id": null,
-            "replaced_model_id": null
-          },
-          "modelId": "uisprite",
-          "@components": [
+              "Enable": true
+            },
             {
-              "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 15,
-              "AnchorsMax": {
-                "x": 1.0,
-                "y": 1.0
-              },
-              "AnchorsMin": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "MobileOnly": false,
-              "OffsetMax": {
-                "x": 300.0,
-                "y": 300.0
-              },
-              "OffsetMin": {
-                "x": -300.0,
-                "y": -300.0
-              },
-              "Pivot": {
-                "x": 0.5,
-                "y": 0.5
-              },
-              "RectSize": {
-                "x": 2520.0,
-                "y": 1680.0
-              },
-              "UIMode": 1,
-              "UIVersion": 2,
-              "anchoredPosition": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "Position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-              },
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
+              "@type": "MOD.Core.CanvasGroupComponent",
               "Enable": true
             },
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "EndFrameIndex": 2147483647,
-              "ImageRUID": {
-                "DataId": ""
-              },
-              "MaterialId": "",
               "OverrideSorting": false,
-              "PlayRate": 1.0,
               "Color": {
                 "r": 0.0,
                 "g": 0.0,
                 "b": 0.0,
                 "a": 1.0
               },
-              "FrameColumn": 1,
               "Enable": true
             }
           ],

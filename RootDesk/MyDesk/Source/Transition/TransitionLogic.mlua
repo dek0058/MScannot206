@@ -7,13 +7,13 @@ script TransitionLogic extends Logic
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		_ScreenTransitionService:SetFadeInOutEnable(true)
-		_ScreenTransitionService:SetFadeInTime(1.5)
-		_ScreenTransitionService:SetFadeOutTime(1.5)
+		_ScreenTransitionService:SetFadeInTime(1.0)
+		_ScreenTransitionService:SetFadeOutTime(1.0)
 	end
 
 	@ExecSpace("Client")
 	method void Dissolve()
-		_ScreenTransitionService:DissolveScreen(1.0, true, false)
+		_ScreenTransitionService:DissolveScreen(1.0, false, false)
 	end
 
 	@ExecSpace("Client")

@@ -1,4 +1,5 @@
+---@description "캐릭터 생성 요청 이벤트"
 @Event
 script RequestCharacterCreateEvent extends EventType
-
+	
 end

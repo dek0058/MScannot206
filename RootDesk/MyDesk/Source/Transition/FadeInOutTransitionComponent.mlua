@@ -1,103 +1,85 @@
 @Component
 script FadeInOutTransitionComponent extends Component
 
-	property Entity FadeEntity = nil
-	
 	@MaxValue(3.0)
 	@MinValue(0.1)
 	property number FadeSeconds = 1.5
 
 	@ExecSpace("ClientOnly")
-	method void OnUpdate(number dt)
-		if self._T["state"] == nil then
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.Entity.SpriteGUIRendererComponent == nil then
+			err:AddError("FadeInOutTransitionComponent는 SpriteGUIRendererComponent가 필요합니다.")
+		end
+
+		if self.Entity.CanvasGroupComponent == nil then
+			err:AddError("FadeInOutTransitionComponent는 CanvasGroupComponent가 필요합니다.")
+		end
+
+		if err:IsError() == true then
+			err:PrintErrors()
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "FadeInOutTransitionComponent 초기화 중 오류 발생", "WorldError")
 			return
 		end
 
-		if self._T["FadeSpriteComponent"] == nil then
-			---@type SpriteGUIRendererComponent
-			local spriteCom = self.FadeEntity:GetComponent(SpriteGUIRendererComponent)
-			if spriteCom == nil then
-				return
-			end
-			self._T["FadeSpriteComponent"] = spriteCom
-		end
+		local fadeInTweener = _TweenLogic:MakeTween(
+			0.0,
+			1.0,
+			self.FadeSeconds,
+			EaseType.CubicEaseInOut,
+			function(value)
+				self.Entity.CanvasGroupComponent.GroupAlpha = value
+			end)
+		fadeInTweener.LoopCount = 1
+		fadeInTweener.LoopType = TweenLoopType.Restart
+		self._T["FadeInTweener"] = fadeInTweener
 
-		if self._T["update"] ~= nil then
-			self._T["update"](dt)
-		end
-
-		---@type SpriteGUIRendererComponent
-		local fadeSpriteCom = self._T["FadeSpriteComponent"]
-		if self._T["state"] == "FadingIn" then
-			fadeSpriteCom.Color.a += dt / self.FadeSeconds
-			if fadeSpriteCom.Color.a >= 1.0 then
-				fadeSpriteCom.Color.a = 1.0
-				self:OnComplete()
-			end
-
-		elseif self._T["state"] == "FadingOut" then
-			fadeSpriteCom.Color.a -= dt / self.FadeSeconds
-			if fadeSpriteCom.Color.a <= 0.0 then
-				fadeSpriteCom.Color.a = 0.0
-				self:OnComplete()
-				self.Entity.Enable = false
-			end
-		end
-	end
-
-	@ExecSpace("ClientOnly")
-	method void OnComplete()
-		self._T["state"] = nil
-		self._T["update"] = nil
-		if self._T["complete"] ~= nil then
-			self._T["complete"]()
-			self._T["complete"] = nil
-		end
+		local fadeOutTweener = _TweenLogic:MakeTween(
+			1.0,
+			0.0,
+			self.FadeSeconds,
+			EaseType.CubicEaseInOut,
+			function(value)
+				self.Entity.CanvasGroupComponent.GroupAlpha = value
+			end)
+		fadeOutTweener.LoopCount = 1
+		fadeOutTweener.LoopType = TweenLoopType.Restart
+		fadeOutTweener:SetOnEndCallback(function()
+			self.Entity.SpriteGUIRendererComponent.RaycastTarget = false
+		end)
+		self._T["FadeOutTweener"] = fadeOutTweener
+			
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleForceTransitionEvent(ForceTransitionEvent event)
-		if self._T["FadeSpriteComponent"] == nil then
-			---@type SpriteGUIRendererComponent
-			local spriteCom = self.FadeEntity:GetComponent(SpriteGUIRendererComponent)
-			if spriteCom == nil then
-				return
-			end
-			self._T["FadeSpriteComponent"] = spriteCom
-		end
-
-		---@type SpriteGUIRendererComponent
-		local fadeSpriteCom = self._T["FadeSpriteComponent"]
-		fadeSpriteCom.Color.a = 1.0
+		self.Entity.CanvasGroupComponent.GroupAlpha = 1.0
+		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleStartTransitionEvent(StartTransitionEvent e)
-		self._T["state"] = "FadingIn"
+		---@type Tweener
+		local fadeInTweener = self._T["FadeInTweener"]
+		if fadeInTweener == nil then
+			return
+		end
+		fadeInTweener:Play()
+		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
 	end
 
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
-		self._T["state"] = "FadingOut"
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleTransitionEvent(TransitionEvent e)
-		if e.start ~= nil then
-			e.start()
+		---@type Tweener
+		local fadeOutTweener = self._T["FadeOutTweener"]
+		if fadeOutTweener == nil then
+			return
 		end
-
-		if e.update ~= nil then
-			self._T["update"] = e.update
-		end
-
-		if e.complete ~= nil then
-			self._T["complete"] = e.complete
-		end
+		fadeOutTweener:Play()
 	end
 
 end
