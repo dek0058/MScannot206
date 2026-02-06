@@ -4,6 +4,18 @@ script TransitionLogic extends Logic
 	---@description "기본 Transition 태그"
 	property string Default = "Default"
 	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		_ScreenTransitionService:SetFadeInOutEnable(true)
+		_ScreenTransitionService:SetFadeInTime(1.5)
+		_ScreenTransitionService:SetFadeOutTime(1.5)
+	end
+
+	@ExecSpace("Client")
+	method void Dissolve()
+		_ScreenTransitionService:DissolveScreen(1.0, true, false)
+	end
+
 	@ExecSpace("Client")
 	method void Clear()
 		self._T["transition"] = {}
