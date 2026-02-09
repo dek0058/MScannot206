@@ -9,7 +9,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">table</span> <span style="font-weight: bold;">GetPendingRequests</span>()
             </th>
         </tr>
@@ -20,7 +20,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">ClearProcessedRequests</span>()
             </th>
         </tr>
@@ -31,7 +31,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">AddRequest</span>(<span style="color: #3167ad;">any</span> request)
             </th>
         </tr>
@@ -42,7 +42,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">FlushRequests</span>()
             </th>
         </tr>
@@ -53,7 +53,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">HasPendingRequests</span>()
             </th>
         </tr>

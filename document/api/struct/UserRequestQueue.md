@@ -11,14 +11,14 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsEmpty</span>()
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 대기열이 비어있는지 확인합니다.
             </td>
         </tr>
@@ -27,14 +27,14 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsExists</span>(<span style="color: #3167ad;">string</span> uid)
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 특정 유저의 요청이 대기열에 존재하는지 확인합니다.
             </td>
         </tr>
@@ -43,14 +43,14 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">table&lt;UserRequest&gt;</span> <span style="font-weight: bold;">PullRequests</span>(<span style="color: #3167ad;">integer</span> maxCount)
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 대기열에서 최대 maxCount개의 요청을 꺼냅니다.
             </td>
         </tr>
@@ -59,7 +59,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">AddRequest</span>(<a href="../struct/UserRequest.md" style="text-decoration: none; color: #3167ad;">UserRequest</a> userRequest)
             </th>
         </tr>

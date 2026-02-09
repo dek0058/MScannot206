@@ -11,14 +11,14 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">LoginFailure</span> <span style="font-weight: bold;">FromTable</span>(<span style="color: #3167ad;">table</span> content)
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 테이블에서 구조체를 생성합니다
             </td>
         </tr>

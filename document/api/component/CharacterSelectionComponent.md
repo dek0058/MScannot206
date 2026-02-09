@@ -11,7 +11,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </th>
         </tr>
@@ -22,7 +22,7 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnEndPlay</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </th>
         </tr>
@@ -33,14 +33,14 @@
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <thead>
         <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">Setup</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
                 캐릭터 선택 화면을 설정합니다.
             </td>
         </tr>
@@ -50,4 +50,4 @@
 
 ## Handlers
 
-<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterCreateEvent</span>(<a href="../event/RequestCharacterCreateEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterCreateEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">캐릭터 생성 요청 이벤트를 처리합니다.</td></tr></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterDeleteEvent</span>(<a href="../event/RequestCharacterDeleteEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterDeleteEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">캐릭터 삭제 요청 이벤트를 처리합니다.</td></tr></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterGameStartEvent</span>(<a href="../event/RequestCharacterGameStartEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterGameStartEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">게임 시작 요청 이벤트를 처리합니다.</td></tr></tbody></table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterCreateEvent</span>(<a href="../event/RequestCharacterCreateEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterCreateEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">캐릭터 생성 요청 이벤트를 처리합니다.</td></tr></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterDeleteEvent</span>(<a href="../event/RequestCharacterDeleteEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterDeleteEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">캐릭터 삭제 요청 이벤트를 처리합니다.</td></tr></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterGameStartEvent</span>(<a href="../event/RequestCharacterGameStartEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterGameStartEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">게임 시작 요청 이벤트를 처리합니다.</td></tr></tbody></table>
