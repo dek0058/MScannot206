@@ -9,59 +9,51 @@
 ## Methods
 
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>()
-            </th>
-        </tr>
-    </thead>
     <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>()
+            </td>
+        </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">Throw</span>(<span style="color: #3167ad;">string</span> errorCode) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">Throw</span>(<span style="color: #3167ad;">string</span> errorCode) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 오류를 클라이언트에 표시합니다.
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">PrintErrors</span>(<span style="color: #3167ad;">table</span> errorCodeList)
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">PrintErrors</span>(<span style="color: #3167ad;">table</span> errorCodeList)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 오류 목록을 로그로 출력합니다.
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">GetErrorMessage</span>(<span style="color: #3167ad;">string</span> errorCode)
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">GetErrorMessage</span>(<span style="color: #3167ad;">string</span> errorCode)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 오류 메시지를 반환합니다.
             </td>
         </tr>

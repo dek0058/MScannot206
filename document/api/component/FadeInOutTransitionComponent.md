@@ -7,18 +7,43 @@
 ## Methods
 
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
     </tbody>
 </table>
 
 
 ## Handlers
 
-<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleForceTransitionEvent</span>(<a href="../event/ForceTransitionEvent.md" style="text-decoration: none; color: #3167ad;">ForceTransitionEvent</a> event) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleStartTransitionEvent</span>(<a href="../event/StartTransitionEvent.md" style="text-decoration: none; color: #3167ad;">StartTransitionEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody></tbody></table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;"><span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleFinishTransitionEvent</span>(<a href="../event/FinishTransitionEvent.md" style="text-decoration: none; color: #3167ad;">FinishTransitionEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;"></th></tr></thead><tbody></tbody></table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleForceTransitionEvent</span>(<a href="../event/ForceTransitionEvent.md" style="text-decoration: none; color: #3167ad;">ForceTransitionEvent</a> event) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        
+    </tbody>
+</table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleStartTransitionEvent</span>(<a href="../event/StartTransitionEvent.md" style="text-decoration: none; color: #3167ad;">StartTransitionEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        
+    </tbody>
+</table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleFinishTransitionEvent</span>(<a href="../event/FinishTransitionEvent.md" style="text-decoration: none; color: #3167ad;">FinishTransitionEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        
+    </tbody>
+</table>

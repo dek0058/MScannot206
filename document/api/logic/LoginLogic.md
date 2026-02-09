@@ -9,75 +9,65 @@
 ## Methods
 
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnBeginPlay</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">FetchLogin</span>(<span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">FetchLogin</span>(<span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 유저의 로그인 상태를 가져옵니다
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">RequestLogin</span>(<span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/Server-ffa500" alt="Server" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">RequestLogin</span>(<span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/Server-ffa500" alt="Server" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 유저가 로그인 요청을 합니다
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnReserveLogin</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnReserveLogin</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 요청받은 로그인을 처리합니다
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnRequestLogin</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">OnRequestLogin</span>() <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 로그인 요청을 전송하며 응답받은 결과를 처리합니다
             </td>
         </tr>

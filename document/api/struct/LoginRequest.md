@@ -9,32 +9,28 @@
 ## Methods
 
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">ToJson</span>()
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">ToJson</span>()
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 구조체를 JSON 문자열로 변환합니다
             </td>
         </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left !important; vertical-align: top;">
-                <span style="color: #3167ad;">LoginRequest</span> <span style="font-weight: bold;">FromJson</span>(<span style="color: #3167ad;">string</span> json)
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left !important; vertical-align: top;">
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">LoginRequest</span> <span style="font-weight: bold;">FromJson</span>(<span style="color: #3167ad;">string</span> json)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 JSON 문자열에서 구조체를 생성합니다
             </td>
         </tr>
