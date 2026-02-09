@@ -203,6 +203,7 @@ script CharacterLogic extends Logic
 			info.uid = r.uid
 			info.token = token
 			info.name = params.name
+			info.slot = params.slot
 
 			table.insert(content["uids"], r.uid)
 			table.insert(req.requests, info)

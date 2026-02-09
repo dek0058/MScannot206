@@ -6,6 +6,6 @@ script CreateCharacterParams
 	property string name = ""
 
 	---@description "캐릭터 슬롯 번호"
-	property string slot = ""
+	property integer slot = 0
 
 end

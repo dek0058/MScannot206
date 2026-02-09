@@ -26,4 +26,8 @@ script UserStorageComponent extends Component
 		end
 	end
 
+	method boolean IsExistCharacterSlot(integer slot)
+		return self.characters[slot] ~= nil
+	end
+
 end

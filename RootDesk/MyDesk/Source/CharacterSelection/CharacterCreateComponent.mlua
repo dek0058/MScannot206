@@ -146,8 +146,30 @@ script CharacterCreateComponent extends Component
 	@EventSender("Entity", "1b43e5dd-5de7-4d2f-a0e1-9add012c37e1")
 	handler HandleCreateEvent(ButtonClickEvent e)
 		if self.isRequesting == true then
+			local e = CreateCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST
+			_UserProxy:SendEventToLocalPlayer(e)
 			return
 		end
+		
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			local e = CreateCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+
+			_UserProxy:SendEventToLocalPlayer(e)
+			return
+		end
+
+		local slot = 0
+		for i = 1, _DefLogic.MaxCharacterSlot do
+			if userStorageCom:IsExistCharacterSlot(i) then
+				continue
+			end
+			slot = i
+			break
+		end
+
 		self.isRequesting = true
 		
 		if self.LoadingModalEntity ~= nil then
@@ -156,6 +178,8 @@ script CharacterCreateComponent extends Component
 		
 		local params = CreateCharacterParams()
 		params.name = self.NameInput.Text
+		params.slot = slot
+
 		_CharacterLogic:RequestCreateCharacter(_UserProxy:GetUid(), params)
 	end
 	
