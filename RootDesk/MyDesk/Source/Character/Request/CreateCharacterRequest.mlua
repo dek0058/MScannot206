@@ -1,8 +1,11 @@
+---@description "유저 캐릭터 생성 요청 구조체"
 @Struct
 script CreateCharacterRequest
 
-	property table requests = {}
+	---@description "요청 리스트"
+	property table<UserCreateCharacterInfo> requests = {}
 
+	---@description "구조체를 JSON 문자열로 변환 합니다"
 	method string ToJson()
 		local content = {
 			["requests"] = {}

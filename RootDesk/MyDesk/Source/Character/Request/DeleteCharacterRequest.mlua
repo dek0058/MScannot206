@@ -2,8 +2,10 @@
 @Struct
 script DeleteCharacterRequest
 
+	---@description "요청 리스트"
 	property table<UserDeleteCharacterInfo> requests = {}
 
+	---@description "구조체를 JSON 문자열로 변환 합니다"
 	method string ToJson()
 		local content = {
 			requests = {}
