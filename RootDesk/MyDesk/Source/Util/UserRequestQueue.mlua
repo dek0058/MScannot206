@@ -23,7 +23,7 @@ script UserRequestQueue
 	end
 
 	---@description "대기열에서 최대 maxCount개의 요청을 꺼냅니다."
-	method table PullRequests(integer maxCount)
+	method table<UserRequest> PullRequests(integer maxCount)
 		---@type table<UserRequest>
 		local requests = {}
 		

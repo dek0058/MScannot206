@@ -1,0 +1,18 @@
+@Struct
+script CreateCharacterRequest
+
+	property table requests = {}
+
+	method string ToJson()
+		local content = {
+			["requests"] = {}
+		}
+		
+		for _, r in ipairs(self.requests) do
+			table.insert(content["requests"], r:ToJson())
+		end
+		
+		return _HttpService:JSONEncode(content)
+	end
+
+end

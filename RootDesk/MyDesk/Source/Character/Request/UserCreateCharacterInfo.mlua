@@ -1,0 +1,20 @@
+@Struct
+script UserCreateCharacterInfo
+
+	property string uid = ""
+
+	property string token = ""
+
+	property string name = ""
+
+	method string ToJson()
+		local content = {
+			["uid"] = self.uid,
+			["token"] = self.token,
+			["name"] = self.name,
+		}
+		
+		return _HttpService:JSONEncode(content)
+	end
+
+end

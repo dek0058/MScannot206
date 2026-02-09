@@ -2,11 +2,14 @@
 @Logic
 script UserLogic extends Logic
 
+	---@description "유저 데이터 저장소 키"
+	readonly property string Key_User = "user"
+
 	---@description "로그인 한 유저 목록"
-	property table users = {}
+	property table<string, UserData> users = {}
 
 	---@description "유저 워프 기록 목록"
-	property table userWarpRecords = {}
+	property table<string, UserWarpRecord> userWarpRecords = {}
 
 	---@description "유저가 존재하는지 확인합니다."
 	@ExecSpace("ServerOnly")
@@ -16,52 +19,25 @@ script UserLogic extends Logic
 
 	---@description "유저의 엔티티 정보를 가져옵니다."
 	@ExecSpace("ServerOnly")
-	method table GetUserEntity(string uid)
-		local user = self.users[uid]
-		if user == nil then
-			return nil
-		end
-		return user["user_entity"]
-	end
-
-	---@description "유저의 캐릭터 목록을 가져옵니다."
-	@ExecSpace("ServerOnly")
-	method table GetCharacters(string uid)
-		local userEntity = self:GetUserEntity(uid)
-		if userEntity == nil then
-			return nil
-		end
-		
-		return userEntity["characters"]
+	method UserData GetUser(string uid)
+		return self.users[uid]
 	end
 
 	@ExecSpace("ServerOnly")
-	method void AddUser(table user)
+	method void AddUser(UserData user)
 		if user == nil then
-			log_error("user is null")
-			return
-		elseif user["user_entity"] == nil then
-			log_error("user_entity is null")
-			return
-		elseif user["token"] == nil then
-			log_error("token is null")
-			return
-		elseif user["version"] == nil or user["version"] ~= _DefLogic.Version then
-			log_error("version is invalid")
 			return
 		end
-		
-		---@type table
-		local userEntity = user["user_entity"]
-		if userEntity["uid"] == nil then
-			log_error("uid is null")
+
+		if user.userEntity == nil then
 			return
 		end
-		
-		---@type string
-		local uid = userEntity["uid"]
-		
-		self.users[uid] = user
+
+		if _UtilLogic:IsNilorEmptyString(user.userEntity.uid) then
+			return
+		end
+
+		self.users[user.userEntity.uid] = user
 	end
 
 	@ExecSpace("ServerOnly")
@@ -88,12 +64,12 @@ script UserLogic extends Logic
 
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
-		if self.userWarpRecords[e.UserId] ~= nil then
-			self.userWarpRecords[e.UserId] = nil
-		end
-		
 		if self.users[e.UserId] ~= nil then
 			self.users[e.UserId] = nil
+		end
+		
+		if self.userWarpRecords[e.UserId] ~= nil then
+			self.userWarpRecords[e.UserId] = nil
 		end
 	end
 

@@ -1,0 +1,6 @@
+@Event
+script CharacterCreateEvent extends EventType
+
+	property string errorCode = ""
+
+end

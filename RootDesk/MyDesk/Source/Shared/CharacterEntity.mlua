@@ -1,0 +1,43 @@
+---@description "캐릭터 엔티티 구조체"
+@Struct
+script CharacterEntity
+
+	---@description "캐릭터 슬롯 번호"
+	property integer slot = 0
+
+	---@description "캐릭터 이름"
+	property string name = ""
+
+	---@description "구조체를 JSON 문자열로 변환합니다"
+	method string ToJson()
+		return _HttpService:JSONEncode({
+			["slot"] = self.slot,
+			["name"] = self.name,
+		})
+	end
+
+	---@description "테이블에서 구조체를 생성합니다"
+	method CharacterEntity FromTable(table content)
+		if content == nil then
+			return self
+		end
+		self.slot = content["slot"] or 0
+		self.name = content["name"] or ""
+		return self
+	end
+
+	---@description "JSON 문자열에서 구조체를 생성합니다"
+	method CharacterEntity FromJson(string json)
+		if _UtilLogic:IsNilorEmptyString(json) then
+			return self
+		end
+
+		local content = _HttpService:JSONDecode(json)
+		
+		self.slot = content["slot"] or 0
+		self.name = content["name"] or ""
+
+		return self
+	end
+
+end

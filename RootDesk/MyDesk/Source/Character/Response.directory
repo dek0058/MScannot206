@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://88964d6caa6440c681e9f135004a3d34",
+  "EntryKey": "directory://8b113248b606495d830a657f0503b1f2",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://88964d6caa6440c681e9f135004a3d34",
-      "name": "Character",
+      "entry_id": "directory://8b113248b606495d830a657f0503b1f2",
+      "name": "Response",
       "lock": false,
       "folding": false,
       "nameEditable": true

@@ -1,31 +1,33 @@
+---@description "캐릭터에 대한 처리 및 관리를 담당하는 로직입니다"
 @Logic
 script CharacterLogic extends Logic
 
-	property any createCharacterRequest = BatchRequest()
-	property boolean isDoingCreateCharacter = false
-
-	property any deleteCharacterRequest = BatchRequest()
-	property boolean isDoingDeleteCharacter = false
+	---@description "캐릭터 생성 API"
+	readonly property string Api_CreateCharacter = "user/character/create"
 
 	---@description "캐릭터 생성 요청 대기 시간"
-	readonly property integer CreateCharacterRequestTimeSec = 3
+	readonly property integer CreateCharacterRequestTimeSec = 1
+
+	---@description "캐릭터 생성 요청 최대 처리 개수"
+	readonly property integer MaxCreateCharacterRequestPerFlush = 10
+
+	---@description "캐릭터 삭제 API"
+	readonly property string Api_DeleteCharacter = "user/character/delete"
 
 	---@description "캐릭터 삭제 요청 대기 시간"
-	readonly property integer DeleteCharacterRequestTimeSec = 3
-	
-	@ExecSpace("ServerOnly")
-	method string GetCharacterKey(integer slot)
-		return "character_" .. tostring(slot)
-	end
+	readonly property integer DeleteCharacterRequestTimeSec = 1
+
+	---@description "캐릭터 삭제 요청 최대 처리 개수"
+	readonly property integer MaxDeleteCharacterRequestPerFlush = 10
 
 	@ExecSpace("ServerOnly")
-	method Character NewCharacter(integer slot, string name)
-		local character = Character()
-		character.slot = slot
-		character.name = name
-		return character
+	method void OnBeginPlay()
+		self._T["CreateCharacterRequestQueue"] = UserRequestQueue()
+		self._T["DeleteCharacterRequestQueue"] = UserRequestQueue()
 	end
 
+	---@description "json 데이터를 언마샬한 테이블 정보를 캐릭터 객체로 변환합니다"
+	---@param data table "캐릭터 데이터 테이블"
 	@ExecSpace("ServerOnly")
 	method Character ToCharacter(table data)
 		if data == nil then
@@ -46,16 +48,8 @@ script CharacterLogic extends Logic
 		return character
 	end
 
-	@ExecSpace("ServerOnly")
-	method void SetCharacter(string uid, Character character)
-		local userDataStorage = _DataStorageService:GetUserDataStorage(uid)
-		if userDataStorage == nil then
-			return
-		end
-		local key =	self:GetCharacterKey(character.slot)
-		userDataStorage:SetAsync(key, _HttpService:JSONEncode(character:ToTable()), nil)
-	end
-
+	---@description "유저가 캐릭터 목록을 불러오도록 요청합니다"
+	---@param uid string "유저 고유 아이디"
 	@ExecSpace("Server")
 	method void RequestLoadCharacters(string uid)
 		if uid ~= senderUserId then
@@ -69,409 +63,395 @@ script CharacterLogic extends Logic
 			return
 		end
 		
-		local charactersData = _UserLogic:GetCharacters(uid)
-		if charactersData == nil then
+		local user = _UserLogic:GetUser(uid)
+		if user == nil then
 			local e = CharactersLoadEvent()
 			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
 			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
-		
-		---@type table<Character>
-		local characters = {}
-		for _, ch in ipairs(charactersData) do
-			local character = self:ToCharacter(ch)
-			if character == nil then
-				continue
-			end
 
-			table.insert(characters, character)
+		if user.userEntity == nil then
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
 		end
 
 		local e = CharactersLoadEvent()
-		e.characters = characters
+		e.characters = user.userEntity.characters
 		_UserProxy:SendEventToPlayer(e, uid)
 	end
 
+	---@description "유저가 캐릭터 생성을 요청합니다"
+	---@param uid string "유저 고유 아이디"
+	---@param params CreateCharacterParams "캐릭터 생성 파라미터"
 	@ExecSpace("Server")
 	method void RequestCreateCharacter(string uid, CreateCharacterParams params)
 		if uid ~= senderUserId then
 			return
 		end
 		
-		if params == nil then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
+		---@type UserRequestQueue
+		local queue = self._T["CreateCharacterRequestQueue"]
+		if queue == nil then
+			log_error("CreateCharacterRequestQueue가 없습니다")
 			return
 		end
-		
-		local nameLen = utf8.len(params.name)
-		if _UtilLogic:IsNilorEmptyString(params.name) or nameLen < _DefLogic.MinNicknameLength then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MIN_LENGTH_ERROR, uid)
-			return
-		elseif nameLen > _DefLogic.MaxNicknameLength then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_NAME_MAX_LENGTH_ERROR, uid)
+
+		if queue:IsExists(uid) == true then
+			local e = CreateCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
-		
-		if _UserLogic.users[uid] == nil then
-			self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND, uid)
+
+		local user = _UserLogic:GetUser(uid)
+		if user == nil then
+			local e = CreateCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_USER_NOT_FOUND
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
-		local user = _UserLogic.users[uid]
-		
-		for _, pendingUid in pairs(self.createCharacterRequest:GetPendingRequests()) do
-			if pendingUid == uid then
-				-- 이미 생성 요청을 한 유저
-				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST, uid)
+
+		local ur = UserRequest()
+		ur.uid = uid
+		ur.request = {
+			["uid"] = uid,
+			["token"] = user.token,
+			["params"] = params,
+		}
+
+		queue:AddRequest(ur)
+
+		self:OnReserveCreateCharacter()
+	end
+
+	---@description "요청받은 캐릭터 생성 처리를 예약 합니다"
+	@ExecSpace("ServerOnly")
+	method void OnReserveCreateCharacter()
+		if self._T["CreateCharacterTimerId"] ~= nil then
+			return
+		end
+
+		local callback = function()
+			self:OnRequestCreateCharacter()
+			self._T["CreateCharacterTimerId"] = nil
+
+			---@type UserRequestQueue
+			local queue = self._T["CreateCharacterRequestQueue"]
+			if queue == nil then
 				return
 			end
+
+			if queue:IsEmpty() == true then
+				return
+			end
+
+			self:OnReserveCreateCharacter()
 		end
-		
-		params.uid = uid
-		params.token = user["token"]
-		
-		self.createCharacterRequest:AddRequest(params)
-		self:SendEvent(CreateCharacterEvent())
+		local timerId = _TimerService:SetTimerOnce(callback, self.CreateCharacterRequestTimeSec)
+		if timerId == 0 then
+			log_error("캐릭터 생성 요청 타이머 설정에 실패했습니다")
+
+			--- 3초 대기 후 재시도
+			_TimerService:SetTimerOnce(function()
+				self:OnReserveCreateCharacter()
+			end, 3.0)
+			return
+		end
+
+		self._T["CreateCharacterTimerId"] = timerId
 	end
 
+	---@description "요청받은 캐릭터 생성을 처리합니다"
 	@ExecSpace("ServerOnly")
 	method void OnRequestCreateCharacter()
-		self:OnRequestCreateCharacter_Doing()
-		self.isDoingCreateCharacter = false
-		
-		-- 추가적인 생성 요청이 있었는지 확인
-		if self.createCharacterRequest:HasPendingRequests() == true then
-			self:SendEvent(CreateCharacterEvent())
-		end
-	end
+		---@type UserRequestQueue
+		local queue = self._T["CreateCharacterRequestQueue"]
 
-	@ExecSpace("ServerOnly")
-	method void OnRequestCreateCharacter_Doing()
+		if queue == nil then
+			log_error("CreateCharacterRequestQueue가 없습니다")
+			return
+		end
+
+		if queue:IsEmpty() == true then
+			return
+		end
+
+		local requests = queue:PullRequests(self.MaxCreateCharacterRequestPerFlush)
 		local content = {
-			["requests"] = {}
+			["uids"] = {},
 		}
-		
-		local requests = {}
-		
-		for _, entry in pairs(self.createCharacterRequest:GetPendingRequests()) do
-			---@type CreateCharacterParams
-			local params = entry
-			table.insert(content["requests"], {
-				["uid"] = params.uid,
-				["token"] = params.token,
-				["slot"] = params.slot,
-				["name"] = params.name
-			})
-		
-			requests[params.uid] = params.name
-		end
-		
-		local contentJson = _HttpService:JSONEncode(content)
-		local requestTime = _UtilLogic.ServerElapsedSeconds
-		local response = _HttpService:RequestAndWait(
-			_BackendLogic.Url .. "/user/character/create",
-			"POST", contentJson, _BackendLogic:GetHeaders()
-		)
-		self:OnRequestCreateCharacter_Complete(response, requests)
-		
-		self.createCharacterRequest:ClearProcessedRequests()
-		self.createCharacterRequest:FlushRequests()
-		
-		-- 추가 요청이 존재하고 생성 Delay 시간을 초과했다면 즉시 재실행
-		if self.createCharacterRequest:HasPendingRequests() == true then
-			local responseTime = _UtilLogic.ServerElapsedSeconds
-			local diff = responseTime - requestTime
-			if diff >= self.CreateCharacterRequestTimeSec then
-				self:OnRequestCreateCharacter_Doing()
-			end
-		end
-	end
 
-	@ExecSpace("ServerOnly")
-	method void OnRequestCreateCharacter_Complete(string response, table requests)
-		if _UtilLogic:IsNilorEmptyString(response) then
-			for uid, name in pairs(requests) do
-				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
-			end
-			return
-		end
-		
-		local content = _HttpService:JSONDecode(response)
-		if content["responses"] == nil then
-			for uid, name in pairs(requests) do
-				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
-			end
-			return
-		end
-		
-		local responses = content["responses"]
-		local doneUids = {}
-		for _, res in ipairs(responses) do
-			if res["uid"] == nil then
+		local req = CreateCharacterRequest()
+
+		for _, r in ipairs(requests) do
+			local token = r.request["token"] or ""
+
+			---@type CreateCharacterParams
+			local params = r.request["params"] or nil
+
+			if _UtilLogic:IsNilorEmptyString(token) == true or params == nil then
+				local e = CreateCharacterEvent()
+				e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, r.uid)
 				continue
 			end
-		
-			---@type string
-			local uid = res["uid"]
-		
-			if res["error_code"] ~= nil then
-				doneUids[uid] = {
-					["result"] = res["error_code"]
-				}
-				continue
-			end
-		
-			if res["character"] == nil then
-				doneUids[uid] = {
-					["result"] = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
-				}
-				continue
-			end
-		
-			local character = res["character"]
-			local newCharacter = self:ToCharacter(character)
-		
-			doneUids[uid] = {
-				["result"] = "SUCCESS",
-				["character"] = newCharacter
-			}
-			-- 게임DB에 저장
-			self:SetCharacter(uid, newCharacter)
+
+			local info = UserCreateCharacterInfo()
+			info.uid = r.uid
+			info.token = token
+			info.name = params.name
+
+			table.insert(content["uids"], r.uid)
+			table.insert(req.requests, info)
 		end
-		
-		for uid, name in pairs(requests) do
-			if doneUids[uid] == nil then
-				self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
-			else
-				local result = doneUids[uid]
-				if result["result"] == nil then
-					self:CreateCharacterFailure(_ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR, uid)
-				elseif result["result"] == "SUCCESS" then
-					self:CreateCharacterComplete(result["character"], uid)
-				else
-					self:CreateCharacterFailure(result["result"], uid)
+
+		content["body"] = req:ToJson()
+
+		local callback = function(response, request)
+			---@type table<string>
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
+
+			local res = CreateCharacterResponse():FromJson(response)
+			local passedUids = {}
+
+			for _, r in ipairs(res.responses) do
+				if _UtilLogic:IsNilorEmptyString(r.errorCode) == false then
+					local e = CreateCharacterEvent()
+					e.errorCode = r.errorCode
+					_UserProxy:SendEventToLocalPlayer(e, r.uid)
+					passedUids[r.uid] = true
+					continue
+				end
+
+				if r.character == nil then
+					continue
+				end
+
+				local user = _UserLogic:GetUser(r.uid)
+				if user == nil then
+					continue
+				end
+
+				table.insert(user.userEntity.characters, r.character)
+
+				local e = CreateCharacterEvent()
+				_UserProxy:SendEventToPlayer(e, r.uid)
+				passedUids[r.uid] = true
+			end
+
+			for _, uid in pairs(uids) do
+				if passedUids[uid] == nil then
+					local e = CreateCharacterEvent()
+					e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+					_UserProxy:SendEventToLocalPlayer(e, uid)
 				end
 			end
 		end
+
+		local errorCallback = function(request)
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
+
+			for _, uid in pairs(uids) do
+				local e = CreateCharacterEvent()
+				e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, uid)
+			end
+		end
+
+		_BackendLogic:PushRequest(_BackendLogic:CreateRequest(self.Api_CreateCharacter, content, callback, errorCallback))
 	end
 
+	---@description "유저가 캐릭터 삭제를 요청합니다"
+	---@param uid string "유저 고유 아이디"
+	---@param slot integer "삭제할 캐릭터 슬롯"
 	@ExecSpace("Server")
 	method void RequestDeleteCharacter(string uid, integer slot)
 		if uid ~= senderUserId then
 			return
 		end
 		
-		if slot <= 0 or slot > _DefLogic.MaxCharacterSlot then
-			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_INVALID_ERROR, uid)
+		---@type UserRequestQueue
+		local queue = self._T["DeleteCharacterRequestQueue"]
+		if queue == nil then
+			log_error("DeleteCharacterRequestQueue가 없습니다")
 			return
 		end
-		
-		if _UserLogic.users[uid] == nil then
-			self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND, uid)
+
+		if queue:IsExists(uid) == true then
+			local e = DeleteCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_ALREADY_REQUEST
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
-		local user = _UserLogic.users[uid]
-		
-		for _, pendingUid in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
-			if pendingUid == uid then
-				-- 이미 삭제 요청을 한 유저
-				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_ALREADY_REQUEST, uid)
+
+		local ur = UserRequest()
+		ur.uid = uid
+		ur.request = {
+			["uid"] = uid,
+			["slot"] = slot,
+		}
+
+		queue:AddRequest(ur)
+
+		self:OnReserveDeleteCharacter()
+	end
+
+	---@description "요청받은 캐릭터 삭제 처리를 예약 합니다"
+	@ExecSpace("ServerOnly")
+	method void OnReserveDeleteCharacter()
+		if self._T["DeleteCharacterTimerId"] ~= nil then
+			return
+		end
+
+		local callback = function()
+			self:OnRequestDeleteCharacter()
+			self._T["DeleteCharacterTimerId"] = nil
+
+			---@type UserRequestQueue
+			local queue = self._T["DeleteCharacterRequestQueue"]
+			if queue == nil then
 				return
 			end
+
+			if queue:IsEmpty() == true then
+				return
+			end
+
+			self:OnReserveDeleteCharacter()
 		end
-		
-		local params = DeleteCharacterParams()
-		params.uid = uid
-		params.token = user["token"]
-		params.slot = slot
-		
-		self.deleteCharacterRequest:AddRequest(params)
-		self:SendEvent(DeleteCharacterEvent())
+		local timerId = _TimerService:SetTimerOnce(callback, self.DeleteCharacterRequestTimeSec)
+		if timerId == 0 then
+			log_error("캐릭터 삭제 요청 타이머 설정에 실패했습니다")
+			--- 3초 대기 후 재시도
+			_TimerService:SetTimerOnce(function()
+				self:OnReserveDeleteCharacter()
+			end, 3.0)
+			return
+		end
+
+		self._T["DeleteCharacterTimerId"] = timerId
 	end
 
+	---@description "요청받은 캐릭터 삭제를 처리합니다"
 	@ExecSpace("ServerOnly")
 	method void OnRequestDeleteCharacter()
-		self:OnRequestDeleteCharacter_Doing()
-		self.isDoingDeleteCharacter = false
-		
-		-- 추가적인 삭제 요청이 있었는지 확인
-		if self.deleteCharacterRequest:HasPendingRequests() == true then
-			self:SendEvent(DeleteCharacterEvent())
-		end
-	end
+		---@type UserRequestQueue
+		local queue = self._T["DeleteCharacterRequestQueue"]
 
-	@ExecSpace("ServerOnly")
-	method void OnRequestDeleteCharacter_Doing()
-		local headers = {
-			["Content-Type"] = "application/json"
-		}
-		
+		if queue == nil then
+			log_error("DeleteCharacterRequestQueue가 없습니다")
+			return
+		end
+
+		if queue:IsEmpty() == true then
+			return
+		end
+
+		local requests = queue:PullRequests(self.MaxDeleteCharacterRequestPerFlush)
 		local content = {
-			["requests"] = {}
+			["uids"] = {},
 		}
-		
-		local requests = {}
-		for _, entry in pairs(self.deleteCharacterRequest:GetPendingRequests()) do
-			---@type DeleteCharacterParams
-			local params = entry
-		
-			table.insert(content["requests"], {
-				["uid"] = params.uid,
-				["token"] = params.token,
-				["slot"] = params.slot
-			})
-		
-			requests[params.uid] = params.slot
-		end
-		
-		local contentJson = _HttpService:JSONEncode(content)
-		local requestTime = _UtilLogic.ServerElapsedSeconds
-		local response = _HttpService:RequestAndWait(
-			_BackendLogic.Url .. "/user/character/delete",
-			"POST", contentJson, _BackendLogic:GetHeaders()
-		)
-		self:OnRequestDeleteCharacter_Complete(response, requests)
-		
-		self.deleteCharacterRequest:ClearProcessedRequests()
-		self.deleteCharacterRequest:FlushRequests()
-		
-		-- 추가 요청이 존재하고 삭제 Delay 시간을 초과했다면 즉시 재실행
-		if self.deleteCharacterRequest:HasPendingRequests() == true then
-			local responseTime = _UtilLogic.ServerElapsedSeconds
-			local diff = responseTime - requestTime
-			if diff >= self.DeleteCharacterRequestTimeSec then
-				self:OnRequestDeleteCharacter_Doing()
-			end
-		end
-	end
 
-	@ExecSpace("ServerOnly")
-	method void OnRequestDeleteCharacter_Complete(string response, table requests)
-		if _UtilLogic:IsNilorEmptyString(response) then
-			for uid, slot in pairs(requests) do
-				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
-			end
-			return
-		end
-		
-		local content = _HttpService:JSONDecode(response)
-		if content["responses"] == nil then
-			for uid, slot in pairs(requests) do
-				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
-			end
-			return
-		end
-		
-		local responses = content["responses"]
-		local doneUids = {}
-		for _, res in ipairs(responses) do
-			if res["uid"] == nil then
+		local req = DeleteCharacterRequest()
+
+		for _, r in ipairs(requests) do
+			local uid = r.request["uid"] or ""
+			local slot = r.request["slot"] or 0
+
+			if _UtilLogic:IsNilorEmptyString(uid) == true then
+				local e = DeleteCharacterEvent()
+				e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, uid)
 				continue
 			end
-		
-			---@type string
-			local uid = res["uid"]
-		
-			if res["error_code"] == nil then
-				local slot = requests[uid]
-				doneUids[uid] = {
-					["result"] = "SUCCESS",
-					["slot"] = slot
-				}
-				
-				-- 이미 백엔드 서버에서 캐릭터가 제거 되었음으로
-				-- 굳이 데이터 스토리지에서 제거할 필요는 없다.
-			else
-				doneUids[uid] = {
-					["result"] = res["error_code"]
-				}
+
+			local user = _UserLogic:GetUser(uid)
+			if user == nil then
+				local e = DeleteCharacterEvent()
+				e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_USER_NOT_FOUND
+				_UserProxy:SendEventToLocalPlayer(e, uid)
+				continue
 			end
+
+			local info = UserDeleteCharacterInfo()
+			info.uid = uid
+			info.token = user.token
+			info.slot = slot
+
+			table.insert(content["uids"], uid)
+			table.insert(req.requests, info)
 		end
-		
-		for uid, slot in pairs(requests) do
-			if doneUids[uid] == nil then
-				self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
-			else
-				local result = doneUids[uid]
-				if result["result"] == nil then
-					self:DeleteCharacterFailure(_ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR, uid)
-				elseif result["result"] == "SUCCESS" then
-					self:DeleteCharacterComplete(result["slot"], uid)
-				else
-					self:DeleteCharacterFailure(result["result"], uid)
+
+		content["body"] = req:ToJson()
+
+		local callback = function(response, request)
+			---@type table<string>
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
+
+			local res = DeleteCharacterResponse():FromJson(response)
+			local passedUids = {}
+
+			for _, r in ipairs(res.responses) do
+				if _UtilLogic:IsNilorEmptyString(r.errorCode) == false then
+					local e = DeleteCharacterEvent()
+					e.errorCode = r.errorCode
+					_UserProxy:SendEventToLocalPlayer(e, r.uid)
+					passedUids[r.uid] = true
+					continue
+				end
+
+				local user = _UserLogic:GetUser(r.uid)
+				if user == nil then
+					continue
+				end
+
+				for i, character in ipairs(user.userEntity.characters) do
+					if character.slot == r.slot then
+						table.remove(user.userEntity.characters, i)
+						break
+					end
+				end
+
+				local e = DeleteCharacterEvent()
+				_UserProxy:SendEventToPlayer(e, r.uid)
+				passedUids[r.uid] = true
+			end
+
+			for _, uid in pairs(uids) do
+				if passedUids[uid] == nil then
+					local e = DeleteCharacterEvent()
+					e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR
+					_UserProxy:SendEventToLocalPlayer(e, uid)
 				end
 			end
 		end
-	end
 
-	@ExecSpace("Client")
-	method void CreateCharacterFailure(string errorCode)
-		local localPlayer = _UserService.LocalPlayer
-		local e = CreateCharacterFailureEvent()
-		e.errorCode = errorCode
-		localPlayer:SendEvent(e)
-	end
+		local errorCallback = function(request)
+			local uids = request["uids"]
+			if uids == nil then
+				return
+			end
 
-	@ExecSpace("Client")
-	method void CreateCharacterComplete(Character newCharacter)
-		local localPlayer = _UserService.LocalPlayer
-		local e = CreateCharacterCompleteEvent()
-		e.newCharacter = newCharacter
-		localPlayer:SendEvent(e)
-	end
-
-	@ExecSpace("Client")
-	method void UserCharacterLoadComplete(table characters)
-		local localPlayer = _UserService.LocalPlayer
-		local e = UserCharacterLoadCompleteEvent()
-		e.characters = characters
-		localPlayer:SendEvent(e)
-	end
-
-	@ExecSpace("Client")
-	method void DeleteCharacterFailure(string errorCode)
-		local localPlayer = _UserService.LocalPlayer
-		local e = DeleteCharacterFailureEvent()
-		e.errorCode = errorCode
-		localPlayer:SendEvent(e)
-	end
-
-	@ExecSpace("Client")
-	method void DeleteCharacterComplete(integer slot)
-		local localPlayer = _UserService.LocalPlayer
-		local e = DeleteCharacterCompleteEvent()
-		e.slot = slot
-		localPlayer:SendEvent(e)
-	end
-
-	@ExecSpace("ServerOnly")
-	@EventSender("Self")
-	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
-		-- 이미 생성 요청 중
-		if self.isDoingCreateCharacter then
-			return
+			for _, uid in pairs(uids) do
+				local e = DeleteCharacterEvent()
+				e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, uid)
+			end
 		end
-		
-		self.isDoingCreateCharacter = true
-		local callback = function()
-			self:OnRequestCreateCharacter()
-		end
-		_TimerService:SetTimerOnce(callback, self.CreateCharacterRequestTimeSec)
-	end
 
-	@ExecSpace("ServerOnly")
-	@EventSender("Self")
-	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
-		-- 이미 삭제 요청 중
-		if self.isDoingDeleteCharacter then
-			return
-		end
-		
-		self.isDoingDeleteCharacter = true
-		local callback = function()
-			self:OnRequestDeleteCharacter()
-		end
-		_TimerService:SetTimerOnce(callback, self.DeleteCharacterRequestTimeSec)
+		_BackendLogic:PushRequest(_BackendLogic:CreateRequest(self.Api_DeleteCharacter, content, callback, errorCallback))
 	end
 
 end

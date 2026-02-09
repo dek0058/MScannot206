@@ -1,0 +1,19 @@
+---@description "유저 캐릭터 삭제 요청 구조체"
+@Struct
+script DeleteCharacterRequest
+
+	property table<UserDeleteCharacterInfo> requests = {}
+
+	method string ToJson()
+		local content = {
+			requests = {}
+		}
+
+		for _, r in ipairs(self.requests) do
+			table.insert(content["requests"], r:ToJson())
+		end
+
+		return _HttpService:JSONEncode(content)
+	end
+
+end

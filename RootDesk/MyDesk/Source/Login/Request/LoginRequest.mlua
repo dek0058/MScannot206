@@ -1,0 +1,28 @@
+---@description "로그인 요청 구조체"
+@Struct
+script LoginRequest
+
+	---@description "로그인 요청할 유저의 UID 목록"
+	property table<string> uids = {}
+
+	---@description "구조체를 JSON 문자열로 변환합니다"
+	method string ToJson()
+		return _HttpService:JSONEncode({
+			["uids"] = self.uids,
+		})
+	end
+
+	---@description "JSON 문자열에서 구조체를 생성합니다"
+	method LoginRequest FromJson(string json)
+		if _UtilLogic:IsNilorEmptyString(json) then
+			return self
+		end
+
+		local content = _HttpService:JSONDecode(json)
+
+		self.uids = content["uids"] or {}
+		
+		return self
+	end
+
+end

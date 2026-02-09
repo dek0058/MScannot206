@@ -1,4 +1,0 @@
-@Event
-script DeleteCharacterCancelEvent extends EventType
-
-end

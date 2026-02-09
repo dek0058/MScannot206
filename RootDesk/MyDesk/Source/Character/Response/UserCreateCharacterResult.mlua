@@ -1,0 +1,27 @@
+---@description "유저 캐릭터 생성 결과 구조체"
+@Struct
+script UserCreateCharacterResult
+
+	---@description "유저 고유 ID"
+	property string uid = ""
+
+	---@description "생성된 캐릭터 정보"
+	---@type CharacterEntity
+	property any character = nil
+
+	---@description "에러 코드"
+	property string errorCode = ""
+
+	method UserCreateCharacterResult FromTable(table content)
+		if content == nil then
+			return self
+		end
+
+		self.uid = content["uid"] or ""
+		self.character = CharacterEntity():FromTable(content["character"])
+		self.errorCode = content["error_code"] or ""
+
+		return self
+	end
+
+end

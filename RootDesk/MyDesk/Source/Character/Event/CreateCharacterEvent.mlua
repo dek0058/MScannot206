@@ -1,4 +1,12 @@
+---@description "캐릭터 생성 이벤트 입니다"
 @Event
 script CreateCharacterEvent extends EventType
+
+	---@description "생성된 캐릭터"
+	---@type CharacterEntity
+	property any character = nil
+
+	---@description "에러 코드"
+	property string errorCode = ""
 
 end

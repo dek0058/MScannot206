@@ -1,0 +1,31 @@
+@Component
+script TextSizeFitSpriteControlComponent extends Component
+
+	property Entity TextEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if self.TextEntity == nil then
+			return
+		end
+		
+		local textCom = self.TextEntity.TextComponent
+		if textCom == nil then
+			return
+		end
+		
+		local textTransform = self.TextEntity.UITransformComponent
+		if textTransform == nil then
+			return
+		end
+		
+		local transform = self.Entity.UITransformComponent
+		if transform == nil then
+			return
+		end
+		
+		local textWidth = textTransform.RectSize.x + 32 -- 여유 공간 추가
+		transform.RectSize = Vector2(textWidth, transform.RectSize.y)
+	end
+
+end

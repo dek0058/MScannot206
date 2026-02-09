@@ -4093,7 +4093,7 @@
                   "$type": "MODNativeType",
                   "type": "MOD.Core.TextComponent+FontType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
                 },
-                "Value": 1
+                "Value": 3
               },
               {
                 "TargetType": "MOD.Core.TextComponent",
@@ -4207,6 +4207,15 @@
               {
                 "TargetType": "MOD.Core.SpriteGUIRendererComponent",
                 "Name": "RaycastTarget",
+                "ValueType": {
+                  "$type": "MODNativeType",
+                  "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                },
+                "Value": false
+              },
+              {
+                "TargetType": "MOD.Core.TextComponent",
+                "Name": "AllowAutomaticTranslation",
                 "ValueType": {
                   "$type": "MODNativeType",
                   "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"

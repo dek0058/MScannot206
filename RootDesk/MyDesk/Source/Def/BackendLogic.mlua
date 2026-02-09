@@ -149,10 +149,9 @@ script BackendLogic extends Logic
 				continue
 			end
 
-			---@type table
 			local body = request.content["body"]
-			if body == nil then
-				body = {}
+			if _UtilLogic:IsNilorEmptyString(body) == true then
+				body = "{}" -- 빈 JSON 객체
 			end
 
 			local key = request.api .. "?" .. tostring(i)
@@ -160,7 +159,7 @@ script BackendLogic extends Logic
 			contents[i] = {
 				["dto"] = {
 					["api"] = key,
-					["body"] = _HttpService:JSONEncode(body)
+					["body"] = body
 				}
 			}
 		end

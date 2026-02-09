@@ -1,14 +1,14 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://151a2b92-cbae-4d2b-b1a9-84fc52fb8bd9",
+  "EntryKey": "codeblock://99ffebed-e308-49ff-b629-2b829d2ccee7",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
-  "StudioVersion": "0.1.0.0",
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "151a2b92-cbae-4d2b-b1a9-84fc52fb8bd9",
+      "Id": "99ffebed-e308-49ff-b629-2b829d2ccee7",
       "Language": 1,
-      "Name": "CreateCharacterCompleteEvent",
-      "Type": 3,
+      "Name": "LoginResponse",
+      "Type": 9,
       "Source": 0,
       "Target": null
     }

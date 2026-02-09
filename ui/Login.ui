@@ -300,7 +300,7 @@
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
               "ImageRUID": {
-                "DataId": "b4a88eec4e614cf7a1d956206f9aebe8"
+                "DataId": "89879c2cbebd4ab6808ccf3c343f0ab8"
               },
               "OverrideSorting": false,
               "Enable": true
@@ -2904,7 +2904,14 @@
                 "ComponentId": "6af2e695-71ff-4c60-a38f-096754305f23:TextInputComponent",
                 "UseNested": false
               },
-              "selectedTabIndex": -1
+              "LoadingModalEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "23500666-23ee-4bbe-a43e-1846613712cc",
+                "Version2": false
+              },
+              "selectedTabIndex": -1,
+              "isRequesting": false
             }
           ],
           "@version": 1
@@ -3910,24 +3917,251 @@
                 "bottom": 0
               },
               "SizeFit": false,
-              "Text": "",
+              "Text": "어둠의다크니스무한의인피",
               "UseOutLine": false,
               "Enable": true
             },
             {
               "@type": "MOD.Core.TextInputComponent",
-              "CharacterLimit": 11,
+              "AllowAutomaticTranslation": false,
+              "CharacterLimit": 12,
               "ContentType": 0,
+              "IsLocalizationKey": true,
               "LineType": 0,
               "OverrideSorting": false,
-              "PlaceHolder": "닉네임을 입력해주세요",
+              "PlaceHolder": "cs_cc_nameinput",
               "PlaceHolderColor": {
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
                 "a": 0.5
               },
-              "Text": "",
+              "Text": "어둠의다크니스무한의인피",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "63e4db40-380c-4504-8cdc-acb788ee1a51",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Tip_NameInput",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.TextSizeFitSpriteControlComponent,script.UIFlickerComponent",
+        "jsonString": {
+          "name": "Tip_NameInput",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Tip_NameInput",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 4,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "63e4db40-380c-4504-8cdc-acb788ee1a51",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 6,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -150.0,
+                "y": 153.5
+              },
+              "OffsetMin": {
+                "x": -400.0,
+                "y": 116.5
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 250.0,
+                "y": 37.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -150.0,
+                "y": 135.0
+              },
+              "Position": {
+                "x": -150.0,
+                "y": -115.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "4b5ddcd11a8742648c85f1a04b4cbeb1"
+              },
+              "OverrideSorting": false,
+              "FlipX": true,
+              "Enable": true
+            },
+            {
+              "@type": "script.TextSizeFitSpriteControlComponent",
+              "Enable": true,
+              "TextEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "1dc1c521-ad11-4f45-a7e8-ceec6a81df68",
+                "Version2": false
+              }
+            },
+            {
+              "@type": "script.UIFlickerComponent",
+              "Enable": true,
+              "Speed": 0.33,
+              "PowerDuration": 1.0,
+              "EaseType": "ExpoEaseOut"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "1dc1c521-ad11-4f45-a7e8-ceec6a81df68",
+        "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Tip_NameInput/UIText",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "UIText",
+          "path": "/ui/Login/CreateCharacter/Popup_CreateCharacter/Tip_NameInput/UIText",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null,
+            "root_entity_id": "1dc1c521-ad11-4f45-a7e8-ceec6a81df68",
+            "replaced_model_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 2,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -20.0,
+                "y": 11.0
+              },
+              "OffsetMin": {
+                "x": -230.0,
+                "y": -11.0
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 210.0,
+                "y": 22.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -20.0,
+                "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": -20.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "Alignment": 5,
+              "AllowAutomaticTranslation": false,
+              "BestFit": false,
+              "ConstraintX": 324.0,
+              "ConstraintY": 22.0,
+              "Font": 3,
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 22,
+              "IsLocalizationKey": true,
+              "IsRichText": false,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "SizeFit": true,
+              "Text": "cs_cc_tip_nameinput",
+              "UseConstraintX": false,
+              "UseConstraintY": true,
               "Enable": true
             }
           ],
@@ -3945,7 +4179,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 4,
+          "displayOrder": 5,
           "pathConstraints": "/////",
           "revision": 1,
           "origin": {
@@ -5051,7 +5285,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 5,
+          "displayOrder": 6,
           "pathConstraints": "/////",
           "revision": 1,
           "origin": {
@@ -6050,6 +6284,826 @@
             },
             {
               "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "23500666-23ee-4bbe-a43e-1846613712cc",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "ProcessingCreateCharacter",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "23500666-23ee-4bbe-a43e-1846613712cc",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1920.0,
+                "y": 1080.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "02b0f49b-5227-4e6b-8f1a-f8f133732f46",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Dimmed",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Dimmed",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Dimmed",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "02b0f49b-5227-4e6b-8f1a-f8f133732f46",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1920.0,
+                "y": 1080.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.5
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "bf211c85-cba9-4d55-84cb-3f1c8cd1d688",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "ProcessingCreateCharacterModal",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "bf211c85-cba9-4d55-84cb-3f1c8cd1d688",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 279.9999,
+                "y": 150.0
+              },
+              "OffsetMin": {
+                "x": -280.0001,
+                "y": -150.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 300.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -0.0001,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -0.0001,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "31b91169-8064-44ac-835b-ed4e998c930d",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "Model_Popup_Short",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b40410ce-4085-4375-8138-f0a6eacab9be",
+            "sub_entity_id": null,
+            "root_entity_id": "31b91169-8064-44ac-835b-ed4e998c930d",
+            "replaced_model_id": null
+          },
+          "modelId": "b40410ce-4085-4375-8138-f0a6eacab9be",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": -7.62939453E-06
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -7.62939453E-06
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 300.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -7.62939453E-06
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "34df1bc3-8fae-4221-ad0c-ccd69c655b68",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Top",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Top",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Top",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b40410ce-4085-4375-8138-f0a6eacab9be",
+            "sub_entity_id": "9530ab4b-a9aa-442d-8271-e2df1220fb2d",
+            "root_entity_id": "31b91169-8064-44ac-835b-ed4e998c930d",
+            "replaced_model_id": null
+          },
+          "modelId": "9530ab4b-a9aa-442d-8271-e2df1220fb2d",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 9,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -57.0
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 57.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "b504d75e-30cf-4c38-852c-624f783096bc",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Middle",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Middle",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Middle",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b40410ce-4085-4375-8138-f0a6eacab9be",
+            "sub_entity_id": "40927709-c300-456e-8d4b-354483f45052",
+            "root_entity_id": "31b91169-8064-44ac-835b-ed4e998c930d",
+            "replaced_model_id": null
+          },
+          "modelId": "40927709-c300-456e-8d4b-354483f45052",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": -57.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 46.0
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 197.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -5.49999952
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -5.49999952,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "58781d20-ef6c-437f-9a32-97103f9349f5",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Bottom",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Bottom",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Model_Popup_Short/Bottom",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b40410ce-4085-4375-8138-f0a6eacab9be",
+            "sub_entity_id": "59b62c6e-2d12-4902-b17d-9860408e2c31",
+            "root_entity_id": "31b91169-8064-44ac-835b-ed4e998c930d",
+            "replaced_model_id": null
+          },
+          "modelId": "59b62c6e-2d12-4902-b17d-9860408e2c31",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 11,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 0.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 46.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 46.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -150.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "c89e2cfa-1afd-4bdf-b6ac-42cac9cf404d",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Loading",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Loading",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Loading",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b26c25f5-40ac-420f-968e-66f43a86f3d9",
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "b26c25f5-40ac-420f-968e-66f43a86f3d9",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 40.0,
+                "y": -20.0
+              },
+              "OffsetMin": {
+                "x": -40.0,
+                "y": -100.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 80.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -60.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -60.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "ce384305-f5b7-4d4f-8179-d5d77b0b55ab",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Loading/Process",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Process",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Loading/Process",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "///////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b26c25f5-40ac-420f-968e-66f43a86f3d9",
+            "sub_entity_id": "c3c3da6e-a1e2-47b1-bfb8-b421f623d8cf",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "c3c3da6e-a1e2-47b1-bfb8-b421f623d8cf",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 80.0,
+                "y": 80.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "656e5896-147d-4147-995e-36549537b8ab",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Msg",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
+        "jsonString": {
+          "name": "Msg",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/ProcessingCreateCharacterModal/Msg",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null,
+            "root_entity_id": "656e5896-147d-4147-995e-36549537b8ab",
+            "replaced_model_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": -40.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 130.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 130.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 45.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 45.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "AllowAutomaticTranslation": false,
+              "Font": 3,
+              "FontColor": {
+                "r": 0.427450985,
+                "g": 0.458823532,
+                "b": 0.470588237,
+                "a": 1.0
+              },
+              "FontSize": 25,
+              "IsLocalizationKey": true,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "OverrideSorting": false,
+              "Text": "cs_cc_request_msg",
               "Enable": true
             }
           ],

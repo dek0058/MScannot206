@@ -1,0 +1,24 @@
+---@description "유저 캐릭터 삭제 요청 정보"
+@Struct
+script UserDeleteCharacterInfo
+
+	---@description "유저 고유 ID"
+	property string uid = ""
+
+	---@description "인증 토큰"
+	property string token = ""
+
+	---@description "삭제할 캐릭터 슬롯"
+	property integer slot = 0
+
+	method string ToJson()
+		local content = {
+			uid = self.uid,
+			token = self.token,
+			slot = self.slot
+		}
+
+		return _HttpService:JSONEncode(content)
+	end
+
+end

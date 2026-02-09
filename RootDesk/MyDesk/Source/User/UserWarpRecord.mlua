@@ -26,7 +26,7 @@ script UserWarpRecord
 		return _HttpService:JSONEncode(data)
 	end
 
-	method void FromJson(string json)
+	method UserWarpRecord FromJson(string json)
 		if _UtilLogic:IsNilorEmptyString(json) then
 			return
 		end
@@ -36,20 +36,16 @@ script UserWarpRecord
 			return
 		end
 		
-		if data["loggedin"] ~= nil then
-			self.loggedin = data["loggedin"]
-		end
-		
-		if data["mapName"] ~= nil then
-			self.mapName = data["mapName"]
-		end
-		
+		self.loggedin = data["loggedin"] or false
+		self.mapName = data["mapName"] or ""
 		if data["location"] ~= nil then
 			local loc = data["location"]
 			if type(loc) == "table" and #loc == 3 then
 				self.location = Vector3(loc[1], loc[2], loc[3])
 			end
 		end
+		
+		return self
 	end
 
 end

@@ -1,0 +1,46 @@
+---@description "유저 엔티티 구조체"
+@Struct
+script UserEntity
+	
+	---@description "유저 고유 아이디"
+	property string uid = ""
+	
+	---@description "유저가 보유한 캐릭터 목록"
+	property table<CharacterEntity> characters = {}
+	
+	---@description "구조체를 JSON 문자열로 변환합니다"
+	method string ToJson()
+		return _HttpService:JSONEncode({
+			["uid"] = self.uid,
+			["characters"] = self.characters,
+		})
+	end
+	
+	---@description "테이블에서 구조체를 생성합니다"
+	method UserEntity FromTable(table content)
+		self.uid = content["uid"] or ""
+		for i, charTable in ipairs(content["characters"] or {}) do
+			local character = CharacterEntity():FromTable(charTable)
+			table.insert(self.characters, character)
+		end
+		return self
+	end
+	
+	---@description "JSON 문자열에서 구조체를 생성합니다"
+	method UserEntity FromJson(string json)
+		if _UtilLogic:IsNilorEmptyString(json) then
+			return self
+		end
+		
+		local content = _HttpService:JSONDecode(json)
+		
+		self.uid = content["uid"] or ""
+		for i, charTable in ipairs(content["characters"] or {}) do
+			local character = CharacterEntity():FromTable(charTable)
+			table.insert(self.characters, character)
+		end
+		
+		return self
+	end
+	
+end

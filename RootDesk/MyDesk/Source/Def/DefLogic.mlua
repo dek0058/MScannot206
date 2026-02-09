@@ -5,13 +5,13 @@ script DefLogic extends Logic
 	property string Version = "0.0.1"
 
 	---@description "최대 캐릭터 슬롯 수"
-	readonly property integer MaxCharacterSlot = 3
+	readonly property integer MaxCharacterSlot = 4
 
 	---@description "최소 닉네임 길이"
-	property integer MinNicknameLength = 3
+	property integer MinNicknameLength = 1
 
 	---@description "최대 닉네임 길이"
-	readonly property integer MaxNicknameLength = 10
+	readonly property integer MaxNicknameLength = 12
 
 	---@description "맵 진입 시 이벤트"
 	readonly property string EventEnterMap = "EnterMap"

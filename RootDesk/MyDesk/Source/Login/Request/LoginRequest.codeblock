@@ -1,14 +1,14 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://b91919c4-318c-4c36-a67c-a423dc9b7cdc",
+  "EntryKey": "codeblock://dcca5118-1b0c-4de2-b19d-63066d867f51",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
-  "StudioVersion": "0.1.0.0",
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "b91919c4-318c-4c36-a67c-a423dc9b7cdc",
+      "Id": "dcca5118-1b0c-4de2-b19d-63066d867f51",
       "Language": 1,
-      "Name": "CreateCharacterFailureEvent",
-      "Type": 3,
+      "Name": "LoginRequest",
+      "Type": 9,
       "Source": 0,
       "Target": null
     }

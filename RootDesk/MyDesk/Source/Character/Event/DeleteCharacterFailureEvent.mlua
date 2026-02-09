@@ -1,6 +1,0 @@
-@Event
-script DeleteCharacterFailureEvent extends EventType
-
-	property string errorCode = ""
-
-end

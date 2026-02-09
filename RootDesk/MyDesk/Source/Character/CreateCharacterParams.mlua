@@ -1,9 +1,6 @@
 @Struct
 script CreateCharacterParams
 
-	property string uid = ""
-	property string token = ""
-	property integer slot = 0
 	property string name = ""
 
 end

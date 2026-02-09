@@ -1,14 +1,14 @@
 ﻿Key,Source,Note
 confirm,확인,
-login_intro_touchscreen,화면을 터치해주세요,Intro
-login_intro_login_1,로그인 요청 중 입니다,Intro
-login_intro_login_2,로그인 요청 중 입니다.,Intro
-login_intro_login_3,로그인 요청 중 입니다..,Intro
-login_intro_login_4,로그인 요청 중 입니다...,Intro
-login_intro_csload_1,캐릭터를 불러오는 중 입니다,Intro
-login_intro_csload_2,캐릭터를 불러오는 중 입니다.,Intro
-login_intro_csload_3,캐릭터를 불러오는 중 입니다..,Intro
-login_intro_csload_4,캐릭터를 불러오는 중 입니다...,Intro
+login_intro_touchscreen,화면을 터치를 해주세요,Intro
+login_intro_login_1,로그인 요청 중 이에요,Intro
+login_intro_login_2,로그인 요청 중 이에요.,Intro
+login_intro_login_3,로그인 요청 중 이에요..,Intro
+login_intro_login_4,로그인 요청 중 이에요...,Intro
+login_intro_csload_1,캐릭터를 불러오고 있어요,Intro
+login_intro_csload_2,캐릭터를 불러오고 있어요.,Intro
+login_intro_csload_3,캐릭터를 불러오고 있어요..,Intro
+login_intro_csload_4,캐릭터를 불러오고 있어요...,Intro
 cs_btn_createcharacter,캐릭터 생성,CharacterSelection
 cs_btn_deletecharacter,캐릭터 삭제,CharacterSelection
 cs_btn_gamestart,게임 시작,CharacterSelection
@@ -17,4 +17,7 @@ cs_cc_tab_female,여성,CreateCharacter
 cs_cc_btn_create,생성,CreateCharacter
 cs_cc_btn_cancel,취소,CreateCharacter
 cs_cc_msg,"<color=#53b3c9>캐릭터</color>를 생성해주세요
-<color=#9ca6ab>나머지는 옵션은 랜덤으로 설정 됩니다.</color>",CreateCharacter
+<color=#9ca6ab>나머지는 옵션은 랜덤으로 설정 돼요</color>",CreateCharacter
+cs_cc_tip_nameinput,자음 모음 특수문자는 입력하면 안돼요!,CreateCharacter
+cs_cc_nameinput,닉네임을 입력해주세요,CreateCharacter
+cs_cc_request_msg,<color=#53b3c9>캐릭터</color>를 생성하고 있는 중이에요,CreateCharacter

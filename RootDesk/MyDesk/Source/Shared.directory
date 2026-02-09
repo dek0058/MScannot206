@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://88964d6caa6440c681e9f135004a3d34",
+  "EntryKey": "directory://0eaa95eaa3da490cb2e430f26c6c192d",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://88964d6caa6440c681e9f135004a3d34",
-      "name": "Character",
+      "entry_id": "directory://0eaa95eaa3da490cb2e430f26c6c192d",
+      "name": "Shared",
       "lock": false,
       "folding": false,
       "nameEditable": true

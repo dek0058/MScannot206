@@ -1,0 +1,28 @@
+---@description "로그인 응답 구조체"
+@Struct
+script LoginResponse
+
+	property table<LoginSuccess> successes = {}
+	property table<LoginFailure> failures = {}
+	
+	method LoginResponse FromJson(string json)
+		if _UtilLogic:IsNilorEmptyString(json) then
+			return self
+		end
+
+		local content = _HttpService:JSONDecode(json)
+
+		for i, successTable in ipairs(content["successes"] or {}) do
+			local success = LoginSuccess():FromTable(successTable)
+			table.insert(self.successes, success)
+		end
+
+		for i, failureTable in ipairs(content["failures"] or {}) do
+			local failure = LoginFailure():FromTable(failureTable)
+			table.insert(self.failures, failure)
+		end
+		
+		return self
+	end
+
+end

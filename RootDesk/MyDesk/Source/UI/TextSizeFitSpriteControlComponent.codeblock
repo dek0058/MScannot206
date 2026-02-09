@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://2e5f1eb1-fd83-4285-91e2-9d935f9e7d00",
+  "EntryKey": "codeblock://7ecd771c-de40-485f-b616-ed87d1d7e945",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "2e5f1eb1-fd83-4285-91e2-9d935f9e7d00",
+      "Id": "7ecd771c-de40-485f-b616-ed87d1d7e945",
       "Language": 1,
-      "Name": "DeleteCharacterFailureEvent",
-      "Type": 3,
+      "Name": "TextSizeFitSpriteControlComponent",
+      "Type": 1,
       "Source": 0,
       "Target": null
     }

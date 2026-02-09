@@ -1,0 +1,23 @@
+---@description "로그인 실패 응답 구조체"
+@Struct
+script LoginFailure
+	
+	---@description "실패한 유저의 UID"
+	property string uid = ""
+
+	---@description "실패 원인 코드"
+	property string errorCode = ""
+
+	---@description "테이블에서 구조체를 생성합니다"
+	method LoginFailure FromTable(table content)
+		if content == nil then
+			return self
+		end
+
+		self.uid = content["uid"] or ""
+		self.errorCode = content["error_code"] or ""
+
+		return self
+	end
+
+end

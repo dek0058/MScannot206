@@ -1,0 +1,26 @@
+---@description "유저 캐릭터 삭제 결과"
+@Struct
+script UserDeleteCharacterResult
+
+	---@description "유저 고유 ID"
+	property string uid = ""
+
+	---@description "삭제된 캐릭터 슬롯"
+	property integer slot = 0
+
+	---@description "에러 코드"
+	property string errorCode = ""
+
+	method UserDeleteCharacterResult FromTable(table data)
+		if data == nil then
+			return self
+		end
+
+		self.uid = data["uid"] or ""
+		self.slot = data["slot"] or 0
+		self.errorCode = data["errorCode"] or ""
+
+		return self
+	end
+
+end
