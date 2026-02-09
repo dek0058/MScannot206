@@ -44,7 +44,7 @@
     <thead>
         <tr>
             <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">table</span> <span style="font-weight: bold;">PullRequests</span>(<span style="color: #3167ad;">integer</span> maxCount)
+                <span style="color: #3167ad;">table&lt;UserRequest&gt;</span> <span style="font-weight: bold;">PullRequests</span>(<span style="color: #3167ad;">integer</span> maxCount)
             </th>
         </tr>
     </thead>

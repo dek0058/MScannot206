@@ -19,6 +19,28 @@
     <thead>
         <tr>
             <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsPC</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <thead>
+        <tr>
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsMobile</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <thead>
+        <tr>
+            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
                 <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsInit</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </th>
         </tr>
@@ -27,28 +49,6 @@
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 게임 클라이언트 로직이 초기화되었는지 반환합니다.
-            </td>
-        </tr>
-    </tbody>
-</table>
-<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <thead>
-        <tr>
-            <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToLocalPlayer</span>(<span style="color: #3167ad;">EventType</span> e) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
-                로컬 플레이어에게 이벤트를 전송합니다.
-            </td>
-        </tr>
-        <tr>
-            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
-                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">e</code>
-                <span style="color: #57606a;"> &nbsp;|&nbsp; 전송할 이벤트</span>
             </td>
         </tr>
     </tbody>

@@ -1,4 +1,4 @@
-# [CreateCharacterFailureEvent](../../../RootDesk/MyDesk/Source/Character/Event/CreateCharacterFailureEvent.mlua)
+# [CharacterCreateEvent](../../../RootDesk/MyDesk/Source/CharacterSelection/Event/CharacterCreateEvent.mlua)
 
 ## Properties
 

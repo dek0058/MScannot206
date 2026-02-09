@@ -32,7 +32,7 @@
     <thead>
         <tr>
             <th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">FromJson</span>(<span style="color: #3167ad;">string</span> json)
+                <span style="color: #3167ad;">UserWarpRecord</span> <span style="font-weight: bold;">FromJson</span>(<span style="color: #3167ad;">string</span> json)
             </th>
         </tr>
     </thead>
