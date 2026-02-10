@@ -146,18 +146,17 @@ script CharacterCreateComponent extends Component
 	@EventSender("Entity", "1b43e5dd-5de7-4d2f-a0e1-9add012c37e1")
 	handler HandleCreateEvent(ButtonClickEvent e)
 		if self.isRequesting == true then
-			local e = CreateCharacterEvent()
-			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST
-			_UserProxy:SendEventToLocalPlayer(e)
+			local sendEvent = CreateCharacterEvent()
+			sendEvent.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_ALREADY_REQUEST
+			_UserProxy:SendEventToLocalPlayer(sendEvent)
 			return
 		end
 		
 		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
 		if userStorageCom == nil then
-			local e = CreateCharacterEvent()
-			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
-
-			_UserProxy:SendEventToLocalPlayer(e)
+			local sendEvent = CreateCharacterEvent()
+			sendEvent.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+			_UserProxy:SendEventToLocalPlayer(sendEvent)
 			return
 		end
 
@@ -197,7 +196,7 @@ script CharacterCreateComponent extends Component
 	
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
-	handler HandleCharacterCreateEvent(CharacterCreateEvent e)
+	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
 		if self.LoadingModalEntity ~= nil then
 			self.LoadingModalEntity.Enable = false
 		end

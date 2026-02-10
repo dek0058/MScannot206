@@ -26,28 +26,6 @@ script CharacterLogic extends Logic
 		self._T["DeleteCharacterRequestQueue"] = UserRequestQueue()
 	end
 
-	---@description "json 데이터를 언마샬한 테이블 정보를 캐릭터 객체로 변환합니다"
-	---@param data table "캐릭터 데이터 테이블"
-	@ExecSpace("ServerOnly")
-	method Character ToCharacter(table data)
-		if data == nil then
-			return nil
-		end
-
-		if data["slot"] == nil then
-			return nil
-		end
-
-		if data["name"] == nil then
-			return nil
-		end
-
-		local character = Character()
-		character.slot = data["slot"]
-		character.name = data["name"]
-		return character
-	end
-
 	---@description "유저가 캐릭터 목록을 불러오도록 요청합니다"
 	---@param uid string "유저 고유 아이디"
 	@ExecSpace("Server")
@@ -79,7 +57,7 @@ script CharacterLogic extends Logic
 		end
 
 		local e = CharactersLoadEvent()
-		e.characters = user.userEntity.characters
+		e.entities = user.userEntity.characters
 		_UserProxy:SendEventToPlayer(e, uid)
 	end
 
@@ -209,7 +187,7 @@ script CharacterLogic extends Logic
 			table.insert(req.requests, info)
 		end
 
-		content["body"] = req:ToJson()
+		content["body"] = req:ToTable()
 
 		local callback = function(response, request)
 			---@type table<string>
@@ -218,7 +196,7 @@ script CharacterLogic extends Logic
 				return
 			end
 
-			local res = CreateCharacterResponse():FromJson(response)
+			local res = CreateCharacterResponse():FromTable(response)
 			local passedUids = {}
 
 			for _, r in ipairs(res.responses) do
@@ -392,7 +370,7 @@ script CharacterLogic extends Logic
 			table.insert(req.requests, info)
 		end
 
-		content["body"] = req:ToJson()
+		content["body"] = req:ToTable()
 
 		local callback = function(response, request)
 			---@type table<string>
@@ -401,7 +379,7 @@ script CharacterLogic extends Logic
 				return
 			end
 
-			local res = DeleteCharacterResponse():FromJson(response)
+			local res = DeleteCharacterResponse():FromTable(response)
 			local passedUids = {}
 
 			for _, r in ipairs(res.responses) do

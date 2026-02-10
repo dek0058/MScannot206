@@ -2,7 +2,7 @@
 @Component
 script UserStorageComponent extends Component
 	
-	property table<integer, Character> characters = {}
+	property table<integer, CharacterEntity> characterEntities = {}
 	
 	method void OnBeginPlay()
 		self._T["CharactersLoadEvent"] = self.Entity:ConnectEvent(CharactersLoadEvent, self.OnCharactersLoadEvent)
@@ -21,13 +21,13 @@ script UserStorageComponent extends Component
 			return
 		end
 		
-		for _, char in ipairs(e.characters) do
-			self.characters[char.slot] = char
+		for _, entity in ipairs(e.entities) do
+			self.characterEntities[entity.slot] = entity
 		end
 	end
 
 	method boolean IsExistCharacterSlot(integer slot)
-		return self.characters[slot] ~= nil
+		return self.characterEntities[slot] ~= nil
 	end
 
 end

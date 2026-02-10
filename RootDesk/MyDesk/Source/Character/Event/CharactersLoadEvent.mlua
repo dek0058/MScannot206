@@ -1,8 +1,11 @@
+---@description "캐릭터 로드 이벤트입니다"
 @Event
 script CharactersLoadEvent extends EventType
 
-	property table characters = {}
+	---@description "캐릭터 엔티티들"
+	property table<CharacterEntity> entities = {}
 
+	---@description "에러 코드"
 	property string errorCode = ""
 
 end

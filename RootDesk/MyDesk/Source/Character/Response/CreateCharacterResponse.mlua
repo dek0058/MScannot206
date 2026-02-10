@@ -5,22 +5,15 @@ script CreateCharacterResponse
 	---@description "응답 리스트"
 	property table<UserCreateCharacterResult> responses = {}
 
-	---@description "JSON 문자열을 구조체로 변환 합니다"
-	method CreateCharacterResponse FromJson(string json)
-		if _UtilLogic:IsNilorEmptyString(json) == true then
-			return self
-		end
-
-		local content = _HttpService:JSONDecode(json)
+	---@description "테이블을 구조체로 변환 합니다"
+	method CreateCharacterResponse FromTable(table content)
 		if content == nil then
 			return self
 		end
 
-		if content["responses"] ~= nil then
-			for _, r in ipairs(content["responses"]) do
-				local result = UserCreateCharacterResult():FromTable(r)
-				table.insert(self.responses, result)
-			end
+		for _, r in ipairs(content["responses"] or {}) do
+			local result = UserCreateCharacterResult():FromTable(r)
+			table.insert(self.responses, result)
 		end
 
 		return self

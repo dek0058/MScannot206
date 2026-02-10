@@ -8,12 +8,13 @@ script CharacterEntity
 	---@description "캐릭터 이름"
 	property string name = ""
 
-	---@description "구조체를 JSON 문자열로 변환합니다"
-	method string ToJson()
-		return _HttpService:JSONEncode({
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
+		local content = {
 			["slot"] = self.slot,
 			["name"] = self.name,
-		})
+		}
+		return content
 	end
 
 	---@description "테이블에서 구조체를 생성합니다"
@@ -23,20 +24,6 @@ script CharacterEntity
 		end
 		self.slot = content["slot"] or 0
 		self.name = content["name"] or ""
-		return self
-	end
-
-	---@description "JSON 문자열에서 구조체를 생성합니다"
-	method CharacterEntity FromJson(string json)
-		if _UtilLogic:IsNilorEmptyString(json) then
-			return self
-		end
-
-		local content = _HttpService:JSONDecode(json)
-		
-		self.slot = content["slot"] or 0
-		self.name = content["name"] or ""
-
 		return self
 	end
 

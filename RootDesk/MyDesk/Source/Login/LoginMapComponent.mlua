@@ -182,6 +182,12 @@ script LoginMapComponent extends Component
 			end
 		end
 	end
+
+	---@description "캐릭터 슬롯을 설정 합니다."
+	@ExecSpace("Server")
+	method void SetCharacterSlot(string uid, CharacterEntity entity)
+
+	end
 	
 	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
 	@ExecSpace("ServerOnly")
@@ -211,6 +217,14 @@ script LoginMapComponent extends Component
 	@EventSender("LocalPlayer")
 	handler HandleCharacterSlotSelectEvent(CharacterSlotSelectEvent e)
 		self:SetSelectCharacterSlot(_UserProxy:GetUid(), e.slot)
+	end
+
+	---@description "캐릭터 생성 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
+		
+		-- self:SetCharacterSlot(_UserProxy:GetUid(), e.character)
 	end
 
 	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다"

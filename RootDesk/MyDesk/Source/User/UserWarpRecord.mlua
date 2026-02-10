@@ -1,14 +1,23 @@
+---@description "유저 워프 기록 구조체"
 @Struct
 script UserWarpRecord
 
+	---@description "현재 월드 ID"
 	property string worldId = ""
+
+	---@description "이전 월드 ID"
 	property string oldWorldId = ""
 
-	-- json
+	---@description "유저 로그인 상태(use json)"
 	property boolean loggedin = false
+
+	---@description "유저가 위치한 맵 이름(use json)"
 	property string mapName = ""
+
+	---@description "유저 위치(use json)"
 	property Vector3 location = Vector3(0,0,0)
 
+	---@description "유저가 월드 인스턴스로 워프했는지 여부를 반환합니다"
 	method boolean HaveWarped()
 		if  _UtilLogic:IsNilorEmptyString(self.worldId) or _UtilLogic:IsNilorEmptyString(self.oldWorldId) then
 			return false
@@ -18,14 +27,18 @@ script UserWarpRecord
 		return true
 	end
 
+	---@description "구조체를 JSON 문자열로 변환 합니다"
 	method string ToJson()
-		local data = {}
-		data["loggedin"] = self.loggedin
-		data["mapName"] = self.mapName
-		data["location"] = { self.location.x, self.location.y, self.location.z }
-		return _HttpService:JSONEncode(data)
+		local content = {
+			["loggedin"] = self.loggedin,
+			["mapName"] = self.mapName,
+			["location"] = { self.location.x, self.location.y, self.location.z }
+		}
+
+		return _HttpService:JSONEncode(content)
 	end
 
+	---@description "JSON 문자열에서 구조체로 변환 합니다"
 	method UserWarpRecord FromJson(string json)
 		if _UtilLogic:IsNilorEmptyString(json) then
 			return

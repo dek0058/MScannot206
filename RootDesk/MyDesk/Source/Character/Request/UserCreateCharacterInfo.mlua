@@ -14,8 +14,8 @@ script UserCreateCharacterInfo
 	---@description "캐릭터 이름"
 	property string name = ""
 
-	---@description "구조체를 JSON 문자열로 변환 합니다"
-	method string ToJson()
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
 		local content = {
 			["uid"] = self.uid,
 			["token"] = self.token,
@@ -23,7 +23,7 @@ script UserCreateCharacterInfo
 			["name"] = self.name
 		}
 		
-		return _HttpService:JSONEncode(content)
+		return content
 	end
 
 end

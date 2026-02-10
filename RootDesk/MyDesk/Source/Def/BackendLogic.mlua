@@ -150,8 +150,8 @@ script BackendLogic extends Logic
 			end
 
 			local body = request.content["body"]
-			if _UtilLogic:IsNilorEmptyString(body) == true then
-				body = "{}" -- 빈 JSON 객체
+			if body == nil then
+				body = {}
 			end
 
 			local key = request.api .. "?" .. tostring(i)
@@ -212,13 +212,7 @@ script BackendLogic extends Logic
 
 			passedApiKey[key] = true
 
-			---@type string
-			local body = item["body"]
-			local responseData = {}
-			if _UtilLogic:IsNilorEmptyString(body) == false then
-				responseData = _HttpService:JSONDecode(body)
-			end
-
+			local responseData = item["body"]
 			if request.callback ~= nil then
 				request.callback(responseData, request.content)
 			end

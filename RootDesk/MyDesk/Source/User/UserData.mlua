@@ -11,27 +11,25 @@ script UserData
 	---@description "게임 버전"
 	property string version = ""
 
-	---@description "구조체를 JSON 문자열로 변환 합니다"
-	method string ToJson()
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
 		local content = {
 			["token"] = self.token,
 			["version"] = self.version
 		}
 		
 		if self.userEntity ~= nil then
-			content["user_entity"] = self.userEntity:ToJson()
+			content["user_entity"] = self.userEntity:ToTable()
 		end
 		
-		return _HttpService:JSONEncode(content)
+		return content
 	end
 
-	---@description "JSON 문자열을 구조체로 변환 합니다"
-	method UserData FromJson(string json)
-		if _UtilLogic:IsNilorEmptyString(json) then
+	---@description "테이블에서 구조체로 변환합니다"
+	method UserData FromTable(table content)
+		if content == nil then
 			return self
 		end
-		
-		local content = _HttpService:JSONDecode(json)
 		
 		self.token = content["token"] or ""
 		self.version = content["version"] or ""

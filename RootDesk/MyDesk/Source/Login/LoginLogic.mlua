@@ -64,7 +64,7 @@ script LoginLogic extends Logic
 				return
 			end
 
-			local user = UserData():FromJson(data)
+			local user = UserData():FromTable(data)
 
 			local needLogin = user.userEntity == nil
 				or _UtilLogic:IsNilorEmptyString(user.token)
@@ -177,7 +177,7 @@ script LoginLogic extends Logic
 			table.insert(req.uids, r.uid)
 		end
 
-		content["body"] = req:ToJson()
+		content["body"] = req:ToTable()
 
 		local callback = function(response, request)
 			---@type table<string>
@@ -186,7 +186,7 @@ script LoginLogic extends Logic
 				return
 			end
 
-			local res = LoginResponse():FromJson(response)
+			local res = LoginResponse():FromTable(response)
 			local passedUids = {}
 			
 			-- 성공한 uid들에 대해 데이터 저장 및 로그인 완료 전송
@@ -210,7 +210,9 @@ script LoginLogic extends Logic
 				userData.token = r.token
 				userData.version = _DefLogic.Version
 				
-				userDataStorage:SetAsync(_UserLogic.Key_User, userData:ToJson(), function (errorCode, _)
+				local json = _HttpService:JSONEncode(userData:ToTable())
+
+				userDataStorage:SetAsync(_UserLogic.Key_User, json, function (errorCode, _)
 					if errorCode ~= 0 then
 						log_error("유저 데이터 저장에 실패했습니다 [uid" .. r.userEntity.uid .. "][errorcode:" .. errorCode .. "]")
 						local e = LoginEvent()

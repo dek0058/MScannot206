@@ -5,17 +5,17 @@ script CreateCharacterRequest
 	---@description "요청 리스트"
 	property table<UserCreateCharacterInfo> requests = {}
 
-	---@description "구조체를 JSON 문자열로 변환 합니다"
-	method string ToJson()
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
 		local content = {
 			["requests"] = {}
 		}
 		
 		for _, r in ipairs(self.requests) do
-			table.insert(content["requests"], r:ToJson())
+			table.insert(content["requests"], r:ToTable())
 		end
 		
-		return _HttpService:JSONEncode(content)
+		return content
 	end
 
 end

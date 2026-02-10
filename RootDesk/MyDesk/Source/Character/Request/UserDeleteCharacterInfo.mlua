@@ -11,14 +11,14 @@ script UserDeleteCharacterInfo
 	---@description "삭제할 캐릭터 슬롯"
 	property integer slot = 0
 
-	method string ToJson()
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
 		local content = {
-			uid = self.uid,
-			token = self.token,
-			slot = self.slot
+			["uid"] = self.uid,
+			["token"] = self.token,
+			["slot"] = self.slot
 		}
-
-		return _HttpService:JSONEncode(content)
+		return content
 	end
 
 end

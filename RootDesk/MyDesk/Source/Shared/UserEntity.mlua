@@ -8,14 +8,20 @@ script UserEntity
 	---@description "유저가 보유한 캐릭터 목록"
 	property table<CharacterEntity> characters = {}
 	
-	---@description "구조체를 JSON 문자열로 변환합니다"
-	method string ToJson()
-		return _HttpService:JSONEncode({
+	---@description "구조체를 테이블로 변환 합니다"
+	method table ToTable()
+		local content = {
 			["uid"] = self.uid,
-			["characters"] = self.characters,
-		})
+			["characters"] = {},
+		}
+
+		for i, character in ipairs(self.characters) do
+			table.insert(content["characters"], character:ToTable())
+		end
+
+		return content
 	end
-	
+
 	---@description "테이블에서 구조체를 생성합니다"
 	method UserEntity FromTable(table content)
 		self.uid = content["uid"] or ""
@@ -23,23 +29,6 @@ script UserEntity
 			local character = CharacterEntity():FromTable(charTable)
 			table.insert(self.characters, character)
 		end
-		return self
-	end
-	
-	---@description "JSON 문자열에서 구조체를 생성합니다"
-	method UserEntity FromJson(string json)
-		if _UtilLogic:IsNilorEmptyString(json) then
-			return self
-		end
-		
-		local content = _HttpService:JSONDecode(json)
-		
-		self.uid = content["uid"] or ""
-		for i, charTable in ipairs(content["characters"] or {}) do
-			local character = CharacterEntity():FromTable(charTable)
-			table.insert(self.characters, character)
-		end
-		
 		return self
 	end
 	

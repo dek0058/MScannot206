@@ -71,11 +71,11 @@ script CharacterSelectionSlotComponent extends Component
 			return
 		end
 		
-		local character = playerStorageCom.characters[self.Slot]
-		if character == nil then
+		local entity = playerStorageCom.characterEntities[self.Slot]
+		if entity == nil then
 			self:SetEmpty(uid)
 		else
-			self:SetAvatar(uid, character)
+			self:SetAvatar(uid, entity)
 		end
 	end
 	
@@ -102,7 +102,7 @@ script CharacterSelectionSlotComponent extends Component
 	
 	---@description "아바타로 설정합니다."
 	@ExecSpace("ServerOnly")
-	method void SetAvatar(string uid, Character character)
+	method void SetAvatar(string uid, CharacterEntity entity)
 		self.state = self.State_Avatar
 		if self.EmptyEntity == nil or self.AvatarEntity == nil then
 			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
@@ -122,7 +122,7 @@ script CharacterSelectionSlotComponent extends Component
 
 		local nameTagCom = self.AvatarEntity.NameTagComponent
 		if nameTagCom ~= nil then
-			nameTagCom.Name = character.name
+			nameTagCom.Name = entity.name
 		end
 	end
 
