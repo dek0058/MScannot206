@@ -49,7 +49,8 @@ script BackendLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnReserve()
 		if self._T["UpdateTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["UpdateTimerId"])
+			self._T["UpdateTimerId"] = nil
 		end
 
 		local callback = function ()

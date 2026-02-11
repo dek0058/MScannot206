@@ -146,7 +146,7 @@ script ErrorLogic extends Logic
 			msg = _LocalizationService:GetText(errCode)
 		end
 		log_error(msg .. " [" .. errCode .. "]")
-		_GameClientUILogic:CreateModal(msg, nil)
+		_GameClientUILogic:CreateModal(_GameClientUILogic.Modal_Warning, msg, nil)
 	end
 
 	---@description "오류 목록을 로그로 출력합니다."

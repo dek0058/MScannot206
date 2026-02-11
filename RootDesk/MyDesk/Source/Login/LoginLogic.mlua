@@ -91,7 +91,10 @@ script LoginLogic extends Logic
 		---@type UserRequestQueue
 		local queue = self._T["LoginRequestQueue"]
 		if queue == nil then
-			error("LoginRequestQueue가 없습니다")
+			log_error("LoginRequestQueue가 없습니다")
+			local e = LoginEvent()
+			e.errorCode = _ErrorLogic.LOGIN_UNKNOWN_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 
@@ -114,7 +117,8 @@ script LoginLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnReserveLogin()
 		if self._T["LoginTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["LoginTimerId"])
+			self._T["LoginTimerId"] = nil
 		end
 
 		local callback = function()
@@ -165,19 +169,20 @@ script LoginLogic extends Logic
 		end
 
 		local requests = queue:PullRequests(self.MaxLoginRequestPerFlush)
-
-		local content = {
-			["uids"] = {},
-		}
-
+		local requestUids = {}
 		local req = LoginRequest()
 
 		for _, r in ipairs(requests) do
-			table.insert(content["uids"], r.uid)
+			table.insert(requestUids, r.uid)
 			table.insert(req.uids, r.uid)
 		end
 
-		content["body"] = req:ToTable()
+		local content = {
+			["body"] = req:ToTable()
+		}
+		if #requestUids > 0 then
+			content["uids"] = requestUids
+		end
 
 		local callback = function(response, request)
 			---@type table<string>

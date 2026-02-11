@@ -7,11 +7,12 @@ script DeleteCharacterRequest
 
 	---@description "구조체를 테이블로 변환 합니다"
 	method table ToTable()
-		local content = {
-			["requests"] = {}
-		}
+		local content = {}
 
 		for _, r in ipairs(self.requests) do
+			if content["requests"] == nil then
+				content["requests"] = {}
+			end
 			table.insert(content["requests"], r:ToTable())
 		end
 

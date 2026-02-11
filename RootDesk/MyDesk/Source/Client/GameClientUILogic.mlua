@@ -2,8 +2,14 @@
 @Logic
 script GameClientUILogic extends Logic
 
+	---@description "기본 모달 모델 ID"
+	readonly property string Modal_Default = "f1850135-a98e-4cc2-bc08-b047d62db034"
+
+	---@description "경고 모달 모델 ID"
+	readonly property string Modal_Warning = "cde6f6c0-c500-40e1-a006-dcdb5a08e84a"
+
 	---@description "Map에 대응하는 Tag 키"
-	property string TagMap = "Map"
+	readonly property string TagMap = "Map"
 
 	---@description "현재 활성화된 화면 엔티티"
 	property Entity currentScreen = nil
@@ -93,11 +99,12 @@ script GameClientUILogic extends Logic
 	end
 
 	---@description "모달 창을 생성합니다."
+	---@param ModelId string "생성할 모달의 모델 ID"
 	---@param msg string "모달에 표시할 메시지"
 	---@param callback table "모달의 버튼 클릭 콜백 함수 테이블"
 	@ExecSpace("Client")
-	method void CreateModal(string msg, table callback)
-		local modal = _SpawnService:SpawnByModelId("f1850135-a98e-4cc2-bc08-b047d62db034", "Modal", Vector3.zero, self:GetModal())
+	method void CreateModal(string ModelId, string msg, table callback)
+		local modal = _SpawnService:SpawnByModelId(ModelId, "Modal", Vector3.zero, self:GetModal())
 
 		if modal == nil then
 			log_error("Modal 생성에 실패하였습니다.")

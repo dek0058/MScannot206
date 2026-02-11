@@ -134,7 +134,8 @@ script ChannelLogic extends Logic
 		end
 
 		if self._T["OnRequestStartChannelTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["OnRequestStartChannelTimerId"])
+			self._T["OnRequestStartChannelTimerId"] = nil
 		end
 		
 		local callback = function()
@@ -227,7 +228,8 @@ script ChannelLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnUpdateChannels()
 		if self._T["OnUpdateChannelsTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["OnUpdateChannelsTimerId"])
+			self._T["OnUpdateChannelsTimerId"] = nil
 		end
 		
 		local callback = function()
@@ -281,7 +283,8 @@ script ChannelLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnRenewChannel()
 		if self._T["OnRenewChannelTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["OnRenewChannelTimerId"])
+			self._T["OnRenewChannelTimerId"] = nil
 		end
 		
 		local callback = function()

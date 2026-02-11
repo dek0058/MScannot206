@@ -22,7 +22,10 @@ script CharacterLogic extends Logic
 
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
+		-- 캐릭터 생성 요청 대기열 초기화
 		self._T["CreateCharacterRequestQueue"] = UserRequestQueue()
+
+		-- 캐릭터 삭제 요청 대기열 초기화
 		self._T["DeleteCharacterRequestQueue"] = UserRequestQueue()
 	end
 
@@ -31,13 +34,6 @@ script CharacterLogic extends Logic
 	@ExecSpace("Server")
 	method void RequestLoadCharacters(string uid)
 		if uid ~= senderUserId then
-			return
-		end
-
-		if not _UserLogic:IsUserExists(uid) then
-			local e = CharactersLoadEvent()
-			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
-			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 		
@@ -74,6 +70,9 @@ script CharacterLogic extends Logic
 		local queue = self._T["CreateCharacterRequestQueue"]
 		if queue == nil then
 			log_error("CreateCharacterRequestQueue가 없습니다")
+			local e = CreateCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_CREATE_CHARACTER_UNKNOWN_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 
@@ -109,7 +108,8 @@ script CharacterLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnReserveCreateCharacter()
 		if self._T["CreateCharacterTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["CreateCharacterTimerId"])
+			self._T["CreateCharacterTimerId"] = nil
 		end
 
 		local callback = function()
@@ -158,10 +158,7 @@ script CharacterLogic extends Logic
 		end
 
 		local requests = queue:PullRequests(self.MaxCreateCharacterRequestPerFlush)
-		local content = {
-			["uids"] = {},
-		}
-
+		local requestsUids = {}
 		local req = CreateCharacterRequest()
 
 		for _, r in ipairs(requests) do
@@ -183,11 +180,18 @@ script CharacterLogic extends Logic
 			info.name = params.name
 			info.slot = params.slot
 
-			table.insert(content["uids"], r.uid)
+			table.insert(requestsUids, r.uid)
 			table.insert(req.requests, info)
 		end
 
-		content["body"] = req:ToTable()
+		local content = {}
+		if #requestsUids > 0 then
+			content["uids"] = requestsUids
+		end
+
+		if #req.requests > 0 then
+			content["body"] = req:ToTable()
+		end
 
 		local callback = function(response, request)
 			---@type table<string>
@@ -262,6 +266,9 @@ script CharacterLogic extends Logic
 		local queue = self._T["DeleteCharacterRequestQueue"]
 		if queue == nil then
 			log_error("DeleteCharacterRequestQueue가 없습니다")
+			local e = DeleteCharacterEvent()
+			e.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_UNKNOWN_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
 
@@ -288,7 +295,8 @@ script CharacterLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnReserveDeleteCharacter()
 		if self._T["DeleteCharacterTimerId"] ~= nil then
-			return
+			_TimerService:ClearTimer(self._T["DeleteCharacterTimerId"])
+			self._T["DeleteCharacterTimerId"] = nil
 		end
 
 		local callback = function()
@@ -336,10 +344,7 @@ script CharacterLogic extends Logic
 		end
 
 		local requests = queue:PullRequests(self.MaxDeleteCharacterRequestPerFlush)
-		local content = {
-			["uids"] = {},
-		}
-
+		local requestUids = {}
 		local req = DeleteCharacterRequest()
 
 		for _, r in ipairs(requests) do
@@ -366,11 +371,17 @@ script CharacterLogic extends Logic
 			info.token = user.token
 			info.slot = slot
 
-			table.insert(content["uids"], uid)
+			table.insert(requestUids, uid)
 			table.insert(req.requests, info)
 		end
 
-		content["body"] = req:ToTable()
+		local content = {}
+		if #requestUids > 0 then
+			content["uids"] = requestUids
+		end
+		if #req.requests > 0 then
+			content["body"] = req:ToTable()
+		end
 
 		local callback = function(response, request)
 			---@type table<string>

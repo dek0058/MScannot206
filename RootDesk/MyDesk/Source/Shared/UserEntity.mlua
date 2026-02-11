@@ -12,10 +12,12 @@ script UserEntity
 	method table ToTable()
 		local content = {
 			["uid"] = self.uid,
-			["characters"] = {},
 		}
 
 		for i, character in ipairs(self.characters) do
+			if content["characters"] == nil then
+				content["characters"] = {}
+			end
 			table.insert(content["characters"], character:ToTable())
 		end
 

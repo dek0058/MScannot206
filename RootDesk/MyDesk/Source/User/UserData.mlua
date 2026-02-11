@@ -2,7 +2,8 @@
 @Struct
 script UserData
 
-	---@type UserEntity "유저 엔티티"
+	---@description "유저 엔티티"
+	---@type UserEntity
 	property any userEntity = nil
 
 	---@description "인증 토큰"

@@ -159,7 +159,7 @@ script CharacterCreateComponent extends Component
 			_UserProxy:SendEventToLocalPlayer(sendEvent)
 			return
 		end
-
+		
 		local slot = 0
 		for i = 1, _DefLogic.MaxCharacterSlot do
 			if userStorageCom:IsExistCharacterSlot(i) then
@@ -168,7 +168,7 @@ script CharacterCreateComponent extends Component
 			slot = i
 			break
 		end
-
+		
 		self.isRequesting = true
 		
 		if self.LoadingModalEntity ~= nil then
@@ -178,7 +178,7 @@ script CharacterCreateComponent extends Component
 		local params = CreateCharacterParams()
 		params.name = self.NameInput.Text
 		params.slot = slot
-
+		
 		_CharacterLogic:RequestCreateCharacter(_UserProxy:GetUid(), params)
 	end
 	
@@ -194,16 +194,19 @@ script CharacterCreateComponent extends Component
 		end
 	end
 	
+	---@description "캐릭터 생성 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
 		if self.LoadingModalEntity ~= nil then
 			self.LoadingModalEntity.Enable = false
 		end
-		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+		
+		if _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			self.Entity:SetEnable(false)
+		else
 			self.isRequesting = false
 			self:OnUpdateNameChange(self.NameInput.Text)
-			return
 		end
 	end
 	

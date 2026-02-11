@@ -79,8 +79,8 @@ script CharacterSelectionComponent extends Component
 			return
 		end
 
-		self.UserMenuComponent.Entity.Enable = false
-		self.CharacterCreateComponent.Entity.Enable = true
+		self.UserMenuComponent.Entity:SetEnable(false)
+		self.CharacterCreateComponent.Entity:SetEnable(true)
 
 		self.CharacterCreateComponent:Setup()
 	end
@@ -95,6 +95,17 @@ script CharacterSelectionComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterGameStartEvent(RequestCharacterGameStartEvent e)
+	end
+
+	---@description "캐릭터 생성 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			return
+		end
+
+		self.Entity:SetEnable(false)
 	end
 
 end

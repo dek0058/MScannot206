@@ -7,9 +7,11 @@ script LoginRequest
 
 	---@description "구조체를 테이블로 변환 합니다"
 	method table ToTable()
-		local content = {
-			["uids"] = self.uids,
-		}
+		local content = {}
+
+		if #self.uids > 0 then
+			content["uids"] = self.uids
+		end
 		
 		return content
 	end
