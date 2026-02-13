@@ -6,12 +6,19 @@ script UserStorageComponent extends Component
 	
 	method void OnBeginPlay()
 		self._T["CharactersLoadEvent"] = self.Entity:ConnectEvent(CharactersLoadEvent, self.OnCharactersLoadEvent)
+		self._T["CreateCharacterEvent"] = self.Entity:ConnectEvent(CreateCharacterEvent, self.OnCreateCharacterEvent)
+		self._T["DeleteCharacterEvent"] = self.Entity:ConnectEvent(DeleteCharacterEvent, self.OnDeleteCharacterEvent)
 	end
 
 	method void OnEndPlay()
 		if self._T["CharactersLoadEvent"] ~= nil then
 			self.Entity:DisconnectEvent(CharactersLoadEvent, self._T["CharactersLoadEvent"])
 			self._T["CharactersLoadEvent"] = nil
+		end
+
+		if self._T["CreateCharacterEvent"] ~= nil then
+			self.Entity:DisconnectEvent(CreateCharacterEvent, self._T["CreateCharacterEvent"])
+			self._T["CreateCharacterEvent"] = nil
 		end
 	end
 
@@ -26,6 +33,27 @@ script UserStorageComponent extends Component
 		end
 	end
 
+	---@description "캐릭터 생성 이벤트를 처리합니다."
+	method void OnCreateCharacterEvent(CreateCharacterEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			return
+		end
+		
+		local char = e.character
+		self.characterEntities[char.slot] = char
+	end
+
+	---@description "캐릭터 삭제 이벤트를 처리합니다."
+	method void OnDeleteCharacterEvent(DeleteCharacterEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			return
+		end
+
+		local slot = e.slot
+		self.characterEntities[slot] = nil
+	end
+
+	---@description "슬롯에 해당하는 캐릭터가 존재하는지 여부를 반환합니다."
 	method boolean IsExistCharacterSlot(integer slot)
 		return self.characterEntities[slot] ~= nil
 	end

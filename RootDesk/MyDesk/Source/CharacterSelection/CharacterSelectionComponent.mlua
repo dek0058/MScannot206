@@ -1,4 +1,4 @@
----@description "캐릭터 선택과 관련된 기능을 처리하는 컴포넌트 입니다."
+---@description "캐릭터 선택과 관련된 기능을 처리하는 컴포넌트 입니다"
 @Component
 script CharacterSelectionComponent extends Component
 
@@ -10,6 +10,9 @@ script CharacterSelectionComponent extends Component
 
 	---@description "캐릭터 생성 컴포넌트 (UI)"
 	readonly property CharacterCreateComponent CharacterCreateComponent = nil
+
+	---@description "캐릭터 삭제 컴포넌트 (UI)"
+	readonly property CharacterDeleteComponent CharacterDeleteComponent = nil
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -31,7 +34,7 @@ script CharacterSelectionComponent extends Component
 		self._T["FadeInTween"] = fadeInTween
 
 		if self.UserMenuComponent == nil then
-			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionUserMenuComponent를 찾지 못하였습니다.", "WorldError")
+			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionUserMenuComponent를 찾지 못하였습니다", "WorldError")
 		end
 	end
 
@@ -43,7 +46,7 @@ script CharacterSelectionComponent extends Component
 		end
 	end
 
-	---@description "캐릭터 선택 화면을 설정합니다."
+	---@description "캐릭터 선택 화면을 설정합니다"
 	@ExecSpace("ClientOnly")
 	method void Setup()
 		self.UserMenuComponent:Setup()
@@ -60,27 +63,28 @@ script CharacterSelectionComponent extends Component
 		end
 	end
 
-	---@description "캐릭터 생성 요청 이벤트를 처리합니다."
+	---@description "캐릭터 생성 요청 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterCreateEvent(RequestCharacterCreateEvent e)
 		local err = ErrorType()
 
 		if self.CharacterCreateComponent == nil then
-			err:AddError("CharacterCreateComponent를 찾지 못하였습니다.")
+			err:AddError("CharacterCreateComponent를 찾지 못하였습니다")
 		end
 
 		if self.UserMenuComponent == nil then
-			err:AddError("CharacterSelectionUserMenuComponent를 찾지 못하였습니다.")
+			err:AddError("CharacterSelectionUserMenuComponent를 찾지 못하였습니다")
 		end
 
 		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
 		if userStorageCom == nil then
-			err:AddError("UserStorageComponent를 찾지 못하였습니다.")
+			err:AddError("UserStorageComponent를 찾지 못하였습니다")
 		end
 
 		if err:IsError() then
 			err:PrintErrors()
+			_ErrorLogic:PushToast(_ErrorLogic.UNKNOWN_ERROR)
 			return
 		end
 
@@ -105,19 +109,64 @@ script CharacterSelectionComponent extends Component
 		self.CharacterCreateComponent:Setup(slot)
 	end
 
-	---@description "캐릭터 삭제 요청 이벤트를 처리합니다."
+	---@description "캐릭터 삭제 요청 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterDeleteEvent(RequestCharacterDeleteEvent e)
+		local err = ErrorType()
+
+		if self.CharacterDeleteComponent == nil then
+			err:AddError("CharacterDeleteComponent를 찾지 못하였습니다")
+		end
+
+		if self.UserMenuComponent == nil then
+			err:AddError("CharacterSelectionUserMenuComponent를 찾지 못하였습니다")
+		end
+
+		local map = _UserService.LocalPlayer.CurrentMap
+		if map == nil then
+			err:AddError("현재 맵 정보를 찾지 못하였습니다")
+		end
+
+		local loginMapCom = map.LoginMapComponent
+		if loginMapCom == nil then
+			err:AddError("LoginMapComponent를 찾지 못하였습니다")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+			_ErrorLogic:PushToast(_ErrorLogic.UNKNOWN_ERROR)
+			return
+		end
+
+		local slot = 0
+		for _, slotCom in ipairs(loginMapCom:GetCharacterSlots()) do
+			if not slotCom:IsSelected() then
+				continue
+			end
+
+			slot = slotCom.Slot
+			break
+		end
+
+		if slot == 0 then
+			_ErrorLogic:PushToast(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR)
+			return
+		end
+
+		self.UserMenuComponent.Entity:SetEnable(false)
+		self.CharacterDeleteComponent.Entity:SetEnable(true)
+
+		self.CharacterDeleteComponent:Setup(slot)
 	end
 
-	---@description "게임 시작 요청 이벤트를 처리합니다."
+	---@description "게임 시작 요청 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterGameStartEvent(RequestCharacterGameStartEvent e)
 	end
 
-	---@description "캐릭터 생성 이벤트를 처리합니다."
+	---@description "캐릭터 생성 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleCreateCharacterEvent(CreateCharacterEvent e)
@@ -125,14 +174,60 @@ script CharacterSelectionComponent extends Component
 			return
 		end
 
-		self.Entity:SetEnable(false)
+		if self.UserMenuComponent ~= nil then
+			self.UserMenuComponent.Entity:SetEnable(true)
+			if e.character ~= nil then
+				self.UserMenuComponent:SetSelectCharacterSlot(e.character.slot)
+			end
+		end
+
+		if self.CharacterCreateComponent ~= nil then
+			self.CharacterCreateComponent.Entity:SetEnable(false)
+		end
 	end
 
-	---@description "캐릭터 생성 취소 요청 이벤트를 처리합니다."
+	---@description "캐릭터 생성 취소 요청 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleRequestCharacterCreateCancelEvent(RequestCharacterCreateCancelEvent e)
-		self.UserMenuComponent.Entity:SetEnable(true)
+		if self.UserMenuComponent ~= nil then
+			self.UserMenuComponent.Entity:SetEnable(true)
+		end
+
+		if self.CharacterCreateComponent ~= nil then
+			self.CharacterCreateComponent.Entity:SetEnable(false)
+		end
+	end
+
+	---@description "캐릭터 삭제 이벤트를 처리합니다"
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			return
+		end
+
+		if self.UserMenuComponent ~= nil then
+			self.UserMenuComponent.Entity:SetEnable(true)
+			self.UserMenuComponent:SetSelectCharacterSlot(e.slot)
+		end
+
+		if self.CharacterDeleteComponent ~= nil then
+			self.CharacterDeleteComponent.Entity:SetEnable(false)
+		end
+	end
+
+	---@description "캐릭터 삭제 취소 요청 이벤트를 처리합니다"
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestCharacterDeleteCancelEvent(RequestCharacterDeleteCancelEvent e)
+		if self.UserMenuComponent ~= nil then
+			self.UserMenuComponent.Entity:SetEnable(true)
+		end
+
+		if self.CharacterDeleteComponent ~= nil then
+			self.CharacterDeleteComponent.Entity:SetEnable(false)
+		end
 	end
 
 end

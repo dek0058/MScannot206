@@ -224,6 +224,7 @@ script CharacterLogic extends Logic
 				table.insert(user.userEntity.characters, r.character)
 
 				local e = CreateCharacterEvent()
+				e.character = r.character
 				_UserProxy:SendEventToPlayer(e, r.uid)
 				passedUids[r.uid] = true
 			end
@@ -415,6 +416,7 @@ script CharacterLogic extends Logic
 				end
 
 				local e = DeleteCharacterEvent()
+				e.slot = r.slot
 				_UserProxy:SendEventToPlayer(e, r.uid)
 				passedUids[r.uid] = true
 			end

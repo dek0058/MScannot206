@@ -1,14 +1,14 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://cde74038-9cbe-4760-9bf3-691ac45cf38e",
+  "EntryKey": "codeblock://882ca8b5-48d5-4e26-be71-a1138df7e7c3",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
-  "StudioVersion": "",
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
@@ -22,12 +22,12 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "cde74038-9cbe-4760-9bf3-691ac45cf38e",
+      "Id": "882ca8b5-48d5-4e26-be71-a1138df7e7c3",
       "Language": 1,
-      "Name": "DeleteCharacterParams",
-      "Type": 9,
+      "Name": "RequestCharacterDeleteCancelEvent",
+      "Type": 3,
       "Source": 0,
-      "Target": null
+      "Target": "codeblock://f1c11e3d-b5f4-4074-aa76-0a3226d31fe0"
     }
   }
 }
