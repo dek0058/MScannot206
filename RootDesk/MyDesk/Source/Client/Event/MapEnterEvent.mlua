@@ -1,4 +1,4 @@
 @Event
-script MapEnterEvent extends EventType
+script MapEnterEvent extends TemplateEventType
 
 end

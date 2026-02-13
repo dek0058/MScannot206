@@ -1,6 +1,6 @@
 ---@description "유저 캐릭터 삭제 이벤트"
 @Event
-script DeleteCharacterEvent extends EventType
+script DeleteCharacterEvent extends TemplateEventType
 
 	---@description "에러 코드"
 	property string errorCode = ""

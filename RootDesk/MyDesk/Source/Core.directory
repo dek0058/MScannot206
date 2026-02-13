@@ -1,20 +1,20 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://ead8e3935eca418ca0fc8fc5a8e91cc8",
+  "EntryKey": "directory://0c8fd3d7724f40a2ba6943de3c6a468e",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://ead8e3935eca418ca0fc8fc5a8e91cc8",
-      "name": "Event",
+      "entry_id": "directory://0c8fd3d7724f40a2ba6943de3c6a468e",
+      "name": "Core",
       "lock": false,
       "folding": false,
       "nameEditable": true

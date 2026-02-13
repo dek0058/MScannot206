@@ -1,6 +1,6 @@
 ---@description "로그인 이벤트입니다."
 @Event
-script LoginEvent extends EventType
+script LoginEvent extends TemplateEventType
 
 	---@description "에러 코드"
 	property string errorCode = ""

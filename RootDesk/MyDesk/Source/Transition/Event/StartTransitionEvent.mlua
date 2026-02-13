@@ -1,4 +1,4 @@
 @Event
-script StartTransitionEvent extends EventType
+script StartTransitionEvent extends TemplateEventType
 
 end

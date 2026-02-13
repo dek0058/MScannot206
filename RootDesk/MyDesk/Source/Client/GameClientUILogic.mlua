@@ -8,6 +8,18 @@ script GameClientUILogic extends Logic
 	---@description "경고 모달 모델 ID"
 	readonly property string Modal_Warning = "cde6f6c0-c500-40e1-a006-dcdb5a08e84a"
 
+	---@description "예/아니오 모달 모델 ID"
+	readonly property string Modal_YesOrNo = "5919bf11-f7a4-4728-bfc2-0d56af237bdf"
+
+	---@description "확인/취소 모달 모델 ID"
+	readonly property string Modal_ConfirmOrCancel = "17fc17ca-34b6-4077-9dcb-75153e780575"
+
+	---@description "경고 예/아니오 모달 모델 ID"
+	readonly property string Modal_Warning_YesOrNo = "caa0caa9-541b-419a-924e-e6f5bcbb9c17"
+
+	---@description "경고 확인/취소 모달 모델 ID"
+	readonly property string Modal_Warning_ConfirmOrCancel = "649e53d7-6e94-4d2f-a093-3f940c399cca"
+
 	---@description "Map에 대응하는 Tag 키"
 	readonly property string TagMap = "Map"
 
@@ -99,12 +111,12 @@ script GameClientUILogic extends Logic
 	end
 
 	---@description "모달 창을 생성합니다."
-	---@param ModelId string "생성할 모달의 모델 ID"
+	---@param modelId string "생성할 모달의 모델 ID"
 	---@param msg string "모달에 표시할 메시지"
 	---@param callback table "모달의 버튼 클릭 콜백 함수 테이블"
 	@ExecSpace("Client")
-	method void CreateModal(string ModelId, string msg, table callback)
-		local modal = _SpawnService:SpawnByModelId(ModelId, "Modal", Vector3.zero, self:GetModal())
+	method void CreateModal(string modelId, string msg, table callback)
+		local modal = _SpawnService:SpawnByModelId(modelId, "Modal", Vector3.zero, self:GetModal())
 
 		if modal == nil then
 			log_error("Modal 생성에 실패하였습니다.")
@@ -121,6 +133,47 @@ script GameClientUILogic extends Logic
 		end
 
 		modalCom:Setup(msg, callback)
+	end
+
+	method void CreateModalYesOrNo(string modelId, string msg, table callback)
+		local modal = _SpawnService:SpawnByModelId(modelId, "Modal", Vector3.zero, self:GetModal())
+
+		if modal == nil then
+			log_error("Modal 생성에 실패하였습니다.")
+			return
+		end
+
+		self:SetUILocation(modal, Vector2(_UILogic.ScreenWidth, _UILogic.ScreenHeight) / 2)
+
+		---@type ModalYesOrNoComponent
+		local modalCom = modal:GetComponent(ModalYesOrNoComponent)
+		if modalCom == nil then
+			log_error("ModalYesOrNoComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		modalCom:Setup(msg, callback)
+	end
+
+	---@description "토스트 메시지를 생성합니다."
+	---@param msg string "토스트에 표시할 메시지"
+	@ExecSpace("Client")
+	method void PushToast(string msg)
+		local model = _SpawnService:SpawnByModelId("935e717c-2bd7-4bc7-aefb-8edc2e475bd7", "Toast", Vector3.zero, self:GetModal())
+
+		if model == nil then
+			log_error("ToastMessageComponent 생성에 실패하였습니다.")
+			return
+		end
+
+		---@type ToastMessageComponent
+		local toastCom = model:GetComponent(ToastMessageComponent)
+		if toastCom == nil then
+			log_error("ToastMessageComponent를 찾을 수 없습니다.")
+			return
+		end
+
+		toastCom:Setup(msg)
 	end
 
 	---@description "현재 화면 엔티티를 초기화합니다."

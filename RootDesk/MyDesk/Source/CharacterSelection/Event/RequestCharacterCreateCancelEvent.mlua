@@ -1,4 +1,4 @@
 @Event
-script RequestCharacterCreateCancelEvent extends EventType
+script RequestCharacterCreateCancelEvent extends TemplateEventType
 
 end

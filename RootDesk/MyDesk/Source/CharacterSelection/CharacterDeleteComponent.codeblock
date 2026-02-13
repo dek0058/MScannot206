@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://9be37ec2-6bba-46bd-b5e3-57bb6f744c6c",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "9be37ec2-6bba-46bd-b5e3-57bb6f744c6c",
+      "Language": 1,
+      "Name": "CharacterDeleteComponent",
+      "Type": 1,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

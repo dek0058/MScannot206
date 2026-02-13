@@ -1,4 +1,4 @@
 @Event
-script RequestFetchChannelsEvent extends EventType
+script RequestFetchChannelsEvent extends TemplateEventType
 
 end

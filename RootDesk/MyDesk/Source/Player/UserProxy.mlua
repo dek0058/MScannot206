@@ -13,9 +13,9 @@ script UserProxy extends Logic
 	end
 
 	---@description "로컬플레이어에게 이벤트를 전송합니다."
-	---@param e EventType "전송할 이벤트"
+	---@param e TemplateEventType "전송할 이벤트"
 	@ExecSpace("Client")
-	method void SendEventToLocalPlayer(EventType e)
+	method void SendEventToLocalPlayer(TemplateEventType e)
 		local localPlayer = _UserService.LocalPlayer
 		if localPlayer == nil then
 			return
@@ -25,9 +25,9 @@ script UserProxy extends Logic
 
 	---@description "특정 플레이어에게 이벤트를 전송합니다."
 	---@param uid string "이벤트를 전송할 플레이어의 UID"
-	---@param e EventType "전송할 이벤트"
+	---@param e TemplateEventType "전송할 이벤트"
 	@ExecSpace("ServerOnly")
-	method void SendEventToSpecificPlayer(EventType e, string uid)
+	method void SendEventToSpecificPlayer(TemplateEventType e, string uid)
 		local user = _UserService:GetUserEntityByUserId(uid)
 		if user == nil then
 			return
@@ -37,9 +37,9 @@ script UserProxy extends Logic
 
 	---@description "특정 플레이어에게 이벤트를 전송합니다."
 	---@param uid string "이벤트를 전송할 플레이어의 UID"
-	---@param e EventType "전송할 이벤트"
+	---@param e TemplateEventType "전송할 이벤트"
 	@ExecSpace("Multicast")
-	method void SendEventToPlayer(EventType e, string uid)
+	method void SendEventToPlayer(TemplateEventType e, string uid)
 		local user = _UserService:GetUserEntityByUserId(uid)
 		if user == nil then
 			return

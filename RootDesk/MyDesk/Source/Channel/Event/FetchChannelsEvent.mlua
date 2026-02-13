@@ -1,5 +1,5 @@
 @Event
-script FetchChannelsEvent extends EventType
+script FetchChannelsEvent extends TemplateEventType
 
 	property table channels = {}
 	property integer channelCount = 0

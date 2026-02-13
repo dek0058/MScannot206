@@ -14972,6 +14972,55 @@
           ],
           "@version": 1
         }
+      },
+      {
+        "id": "afff9a82-6838-490f-b83e-628a5498caf8",
+        "path": "/maps/LoginMap/MapEmpty",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.ChatBalloonComponent",
+        "jsonString": {
+          "name": "MapEmpty",
+          "path": "/maps/LoginMap/MapEmpty",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 11,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "mapempty",
+            "sub_entity_id": null,
+            "root_entity_id": "afff9a82-6838-490f-b83e-628a5498caf8",
+            "replaced_model_id": null
+          },
+          "modelId": "mapempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "Position": {
+                "x": 11.6128883,
+                "y": -0.03803104,
+                "z": 999.999
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ChatBalloonComponent",
+              "ChatBalloonRUID": {
+                "DataId": "0d5f339bb86e4115801fbf97ab0ea6f2"
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
       }
     ]
   }

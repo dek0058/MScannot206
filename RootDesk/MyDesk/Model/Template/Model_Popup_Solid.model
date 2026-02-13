@@ -75,8 +75,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 934.6138,
-            "y": 475.9186
+            "x": 145749.734,
+            "y": 68151.9141
           }
         },
         {
@@ -88,8 +88,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 374.61377,
-            "y": 135.91861
+            "x": 145189.734,
+            "y": 67811.9141
           }
         },
         {
@@ -125,7 +125,7 @@
             "$type": "MODNativeType",
             "type": "MOD.Core.UIModeType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
           },
-          "Value": 1
+          "Value": 2
         },
         {
           "TargetType": "MOD.Core.UITransformComponent",
@@ -326,7 +326,7 @@
                   "$type": "MODNativeType",
                   "type": "MOD.Core.UIModeType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
                 },
-                "Value": 1
+                "Value": 2
               },
               {
                 "TargetType": "MOD.Core.UITransformComponent",
@@ -360,7 +360,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector3, MOD.Core",
                   "x": 0.0,
-                  "y": 170.0,
+                  "y": 0.765,
                   "z": 0.0
                 }
               },
@@ -583,7 +583,7 @@
                   "$type": "MODNativeType",
                   "type": "MOD.Core.UIModeType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
                 },
-                "Value": 1
+                "Value": 2
               },
               {
                 "TargetType": "MOD.Core.UITransformComponent",
@@ -604,7 +604,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
                   "x": 0.0,
-                  "y": 37.0
+                  "y": 0.166499987
                 }
               },
               {
@@ -617,7 +617,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector3, MOD.Core",
                   "x": 0.0,
-                  "y": 37.0,
+                  "y": 0.166499987,
                   "z": 0.0
                 }
               },
@@ -840,7 +840,7 @@
                   "$type": "MODNativeType",
                   "type": "MOD.Core.UIModeType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
                 },
-                "Value": 1
+                "Value": 2
               },
               {
                 "TargetType": "MOD.Core.UITransformComponent",
@@ -874,7 +874,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector3, MOD.Core",
                   "x": 0.0,
-                  "y": -170.0,
+                  "y": -0.765,
                   "z": 0.0
                 }
               },

@@ -1,0 +1,58 @@
+@Component
+script ModalYesOrNoComponent extends Component
+
+	property Entity YesBtn = nil
+
+	property Entity NoBtn = nil
+
+	property Entity MsgTxt = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.YesBtn ~= nil then
+			self._T["YesHandler"] = self.YesBtn:ConnectEvent(ButtonClickEvent, function()
+				if self._T["yes"] ~= nil then
+					self._T["yes"]()
+				end
+			end)
+		end
+		
+		if self.NoBtn ~= nil then
+			self._T["NoHandler"] = self.NoBtn:ConnectEvent(ButtonClickEvent, function()
+				if self._T["no"] ~= nil then
+					self._T["no"]()
+				end
+			end)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["YesHandler"] ~= nil then
+			self.YesBtn:DisconnectEvent(ButtonClickEvent, self._T["YesHandler"])
+			self._T["YesHandler"] = nil
+		end
+		
+		if self._T["NoHandler"] ~= nil then
+			self.NoBtn:DisconnectEvent(ButtonClickEvent, self._T["NoHandler"])
+			self._T["NoHandler"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup(string msg, table callback)
+		if self.MsgTxt ~= nil then
+			---@type TextComponent
+			local textCom = self.MsgTxt:GetComponent(TextComponent)
+			if textCom ~= nil then
+				textCom.Text = msg
+			end
+		end
+		
+		if callback ~= nil then
+			self._T["yes"] = callback["yes"]
+			self._T["no"] = callback["no"]
+		end
+	end
+
+end

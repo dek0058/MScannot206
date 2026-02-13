@@ -1,0 +1,14 @@
+@Component
+script CharacterDeleteComponent extends Component
+
+	property Entity ConfirmBtnEntity = nil
+
+	property Entity TextEntity = nil
+
+	method void Setup(integer slot)
+		
+		
+
+	end
+
+end

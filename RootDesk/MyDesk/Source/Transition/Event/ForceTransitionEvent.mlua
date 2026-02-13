@@ -1,4 +1,4 @@
 @Event
-script ForceTransitionEvent extends EventType
+script ForceTransitionEvent extends TemplateEventType
 
 end

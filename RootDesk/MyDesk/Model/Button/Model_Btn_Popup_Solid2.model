@@ -615,7 +615,7 @@
                   "$type": "MODNativeType",
                   "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 },
-                "Value": 20.0
+                "Value": 25.0
               },
               {
                 "TargetType": "MOD.Core.TextGUIRendererComponent",
@@ -989,7 +989,7 @@
                   "$type": "MODNativeType",
                   "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 },
-                "Value": 20.0
+                "Value": 25.0
               },
               {
                 "TargetType": "MOD.Core.TextGUIRendererComponent",
@@ -1390,7 +1390,7 @@
                   "$type": "MODNativeType",
                   "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 },
-                "Value": 20.0
+                "Value": 25.0
               },
               {
                 "TargetType": "MOD.Core.TextGUIRendererComponent",
@@ -1782,7 +1782,7 @@
                   "$type": "MODNativeType",
                   "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 },
-                "Value": 20.0
+                "Value": 25.0
               },
               {
                 "TargetType": "MOD.Core.TextGUIRendererComponent",

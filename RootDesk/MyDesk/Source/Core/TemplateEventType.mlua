@@ -1,0 +1,4 @@
+@Event
+script TemplateEventType extends EventType
+
+end

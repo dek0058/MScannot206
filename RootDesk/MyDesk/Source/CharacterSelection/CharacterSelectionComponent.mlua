@@ -74,15 +74,35 @@ script CharacterSelectionComponent extends Component
 			err:AddError("CharacterSelectionUserMenuComponent를 찾지 못하였습니다.")
 		end
 
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			err:AddError("UserStorageComponent를 찾지 못하였습니다.")
+		end
+
 		if err:IsError() then
 			err:PrintErrors()
+			return
+		end
+
+		local slot = 0
+		for i = 1, _DefLogic.MaxCharacterSlot do
+			if userStorageCom:IsExistCharacterSlot(i) then
+				continue
+			end
+			slot = i
+			break
+		end
+
+		if slot == 0 then
+			local msg = _LocalizationService:GetText("cs_character_slot_max")
+			_GameClientUILogic:PushToast(msg)
 			return
 		end
 
 		self.UserMenuComponent.Entity:SetEnable(false)
 		self.CharacterCreateComponent.Entity:SetEnable(true)
 
-		self.CharacterCreateComponent:Setup()
+		self.CharacterCreateComponent:Setup(slot)
 	end
 
 	---@description "캐릭터 삭제 요청 이벤트를 처리합니다."
@@ -106,6 +126,13 @@ script CharacterSelectionComponent extends Component
 		end
 
 		self.Entity:SetEnable(false)
+	end
+
+	---@description "캐릭터 생성 취소 요청 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestCharacterCreateCancelEvent(RequestCharacterCreateCancelEvent e)
+		self.UserMenuComponent.Entity:SetEnable(true)
 	end
 
 end

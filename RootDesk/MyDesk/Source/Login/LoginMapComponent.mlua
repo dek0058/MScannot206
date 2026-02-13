@@ -108,16 +108,8 @@ script LoginMapComponent extends Component
 		userLocalPlayerCom:SetInputEnable(true)
 		
 		-- 캐릭터 슬롯 설정
-		local characterSlotEntity = _EntityService:GetEntityByTag("CharacterSlot")
-		if characterSlotEntity ~= nil then
-			for _, child in ipairs(characterSlotEntity.Children) do
-				local slotCom = child.CharacterSelectionSlotComponent
-				if slotCom == nil then
-					continue
-				end
-				
-				slotCom:Setup(uid)
-			end
+		for _, slotCom in ipairs(self:GetCharacterSlots()) do
+			slotCom:Setup(uid)
 		end
 		
 		-- 클라이언트 처리
@@ -153,14 +145,11 @@ script LoginMapComponent extends Component
 		charSelectCom.Entity:SetEnable(true)
 		charSelectCom:Setup()
 	end
-
-	---@description "캐릭터 슬롯을 선택합니다."
-	@ExecSpace("Server")
-	method void SetSelectCharacterSlot(string uid, integer slot)
-		if uid ~= senderUserId then
-			return
-		end
 	
+	---@description "캐릭터 슬롯들을 가져옵니다."
+	method table<CharacterSelectionSlotComponent> GetCharacterSlots()
+		local slots = {}
+		
 		local characterSlotEntity = _EntityService:GetEntityByTag("CharacterSlot")
 		if characterSlotEntity ~= nil then
 			for _, child in ipairs(characterSlotEntity.Children) do
@@ -169,24 +158,67 @@ script LoginMapComponent extends Component
 					continue
 				end
 				
-				if slotCom.Slot ~= slot then
-					slotCom:SetUnselect()
-					continue
-				end
+				table.insert(slots, slotCom)
+			end
+		end
+		
+		return slots
+	end
 
-				if slotCom.state == slotCom.State_Empty then
-					slotCom:SetUnselect()
-				else
-					slotCom:SetSelect()
-				end
+	---@description "특정 슬롯의 캐릭터 슬롯 컴포넌트를 가져옵니다."
+	---@param slot integer "슬롯 번호"
+	method CharacterSelectionSlotComponent GetCharacterSlot(integer slot)
+		for _, slotCom in ipairs(self:GetCharacterSlots()) do
+			if slotCom.Slot == slot then
+				return slotCom
+			end
+		end
+		
+		return nil
+	end
+	
+	---@description "캐릭터 슬롯을 선택합니다."
+	---@param uid string "유저 아이디"
+	---@param slot integer "선택할 슬롯 번호"
+	@ExecSpace("Server")
+	method void SetSelectCharacterSlot(string uid, integer slot)
+		if uid ~= senderUserId then
+			return
+		end
+		
+		for _, slotCom in ipairs(self:GetCharacterSlots()) do
+			if slotCom.Slot ~= slot then
+				slotCom:SetUnselect()
+				continue
+			end
+			
+			if slotCom.state == slotCom.State_Empty then
+				slotCom:SetUnselect()
+			else
+				slotCom:SetSelect()
 			end
 		end
 	end
-
+	
 	---@description "캐릭터 슬롯을 설정 합니다."
+	---@param uid string "유저 아이디"
+	---@param entity CharacterEntity "캐릭터 엔티티"
 	@ExecSpace("Server")
 	method void SetCharacterSlot(string uid, CharacterEntity entity)
+		if uid ~= senderUserId then
+			return
+		end
 
+		if entity == nil then
+			return
+		end
+
+		local slotCom = self:GetCharacterSlot(entity.slot)
+		if slotCom == nil then
+			return
+		end
+
+		slotCom:Setup(uid)
 	end
 	
 	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
@@ -211,14 +243,14 @@ script LoginMapComponent extends Component
 	handler HandleLoginMapEvent(LoginMapEvent e)
 		self:SetLobby(_UserProxy:GetUid())
 	end
-
+	
 	---@description "캐릭터 슬롯 선택 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleCharacterSlotSelectEvent(CharacterSlotSelectEvent e)
 		self:SetSelectCharacterSlot(_UserProxy:GetUid(), e.slot)
 	end
-
+	
 	---@description "캐릭터 생성 이벤트를 처리합니다."
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
@@ -227,10 +259,10 @@ script LoginMapComponent extends Component
 			_ErrorLogic:Throw(e.errorCode)
 			return
 		end
-
+		
 		self:SetCharacterSlot(_UserProxy:GetUid(), e.character)
 	end
-
+	
 	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다"
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")

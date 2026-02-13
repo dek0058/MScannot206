@@ -1,6 +1,0 @@
-@Event
-script UserCharacterLoadCompleteEvent extends EventType
-
-	property table characters = {}
-
-end

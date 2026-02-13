@@ -1,7 +1,12 @@
+---@description "텍스트 크기에 맞춰서 스프라이트 크기를 조절하는 컴포넌트"
 @Component
 script TextSizeFitSpriteControlComponent extends Component
 
+	---@description "사이즈를 맞출 텍스트 엔티티"
 	property Entity TextEntity = nil
+
+	---@description "최소 너비"
+	property number MinWidth = 0.0
 
 	@ExecSpace("ClientOnly")
 	method void OnUpdate(number delta)
@@ -25,6 +30,10 @@ script TextSizeFitSpriteControlComponent extends Component
 		end
 		
 		local textWidth = textTransform.RectSize.x + 32 -- 여유 공간 추가
+		if textWidth < self.MinWidth then
+			textWidth = self.MinWidth
+		end
+
 		transform.RectSize = Vector2(textWidth, transform.RectSize.y)
 	end
 

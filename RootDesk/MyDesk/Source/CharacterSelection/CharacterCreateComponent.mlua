@@ -27,6 +27,10 @@ script CharacterCreateComponent extends Component
 	---@description "캐릭터 생성 요청 중 여부"
 	@HideFromInspector()
 	property boolean isRequesting = false
+
+	---@description "선택된 슬롯 번호"
+	@HideFromInspector()
+	property integer slot = 0
 	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -83,7 +87,8 @@ script CharacterCreateComponent extends Component
 	
 	---@description "캐릭터 생성 화면을 설정합니다."
 	@ExecSpace("ClientOnly")
-	method void Setup()
+	method void Setup(integer slot)
+		self.slot = slot
 		self.selectedTabIndex = -1
 		self:SelectTab(1)
 		
@@ -160,15 +165,6 @@ script CharacterCreateComponent extends Component
 			return
 		end
 		
-		local slot = 0
-		for i = 1, _DefLogic.MaxCharacterSlot do
-			if userStorageCom:IsExistCharacterSlot(i) then
-				continue
-			end
-			slot = i
-			break
-		end
-		
 		self.isRequesting = true
 		
 		if self.LoadingModalEntity ~= nil then
@@ -177,7 +173,7 @@ script CharacterCreateComponent extends Component
 		
 		local params = CreateCharacterParams()
 		params.name = self.NameInput.Text
-		params.slot = slot
+		params.slot = self.slot
 		
 		_CharacterLogic:RequestCreateCharacter(_UserProxy:GetUid(), params)
 	end
@@ -192,6 +188,8 @@ script CharacterCreateComponent extends Component
 		if self.LoadingModalEntity ~= nil then
 			self.LoadingModalEntity.Enable = false
 		end
+
+		self.Entity:SetEnable(false)
 	end
 	
 	---@description "캐릭터 생성 이벤트를 처리합니다."

@@ -1,5 +1,5 @@
 @Event
-script TeleportToMapEvent extends EventType
+script TeleportToMapEvent extends TemplateEventType
 
 	property string uid = ""
 	property table params = {}

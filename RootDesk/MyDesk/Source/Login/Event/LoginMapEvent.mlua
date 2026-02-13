@@ -1,4 +1,4 @@
 @Event
-script LoginMapEvent extends EventType
+script LoginMapEvent extends TemplateEventType
 
 end

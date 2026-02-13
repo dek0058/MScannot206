@@ -1,4 +1,4 @@
 @Event
-script EntityTriggerReleaseEvent extends EventType
+script EntityTriggerReleaseEvent extends TemplateEventType
 
 end

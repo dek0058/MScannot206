@@ -1,5 +1,5 @@
 @Event
-script ServerStateEvent extends EventType
+script ServerStateEvent extends TemplateEventType
 
 	property string state = ""
 
