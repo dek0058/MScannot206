@@ -1,14 +1,97 @@
+---@description "캐릭터 삭제 컴포넌트 입니다"
 @Component
 script CharacterDeleteComponent extends Component
-
-	property Entity ConfirmBtnEntity = nil
-
+	
+	---@description "삭제 확인 텍스트 엔티티"
 	property Entity TextEntity = nil
-
+	
+	---@description "로딩 표시 모달 엔티티"
+	property Entity LoadingModalEntity = nil
+	
+	---@description "캐릭터 삭제 요청 중 여부"
+	@HideFromInspector()
+	property boolean isRequesting = false
+	
+	---@description "선택된 슬롯 번호"
+	@HideFromInspector()
+	property integer slot = 0
+	
+	---@description "캐릭터 삭제 컴포넌트를 설정합니다"
+	@ExecSpace("ClientOnly")
 	method void Setup(integer slot)
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			local e = RequestCharacterDeleteCancelEvent()
+			_UserProxy:SendEventToLocalPlayer(e)
+			_ErrorLogic:PushToast(_ErrorLogic.UNKNOWN_ERROR)
+			return
+		end
 		
+		local char = userStorageCom.characterEntities[slot]
+		if char == nil then
+			local e = RequestCharacterDeleteCancelEvent()
+			_UserProxy:SendEventToLocalPlayer(e)
+			_ErrorLogic:PushToast(_ErrorLogic.USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR)
+			return
+		end
 		
-
+		self.slot = slot
+		self.isRequesting = false
+		
+		if self.TextEntity ~= nil then
+			local msg = _LocalizationService:GetTextFormat("cs_dc_msg", char.name)
+			self.TextEntity.TextComponent.Text = msg
+		end
+		
+		if self.LoadingModalEntity ~= nil then
+			self.LoadingModalEntity.Enable = false
+		end
 	end
-
+	
+	---@description "삭제 확인 버튼 클릭 이벤트를 처리합니다"
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "87966e9a-0b76-4503-8baf-bb76c4fb5dea")
+	handler HandleConfirmButtonClickEvent(ButtonClickEvent e)
+		if self.isRequesting == true then
+			local sendEvent = DeleteCharacterEvent()
+			sendEvent.errorCode = _ErrorLogic.USER_DELETE_CHARACTER_ALREADY_REQUEST
+			_UserProxy:SendEventToLocalPlayer(sendEvent)
+			return
+		end
+		
+		self.isRequesting = true
+		
+		if self.LoadingModalEntity ~= nil then
+			self.LoadingModalEntity.Enable = true
+		end
+		
+		_CharacterLogic:RequestDeleteCharacter(_UserProxy:GetUid(), self.slot)
+	end
+	
+	---@description "삭제 취소 버튼 클릭 이벤트를 처리합니다"
+	@ExecSpace("ClientOnly")
+	@EventSender("Entity", "e0e1e75d-12f2-447c-a3af-296ec90764fd")
+	handler HandleCancelButtonClickEvent(ButtonClickEvent e)
+		_UserProxy:SendEventToLocalPlayer(RequestCharacterDeleteCancelEvent())
+		
+		if self.LoadingModalEntity ~= nil then
+			self.LoadingModalEntity.Enable = false
+		end
+		
+		self.Entity:SetEnable(false)
+	end
+	
+	---@description "캐릭터 삭제 이벤트를 처리 합니다"
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
+		if self.LoadingModalEntity ~= nil then
+			self.LoadingModalEntity.Enable = false
+		end
+		
+		if _UtilLogic:IsNilorEmptyString(e.errorCode) == true then
+			self.Entity:SetEnable(false)
+		end
+	end
+	
 end

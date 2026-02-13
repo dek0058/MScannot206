@@ -2,6 +2,9 @@
 @Event
 script DeleteCharacterEvent extends TemplateEventType
 
+	---@description "삭제할 슬롯 번호"
+	property integer slot = 0
+
 	---@description "에러 코드"
 	property string errorCode = ""
 

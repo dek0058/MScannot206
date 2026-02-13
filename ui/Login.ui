@@ -892,6 +892,11 @@
                 "IsRelative": false,
                 "ComponentId": "489d6d44-9cdc-4d42-bd4c-dc7f458493dc:CharacterCreateComponent",
                 "UseNested": false
+              },
+              "CharacterDeleteComponent": {
+                "IsRelative": false,
+                "ComponentId": "586fb448-df6e-4d6e-bb91-302bc5a03832:CharacterDeleteComponent",
+                "UseNested": false
               }
             }
           ],
@@ -2819,7 +2824,7 @@
           "name": "CreateCharacter",
           "path": "/ui/Login/CreateCharacter",
           "nameEditable": true,
-          "enable": false,
+          "enable": true,
           "visible": true,
           "localize": true,
           "displayOrder": 2,
@@ -7097,18 +7102,20 @@
             {
               "@type": "script.CharacterDeleteComponent",
               "Enable": true,
-              "ConfirmBtnEntity": {
-                "tempEntityId": null,
-                "IsRelative": false,
-                "EntityId": "87966e9a-0b76-4503-8baf-bb76c4fb5dea",
-                "Version2": false
-              },
               "TextEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
                 "EntityId": "664a3dcf-3b37-413e-98b3-36b1f97e4f0f",
                 "Version2": false
-              }
+              },
+              "LoadingModalEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "ae30d16a-8533-4a75-b0ff-7f86241e5a56",
+                "Version2": false
+              },
+              "isRequesting": false,
+              "slot": 0
             }
           ],
           "@version": 1

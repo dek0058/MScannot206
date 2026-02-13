@@ -98,9 +98,23 @@ script LoginMapComponent extends Component
 			return
 		end
 		
+		local err = ErrorType()
+		
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
 		if userLocalPlayerCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			err:AddError("로컬 플레이어를 찾을 수 없습니다.")
+			return
+		end
+		
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if userStorageCom == nil then
+			err:AddError("UserStorageComponen를 찾을 수 없습니다.")
+			return
+		end
+		
+		if err:IsError() == true then
+			err:PrintErrors()
+			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로비 이동 중 오류 발생", "WorldError")
 			return
 		end
 		
@@ -109,7 +123,7 @@ script LoginMapComponent extends Component
 		
 		-- 캐릭터 슬롯 설정
 		for _, slotCom in ipairs(self:GetCharacterSlots()) do
-			slotCom:Setup(uid)
+			slotCom:Setup(uid, userStorageCom.characterEntities[slotCom.Slot])
 		end
 		
 		-- 클라이언트 처리
@@ -164,7 +178,7 @@ script LoginMapComponent extends Component
 		
 		return slots
 	end
-
+	
 	---@description "특정 슬롯의 캐릭터 슬롯 컴포넌트를 가져옵니다."
 	---@param slot integer "슬롯 번호"
 	method CharacterSelectionSlotComponent GetCharacterSlot(integer slot)
@@ -200,25 +214,26 @@ script LoginMapComponent extends Component
 		end
 	end
 	
-	---@description "캐릭터 슬롯을 설정 합니다."
+	---@description "캐릭터 슬롯에 캐릭터를 설정합니다."
 	---@param uid string "유저 아이디"
-	---@param entity CharacterEntity "캐릭터 엔티티"
+	---@param slot integer "슬롯 번호"
+	---@param entity CharacterEntity "설정할 캐릭터 엔티티(null일 경우 빈 슬롯으로 설정됩니다)"
 	@ExecSpace("Server")
-	method void SetCharacterSlot(string uid, CharacterEntity entity)
+	method void SetCharacterSlot(string uid, integer slot, CharacterEntity entity)
 		if uid ~= senderUserId then
 			return
 		end
-
-		if entity == nil then
-			return
-		end
-
-		local slotCom = self:GetCharacterSlot(entity.slot)
+		
+		local slotCom = self:GetCharacterSlot(slot)
 		if slotCom == nil then
 			return
 		end
-
-		slotCom:Setup(uid)
+		
+		if entity == nil then
+			slotCom:SetEmpty(uid)
+		else
+			slotCom:SetAvatar(uid, entity)
+		end
 	end
 	
 	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
@@ -260,7 +275,23 @@ script LoginMapComponent extends Component
 			return
 		end
 		
-		self:SetCharacterSlot(_UserProxy:GetUid(), e.character)
+		if e.character == nil then
+			return
+		end
+		
+		self:SetCharacterSlot(_UserProxy:GetUid(), e.character.slot, e.character)
+	end
+	
+	---@description "캐릭터 삭제 이벤트를 처리합니다."
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDeleteCharacterEvent(DeleteCharacterEvent e)
+		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
+			_ErrorLogic:Throw(e.errorCode)
+			return
+		end
+		
+		self:SetCharacterSlot(_UserProxy:GetUid(), e.slot, nil)
 	end
 	
 	---@description "맵으로 텔레포트 요청 이벤트를 처리합니다"

@@ -1,0 +1,4 @@
+@Event
+script RequestCharacterDeleteCancelEvent extends TemplateEventType
+
+end
