@@ -1,7 +1,7 @@
 {
     "Id": "",
     "GameId": "",
-    "EntryKey": "userdataset://a37eb0a7-569e-46f7-abe4-adc5a10f326d",
+    "EntryKey": "userdataset://28a836e9-6a59-4347-9d58-fd40f5af6ae1",
     "ContentType": "x-mod/userdataset",
     "Content": "",
     "Usage": 0,
@@ -13,8 +13,8 @@
     "ContentProto": {
         "Use": "Json",
         "Json": {
-            "name": "ItemRecord",
-            "id": "a37eb0a7-569e-46f7-abe4-adc5a10f326d",
+            "name": "ItemTable",
+            "id": "28a836e9-6a59-4347-9d58-fd40f5af6ae1",
             "serveronly": false,
             "syncDataSetWebUrl": "",
             "dynamicloading": 0

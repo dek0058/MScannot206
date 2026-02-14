@@ -1,0 +1,11 @@
+---@description "테이블을 로드하고 관리하는 로직 입니다"
+@Logic
+script GameTableLogic extends Logic
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local itemTable = ItemTable()
+		itemTable:Load()
+	end
+	
+end
