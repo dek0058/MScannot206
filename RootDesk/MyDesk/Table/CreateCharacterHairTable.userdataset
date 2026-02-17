@@ -1,0 +1,23 @@
+{
+    "Id": "",
+    "GameId": "",
+    "EntryKey": "userdataset://12c56a5b-02dc-4da1-b9ea-2555a3ee2752",
+    "ContentType": "x-mod/userdataset",
+    "Content": "",
+    "Usage": 0,
+    "UsePublish": 1,
+    "UseService": 0,
+    "CoreVersion": "26.1.0.0",
+    "StudioVersion": "0.1.0.0",
+    "DynamicLoading": 0,
+    "ContentProto": {
+        "Use": "Json",
+        "Json": {
+            "name": "CreateCharacterHairTable",
+            "id": "12c56a5b-02dc-4da1-b9ea-2555a3ee2752",
+            "serveronly": false,
+            "syncDataSetWebUrl": "",
+            "dynamicloading": 0
+        }
+    }
+}

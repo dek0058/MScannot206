@@ -1,0 +1,23 @@
+{
+    "Id": "",
+    "GameId": "",
+    "EntryKey": "userdataset://b071a6a7-269c-48c9-ae4c-d6a4ff9cfea0",
+    "ContentType": "x-mod/userdataset",
+    "Content": "",
+    "Usage": 0,
+    "UsePublish": 1,
+    "UseService": 0,
+    "CoreVersion": "26.1.0.0",
+    "StudioVersion": "0.1.0.0",
+    "DynamicLoading": 0,
+    "ContentProto": {
+        "Use": "Json",
+        "Json": {
+            "name": "CreateCharacterSubWeaponTable",
+            "id": "b071a6a7-269c-48c9-ae4c-d6a4ff9cfea0",
+            "serveronly": false,
+            "syncDataSetWebUrl": "",
+            "dynamicloading": 0
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "Id": "",
+    "GameId": "",
+    "EntryKey": "userdataset://81957d00-6d1d-4e0b-ae1f-08db8d966f29",
+    "ContentType": "x-mod/userdataset",
+    "Content": "",
+    "Usage": 0,
+    "UsePublish": 1,
+    "UseService": 0,
+    "CoreVersion": "26.1.0.0",
+    "StudioVersion": "0.1.0.0",
+    "DynamicLoading": 0,
+    "ContentProto": {
+        "Use": "Json",
+        "Json": {
+            "name": "CreateCharacterEysAccTable",
+            "id": "81957d00-6d1d-4e0b-ae1f-08db8d966f29",
+            "serveronly": false,
+            "syncDataSetWebUrl": "",
+            "dynamicloading": 0
+        }
+    }
+}

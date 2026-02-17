@@ -1,0 +1,23 @@
+{
+    "Id": "",
+    "GameId": "",
+    "EntryKey": "userdataset://3dd02c4d-6b57-4074-8939-712f386c42a5",
+    "ContentType": "x-mod/userdataset",
+    "Content": "",
+    "Usage": 0,
+    "UsePublish": 1,
+    "UseService": 0,
+    "CoreVersion": "26.1.0.0",
+    "StudioVersion": "0.1.0.0",
+    "DynamicLoading": 0,
+    "ContentProto": {
+        "Use": "Json",
+        "Json": {
+            "name": "CreateCharacterShoesTable",
+            "id": "3dd02c4d-6b57-4074-8939-712f386c42a5",
+            "serveronly": false,
+            "syncDataSetWebUrl": "",
+            "dynamicloading": 0
+        }
+    }
+}

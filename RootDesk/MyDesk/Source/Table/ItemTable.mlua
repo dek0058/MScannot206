@@ -15,6 +15,7 @@ script ItemTable
 			record.Index = userDataset:GetCell(row, "Index")
 			record.Category = userDataset:GetCell(row, "Category")
 			record.ItemName = userDataset:GetCell(row, "ItemName")
+			record.RUID = userDataset:GetCell(row, "RUID")
 			self.records[record.Index] = record
 		end
 	end
