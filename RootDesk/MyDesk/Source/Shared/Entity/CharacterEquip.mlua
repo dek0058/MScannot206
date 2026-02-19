@@ -1,0 +1,19 @@
+@Struct
+script CharacterEquip
+
+	property string type = ""
+
+	property integer index = 0
+
+	method CharacterEquip FromTable(table content)
+		if content == nil then
+			return self
+		end
+		
+		self.type = content["type"] or ""
+		self.index = content["index"] or 0
+		
+		return self
+	end
+
+end

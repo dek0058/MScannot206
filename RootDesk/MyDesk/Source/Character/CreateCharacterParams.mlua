@@ -8,4 +8,7 @@ script CreateCharacterParams
 	---@description "캐릭터 슬롯 번호"
 	property integer slot = 0
 
+	---@description "캐릭터 성별 (1: 남성, 2: 여성)"
+	property integer gender = 0
+
 end

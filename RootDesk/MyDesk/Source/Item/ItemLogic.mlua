@@ -1,0 +1,23 @@
+---@description "아이템 관련 로직을 담당하는 로직 입니다"
+@Logic
+script ItemLogic extends Logic
+
+	---@description "아이템을 생성합니다. 생성된 아이템을 반환합니다"
+	---@param itemId string "생성할 아이템의 아이템 Id"
+	---@return ItemEntity "생성된 아이템 정보"
+	@ExecSpace("ServerOnly")
+	method ItemEntity CreateItem(string index)
+		local itemRecord = _GameTableLogic.itemTable:GetRecord(index)
+		if itemRecord == nil then
+			log_error("존재하지 않는 아이템입니다. itemId: " .. tostring(index))
+			return nil
+		end
+
+		local ret = ItemEntity()
+		ret.id = _UtilLogic:NewGuid()
+		ret.index = index
+
+		return ret
+	end
+
+end

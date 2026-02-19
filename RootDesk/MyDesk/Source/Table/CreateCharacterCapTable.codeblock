@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://cb2ed8a3-c09e-4a27-b70f-05fab1fd43ed",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "cb2ed8a3-c09e-4a27-b70f-05fab1fd43ed",
+      "Language": 1,
+      "Name": "CreateCharacterCapTable",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

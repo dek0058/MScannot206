@@ -1,0 +1,93 @@
+@Logic
+script CharacterDef extends Logic
+
+	property integer GenderType_None = 0
+
+	property integer GenderType_Male = 1
+
+	property integer GenderType_Female = 2
+
+	property integer CharacterEquipCount = 17
+
+	property integer CharacterEquipSlotCount = 15
+
+	property string CharacterEquipType_None = "none"
+
+	property string CharacterEquipType_Hair = "hair"
+
+	property string CharacterEquipType_Face = "face"
+
+	property string CharacterEquipType_Cap = "cap"
+
+	property string CharacterEquipType_Cape = "cape"
+
+	property string CharacterEquipType_Coat = "coat"
+
+	property string CharacterEquipType_Glove = "glove"
+
+	property string CharacterEquipType_LongCoat = "longcoat"
+
+	property string CharacterEquipType_Pants = "pants"
+
+	property string CharacterEquipType_Shoes = "shoes"
+
+	property string CharacterEquipType_FaceAccessory = "faceaccessory"
+
+	property string CharacterEquipType_EyeAccessory = "eyeaccessory"
+
+	property string CharacterEquipType_EarAccessory = "earaccessory"
+
+	property string CharacterEquipType_1HWeapon = "onehandedweapon"
+
+	property string CharacterEquipType_2HWeapon = "twohandedweapon"
+
+	property string CharacterEquipType_SubWeapon = "subweapon"
+
+	property string CharacterEquipType_Ear = "ear"
+
+	property string CharacterEquipType_Skin = "skin"
+
+	---@description "CharacterEquipType을 MapleAvatarItemCategory타입의 index로 변환하는 함수입니다"
+	---@param equipType string "CharacterEquipType입니다"
+	---@return integer "MapleAvatarItemCategory의 index입니다"
+	method integer ToMapleAvatarItemCategory(string equipType)
+		if equipType == self.CharacterEquipType_Skin then
+			return 1
+		elseif equipType == self.CharacterEquipType_Hair then
+			return 3
+		elseif equipType == self.CharacterEquipType_Face then
+			return 4
+		elseif equipType == self.CharacterEquipType_Cap then
+			return 5
+		elseif equipType == self.CharacterEquipType_Cape then
+			return 6
+		elseif equipType == self.CharacterEquipType_Coat then
+			return 7
+		elseif equipType == self.CharacterEquipType_Glove then
+			return 8
+		elseif equipType == self.CharacterEquipType_LongCoat then
+			return 9
+		elseif equipType == self.CharacterEquipType_Pants then
+			return 10
+		elseif equipType == self.CharacterEquipType_Shoes then
+			return 12
+		elseif equipType == self.CharacterEquipType_1HWeapon then
+			return 13
+		elseif equipType == self.CharacterEquipType_2HWeapon then
+			return 14
+		elseif equipType == self.CharacterEquipType_SubWeapon then
+			return 15
+		elseif equipType == self.CharacterEquipType_FaceAccessory then
+			return 16
+		elseif equipType == self.CharacterEquipType_EyeAccessory then
+			return 17
+		elseif equipType == self.CharacterEquipType_EarAccessory then
+			return 18
+		elseif equipType == self.CharacterEquipType_Ear then
+			return 19
+		else
+			return 0
+		end
+	end
+
+end

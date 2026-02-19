@@ -52,7 +52,7 @@ script GameClientLogic extends Logic
 		if e.state ~= _GameServerLogic.State_Running then
 			return
 		end
-		
+
 		if self._T["FetchServerStateTimerId"] ~= nil then
 			_TimerService:ClearTimer(self._T["FetchServerStateTimerId"])
 			self._T["FetchServerStateTimerId"] = nil

@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://9efe06a0be904f3aaed6abf49f2ee34b",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://9efe06a0be904f3aaed6abf49f2ee34b",
+      "name": "Material",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

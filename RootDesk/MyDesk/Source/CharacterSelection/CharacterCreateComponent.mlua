@@ -157,7 +157,7 @@ script CharacterCreateComponent extends Component
 			_UserProxy:SendEventToLocalPlayer(sendEvent)
 			return
 		end
-		
+
 		self.isRequesting = true
 		
 		if self.LoadingModalEntity ~= nil then
@@ -167,6 +167,7 @@ script CharacterCreateComponent extends Component
 		local params = CreateCharacterParams()
 		params.name = self.NameInput.Text
 		params.slot = self.slot
+		params.gender = self.selectedTabIndex
 		
 		_CharacterLogic:RequestCreateCharacter(_UserProxy:GetUid(), params)
 	end

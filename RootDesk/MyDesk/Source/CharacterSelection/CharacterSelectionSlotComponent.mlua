@@ -65,21 +65,24 @@ script CharacterSelectionSlotComponent extends Component
 	end
 	
 	---@description "캐릭터 선택 슬롯을 설정합니다."
+	---@param uid string "유저 아이디"
+	---@param character Character "캐릭터 정보(null일 경우 빈 슬롯으로 설정됩니다)"
 	@ExecSpace("ServerOnly")
-	method void Setup(string uid, CharacterEntity entity)
+	method void Setup(string uid, Character character)
 		if self.EmptyEntity == nil or self.AvatarEntity == nil then
 			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
 			return
 		end
 		
-		if entity == nil then
+		if character == nil then
 			self:SetEmpty(uid)
 		else
-			self:SetAvatar(uid, entity)
+			self:SetAvatar(uid, character)
 		end
 	end
 	
 	---@description "빈 슬롯으로 설정합니다."
+	---@param uid string "유저 아이디"
 	@ExecSpace("ServerOnly")
 	method void SetEmpty(string uid)
 		self.state = self.State_Empty
@@ -101,8 +104,10 @@ script CharacterSelectionSlotComponent extends Component
 	end
 	
 	---@description "아바타로 설정합니다."
+	---@param uid string "유저 아이디"
+	---@param character Character "캐릭터 정보"
 	@ExecSpace("ServerOnly")
-	method void SetAvatar(string uid, CharacterEntity entity)
+	method void SetAvatar(string uid, Character character)
 		self.state = self.State_Avatar
 		if self.EmptyEntity == nil or self.AvatarEntity == nil then
 			_GameServerLogic:KickByServer(uid, "CharacterSelectionSlotComponent의 EmptyEntity 또는 AvatarEntity가 설정되지 않았습니다.", "WorldError")
@@ -122,8 +127,10 @@ script CharacterSelectionSlotComponent extends Component
 
 		local nameTagCom = self.AvatarEntity.NameTagComponent
 		if nameTagCom ~= nil then
-			nameTagCom.Name = entity.name
+			nameTagCom.Name = character.name
 		end
+
+		_CharacterAvatarLogic:UpdateAvatar(self.AvatarEntity.CostumeManagerComponent, character)
 	end
 
 	---@description "선택 상태로 설정합니다."

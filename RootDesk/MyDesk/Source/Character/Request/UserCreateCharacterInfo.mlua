@@ -14,13 +14,17 @@ script UserCreateCharacterInfo
 	---@description "캐릭터 이름"
 	property string name = ""
 
+	---@description "캐릭터 성별 (1: 남성, 2: 여성)"
+	property integer gender = 0
+
 	---@description "구조체를 테이블로 변환 합니다"
 	method table ToTable()
 		local content = {
 			["uid"] = self.uid,
 			["token"] = self.token,
 			["slot"] = self.slot,
-			["name"] = self.name
+			["name"] = self.name,
+			["gender"] = self.gender
 		}
 		
 		return content

@@ -2,8 +2,8 @@
 @Event
 script CharactersLoadEvent extends TemplateEventType
 
-	---@description "캐릭터 엔티티들"
-	property table<CharacterEntity> entities = {}
+	---@description "로드된 캐릭터 정보 리스트"
+	property table<Character> characters = {}
 
 	---@description "에러 코드"
 	property string errorCode = ""

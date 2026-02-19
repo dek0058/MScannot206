@@ -9,6 +9,9 @@ script UserCreateCharacterResult
 	---@type CharacterEntity
 	property any character = nil
 
+	---@description "생성된 캐릭터의 장비 정보"
+	property table<CharacterEquipEntity> equips = {}
+
 	---@description "에러 코드"
 	property string errorCode = ""
 
@@ -19,6 +22,9 @@ script UserCreateCharacterResult
 
 		self.uid = content["uid"] or ""
 		self.character = CharacterEntity():FromTable(content["character"])
+		for i, equipData in ipairs(content["equips"] or {}) do
+			table.insert(self.equips, CharacterEquipEntity():FromTable(equipData))
+		end
 		self.errorCode = content["error_code"] or ""
 
 		return self

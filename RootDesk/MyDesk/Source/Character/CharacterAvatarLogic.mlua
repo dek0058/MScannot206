@@ -1,0 +1,107 @@
+---@description "캐릭터 아바타 관련 제어를 담당하는 로직입니다"
+@Logic
+script CharacterAvatarLogic extends Logic
+
+	---@description "남성 기본 상의 RUID"
+	readonly property string Default_Coat_Male_RUID = "d7ca735739a244b88fc10d140b01b03c"
+
+	---@description "남성 기본 하의 RUID"
+	readonly property string Default_Pants_Male_RUID = "6c128b6564554b86862c95b834f61eb9"
+
+	---@description "여성 기본 상의 RUID"
+	readonly property string Default_Coat_Female_RUID ="51ff3745499944a79402e7bd3d3c4016"
+
+	---@description "여성 기본 하의 RUID"
+	readonly property string Default_Pants_Female_RUID ="829c0b278e094bb0a1100a5e6e8abe4a"
+
+	---@description "아바타를 캐릭터가 장착하고 있는 장비로 업데이트 합니다."
+	method void UpdateAvatar(CostumeManagerComponent com, Character character)
+		if com == nil then
+			return
+		end
+
+		local useCoat = false
+		local usePants = false
+		local useLongCoat = false
+
+		local use1HWeapon = false
+		local use2HWeapon = false
+		local useSubWeapon = false
+
+		if character ~= nil then
+			for _, slot in ipairs(character.equipSlots) do
+				local itemRecord = _GameTableLogic.itemTable:GetRecord(slot.itemId)
+				if itemRecord == nil then
+					continue
+				end
+
+				local categoryByIndex = _CharacterDef:ToMapleAvatarItemCategory(slot.type)
+				if categoryByIndex == 0 then
+					continue
+				end
+				
+				-- 상의, 하의, 한벌 옷 검증
+				if slot.type == _CharacterDef.CharacterEquipType_LongCoat then
+					if useCoat == true or usePants == true then
+						continue
+					end
+					useLongCoat = true
+				else
+					if slot.type == _CharacterDef.CharacterEquipType_Coat then
+						if useLongCoat == true then
+							continue
+						end
+						useCoat = true
+					end
+					if slot.type == _CharacterDef.CharacterEquipType_Pants then
+						if useLongCoat == true then
+							continue
+						end
+						usePants = true
+					end
+				end
+
+				-- 한손 무기, 서브 무기, 양손 무기 검증
+				if slot.type == _CharacterDef.CharacterEquipType_2HWeapon then
+					if use1HWeapon == true or useSubWeapon == true then
+						continue
+					end
+					use2HWeapon = true
+				else
+					if slot.type == _CharacterDef.CharacterEquipType_1HWeapon then
+						if use2HWeapon == true then
+							continue
+						end
+						use1HWeapon = true
+					end
+					if slot.type == _CharacterDef.CharacterEquipType_SubWeapon then
+						if use2HWeapon == true then
+							continue
+						end
+						useSubWeapon = true
+					end
+				end
+
+				com:SetEquip(MapleAvatarItemCategory.CastFrom(categoryByIndex), itemRecord.RUID)
+			end
+		end
+
+		-- 상의와 하의가 없는 경우 기본 의상 적용
+		if useLongCoat == false and useCoat == false then
+			if character.gender == _CharacterDef.GenderType_Male then
+				com:SetEquip(MapleAvatarItemCategory.Coat, self.Default_Coat_Male_RUID)
+			elseif character.gender == _CharacterDef.GenderType_Female then
+				com:SetEquip(MapleAvatarItemCategory.Coat, self.Default_Coat_Female_RUID)
+			end
+		end
+
+		if useLongCoat == false and usePants == false then
+			if character.gender == _CharacterDef.GenderType_Male then
+				com:SetEquip(MapleAvatarItemCategory.Pants, self.Default_Pants_Male_RUID)
+			elseif character.gender == _CharacterDef.GenderType_Female then
+				com:SetEquip(MapleAvatarItemCategory.Pants, self.Default_Pants_Female_RUID)
+			end
+		end
+	end
+
+end

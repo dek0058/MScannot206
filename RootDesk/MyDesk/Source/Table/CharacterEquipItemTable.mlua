@@ -1,0 +1,32 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: CharacterEquipItem)"
+@Struct
+script CharacterEquipItemTable
+
+	property table records = {}
+
+	---@description "테이블을 로드 합니다"
+	method void Load()
+		local userDataset = _DataService:GetTable("CharacterEquipItemTable")
+		local rowCount = userDataset:GetRowCount()
+
+		for row = 1, rowCount do
+			local record = CharacterEquipItemRecord()
+			local cell = ""
+			record.Index = userDataset:GetCell(row, "Index")
+			record.ItemName = userDataset:GetCell(row, "ItemName")
+			cell = userDataset:GetCell(row, "Bound")
+			record.Bound = (string.lower(cell) == "true")
+			cell = userDataset:GetCell(row, "Male")
+			record.Male = (string.lower(cell) == "true")
+			cell = userDataset:GetCell(row, "Female")
+			record.Female = (string.lower(cell) == "true")
+			self.records[record.Index] = record
+		end
+	end
+
+	---@description "테이블에서 레코드를 가져옵니다"
+	method CharacterEquipItemRecord GetRecord(string key)
+		return self.records[key]
+	end
+
+end

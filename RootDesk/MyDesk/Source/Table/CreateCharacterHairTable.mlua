@@ -1,0 +1,30 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: CreateCharacterHair)"
+@Struct
+script CreateCharacterHairTable
+
+	property table records = {}
+
+	---@description "테이블을 로드 합니다"
+	method void Load()
+		local userDataset = _DataService:GetTable("CreateCharacterHairTable")
+		local rowCount = userDataset:GetRowCount()
+
+		for row = 1, rowCount do
+			local record = CreateCharacterHairRecord()
+			local cell = ""
+			record.Index = userDataset:GetCell(row, "Index")
+			record.Name = userDataset:GetCell(row, "Name")
+			cell = userDataset:GetCell(row, "MaleProb")
+			record.MaleProb = tonumber(cell) or 0.0
+			cell = userDataset:GetCell(row, "FemaleProb")
+			record.FemaleProb = tonumber(cell) or 0.0
+			self.records[record.Index] = record
+		end
+	end
+
+	---@description "테이블에서 레코드를 가져옵니다"
+	method CreateCharacterHairRecord GetRecord(string key)
+		return self.records[key]
+	end
+
+end

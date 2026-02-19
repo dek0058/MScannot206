@@ -1,0 +1,8 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: CreateCharacter)"
+@Struct
+script CreateCharacterRecord
+
+	property string Category = ""
+	property number HoldingProb = 0.0
+
+end

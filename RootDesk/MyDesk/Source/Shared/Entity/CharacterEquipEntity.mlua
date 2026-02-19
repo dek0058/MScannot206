@@ -1,0 +1,22 @@
+---@description "캐릭터 장비 엔티티 구조체"
+@Struct
+script CharacterEquipEntity
+
+	---@description "장비 종류"
+	property string type = ""
+
+	---@description "장비 인덱스"
+	property string index = ""
+
+	method CharacterEquipEntity FromTable(table content)
+		if content == nil then
+			return self
+		end
+
+		self.type = content["type"] or ""
+		self.index = content["index"] or ""
+
+		return self
+	end
+
+end

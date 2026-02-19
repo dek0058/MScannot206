@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://7c2d7d25-c113-416b-87b3-6565774f5b7e",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "7c2d7d25-c113-416b-87b3-6565774f5b7e",
+      "Language": 1,
+      "Name": "CreateCharacter2HWeaponTable",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

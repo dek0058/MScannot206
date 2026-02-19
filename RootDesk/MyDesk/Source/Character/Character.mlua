@@ -1,4 +1,73 @@
+---@description "캐릭터 정보입니다"
 @Struct
 script Character
+
+	---@description "유저 고유 ID"
+	property string uid = ""
+
+	---@description "캐릭터 슬롯 번호"
+	property integer slot = 0
+
+	---@description "캐릭터 이름"
+	property string name = ""
+
+	---@description "캐릭터 성별"
+	property integer gender = 0
+
+	---@description "캐릭터 장비 슬롯"
+	property table<CharacterEquipSlotEntity> equipSlots = {}
+
+	---@description "캐릭터 장비 슬롯에 장비를 장착합니다"
+	---@param equipType string "장착할 장비 슬롯 타입"
+	---@param itemIndex string "장착할 아이템 인덱스"
+	method void EquipSlot(string equipType, string itemIndex)
+		for _, equip in pairs(self.equipSlots) do
+			if equip.type == equipType then
+				equip.itemId = itemIndex
+				return
+			end
+		end
+
+		local newEquip = CharacterEquipSlotEntity()
+		newEquip.type = equipType
+		newEquip.itemId = itemIndex
+		table.insert(self.equipSlots, newEquip)
+	end
+
+	---@description "캐릭터 정보를 테이블로 변환하여 반환합니다."
+	---@return table "변환된 테이블 데이터"
+	method table ToTable()
+		local content = {}
+		content["uid"] = self.uid
+		content["slot"] = self.slot
+		content["name"] = self.name
+		content["gender"] = self.gender
+		
+		local equipContents = {}
+		for _, equip in pairs(self.equipSlots) do
+			table.insert(equipContents, equip:ToTable())
+		end
+		content["equip_slots"] = equipContents
+		return content
+	end
+
+	---@description "캐릭터 정보를 테이블에서 변환하여 반환합니다."
+	---@param content table "변환할 테이블 데이터"
+	---@return Character "변환된 캐릭터 정보"
+	method Character FromTable(table content)
+		if content == nil then
+			return self
+		end
+
+		self.uid = content["uid"] or ""
+		self.slot = content["slot"] or 0
+		self.name = content["name"] or ""
+		self.gender = content["gender"] or 0
+		for _, equip in pairs(content["equip_slots"] or {}) do
+			table.insert(self.equipSlots, CharacterEquipSlotEntity():FromTable(equip))
+		end
+
+		return self
+	end
 
 end

@@ -26,6 +26,7 @@ script GameServerLogic extends Logic
 	method void OnInit()
 		local init =
 		_ChannelLogic:IsInit()
+		or _GameTableLogic:IsInit()
 		
 		if init == true then
 			self._T["init"] = init

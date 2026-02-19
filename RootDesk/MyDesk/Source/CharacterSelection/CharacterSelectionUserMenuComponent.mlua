@@ -63,7 +63,7 @@ script CharacterSelectionUserMenuComponent extends Component
 			return
 		end
 
-		local availableCharacterCreate = #userStorageCom.characterEntities <= _DefLogic.MaxCharacterSlot
+		local availableCharacterCreate = #userStorageCom.characters <= _DefLogic.MaxCharacterSlot
 		self.Btn_CharacterCreate.TextButtonControlComponent:SetEnable(availableCharacterCreate)
 	end
 
@@ -75,7 +75,7 @@ script CharacterSelectionUserMenuComponent extends Component
 			return
 		end
 
-		local character = userStorageCom.characterEntities[slot]
+		local character = userStorageCom.characters[slot]
 		if character == nil then
 			self.Btn_CharacterDelete.TextButtonControlComponent:SetEnable(false)
 			self.Btn_GameStart.TextButtonControlComponent:SetEnable(false)

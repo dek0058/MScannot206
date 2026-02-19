@@ -1,0 +1,40 @@
+---@description "캐릭터 정보를 담고 있는 엔티티입니다"
+@Struct
+script CharacterEntity
+
+	---@description "캐릭터 슬롯 번호입니다"
+	property integer slot = 0
+
+	---@description "캐릭터 이름입니다"
+	property string name = ""
+
+	---@description "캐릭터 성별입니다 (1: 남성, 2: 여성)"
+	property integer gender = 0
+
+	---@description "CharacterEntity를 테이블 형태로 변환하는 함수입니다"
+	---@return table "CharacterEntity의 데이터가 담긴 테이블"
+	method table ToTable()
+		local content = {
+			["slot"] = self.slot,
+			["name"] = self.name,
+			["gender"] = self.gender,
+		}
+		return content
+	end
+
+	---@description "테이블 형태의 데이터를 CharacterEntity로 변환하는 함수입니다"
+	---@param content table "CharacterEntity로 변환할 데이터가 담긴 테이블"
+	---@return CharacterEntity "변환된 CharacterEntity 객체"
+	method CharacterEntity FromTable(table content)
+		if content == nil then
+			return self
+		end
+		
+		self.slot = content["slot"] or 0
+		self.name = content["name"] or ""
+		self.gender = content["gender"] or 0
+
+		return self
+	end
+
+end

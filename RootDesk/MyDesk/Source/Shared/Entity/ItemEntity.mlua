@@ -1,0 +1,29 @@
+---@description "아이템 엔티티 구조체"
+@Struct
+script ItemEntity
+
+	---@description "아이템 고유 ID"
+	property string id = ""
+
+	---@description "아이템 테이블 인덱스"
+	property string index = ""
+
+	---@description "아이템 개수"
+	property integer count = 0
+
+	---@description "아이템이 귀속되어 있는지 여부"
+	property boolean bound = false
+
+	---@description "아이템이 유효한지 여부를 반환하는 메서드입니다. 아이템 고유 ID가 빈 문자열이 아닐 경우 유효한 아이템으로 간주합니다"
+	---@return boolean "아이템이 유효한지 여부"
+	method boolean IsValid()
+		return self.id ~= ""
+	end
+
+	---@description "동일한 아이템인지 여부를 반환하는 메서드입니다. 아이템 고유 ID와 귀속 여부가 동일할 경우 동일한 아이템으로 간주합니다"
+	---@param other ItemEntity "비교할 아이템 정보"
+	method boolean IsSameItem(ItemEntity other)
+		return self.index == other.index and self.bound == other.bound
+	end
+
+end

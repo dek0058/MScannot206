@@ -1,0 +1,10 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: CreateCharacterGlove)"
+@Struct
+script CreateCharacterGloveRecord
+
+	property string Index = ""
+	property string Name = ""
+	property number MaleProb = 0.0
+	property number FemaleProb = 0.0
+
+end

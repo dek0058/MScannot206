@@ -2,60 +2,52 @@
 @Component
 script UserStorageComponent extends Component
 	
-	property table<integer, CharacterEntity> characterEntities = {}
+	---@description "캐릭터 슬롯과 캐릭터 정보를 담는 테이블입니다"
+	property table<integer, Character> characters = {}
+
+	---@description "캐릭터 슬롯과 캐릭터의 인벤토리 정보를 담는 테이블입니다"
+	property table<integer, Inventory> characterInventories = {}
 	
-	method void OnBeginPlay()
-		self._T["CharactersLoadEvent"] = self.Entity:ConnectEvent(CharactersLoadEvent, self.OnCharactersLoadEvent)
-		self._T["CreateCharacterEvent"] = self.Entity:ConnectEvent(CreateCharacterEvent, self.OnCreateCharacterEvent)
-		self._T["DeleteCharacterEvent"] = self.Entity:ConnectEvent(DeleteCharacterEvent, self.OnDeleteCharacterEvent)
+	---@description "캐릭터 슬롯에 해당하는 캐릭터 정보를 설정합니다."
+	---@param character Character "설정할 캐릭터 정보"
+	@ExecSpace("Multicast")
+	method void SetCharacter(Character character)
+		self.characters[character.slot] = character
 	end
 
-	method void OnEndPlay()
-		if self._T["CharactersLoadEvent"] ~= nil then
-			self.Entity:DisconnectEvent(CharactersLoadEvent, self._T["CharactersLoadEvent"])
-			self._T["CharactersLoadEvent"] = nil
-		end
-
-		if self._T["CreateCharacterEvent"] ~= nil then
-			self.Entity:DisconnectEvent(CreateCharacterEvent, self._T["CreateCharacterEvent"])
-			self._T["CreateCharacterEvent"] = nil
-		end
+	@ExecSpace("Multicast")
+	method void SetCharacters(table<integer, Character> characters)
+		self.characters = characters
 	end
 
-	---@description "캐릭터 로드 이벤트를 처리합니다."
-	method void OnCharactersLoadEvent(CharactersLoadEvent e)
-		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
-			return
-		end
-		
-		for _, entity in ipairs(e.entities) do
-			self.characterEntities[entity.slot] = entity
-		end
+	---@description "캐릭터 슬롯에 해당하는 캐릭터 정보를 제거합니다."
+	---@param slot integer "제거할 캐릭터 슬롯 번호"
+	@ExecSpace("Multicast")
+	method void RemoveCharacter(integer slot)
+		self.characters[slot] = nil
+		self.characterInventories[slot] = nil
 	end
 
-	---@description "캐릭터 생성 이벤트를 처리합니다."
-	method void OnCreateCharacterEvent(CreateCharacterEvent e)
-		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
-			return
-		end
-		
-		local char = e.character
-		self.characterEntities[char.slot] = char
+	---@description "캐릭터 슬롯에 해당하는 캐릭터의 인벤토리 정보를 설정합니다."
+	---@param character Character "인벤토리를 설정할 캐릭터 정보"
+	---@param inventory Inventory "설정할 인벤토리 정보"
+	@ExecSpace("Multicast")
+	method void SetCharacterInventory(Character character, Inventory inventory)
+		self.characterInventories[character.slot] = inventory
 	end
 
-	---@description "캐릭터 삭제 이벤트를 처리합니다."
-	method void OnDeleteCharacterEvent(DeleteCharacterEvent e)
-		if not _UtilLogic:IsNilorEmptyString(e.errorCode) then
-			return
-		end
-
-		local slot = e.slot
-		self.characterEntities[slot] = nil
+	---@description "캐릭터 슬롯과 캐릭터 정보를 설정합니다."
+	---@param characters table<integer, Character> "설정할 캐릭터 정보가 담긴 테이블"
+	@ExecSpace("Multicast")
+	method void SetCharacterInventories(table<integer, Inventory> characterInventories)
+		self.characterInventories = characterInventories
 	end
 
 	---@description "슬롯에 해당하는 캐릭터가 존재하는지 여부를 반환합니다."
+	---@param slot integer "확인할 캐릭터 슬롯 번호"
+	---@return boolean "캐릭터 존재 여부"
 	method boolean IsExistCharacterSlot(integer slot)
-		return self.characterEntities[slot] ~= nil
+		return self.characters[slot] ~= nil
 	end
 
 end

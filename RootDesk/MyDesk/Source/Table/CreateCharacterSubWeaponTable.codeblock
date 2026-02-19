@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://bac9994b-ef14-409e-9ea1-13c67a177c27",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "bac9994b-ef14-409e-9ea1-13c67a177c27",
+      "Language": 1,
+      "Name": "CreateCharacterSubWeaponTable",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

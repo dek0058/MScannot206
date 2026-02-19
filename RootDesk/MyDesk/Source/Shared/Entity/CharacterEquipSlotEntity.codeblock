@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://0fbb9ec1-4364-4142-b788-39ad8fc5d89d",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "0fbb9ec1-4364-4142-b788-39ad8fc5d89d",
+      "Language": 1,
+      "Name": "CharacterEquipSlotEntity",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

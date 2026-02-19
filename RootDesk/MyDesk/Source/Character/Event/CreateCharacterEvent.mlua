@@ -3,7 +3,7 @@
 script CreateCharacterEvent extends TemplateEventType
 
 	---@description "생성된 캐릭터"
-	---@type CharacterEntity
+	---@type Character
 	property any character = nil
 
 	---@description "에러 코드"

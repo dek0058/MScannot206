@@ -1,0 +1,32 @@
+@Struct
+script UserEntity
+
+	property string uid = ""
+
+	property table characters = {}
+
+	method table ToTable()
+		local content = {
+			["uid"] = self.uid,
+		}
+		
+		for i, character in ipairs(self.characters) do
+			if content["characters"] == nil then
+				content["characters"] = {}
+			end
+			table.insert(content["characters"], character:ToTable())
+		end
+		
+		return content
+	end
+
+	method UserEntity FromTable(table content)
+		self.uid = content["uid"] or ""
+		for i, charTable in ipairs(content["characters"] or {}) do
+			local character = CharacterEntity():FromTable(charTable)
+			table.insert(self.characters, character)
+		end
+		return self
+	end
+
+end

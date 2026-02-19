@@ -6610,12 +6610,18 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
               },
+              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -6671,6 +6677,11 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6803,6 +6814,11 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Position": {
+                "x": 0.0,
+                "y": -150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9081,12 +9097,18 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
               },
+              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -9142,6 +9164,11 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9274,6 +9301,11 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "Position": {
+                "x": 0.0,
+                "y": -150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,

@@ -27,7 +27,7 @@ script CharacterDeleteComponent extends Component
 			return
 		end
 		
-		local char = userStorageCom.characterEntities[slot]
+		local char = userStorageCom.characters[slot]
 		if char == nil then
 			local e = RequestCharacterDeleteCancelEvent()
 			_UserProxy:SendEventToLocalPlayer(e)

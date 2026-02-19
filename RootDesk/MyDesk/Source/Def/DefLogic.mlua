@@ -15,5 +15,5 @@ script DefLogic extends Logic
 
 	---@description "맵 진입 시 이벤트"
 	readonly property string EventEnterMap = "EnterMap"
-
+	
 end

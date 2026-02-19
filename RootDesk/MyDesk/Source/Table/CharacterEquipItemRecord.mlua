@@ -1,0 +1,11 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: CharacterEquipItem)"
+@Struct
+script CharacterEquipItemRecord
+
+	property string Index = ""
+	property string ItemName = ""
+	property boolean Bound = false
+	property boolean Male = false
+	property boolean Female = false
+
+end

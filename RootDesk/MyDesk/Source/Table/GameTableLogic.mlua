@@ -1,11 +1,119 @@
----@description "테이블을 로드하고 관리하는 로직 입니다"
+---@description "게임에서 사용되는 테이블들을 관리하는 로직입니다"
 @Logic
 script GameTableLogic extends Logic
 
-	@ExecSpace("ClientOnly")
-	method void OnBeginPlay()
-		local itemTable = ItemTable()
-		itemTable:Load()
-	end
+	---@description "아이템 테이블"
+	---@type ItemTable
+	property any itemTable = ItemTable()
+
+	---@description "캐릭터 장비 아이템 테이블"
+	---@type CharacterEquipItemTable
+	property any characterEquipItemTable = CharacterEquipItemTable()
+
+	---@description "캐릭터 생성 한손 무기 테이블"
+	---@type CreateCharacter1HWeaponTable
+	property any createCharacter1HWeaponTable = CreateCharacter1HWeaponTable()
+
+	---@description "캐릭터 생성 두손 무기 테이블"
+	---@type CreateCharacter2HWeaponTable
+	property any createCharacter2HWeaponTable = CreateCharacter2HWeaponTable()
+
+	---@description "캐릭터 생성 보조 무기 테이블"
+	---@type CreateCharacterSubWeaponTable
+	property any createCharacterSubWeaponTable = CreateCharacterSubWeaponTable()
+
+	---@description "캐릭터 생성 모자 테이블"
+	---@type CreateCharacterCapTable
+	property any createCharacterCapTable = CreateCharacterCapTable()
+
+	---@description "캐릭터 생성 망토 테이블"
+	---@type CreateCharacterCapeTable
+	property any createCharacterCapeTable = CreateCharacterCapeTable()
+
+	---@description "캐릭터 생성 상의 테이블"
+	---@type CreateCharacterCoatTable
+	property any createCharacterCoatTable = CreateCharacterCoatTable()
+
+	---@description "캐릭터 생성 귀걸이 장신구 테이블"
+	---@type CreateCharacterEarAccTable
+	property any createCharacterEarAccTable = CreateCharacterEarAccTable()
+
+	---@description "캐릭터 생성 귀 테이블"
+	---@type CreateCharacterEarTable
+	property any createCharacterEarTable = CreateCharacterEarTable()
+
+	---@description "캐릭터 생성 눈 장신구 테이블"
+	---@type CreateCharacterEysAccTable
+	property any createCharacterEysAccTable = CreateCharacterEysAccTable()
+
+	---@description "캐릭터 생성 얼굴 장신구 테이블"
+	---@type CreateCharacterFaceAccTable
+	property any createCharacterFaceAccTable = CreateCharacterFaceAccTable()
+
+	---@description "캐릭터 생성 얼굴 테이블"
+	---@type CreateCharacterFaceTable
+	property any createCharacterFaceTable = CreateCharacterFaceTable()
+
+	---@description "캐릭터 생성 장갑 테이블"
+	---@type CreateCharacterGloveTable
+	property any createCharacterGloveTable = CreateCharacterGloveTable()
+
+	---@description "캐릭터 생성 헤어 테이블"
+	---@type CreateCharacterHairTable
+	property any createCharacterHairTable = CreateCharacterHairTable()
+
+	---@description "캐릭터 생성 한벌 옷 테이블"
+	---@type CreateCharacterLongCoatTable
+	property any createCharacterLongCoatTable = CreateCharacterLongCoatTable()
+
+	---@description "캐릭터 생성 하의 테이블"
+	---@type CreateCharacterPantsTable
+	property any createCharacterPantsTable = CreateCharacterPantsTable()
+
+	---@description "캐릭터 생성 신발 테이블"
+	---@type CreateCharacterShoesTable
+	property any createCharacterShoesTable = CreateCharacterShoesTable()
+
+	---@description "캐릭터 생성 피부 테이블"
+	---@type CreateCharacterSkinTable
+	property any createCharacterSkinTable = CreateCharacterSkinTable()
+
+	---@description "캐릭터 생성 테이블"
+	---@type CreateCharacterTable
+	property any createCharacterTable = CreateCharacterTable()
 	
+
+	method void OnBeginPlay()
+		self.itemTable:Load()
+		self.characterEquipItemTable:Load()
+		self.createCharacter1HWeaponTable:Load()
+		self.createCharacter2HWeaponTable:Load()
+		self.createCharacterSubWeaponTable:Load()
+		self.createCharacterCapTable:Load()
+		self.createCharacterCapeTable:Load()
+		self.createCharacterCoatTable:Load()
+		self.createCharacterEarAccTable:Load()
+		self.createCharacterEarTable:Load()
+		self.createCharacterEysAccTable:Load()
+		self.createCharacterFaceAccTable:Load()
+		self.createCharacterFaceTable:Load()
+		self.createCharacterGloveTable:Load()
+		self.createCharacterHairTable:Load()
+		self.createCharacterLongCoatTable:Load()
+		self.createCharacterPantsTable:Load()
+		self.createCharacterShoesTable:Load()
+		self.createCharacterSkinTable:Load()
+		self.createCharacterTable:Load()
+		
+		self._T["init"] = true
+		log("게임 테이블 로직 초기화 완료")
+	end
+
+	method boolean IsInit()
+		if self._T["init"] == nil then
+			return false
+		end
+		return self._T["init"]
+	end
+
 end

@@ -2,6 +2,9 @@
 @Logic
 script CharacterLogic extends Logic
 
+	---@description "캐릭터 데이터 저장소 키"
+	readonly property string Key_Character = "ch"
+
 	---@description "캐릭터 생성 API"
 	readonly property string Api_CreateCharacter = "user/character/create"
 
@@ -29,6 +32,139 @@ script CharacterLogic extends Logic
 		self._T["DeleteCharacterRequestQueue"] = UserRequestQueue()
 	end
 
+	---@description "캐릭터 데이터 저장소 키를 반환합니다"
+	---@param slot string "캐릭터 슬롯 번호"
+	---@return string "캐릭터 데이터 저장소 키"
+	@ExecSpace("ServerOnly")
+	method string GetCharacterStorageKey(string slot)
+		return self.Key_Character .. ":" .. slot
+	end
+
+	---@description "캐릭터를 생성합니다. 생성된 캐릭터를 반환합니다"
+	---@param uid string "캐릭터를 생성할 유저의 고유 아이디"
+	---@param entity CharacterEntity "생성할 캐릭터 정보"
+	---@param equips table<CharacterEquipEntity> "생성할 캐릭터의 장비 정보"
+	---@return Character "생성된 캐릭터 정보"
+	@ExecSpace("ServerOnly")
+	method Character CreateCharacter(string uid, CharacterEntity entity, table<CharacterEquipEntity> equips)
+		local character = Character()
+		if character == nil then
+			log_error("캐릭터 생성에 실패했습니다")
+			return nil
+		end
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if userStorageCom == nil then
+			log_error("UserStorageComponent is nil")
+			return nil
+		end
+
+		character.uid = uid
+		character.slot = entity.slot
+		character.name = entity.name
+		character.gender = entity.gender
+		for _, equip in ipairs(equips) do
+			if equip.type == _CharacterDef.CharacterEquipType_None then
+				log_warning("캐릭터 장비 타입이 None입니다. equip index: " .. tostring(equip.index))
+				continue
+			end
+
+			local record = _GameTableLogic.characterEquipItemTable:GetRecord(equip.index)
+			if record == nil then
+				log_error("캐릭터 장비 아이템 레코드가 없습니다. equip index: " .. tostring(equip.index))
+				continue
+			end
+
+			 local newEquipItem = _ItemLogic:CreateItem(equip.index)
+			 if newEquipItem == nil then
+			 	log_error("캐릭터 장비 아이템 생성에 실패했습니다. equip index: " .. tostring(equip.index))
+			 	continue
+			 end
+
+			 newEquipItem.count = 1
+			 newEquipItem.bound = record.Bound
+
+			 local err = ErrorType()
+			 err = _InventoryLogic:AddItemToCharacter(character, newEquipItem)
+			 if err:IsError() then
+				err:PrintErrors()
+			 	continue
+			 end
+
+			 err = self:EquipItem(character, newEquipItem)
+			 if err:IsError() then
+				err:PrintErrors()
+				continue
+			 end
+		end
+
+		userStorageCom:SetCharacter(character)
+
+		return character
+	end
+
+	---@description "캐릭터에 장비를 착용합니다"
+	---@param character Character "장비를 착용할 캐릭터 정보"
+	---@param item ItemEntity "착용할 장비 정보"
+	---@return ErrorType "장비 착용 결과 에러 정보"
+	@ExecSpace("ServerOnly")
+	method ErrorType EquipItem(Character character, ItemEntity item)
+		local err = ErrorType()
+
+		if character == nil then
+			err:AddError("Character is nil")
+			return err
+		end
+
+		if item == nil then
+			err:AddError("ItemEntity is nil")
+			return err
+		end
+
+		local itemRecord = _GameTableLogic.itemTable:GetRecord(item.index)
+		if itemRecord == nil then
+			err:AddError("아이템 레코드가 없습니다. item index: " .. tostring(item.index))
+			return err
+		end
+
+		local equipRecord = _GameTableLogic.characterEquipItemTable:GetRecord(item.index)
+		if equipRecord == nil then
+			err:AddError("캐릭터 장비 아이템 레코드가 없습니다. item index: " .. tostring(item.index))
+			return err
+		end
+
+		if itemRecord.Category == _CharacterDef.CharacterEquipType_None then
+			err:AddError("아이템이 장비 아이템이 아닙니다. item index: " .. tostring(item.index))
+			return err
+		end
+
+		if character.gender == _CharacterDef.GenderType_Male then
+			if equipRecord.Male == false then
+				err:AddError("남성 캐릭터는 해당 장비를 착용할 수 없습니다. item index: " .. tostring(item.index))
+				return err				
+			end
+		elseif character.gender == _CharacterDef.GenderType_Female then
+			if equipRecord.Female == false then
+				err:AddError("여성 캐릭터는 해당 장비를 착용할 수 없습니다. item index: " .. tostring(item.index))
+				return err
+			end
+		else
+			err:AddError("캐릭터 성별이 올바르지 않습니다. character gender: " .. tostring(character.gender))
+			return err
+		end
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(character.uid)
+		if userStorageCom == nil then
+			err:AddError("UserStorageComponent is nil")
+			return err
+		end
+
+		character:EquipSlot(itemRecord.Category, item.index)
+		userStorageCom:SetCharacter(character)
+
+		return err
+	end
+
 	---@description "유저가 캐릭터 목록을 불러오도록 요청합니다"
 	---@param uid string "유저 고유 아이디"
 	@ExecSpace("Server")
@@ -36,11 +172,11 @@ script CharacterLogic extends Logic
 		if uid ~= senderUserId then
 			return
 		end
-		
+
 		local user = _UserLogic:GetUser(uid)
 		if user == nil then
 			local e = CharactersLoadEvent()
-			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_NEED_LOGIN_ERROR
 			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
 		end
@@ -52,9 +188,94 @@ script CharacterLogic extends Logic
 			return
 		end
 
-		local e = CharactersLoadEvent()
-		e.entities = user.userEntity.characters
-		_UserProxy:SendEventToPlayer(e, uid)
+		-- 캐릭터가 없다
+		if user.userEntity.characters == nil then
+			local e = CharactersLoadEvent()
+			_UserProxy:SendEventToPlayer(e, uid)
+		end
+
+		---@type table<string>
+		local keys = {}
+		for _, character in ipairs(user.userEntity.characters) do
+			table.insert(keys, self:GetCharacterStorageKey(tostring(character.slot)))
+		end
+
+		-- 캐릭터 데이터가 하나도 없는 경우 바로 이벤트 전송
+		if #keys == 0 then
+			local e = CharactersLoadEvent()
+			_UserProxy:SendEventToPlayer(e, uid)
+			return
+		end
+
+		local userStorageData = _DataStorageService:GetUserDataStorage(uid)
+		if userStorageData == nil then
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+		
+		userStorageData:BatchGetAsync(keys, function(errorCode, _, pages)
+			if errorCode ~= 0 then
+				log_error("캐릭터 데이터 로드에 실패했습니다. error code: " .. tostring(errorCode))
+				local e = CharactersLoadEvent()
+				e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, uid)
+				return
+			end
+
+			local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+			if userStorageCom == nil then
+				log_error("UserStorageComponent is nil")
+				local e = CharactersLoadEvent()
+				e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+				_UserProxy:SendEventToLocalPlayer(e, uid)
+				return
+			end
+
+			---@type table<Character>
+			local loadedCharacters = {}
+			while true do
+				---@type table<DataStorageItem>
+				local datas = pages:GetCurrentPageDatas()
+				for _, data in ipairs(datas) do
+					if data.Value == nil then
+						continue
+					end
+					local content = _HttpService:JSONDecode(data.Value)
+
+					local loadedChar = Character():FromTable(content)
+					table.insert(loadedCharacters, loadedChar)
+				end
+
+				if pages.IsLastPage == true then
+					break
+				end
+				
+				local loadResultCode = pages:LoadNextPageAndWait()
+				if loadResultCode ~= 0 then
+					break
+				end
+				
+				pages:MoveToNextPageAndWait()
+			end
+
+			local callback = function(success)
+				if success == false then
+					log_error("캐릭터 인벤토리 로드에 실패했습니다")
+					local e = CharactersLoadEvent()
+					e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+					_UserProxy:SendEventToLocalPlayer(e, uid)
+					return
+				end
+				local e = CharactersLoadEvent()
+				e.characters = loadedCharacters
+				_UserProxy:SendEventToPlayer(e, uid)
+			end
+
+			userStorageCom:SetCharacters(loadedCharacters)
+			_InventoryLogic:LoadCharacterInventories(uid, loadedCharacters, {["callback"] = callback})
+		end)
 	end
 
 	---@description "유저가 캐릭터 생성을 요청합니다"
@@ -179,6 +400,7 @@ script CharacterLogic extends Logic
 			info.token = token
 			info.name = params.name
 			info.slot = params.slot
+			info.gender = params.gender
 
 			table.insert(requestsUids, r.uid)
 			table.insert(req.requests, info)
@@ -223,8 +445,9 @@ script CharacterLogic extends Logic
 
 				table.insert(user.userEntity.characters, r.character)
 
+				local newChar = self:CreateCharacter(r.uid, r.character, r.equips)
 				local e = CreateCharacterEvent()
-				e.character = r.character
+				e.character = newChar
 				_UserProxy:SendEventToPlayer(e, r.uid)
 				passedUids[r.uid] = true
 			end
