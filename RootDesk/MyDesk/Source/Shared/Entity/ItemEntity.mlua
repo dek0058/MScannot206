@@ -26,4 +26,29 @@ script ItemEntity
 		return self.index == other.index and self.bound == other.bound
 	end
 
+	---@description "테이블 형태로 변환 합니다"
+	---@return table "테이블 형태로 변환된 아이템 정보입니다"
+	method table ToTable()
+		local content = {}
+		content["id"] = self.id
+		content["index"] = self.index
+		content["count"] = self.count
+		content["bound"] = self.bound
+		return content
+	end
+
+	---@description "테이블 형태의 아이템 정보를 ItemEntity 구조체로 변환 합니다"
+	---@param content table "테이블 형태의 아이템 정보"
+	---@return ItemEntity "변환된 ItemEntity 구조체"
+	method ItemEntity FromTable(table content)
+		if content == nil then
+			return self
+		end
+		self.id = content["id"] or ""
+		self.index = content["index"] or ""
+		self.count = content["count"] or 0
+		self.bound = content["bound"] or false
+		return self
+	end
+
 end

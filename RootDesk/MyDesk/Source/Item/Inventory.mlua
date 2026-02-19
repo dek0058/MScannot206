@@ -29,4 +29,28 @@ script Inventory
 		end
 	end
 
+	---@description "인벤토리를 테이블 형태로 변환하는 메서드입니다"
+	---@return table "인벤토리 정보를 담은 테이블입니다"
+	method table ToTable()
+		local content = {}
+		content["items"] = {}
+		for i, v in ipairs(self.items) do
+			content["items"][i] = v:ToTable()
+		end
+		return content
+	end
+
+	---@description "테이블에서 인벤토리 구조체로 변환하는 메서드입니다"
+	---@param content table "인벤토리 정보를 담은 테이블입니다"
+	---@return Inventory "테이블에서 변환된 인벤토리 구조체입니다"
+	method Inventory FromTable(table content)
+		local inventory = Inventory()
+		if content["items"] ~= nil then
+			for i, v in ipairs(content["items"]) do
+				inventory.items[i] = ItemEntity():FromTable(v)
+			end
+		end
+		return inventory
+	end
+
 end

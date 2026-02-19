@@ -1,0 +1,16 @@
+@Struct
+script UserDBRequest
+
+	property string key = ""
+
+	property string tag = ""
+
+	property string version = ""
+
+	property string content = ""
+
+	property any callback = nil
+
+	property any errorCallback = nil
+
+end

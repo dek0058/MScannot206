@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://e3034f13-98c2-4104-a756-a3571f404cc7",
+  "EntryKey": "codeblock://551d7fde-7239-4584-88f4-5c40c57fdaeb",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "e3034f13-98c2-4104-a756-a3571f404cc7",
+      "Id": "551d7fde-7239-4584-88f4-5c40c57fdaeb",
       "Language": 1,
-      "Name": "InventoryLogic",
-      "Type": 5,
+      "Name": "UserDBRequest",
+      "Type": 9,
       "Source": 0,
       "Target": null
     }

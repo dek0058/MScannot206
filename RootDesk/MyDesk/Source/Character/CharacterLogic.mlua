@@ -3,7 +3,7 @@
 script CharacterLogic extends Logic
 
 	---@description "캐릭터 데이터 저장소 키"
-	readonly property string Key_Character = "ch"
+	readonly property string Key_Character = "char"
 
 	---@description "캐릭터 생성 API"
 	readonly property string Api_CreateCharacter = "user/character/create"
@@ -33,10 +33,10 @@ script CharacterLogic extends Logic
 	end
 
 	---@description "캐릭터 데이터 저장소 키를 반환합니다"
-	---@param slot string "캐릭터 슬롯 번호"
+	---@param slot integer "캐릭터 슬롯 번호"
 	---@return string "캐릭터 데이터 저장소 키"
 	@ExecSpace("ServerOnly")
-	method string GetCharacterStorageKey(string slot)
+	method string GetCharacterStorageKey(integer slot)
 		return self.Key_Character .. ":" .. slot
 	end
 
@@ -173,6 +173,15 @@ script CharacterLogic extends Logic
 			return
 		end
 
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if userStorageCom == nil then
+			log_error("UserStorageComponent is nil")
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+
 		local user = _UserLogic:GetUser(uid)
 		if user == nil then
 			local e = CharactersLoadEvent()
@@ -192,12 +201,18 @@ script CharacterLogic extends Logic
 		if user.userEntity.characters == nil then
 			local e = CharactersLoadEvent()
 			_UserProxy:SendEventToPlayer(e, uid)
+			return
 		end
 
-		---@type table<string>
+		---@type table<DataStorageKeyInfo>
 		local keys = {}
-		for _, character in ipairs(user.userEntity.characters) do
-			table.insert(keys, self:GetCharacterStorageKey(tostring(character.slot)))
+		for _, char in ipairs(user.userEntity.characters) do
+			local key = DataStorageKeyInfo()
+			key.Key = self:GetCharacterStorageKey(char.slot)
+			key.Tag = self.Key_Character
+			key.Version = _DefLogic.Version
+
+			table.insert(keys, key)
 		end
 
 		-- 캐릭터 데이터가 하나도 없는 경우 바로 이벤트 전송
@@ -215,67 +230,54 @@ script CharacterLogic extends Logic
 			return
 		end
 		
-		userStorageData:BatchGetAsync(keys, function(errorCode, _, pages)
-			if errorCode ~= 0 then
-				log_error("캐릭터 데이터 로드에 실패했습니다. error code: " .. tostring(errorCode))
-				local e = CharactersLoadEvent()
-				e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
-				_UserProxy:SendEventToLocalPlayer(e, uid)
-				return
+		local errorCode, itemPages = userStorageData:BatchGetByInfoAndWait(keys)
+		if errorCode ~= 0 then
+			log_error("캐릭터 데이터 로드에 실패했습니다. error code: " .. tostring(errorCode))
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+
+		---@type table<Character>
+		local loadedCharacters = {}
+		while true do
+			---@type table<DataStorageItem>
+			local datas = itemPages:GetCurrentPageDatas()
+			for _, data in ipairs(datas) do
+				if _UtilLogic:IsNilorEmptyString(data.Value) then
+					-- TODO: 삭제해야 할 데이터
+					continue
+				end
+				local content = _HttpService:JSONDecode(data.Value)
+
+				local loadedChar = Character():FromTable(content)
+				table.insert(loadedCharacters, loadedChar)
 			end
 
-			local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
-			if userStorageCom == nil then
-				log_error("UserStorageComponent is nil")
-				local e = CharactersLoadEvent()
-				e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
-				_UserProxy:SendEventToLocalPlayer(e, uid)
-				return
+			if itemPages.IsLastPage == true then
+				break
 			end
-
-			---@type table<Character>
-			local loadedCharacters = {}
-			while true do
-				---@type table<DataStorageItem>
-				local datas = pages:GetCurrentPageDatas()
-				for _, data in ipairs(datas) do
-					if data.Value == nil then
-						continue
-					end
-					local content = _HttpService:JSONDecode(data.Value)
-
-					local loadedChar = Character():FromTable(content)
-					table.insert(loadedCharacters, loadedChar)
-				end
-
-				if pages.IsLastPage == true then
-					break
-				end
-				
-				local loadResultCode = pages:LoadNextPageAndWait()
-				if loadResultCode ~= 0 then
-					break
-				end
-				
-				pages:MoveToNextPageAndWait()
+			
+			local loadResultCode = itemPages:LoadNextPageAndWait()
+			if loadResultCode ~= 0 then
+				break
 			end
+			
+			itemPages:MoveToNextPageAndWait()
+		end
 
-			local callback = function(success)
-				if success == false then
-					log_error("캐릭터 인벤토리 로드에 실패했습니다")
-					local e = CharactersLoadEvent()
-					e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
-					_UserProxy:SendEventToLocalPlayer(e, uid)
-					return
-				end
-				local e = CharactersLoadEvent()
-				e.characters = loadedCharacters
-				_UserProxy:SendEventToPlayer(e, uid)
-			end
+		local inventories = _InventoryLogic:LoadCharacterInventories(uid, loadedCharacters)
+		if inventories == nil then
+			log_error("캐릭터 인벤토리 로드에 실패했습니다")
+			local e = CharactersLoadEvent()
+			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
 
-			userStorageCom:SetCharacters(loadedCharacters)
-			_InventoryLogic:LoadCharacterInventories(uid, loadedCharacters, {["callback"] = callback})
-		end)
+		userStorageCom:SetCharacters(loadedCharacters)
+		userStorageCom:SetCharacterInventories(inventories)
 	end
 
 	---@description "유저가 캐릭터 생성을 요청합니다"

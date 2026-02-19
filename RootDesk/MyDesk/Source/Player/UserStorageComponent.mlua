@@ -1,10 +1,10 @@
----@description "유저 정보를 관리하는 컴포넌트 입니다"
+---@description "MSW 유저 DB와 동기화가 필요한 데이터를 저장하는 컴포넌트 입니다"
 @Component
 script UserStorageComponent extends Component
 	
 	---@description "캐릭터 슬롯과 캐릭터 정보를 담는 테이블입니다"
 	property table<integer, Character> characters = {}
-
+	
 	---@description "캐릭터 슬롯과 캐릭터의 인벤토리 정보를 담는 테이블입니다"
 	property table<integer, Inventory> characterInventories = {}
 	
@@ -13,13 +13,31 @@ script UserStorageComponent extends Component
 	@ExecSpace("Multicast")
 	method void SetCharacter(Character character)
 		self.characters[character.slot] = character
+		
+		if self:IsServer() then
+			local request = UserDBRequest()
+			request.key = _CharacterLogic:GetCharacterStorageKey(character.slot)
+			request.tag = _CharacterLogic.Key_Character
+			request.version = _DefLogic.Version
+			request.content = _HttpService:JSONEncode(character:ToTable())
+		end
 	end
-
+	
 	@ExecSpace("Multicast")
 	method void SetCharacters(table<integer, Character> characters)
 		self.characters = characters
+		
+		if self:IsServer() then
+			for slot, character in pairs(characters) do
+				local request = UserDBRequest()
+				request.key = _CharacterLogic:GetCharacterStorageKey(slot)
+				request.tag = _CharacterLogic.Key_Character
+				request.version = _DefLogic.Version
+				request.content = _HttpService:JSONEncode(character:ToTable())
+			end
+		end
 	end
-
+	
 	---@description "캐릭터 슬롯에 해당하는 캐릭터 정보를 제거합니다."
 	---@param slot integer "제거할 캐릭터 슬롯 번호"
 	@ExecSpace("Multicast")
@@ -27,27 +45,45 @@ script UserStorageComponent extends Component
 		self.characters[slot] = nil
 		self.characterInventories[slot] = nil
 	end
-
+	
 	---@description "캐릭터 슬롯에 해당하는 캐릭터의 인벤토리 정보를 설정합니다."
 	---@param character Character "인벤토리를 설정할 캐릭터 정보"
 	---@param inventory Inventory "설정할 인벤토리 정보"
 	@ExecSpace("Multicast")
 	method void SetCharacterInventory(Character character, Inventory inventory)
 		self.characterInventories[character.slot] = inventory
-	end
 
-	---@description "캐릭터 슬롯과 캐릭터 정보를 설정합니다."
-	---@param characters table<integer, Character> "설정할 캐릭터 정보가 담긴 테이블"
+		if self:IsServer() then
+			local request = UserDBRequest()
+			request.key = _InventoryLogic:GetCharacterInventoryKey(character.slot)
+			request.tag = _InventoryLogic.Key_CharacterInventory
+			request.version = _DefLogic.Version
+			request.content = _HttpService:JSONEncode(inventory:ToTable())
+		end
+	end
+	
+	---@description "캐릭터 슬롯과 캐릭터의 인벤토리 정보를 설정합니다."
+	---@param characterInventories table<integer, Inventory> "설정할 캐릭터 인벤토리 정보가 담긴 테이블"
 	@ExecSpace("Multicast")
 	method void SetCharacterInventories(table<integer, Inventory> characterInventories)
 		self.characterInventories = characterInventories
-	end
 
+		if self:IsServer() then
+			for slot, inventory in pairs(characterInventories) do
+				local request = UserDBRequest()
+				request.key = _InventoryLogic:GetCharacterInventoryKey(slot)
+				request.tag = _InventoryLogic.Key_CharacterInventory
+				request.version = _DefLogic.Version
+				request.content = _HttpService:JSONEncode(inventory:ToTable())
+			end
+		end
+	end
+	
 	---@description "슬롯에 해당하는 캐릭터가 존재하는지 여부를 반환합니다."
 	---@param slot integer "확인할 캐릭터 슬롯 번호"
 	---@return boolean "캐릭터 존재 여부"
 	method boolean IsExistCharacterSlot(integer slot)
 		return self.characters[slot] ~= nil
 	end
-
+	
 end

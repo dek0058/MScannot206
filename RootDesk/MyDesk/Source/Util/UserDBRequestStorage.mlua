@@ -1,0 +1,6 @@
+@Struct
+script UserDBRequestStorage
+
+	property table requests = {}
+
+end

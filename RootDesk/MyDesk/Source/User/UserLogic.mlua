@@ -62,6 +62,7 @@ script UserLogic extends Logic
 		end
 	end
 
+	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
 		if self.users[e.UserId] ~= nil then

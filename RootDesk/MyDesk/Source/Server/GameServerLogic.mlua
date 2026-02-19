@@ -30,7 +30,6 @@ script GameServerLogic extends Logic
 		
 		if init == true then
 			self._T["init"] = init
-			log("게임 서버 로직 초기화 완료")
 			return
 		end
 		

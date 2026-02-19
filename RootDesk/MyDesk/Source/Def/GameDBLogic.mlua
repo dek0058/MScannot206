@@ -1,0 +1,4 @@
+@Logic
+script GameDBLogic extends Logic
+
+end

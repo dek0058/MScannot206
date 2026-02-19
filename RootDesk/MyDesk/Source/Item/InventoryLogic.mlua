@@ -1,24 +1,17 @@
----@description "인벤토리 관련 로직을 담당하는 로직 입니다"
 @Logic
 script InventoryLogic extends Logic
 
-	---@description "캐릭터 인벤토리 저장소 키"
-	readonly property string Key_CharacterInventory = "chinv"
-	
-	---@description "캐릭터 인벤토리 데이터 저장소 키를 반환합니다"
+	property string Key_CharacterInventory = "charinv"
+
 	@ExecSpace("ServerOnly")
-	method string GetCharacterInventoryKey(string uid, integer slot)
+	method string GetCharacterInventoryKey(integer slot)
 		return self.Key_CharacterInventory .. ":" .. slot
 	end
 
-	---@description "캐릭터 인벤토리에 아이템을 추가합니다. 에러가 발생하면 에러 정보를 반환합니다"
-	---@param character Character "아이템을 추가할 캐릭터 정보"
-	---@param item ItemEntity "추가할 아이템 정보"
-	---@return ErrorType "에러 정보"
 	@ExecSpace("ServerOnly")
 	method ErrorType AddItemToCharacter(Character character, ItemEntity item)
 		local err = ErrorType()
-
+		
 		if character == nil then
 			err:AddError("Character is nil")
 			return err
@@ -28,101 +21,96 @@ script InventoryLogic extends Logic
 			err:AddError("Item is nil")
 			return err
 		end
-
+		
 		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(character.uid)
 		if userStorageCom == nil then
 			err:AddError("UserStorageComponent is nil")
 			return err
 		end
-
+		
 		local inventory = userStorageCom.characterInventories[character.slot]
 		if inventory == nil then
 			inventory = Inventory()
 		end
-
+		
 		inventory:AddItem(item)
 		userStorageCom:SetCharacterInventory(character, inventory)
-
+		
 		return err
 	end
 
-	---@description "캐릭터들의 인벤토리 정보를 불러옵니다."
-	---@param uid string "유저 고유 ID"
-	---@param characters table<Character> "인벤토리를 불러올 캐릭터들"
-	---@param callback table "인벤토리 정보를 불러온 후 실행될 콜백 함수(table["callback"] 형태로 전달되어야 합니다) callback 함수의 매개변수는 성공 여부를 알리는 boolean 값 입니다."
 	@ExecSpace("ServerOnly")
-	method void LoadCharacterInventories(string uid, table<Character> characters, table callback)
+	method table LoadCharacterInventories(string uid, table characters)
 		if characters == nil then
-			if callback ~= nil and callback["callback"] ~= nil then
-				callback["callback"](false)
-			end
-			return
+			return nil
 		end
-
+		
+		---@type table<DataStorageKeyInfo>
 		local keys = {}
 		for _, char in pairs(characters) do
-			table.insert(keys, self:GetCharacterInventoryKey(uid, char.slot))
+			local key = DataStorageKeyInfo()
+			key.Key = self:GetCharacterInventoryKey(char.slot)
+			key.Tag = self.Key_CharacterInventory
+			key.Version = _DefLogic.Version
+		
+			table.insert(keys, key)
 		end
-
+		
 		-- 불러올 인벤토리가 없는 경우 바로 성공처리
 		if #keys == 0 then
-			if callback ~= nil and callback["callback"] ~= nil then
-				callback["callback"](true)
-			end
-			return
+			return {}
 		end
-
+		
 		local userStorageData = _DataStorageService:GetUserDataStorage(uid)
 		if userStorageData == nil then
-			if callback ~= nil and callback["callback"] ~= nil then
-				callback["callback"](false)
-			end
-			return
+			return nil
 		end
-
-		userStorageData:BatchGetAsync(keys, function(errorCode, _, pages)
-			if errorCode ~= 0 then
-				log_error("Failed to load character inventories for uid: " .. uid .. ", errorCode: " .. errorCode)
-				if callback ~= nil and callback["callback"] ~= nil then
-					callback["callback"](false)
+		
+		local errorCode, itemPages = userStorageData:BatchGetByInfoAndWait(keys)
+		if errorCode ~= 0 then
+			return nil
+		end
+		
+		---@type table<integer, Inventory>
+		local inventories = {}
+		while true do
+			---@type table<DataStorageItem>
+			local datas = itemPages:GetCurrentPageDatas()
+			for _, data in ipairs(datas) do
+				if _UtilLogic:IsNilorEmptyString(data.Value) then
+					-- TODO: 삭제해야 할 데이터
+					continue
 				end
-				return
+		
+				local slotStr = _StringLogic:GetSubStringAfter(data.KeyInfo.Key, ":")
+				if _UtilLogic:IsNilorEmptyString(slotStr) then
+					-- TODO: 삭제해야 할 데이터
+					continue
+				end
+		
+				local slot = tonumber(slotStr)
+				if slot == nil then
+					-- TODO: 삭제해야 할 데이터
+					continue
+				end
+		
+				local inventory = Inventory():FromTable(_HttpService:JSONDecode(data.Value))
+				inventories[slot] = inventory
 			end
-
-			local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
-			if userStorageCom == nil then
-				log_error("UserStorageComponent is nil")
-				local e = CharactersLoadEvent()
-				e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
-				_UserProxy:SendEventToLocalPlayer(e, uid)
-				return
-			end
-
-			---@type table<integer, Inventory>
-			local inventories = {}
-			while true do
-				---@type table<DataStorageItem>
-				local datas = pages:GetCurrentPageDatas()
-				for _, data in ipairs(datas) do
-					-- TODO: 여기 부터 작업 하자.. 거의 다했네
-
-				end
-
-				if pages.IsLastPage == true then
-					break
-				end
-				
-				local loadResultCode = pages:LoadNextPageAndWait()
-				if loadResultCode ~= 0 then
-					break
-				end
-				
-				pages:MoveToNextPageAndWait()
+		
+			if itemPages.IsLastPage == true then
+				break
 			end
 			
-			userStorageCom:SetCharacterInventories(inventories)
-		end)
+			local loadResultCode = itemPages:LoadNextPageAndWait()
+			if loadResultCode ~= 0 then
+				break
+			end
+			
+			itemPages:MoveToNextPageAndWait()
+		end
+		
+		return inventories
 	end
 
-	
 end
