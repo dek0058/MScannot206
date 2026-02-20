@@ -6304,7 +6304,7 @@
           "name": "ProcessingCreateCharacter",
           "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter",
           "nameEditable": true,
-          "enable": true,
+          "enable": false,
           "visible": true,
           "localize": true,
           "displayOrder": 1,
@@ -6472,12 +6472,12 @@
         }
       },
       {
-        "id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter",
+        "id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1",
         "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
-          "name": "Modal_Processing_CreateCharacter",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter",
+          "name": "Model_Modal_Processing_1",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6489,7 +6489,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": null,
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
@@ -6523,6 +6523,11 @@
                 "y": 300.0
               },
               "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
@@ -6537,7 +6542,12 @@
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": -1.0
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
               },
               "Enable": true
             }
@@ -6546,12 +6556,12 @@
         }
       },
       {
-        "id": "8bacf648-8a3a-4765-a7f9-bf42bb85181f",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short",
+        "id": "18321d71-2534-4cbc-b8b0-7dec4dabecb2",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short",
         "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
           "name": "Model_Popup_Short",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6563,7 +6573,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "b6df0004-87a4-45e8-ad8c-5ed7ad0a4981",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "b6df0004-87a4-45e8-ad8c-5ed7ad0a4981",
@@ -6594,11 +6604,20 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -7.62939453E-06
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
+                "w": -1.0
               },
               "Enable": true
             }
@@ -6607,12 +6626,12 @@
         }
       },
       {
-        "id": "9190f426-c83a-4661-a63a-db0e054bb7e0",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Top",
+        "id": "ed65c32b-1f0f-4689-9af2-54b833ce8445",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Top",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Top",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Top",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Top",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6624,7 +6643,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "4fc27a51-5900-4c41-9528-fcbfec7d3ce7",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "4fc27a51-5900-4c41-9528-fcbfec7d3ce7",
@@ -6655,6 +6674,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6673,12 +6701,12 @@
         }
       },
       {
-        "id": "c22febbe-8f89-46a0-ac7c-d283f1cfd539",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Middle",
+        "id": "f3078ee1-710d-4096-b0be-eb89dfdf504a",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Middle",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Middle",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Middle",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Middle",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6690,7 +6718,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "fe15ed62-f3c4-4140-9e27-535bbf92e08c",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "fe15ed62-f3c4-4140-9e27-535bbf92e08c",
@@ -6721,6 +6749,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -5.49999952
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -5.49999952,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6739,12 +6776,12 @@
         }
       },
       {
-        "id": "18c32143-7050-4cd7-b639-923a80f0595e",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Bottom",
+        "id": "0a1f91b8-679d-47bd-bd86-54890b2beaf2",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Bottom",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Bottom",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Model_Popup_Short/Bottom",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Model_Popup_Short/Bottom",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6756,7 +6793,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "5217d5b9-cf42-4049-a8b5-433135e2f62b",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "5217d5b9-cf42-4049-a8b5-433135e2f62b",
@@ -6787,6 +6824,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6805,12 +6851,12 @@
         }
       },
       {
-        "id": "d2a2be9e-c390-44ab-9bfb-c227a4836b00",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Loading",
+        "id": "2b156254-a2e4-48fb-b62a-4b0cdb69fb7c",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Loading",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Loading",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Loading",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Loading",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6822,7 +6868,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "cd776bf0-2fdb-431c-bd2d-127fce767706",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "cd776bf0-2fdb-431c-bd2d-127fce767706",
@@ -6853,6 +6899,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -59.9999962
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -59.9999962,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6871,12 +6926,12 @@
         }
       },
       {
-        "id": "f5339a0e-c65f-453e-b6ac-674d0cd4d6b3",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Loading/Process",
+        "id": "0cfbba49-ca75-44e4-b57b-a709a1cc77e5",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Loading/Process",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Process",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Loading/Process",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Loading/Process",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6888,7 +6943,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "39c6c70a-f102-43fd-86ce-ebbcd6f62f70",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "39c6c70a-f102-43fd-86ce-ebbcd6f62f70",
@@ -6919,6 +6974,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6937,12 +7001,12 @@
         }
       },
       {
-        "id": "052eed0a-d3d8-43b8-9aa8-70edcf26ea1b",
-        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Msg",
+        "id": "9d9c8d4a-30c4-4dd5-99c8-02322e9f4779",
+        "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Msg",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
         "jsonString": {
           "name": "Msg",
-          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Modal_Processing_CreateCharacter/Msg",
+          "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter/Model_Modal_Processing_1/Msg",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -6954,7 +7018,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "9a961fbd-9f4b-467e-9bb1-682fd7926f6c",
-            "root_entity_id": "a207ff69-ccab-48ef-a784-5ecdcd1638ac",
+            "root_entity_id": "ee0ab15d-30ed-42a9-a66e-b5c4044aefbb",
             "replaced_model_id": null
           },
           "modelId": "9a961fbd-9f4b-467e-9bb1-682fd7926f6c",
@@ -6985,6 +7049,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 45.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 45.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -7000,7 +7073,7 @@
             },
             {
               "@type": "MOD.Core.TextComponent",
-              "IsLocalizationKey": false,
+              "IsLocalizationKey": true,
               "OutlineDistance": {
                 "x": 1.0,
                 "y": -1.0
@@ -8758,7 +8831,7 @@
           "name": "ProcessingDeleteCharacter",
           "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter",
           "nameEditable": true,
-          "enable": true,
+          "enable": false,
           "visible": true,
           "localize": true,
           "displayOrder": 1,
@@ -8927,12 +9000,12 @@
         }
       },
       {
-        "id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter",
+        "id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing",
         "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
-          "name": "Modal_Processing_DeleteCharacter",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter",
+          "name": "Model_Modal_Processing",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -8944,7 +9017,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": null,
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
@@ -8978,10 +9051,20 @@
                 "y": 300.0
               },
               "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
                 "y": 0.0
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
               },
               "Position": {
                 "x": 0.0,
@@ -8994,6 +9077,12 @@
                 "z": 0.0,
                 "w": -1.0
               },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -9001,12 +9090,12 @@
         }
       },
       {
-        "id": "e42a7bab-81da-4eb7-bde8-4b24f6c47a58",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short",
+        "id": "c51cb50b-a3d2-4e09-a3a2-d9a99485618b",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short",
         "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
           "name": "Model_Popup_Short",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9018,7 +9107,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "b6df0004-87a4-45e8-ad8c-5ed7ad0a4981",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "b6df0004-87a4-45e8-ad8c-5ed7ad0a4981",
@@ -9049,11 +9138,20 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -7.62939453E-06
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
+                "w": -1.0
               },
               "Enable": true
             }
@@ -9062,12 +9160,12 @@
         }
       },
       {
-        "id": "5e440434-552b-4465-9a45-1917a47ffebc",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Top",
+        "id": "f445d592-c08c-432a-a1c8-43dea151ed7f",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Top",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Top",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Top",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Top",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9079,7 +9177,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "4fc27a51-5900-4c41-9528-fcbfec7d3ce7",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "4fc27a51-5900-4c41-9528-fcbfec7d3ce7",
@@ -9110,6 +9208,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9128,12 +9235,12 @@
         }
       },
       {
-        "id": "1f664a44-5767-4a97-9387-4efbcfac3e6f",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Middle",
+        "id": "381d37f8-4e5c-451d-9d91-4e9127c82991",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Middle",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Middle",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Middle",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Middle",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9145,7 +9252,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "fe15ed62-f3c4-4140-9e27-535bbf92e08c",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "fe15ed62-f3c4-4140-9e27-535bbf92e08c",
@@ -9176,6 +9283,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -5.49999952
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -5.49999952,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9194,12 +9310,12 @@
         }
       },
       {
-        "id": "49472be3-944c-4ceb-b189-8f1b7bab1cda",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Bottom",
+        "id": "dc4b2d3f-597b-4203-aafb-696a34f4dd4e",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Bottom",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Bottom",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Model_Popup_Short/Bottom",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Model_Popup_Short/Bottom",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9211,7 +9327,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "5217d5b9-cf42-4049-a8b5-433135e2f62b",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "5217d5b9-cf42-4049-a8b5-433135e2f62b",
@@ -9242,6 +9358,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -150.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9260,12 +9385,12 @@
         }
       },
       {
-        "id": "e8eda38e-aa2c-44bb-b488-0febe88d5e86",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Loading",
+        "id": "71b49eb7-ab08-4f41-8db4-fcc32ad3569e",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Loading",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Loading",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Loading",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Loading",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9277,7 +9402,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "cd776bf0-2fdb-431c-bd2d-127fce767706",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "cd776bf0-2fdb-431c-bd2d-127fce767706",
@@ -9308,6 +9433,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -59.9999962
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -59.9999962,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9326,12 +9460,12 @@
         }
       },
       {
-        "id": "bbcdc5ed-3dad-4c86-ac43-c5428f6cd0d9",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Loading/Process",
+        "id": "0840e02b-162c-4c81-80b2-64cb790b935b",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Loading/Process",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
         "jsonString": {
           "name": "Process",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Loading/Process",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Loading/Process",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9343,7 +9477,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "39c6c70a-f102-43fd-86ce-ebbcd6f62f70",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "39c6c70a-f102-43fd-86ce-ebbcd6f62f70",
@@ -9374,6 +9508,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9392,12 +9535,12 @@
         }
       },
       {
-        "id": "dfe2ed7a-dc4e-43d0-a525-25c318dc82f3",
-        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Msg",
+        "id": "0f2181c1-10af-4e9a-98f0-ab0a6ca8a8ca",
+        "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Msg",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent",
         "jsonString": {
           "name": "Msg",
-          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Modal_Processing_DeleteCharacter/Msg",
+          "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter/Model_Modal_Processing/Msg",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -9409,7 +9552,7 @@
             "type": "Model",
             "entry_id": "84ec4386-2589-4f05-b17d-2eacb6fe3d14",
             "sub_entity_id": "9a961fbd-9f4b-467e-9bb1-682fd7926f6c",
-            "root_entity_id": "e53b4d8b-276c-4de7-ab7b-bb69125130d8",
+            "root_entity_id": "e9c91a3c-e2fd-459f-80b1-f52c560c03cd",
             "replaced_model_id": null
           },
           "modelId": "9a961fbd-9f4b-467e-9bb1-682fd7926f6c",
@@ -9440,6 +9583,15 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 45.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 45.0,
+                "z": 0.0
+              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
