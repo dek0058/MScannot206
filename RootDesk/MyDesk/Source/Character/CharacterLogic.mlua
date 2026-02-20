@@ -168,7 +168,7 @@ script CharacterLogic extends Logic
 	---@description "유저가 캐릭터 목록을 불러오도록 요청합니다"
 	---@param uid string "유저 고유 아이디"
 	@ExecSpace("Server")
-	method void RequestLoadCharacters(string uid)
+	method void LoadCharacters(string uid)
 		if uid ~= senderUserId then
 			return
 		end
@@ -278,6 +278,10 @@ script CharacterLogic extends Logic
 
 		userStorageCom:SetCharacters(loadedCharacters)
 		userStorageCom:SetCharacterInventories(inventories)
+
+		local e = CharactersLoadEvent()
+		e.characters = loadedCharacters
+		_UserProxy:SendEventToLocalPlayer(e, uid)
 	end
 
 	---@description "유저가 캐릭터 생성을 요청합니다"

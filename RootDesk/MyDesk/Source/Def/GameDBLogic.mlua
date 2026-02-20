@@ -39,6 +39,7 @@ script GameDBLogic extends Logic
 		self._T["UpdateTimerId"] = timerId
 	end
 
+	---@description "유저 데이터 갱신 요청을 대기열에 추가 합니다. 이미 같은 키의 요청이 존재하는 경우, 기존 요청을 덮어씁니다"
 	@ExecSpace("ServerOnly")
 	method void PushUserRequest(string uid, UserDBRequest request)
 		---@type table<string, UserDBRequestStorage>

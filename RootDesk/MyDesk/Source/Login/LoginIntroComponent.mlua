@@ -127,7 +127,7 @@ script LoginIntroComponent extends Component
 		end
 
 		self:SetState(self.State_CharacterLoad)
-		_CharacterLogic:RequestLoadCharacters(_UserProxy:GetUid())
+		_CharacterLogic:LoadCharacters(_UserProxy:GetUid())
 	end
 
 	---@description "캐릭터 불러오기 이벤트를 처리합니다."
