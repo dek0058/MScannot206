@@ -6304,7 +6304,7 @@
           "name": "ProcessingCreateCharacter",
           "path": "/ui/Login/CreateCharacter/ProcessingCreateCharacter",
           "nameEditable": true,
-          "enable": false,
+          "enable": true,
           "visible": true,
           "localize": true,
           "displayOrder": 1,
@@ -6523,20 +6523,10 @@
                 "y": 300.0
               },
               "UIMode": 1,
-              "UIScale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
                 "y": 0.0
-              },
-              "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
               },
               "Position": {
                 "x": 0.0,
@@ -6549,12 +6539,6 @@
                 "z": 0.0,
                 "w": -1.0
               },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
-              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -6598,11 +6582,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -3.43322739E-08
+                "y": -7.62939453E-06
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -3.43322739E-08
+                "y": -7.62939453E-06
               },
               "RectSize": {
                 "x": 560.0,
@@ -6610,18 +6594,12 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
               },
-              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -6677,11 +6655,6 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Position": {
-                "x": 0.0,
-                "y": 150.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6736,11 +6709,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -51.52475
+                "y": -57.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": 51.47525
+                "y": 46.0
               },
               "RectSize": {
                 "x": 560.0,
@@ -6814,11 +6787,6 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Position": {
-                "x": 0.0,
-                "y": -150.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -6873,11 +6841,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 40.0,
-                "y": 39.73
+                "y": -19.999996199999998
               },
               "OffsetMin": {
                 "x": -40.0,
-                "y": -40.27
+                "y": -100.0
               },
               "RectSize": {
                 "x": 80.0,
@@ -7005,11 +6973,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -84.7975
+                "y": -40.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": 85.2025
+                "y": 130.0
               },
               "RectSize": {
                 "x": 560.0,
@@ -7032,7 +7000,7 @@
             },
             {
               "@type": "MOD.Core.TextComponent",
-              "IsLocalizationKey": true,
+              "IsLocalizationKey": false,
               "OutlineDistance": {
                 "x": 1.0,
                 "y": -1.0
@@ -8790,7 +8758,7 @@
           "name": "ProcessingDeleteCharacter",
           "path": "/ui/Login/DeleteCharacter/ProcessingDeleteCharacter",
           "nameEditable": true,
-          "enable": false,
+          "enable": true,
           "visible": true,
           "localize": true,
           "displayOrder": 1,
@@ -9010,20 +8978,10 @@
                 "y": 300.0
               },
               "UIMode": 1,
-              "UIScale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
                 "y": 0.0
-              },
-              "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
               },
               "Position": {
                 "x": 0.0,
@@ -9036,12 +8994,6 @@
                 "z": 0.0,
                 "w": -1.0
               },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
-              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -9085,11 +9037,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -3.43322739E-08
+                "y": -7.62939453E-06
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -3.43322739E-08
+                "y": -7.62939453E-06
               },
               "RectSize": {
                 "x": 560.0,
@@ -9097,18 +9049,12 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
               },
-              "ZRotation": 0.0,
               "Enable": true
             }
           ],
@@ -9164,11 +9110,6 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Position": {
-                "x": 0.0,
-                "y": 150.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9223,11 +9164,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -51.52475
+                "y": -57.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": 51.47525
+                "y": 46.0
               },
               "RectSize": {
                 "x": 560.0,
@@ -9301,11 +9242,6 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "Position": {
-                "x": 0.0,
-                "y": -150.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -9360,11 +9296,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 40.0,
-                "y": 39.73
+                "y": -19.999996199999998
               },
               "OffsetMin": {
                 "x": -40.0,
-                "y": -40.27
+                "y": -100.0
               },
               "RectSize": {
                 "x": 80.0,
@@ -9492,11 +9428,11 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -84.7975
+                "y": -40.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": 85.2025
+                "y": 130.0
               },
               "RectSize": {
                 "x": 560.0,
@@ -9514,9 +9450,6 @@
             },
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "ImageRUID": {
-                "DataId": ""
-              },
               "OverrideSorting": false,
               "Enable": true
             },
