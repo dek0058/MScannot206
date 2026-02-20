@@ -1,4 +1,183 @@
+---@description "게임 내 데이터를 저장을 담당하는 로직 입니다"
 @Logic
 script GameDBLogic extends Logic
+
+	---@description "유저 요청을 DB에 주기적으로 전송하는 시간 간격 (초)"
+	readonly property number UserRequestUpdateTimeSec = 60.0
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		-- 요청 저장소 초기화
+		self._T["UserRequestStorage"] = {}
+	end
+
+	---@description "유저 요청을 DB에 주기적으로 전송하기 위한 타이머를 설정합니다"
+	@ExecSpace("ServerOnly")
+	method void OnUserRequestReserve()
+		if self._T["UpdateTimerId"] ~= nil then
+			_TimerService:ClearTimer(self._T["UpdateTimerId"])
+			self._T["UpdateTimerId"] = nil
+		end
+
+		local callback = function ()
+			self:UserRequestFlush()
+			self._T["UpdateTimerId"] = nil
+			self:OnUserRequestReserve()
+		end
+
+		local timerId = _TimerService:SetTimerOnce(callback, self.UserRequestUpdateTimeSec)
+		if timerId == 0 then
+			log_error("업데이트 타이머 설정에 실패했습니다.")
+
+			--- 3초 대기 후 재시도
+			_TimerService:SetTimerOnce(function()
+				self:OnUserRequestReserve()
+			end, 3.0)
+			return
+		end
+
+		self._T["UpdateTimerId"] = timerId
+	end
+
+	@ExecSpace("ServerOnly")
+	method void PushUserRequest(string uid, UserDBRequest request)
+		---@type table<string, UserDBRequestStorage>
+		local storages = self._T["UserRequestStorage"]
+		if storages == nil then
+			return
+		end
+
+		if storages[uid] == nil then
+			storages[uid] = UserDBRequestStorage()
+		end
+
+		local storage = storages[uid]
+		local existingRequest = storage.requests[request.key]
+		if existingRequest == nil then
+			storage.requests[request.key] = request
+		else
+			-- 이미 같은 키의 요청이 존재하는 경우, 기존 요청을 덮어씁니다
+			existingRequest.content = request.content
+		end
+	end
+
+	---@description "저장된 유저 요청을 처리 합니다"
+	@ExecSpace("ServerOnly")
+	method void UserRequestFlush()
+		---@type table<string, UserDBRequestStorage>
+		local storages = self._T["UserRequestStorage"]
+		
+		if storages == nil then
+			return
+		end
+
+		---@type table<string, table<string, UserDBRequest>>
+		local flushStorages = {}
+		for uid, storage in pairs(storages) do
+			if next(storage.requests) ~= nil then
+				flushStorages[uid] = storage.requests
+				storage.requests = {}
+			end
+		end
+
+		for uid, requests in pairs(flushStorages) do
+			local userStorageData = _DataStorageService:GetUserDataStorage(uid)
+			if userStorageData == nil then
+				log_error("유저 데이터 저장소를 가져오는데 실패했습니다. uid: " .. uid)
+				for _, request in pairs(requests) do
+					if request.errorCallback ~= nil then
+						request.errorCallback()
+					end
+				end
+				continue
+			end
+
+			---@type table<DataStorageKeyInfo, string>
+			local models = {}
+			for key, request in pairs(requests) do
+				local keyInfo = DataStorageKeyInfo()
+				keyInfo.Key = key
+				keyInfo.Tag = request.tag
+				keyInfo.Version = request.version
+
+				models[keyInfo] = request.content
+			end
+
+			userStorageData:BatchSetByInfoAsync(models, function(errorCode, result)
+				if errorCode ~= 0 then
+					log_error("실패한 DB 저장 요청이 있습니다. uid: " .. uid .. ", errorCode: " .. errorCode)
+				end
+
+				---@type table<string, boolean>
+				local passedKeys = {}
+				for _, keyInfo in ipairs(result) do
+					local request = requests[keyInfo.Key]
+					if request == nil then
+						continue
+					end
+
+					if request.callback ~= nil then
+						request.callback()						
+					end
+					passedKeys[keyInfo.Key] = true
+				end
+
+				-- 실패한 요청에 대한 errorCallback 호출
+				for key, request in pairs(requests) do
+					if passedKeys[key] then
+						continue
+					end
+
+					if request.errorCallback ~= nil then
+						request.errorCallback()
+					end
+				end
+			end)
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent e)
+		---@type table<string, UserDBRequestStorage>
+		local storages = self._T["UserRequestStorage"]
+		if storages == nil then
+			return
+		end
+
+		if storages[e.UserId] == nil then
+			return
+		end
+
+		local storage = storages[e.UserId]
+
+		-- 유저가 떠날 때 남아있는 요청이 있다면 즉시 플러시합니다
+		if next(storage.requests) ~= nil then
+			---@type table<DataStorageKeyInfo, string>
+			local models = {}
+			for key, request in pairs(storage.requests) do
+				local keyInfo = DataStorageKeyInfo()
+				keyInfo.Key = key
+				keyInfo.Tag = request.tag
+				keyInfo.Version = request.version
+
+				models[keyInfo] = request.content
+			end
+
+			local userStorageData = _DataStorageService:GetUserDataStorage(e.UserId)
+			if userStorageData == nil then
+				return
+			end
+
+			userStorageData:BatchSetByInfoAsync(models, function(errorCode, result)
+				for _, keyInfo in ipairs(result) do
+					local request = storage.requests[keyInfo.Key]
+					if request == nil then
+						continue
+					end
+				end
+			end)
+		end
+	end
 
 end
