@@ -130,7 +130,15 @@ script CharacterSelectionSlotComponent extends Component
 			nameTagCom.Name = character.name
 		end
 
-		_CharacterAvatarLogic:UpdateAvatar(self.AvatarEntity.CostumeManagerComponent, character)
+		local inventory = Inventory()
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if userStorageCom ~= nil then
+			if userStorageCom.characterInventories[character.slot] ~= nil then
+				inventory = userStorageCom.characterInventories[character.slot]
+			end
+		end
+
+		_CharacterAvatarLogic:UpdateAvatar(self.AvatarEntity.CostumeManagerComponent, character, inventory)
 	end
 
 	---@description "선택 상태로 설정합니다."

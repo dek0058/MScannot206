@@ -19,18 +19,18 @@ script Character
 
 	---@description "캐릭터 장비 슬롯에 장비를 장착합니다"
 	---@param equipType string "장착할 장비 슬롯 타입"
-	---@param itemIndex string "장착할 아이템 인덱스"
-	method void EquipSlot(string equipType, string itemIndex)
+	---@param itemId string "장착할 아이템 ID"
+	method void EquipSlot(string equipType, string itemId)
 		for _, equip in pairs(self.equipSlots) do
 			if equip.type == equipType then
-				equip.itemId = itemIndex
+				equip.itemId = itemId
 				return
 			end
 		end
 
 		local newEquip = CharacterEquipSlotEntity()
 		newEquip.type = equipType
-		newEquip.itemId = itemIndex
+		newEquip.itemId = itemId
 		table.insert(self.equipSlots, newEquip)
 	end
 

@@ -106,7 +106,6 @@ script GameTableLogic extends Logic
 		self.createCharacterTable:Load()
 		
 		self._T["init"] = true
-		log("게임 테이블 로직 초기화 완료")
 	end
 
 	method boolean IsInit()

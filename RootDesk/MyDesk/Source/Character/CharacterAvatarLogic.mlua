@@ -15,7 +15,7 @@ script CharacterAvatarLogic extends Logic
 	readonly property string Default_Pants_Female_RUID ="829c0b278e094bb0a1100a5e6e8abe4a"
 
 	---@description "아바타를 캐릭터가 장착하고 있는 장비로 업데이트 합니다."
-	method void UpdateAvatar(CostumeManagerComponent com, Character character)
+	method void UpdateAvatar(CostumeManagerComponent com, Character character, Inventory inventory)
 		if com == nil then
 			return
 		end
@@ -28,9 +28,14 @@ script CharacterAvatarLogic extends Logic
 		local use2HWeapon = false
 		local useSubWeapon = false
 
-		if character ~= nil then
+		if character ~= nil and inventory ~= nil then
 			for _, slot in ipairs(character.equipSlots) do
-				local itemRecord = _GameTableLogic.itemTable:GetRecord(slot.itemId)
+				local item = inventory:Get(slot.itemId)
+				if item == nil then
+					continue
+				end
+
+				local itemRecord = _GameTableLogic.itemTable:GetRecord(item.index)
 				if itemRecord == nil then
 					continue
 				end

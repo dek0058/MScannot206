@@ -159,7 +159,7 @@ script CharacterLogic extends Logic
 			return err
 		end
 
-		character:EquipSlot(itemRecord.Category, item.index)
+		character:EquipSlot(itemRecord.Category, item.id)
 		userStorageCom:SetCharacter(character)
 
 		return err

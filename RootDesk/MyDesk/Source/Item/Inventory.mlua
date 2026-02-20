@@ -5,6 +5,9 @@ script Inventory
 	---@description "인벤토리에 담긴 아이템 정보 리스트"
 	property table<ItemEntity> items = {}
 	
+	---@description "인벤토리에 담긴 아이템 정보를 아이템 ID로 빠르게 조회할 수 있는 맵입니다"
+	property table<string, ItemEntity> itemMap = {}
+	
 	---@description "인벤토리에 아이템을 추가하는 메서드입니다. 동일한 아이템이 존재할 경우 개수를 합칩니다"
 	---@param item ItemEntity "추가할 아이템 정보"
 	method void AddItem(ItemEntity item)
@@ -16,17 +19,11 @@ script Inventory
 		end
 
 		self.items[#self.items + 1] = item
+		self.itemMap[item.id] = item
 	end
 
-	---@description "인벤토리에서 아이템을 제거하는 메서드입니다. 동일한 아이템이 존재할 경우 개수를 감소시킵니다"
-	---@param item ItemEntity "제거할 아이템 정보"
-	method void RemoveItem(ItemEntity item)
-		for i, v in ipairs(self.items) do
-			if item:IsSameItem(v) then
-				v.count = v.count - item.count
-				return
-			end
-		end
+	method ItemEntity Get(string itemId)
+		return self.itemMap[itemId]
 	end
 
 	---@description "인벤토리를 테이블 형태로 변환하는 메서드입니다"
@@ -44,13 +41,13 @@ script Inventory
 	---@param content table "인벤토리 정보를 담은 테이블입니다"
 	---@return Inventory "테이블에서 변환된 인벤토리 구조체입니다"
 	method Inventory FromTable(table content)
-		local inventory = Inventory()
 		if content["items"] ~= nil then
 			for i, v in ipairs(content["items"]) do
-				inventory.items[i] = ItemEntity():FromTable(v)
+				self.items[i] = ItemEntity():FromTable(v)
+				self.itemMap[self.items[i].id] = self.items[i]
 			end
 		end
-		return inventory
+		return self
 	end
 
 end
