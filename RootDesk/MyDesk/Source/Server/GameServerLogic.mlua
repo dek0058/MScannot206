@@ -200,23 +200,15 @@ script GameServerLogic extends Logic
 		
 		callback()
 	end
-	
-	---@description "유저가 다른 맵으로 이동을 요청 합니다."
+
+	---@description "유저가 맵에서 퇴장시 이벤트를 처리합니다."
 	@ExecSpace("Server")
-	method void RequestTeleportToMap(string uid, Entity mapEntity, table params)
+	method void LeaveMap(string uid, string mapName)
 		if uid ~= senderUserId then
 			return
 		end
 
-		if mapEntity == nil then
-			return
-		end
-		
-		local e = TeleportToMapEvent()
-		e.uid = uid
-		e.params = params
-		
-		mapEntity:SendEvent(e)
+		_UserProxy:SendEventToLocalPlayer(MapLeaveEvent(), uid)
 	end
 	
 	---@description "유저를 특정 맵으로 이동시킵니다."

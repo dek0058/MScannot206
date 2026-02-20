@@ -19,7 +19,8 @@
       "Id": "defaultplayer",
       "Components": [
         "script.UserLocalPlayerComponent",
-        "script.UserStorageComponent"
+        "script.UserStorageComponent",
+        "script.UserCharacterComponent"
       ],
       "Properties": [],
       "Values": [

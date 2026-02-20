@@ -39,7 +39,8 @@ script CharacterDeleteComponent extends Component
 		self.isRequesting = false
 		
 		if self.TextEntity ~= nil then
-			local msg = _LocalizationService:GetTextFormat("cs_dc_msg", char.name)
+			local src = _LocalizationService:GetText("cs_dc_msg")
+			local msg = _LocalizationService:SmartFormat(src, char.name, 7)
 			self.TextEntity.TextComponent.Text = msg
 		end
 		

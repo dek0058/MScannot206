@@ -95,4 +95,28 @@ script UserProxy extends Logic
 		return userStorageCom
 	end
 
+	---@description "로컬플레이어 Entity의 UserCharacterComponent를 반환 합니다"
+	@ExecSpace("ClientOnly")
+	method UserCharacterComponent GetUserCharacterComponentByClient()
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return nil
+		end
+		---@type UserCharacterComponent
+		local userCharacterCom = localPlayer:GetComponent(UserCharacterComponent)
+		return userCharacterCom
+	end
+
+	---@description "특정 플레이어 Entity의 UserCharacterComponent를 반환 합니다"
+	@ExecSpace("ServerOnly")
+	method UserCharacterComponent GetUserCharacterComponentByServer(string uid)
+		local entity = _UserService:GetUserEntityByUserId(uid)
+		if entity == nil then
+			return nil
+		end
+		---@type UserCharacterComponent
+		local userCharacterCom = entity:GetComponent(UserCharacterComponent)
+		return userCharacterCom
+	end
+
 end
