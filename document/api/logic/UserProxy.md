@@ -22,7 +22,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToLocalPlayer</span>(<span style="color: #3167ad;">EventType</span> e) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToLocalPlayer</span>(<a href="../event/TemplateEventType.md" style="text-decoration: none; color: #3167ad;">TemplateEventType</a> e) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
@@ -42,7 +42,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToSpecificPlayer</span>(<span style="color: #3167ad;">EventType</span> e, <span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToSpecificPlayer</span>(<a href="../event/TemplateEventType.md" style="text-decoration: none; color: #3167ad;">TemplateEventType</a> e, <span style="color: #3167ad;">string</span> uid) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
@@ -68,7 +68,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToPlayer</span>(<span style="color: #3167ad;">EventType</span> e, <span style="color: #3167ad;">string</span> uid)
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SendEventToPlayer</span>(<a href="../event/TemplateEventType.md" style="text-decoration: none; color: #3167ad;">TemplateEventType</a> e, <span style="color: #3167ad;">string</span> uid)
             </td>
         </tr>
         <tr>

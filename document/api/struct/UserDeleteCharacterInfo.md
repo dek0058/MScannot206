@@ -12,7 +12,12 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">ToJson</span>()
+                <span style="color: #3167ad;">table</span> <span style="font-weight: bold;">ToTable</span>()
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                구조체를 테이블로 변환 합니다
             </td>
         </tr>
     </tbody>

@@ -12,7 +12,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">LoginResponse</span> <span style="font-weight: bold;">FromJson</span>(<span style="color: #3167ad;">string</span> json)
+                <span style="color: #3167ad;">LoginResponse</span> <span style="font-weight: bold;">FromTable</span>(<span style="color: #3167ad;">table</span> content)
             </td>
         </tr>
     </tbody>

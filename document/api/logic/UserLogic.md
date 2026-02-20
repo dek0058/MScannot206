@@ -62,7 +62,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleUserLeaveEvent</span>(<span style="color: #3167ad;">UserLeaveEvent</span> e) <img src="https://img.shields.io/badge/Service-f38181" alt="Service" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleUserLeaveEvent</span>(<span style="color: #3167ad;">UserLeaveEvent</span> e) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;"> <img src="https://img.shields.io/badge/Service-f38181" alt="Service" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr><td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;"><strong>Service:</strong> UserService</td></tr>
