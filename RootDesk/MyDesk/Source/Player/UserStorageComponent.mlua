@@ -25,11 +25,14 @@ script UserStorageComponent extends Component
 	end
 	
 	@ExecSpace("Multicast")
-	method void SetCharacters(table<integer, Character> characters)
-		self.characters = characters
+	method void SetCharacters(table<Character> characters)
+		self.characters = {}
+		for _, ch in ipairs(characters) do
+			self.characters[ch.slot] = ch
+		end
 		
 		if self:IsServer() then
-			for slot, character in pairs(characters) do
+			for slot, character in pairs(self.characters) do
 				local request = UserDBRequest()
 				request.key = _CharacterLogic:GetCharacterStorageKey(slot)
 				request.tag = _CharacterLogic.Key_Character
@@ -72,7 +75,7 @@ script UserStorageComponent extends Component
 		self.characterInventories = characterInventories
 
 		if self:IsServer() then
-			for slot, inventory in pairs(characterInventories) do
+			for slot, inventory in pairs(self.characterInventories) do
 				local request = UserDBRequest()
 				request.key = _InventoryLogic:GetCharacterInventoryKey(slot)
 				request.tag = _InventoryLogic.Key_CharacterInventory
