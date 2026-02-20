@@ -1,5 +1,28 @@
+---@description "게임 플레이와 관련된 로직을 처리하는 로직입니다"
 @Logic
 script GameplayLogic extends Logic
 
+	---@description "게임 플레이를 요청 합니다"
+	---@param uid string "요청한 유저 ID"
+	---@param slot integer "선택한 캐릭터 슬롯 번호"
+	@ExecSpace("Server")
+	method void RequestGameStart(string uid, integer slot)
+		if uid ~= senderUserId then
+			return
+		end
+		
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(uid)
+		if userStorageCom == nil then
+			return
+		end
+		
+		if not userStorageCom:IsExistCharacterSlot(slot) then
+			return
+		end
+
+		userStorageCom:SetGameplayCharacterSlot(slot)
+		_TransitionLogic:Dissolve(uid)
+		_GameServerLogic:TeleportToMapForUser(uid, "GameplayMap")
+	end
 
 end
