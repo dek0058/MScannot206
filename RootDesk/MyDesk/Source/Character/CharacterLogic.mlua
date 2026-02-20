@@ -644,6 +644,11 @@ script CharacterLogic extends Logic
 					end
 				end
 
+				local userStorageCom = _UserProxy:GetUserStorageComponentByServer(r.uid)
+				if userStorageCom ~= nil then
+					userStorageCom:RemoveCharacter(r.slot)
+				end
+
 				local e = DeleteCharacterEvent()
 				e.slot = r.slot
 				_UserProxy:SendEventToPlayer(e, r.uid)
