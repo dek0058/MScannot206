@@ -4,6 +4,7 @@ script CreateCharacterSubWeaponRecord
 
 	property string Index = ""
 	property string Name = ""
+	property string SubType = ""
 	property number MaleProb = 0.0
 	property number FemaleProb = 0.0
 

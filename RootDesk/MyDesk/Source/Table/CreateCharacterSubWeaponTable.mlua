@@ -14,6 +14,7 @@ script CreateCharacterSubWeaponTable
 			local cell = ""
 			record.Index = userDataset:GetCell(row, "Index")
 			record.Name = userDataset:GetCell(row, "Name")
+			record.SubType = userDataset:GetCell(row, "SubType")
 			cell = userDataset:GetCell(row, "MaleProb")
 			record.MaleProb = tonumber(cell) or 0.0
 			cell = userDataset:GetCell(row, "FemaleProb")

@@ -1,50 +1,77 @@
+---@description "캐릭터 관련 상수와 함수를 정의하는 클래스입니다"
 @Logic
 script CharacterDef extends Logic
 
+	---@description "성별 - 없음"
 	property integer GenderType_None = 0
 
+	---@description "성별 - 남성"
 	property integer GenderType_Male = 1
 
+	---@description "성별 - 여성"
 	property integer GenderType_Female = 2
 
-	property integer CharacterEquipCount = 17
+	---@description "캐릭터 장비 타입 개수"
+	property integer CharacterEquipCount = 18
 
+	---@description "캐릭터가 장착 할 수 있는 장비 슬롯 개수"
 	property integer CharacterEquipSlotCount = 15
 
+	---@description "캐릭터 장비 타입 - 없음"
 	property string CharacterEquipType_None = "none"
 
+	---@description "캐릭터 장비 타입 - 헤어"
 	property string CharacterEquipType_Hair = "hair"
 
+	---@description "캐릭터 장비 타입 - 얼굴"
 	property string CharacterEquipType_Face = "face"
 
+	---@description "캐릭터 장비 타입 - 모자"
 	property string CharacterEquipType_Cap = "cap"
 
+	---@description "캐릭터 장비 타입 - 망토"
 	property string CharacterEquipType_Cape = "cape"
 
+	---@description "캐릭터 장비 타입 - 상의"
 	property string CharacterEquipType_Coat = "coat"
 
+	---@description "캐릭터 장비 타입 - 장갑"
 	property string CharacterEquipType_Glove = "glove"
 
+	---@description "캐릭터 장비 타입 - 한벌 옷"
 	property string CharacterEquipType_LongCoat = "longcoat"
 
+	---@description "캐릭터 장비 타입 - 하의"
 	property string CharacterEquipType_Pants = "pants"
 
+	---@description "캐릭터 장비 타입 - 신발"
 	property string CharacterEquipType_Shoes = "shoes"
 
+	---@description "캐릭터 장비 타입 - 얼굴 액세서리"
 	property string CharacterEquipType_FaceAccessory = "faceaccessory"
 
+	---@description "캐릭터 장비 타입 - 눈 액세서리"
 	property string CharacterEquipType_EyeAccessory = "eyeaccessory"
 
+	---@description "캐릭터 장비 타입 - 귀 액세서리"
 	property string CharacterEquipType_EarAccessory = "earaccessory"
 
+	---@description "캐릭터 장비 타입 - 한손 무기"
 	property string CharacterEquipType_1HWeapon = "onehandedweapon"
 
+	---@description "캐릭터 장비 타입 - 양손 무기"
 	property string CharacterEquipType_2HWeapon = "twohandedweapon"
 
+	---@description "캐릭터 장비 타입 - 보조 무기"
 	property string CharacterEquipType_SubWeapon = "subweapon"
 
+	---@description "캐릭터 장비 타입 - 방패"
+	property string CharacterEquipType_Shield = "shield"
+
+	---@description "캐릭터 장비 타입 - 귀"
 	property string CharacterEquipType_Ear = "ear"
 
+	---@description "캐릭터 장비 타입 - 피부"
 	property string CharacterEquipType_Skin = "skin"
 
 	---@description "CharacterEquipType을 MapleAvatarItemCategory타입의 index로 변환하는 함수입니다"
@@ -69,6 +96,8 @@ script CharacterDef extends Logic
 			return 9
 		elseif equipType == self.CharacterEquipType_Pants then
 			return 10
+		elseif equipType == self.CharacterEquipType_Shield then
+			return 11
 		elseif equipType == self.CharacterEquipType_Shoes then
 			return 12
 		elseif equipType == self.CharacterEquipType_1HWeapon then

@@ -79,7 +79,7 @@ script CharacterAvatarLogic extends Logic
 						end
 						use1HWeapon = true
 					end
-					if slot.type == _CharacterDef.CharacterEquipType_SubWeapon then
+					if slot.type == _CharacterDef.CharacterEquipType_SubWeapon or slot.type == _CharacterDef.CharacterEquipType_Shield then
 						if use2HWeapon == true then
 							continue
 						end
