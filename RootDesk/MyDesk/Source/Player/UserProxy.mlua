@@ -12,6 +12,28 @@ script UserProxy extends Logic
 		return localPlayer.PlayerComponent.UserId
 	end
 
+	---@description "현재 로컬 플레이어가 있는 맵 Entity를 반환 합니다"
+	---@return Entity "현재 로컬 플레이어가 있는 맵 Entity"
+	@ExecSpace("ClientOnly")
+	method Entity GetCurrentMap()
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return nil
+		end
+		return localPlayer.CurrentMap
+	end
+
+	---@description "현재 로컬 플레이어가 있는 맵 이름을 반환 합니다"
+	---@return string "현재 로컬 플레이어가 있는 맵 이름"
+	@ExecSpace("ClientOnly")
+	method string GetCurrentMapName()
+		local localPlayer = _UserService.LocalPlayer
+		if localPlayer == nil then
+			return ""
+		end
+		return localPlayer.CurrentMapName
+	end
+
 	---@description "로컬플레이어에게 이벤트를 전송합니다."
 	---@param e TemplateEventType "전송할 이벤트"
 	@ExecSpace("Client")

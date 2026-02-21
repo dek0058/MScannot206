@@ -31,18 +31,16 @@ script LoginMapComponent extends Component
 	end
 	
 	---@description "로그인 맵을 파괴합니다"
-	@ExecSpace("Server")
+	@ExecSpace("ServerOnly")
 	method void DestroyMap(string uid)
-		if uid ~= senderUserId then
-			return
-		end
-		
 		local mapName = "LoginMap"
 		local destroyedMapName = mapName .. uid
 		
-		local result = _DynamicMapService:DestroyDynamicMap(destroyedMapName)
-		if result == false then
-			log_error("로그인 맵 파괴에 실패했습니다: " .. destroyedMapName)
+		local err = _GameServerLogic:DestroyDynamicMap(destroyedMapName)
+		if err:IsError() then
+			err:PrintErrors()
+			_GameServerLogic:KickByServer(uid, "로그인 맵 파괴에 실패했습니다", "WorldError")
+			return
 		end
 	end
 	
@@ -236,13 +234,6 @@ script LoginMapComponent extends Component
 		end
 	end
 	
-	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
-	@ExecSpace("ServerOnly")
-	@EventSender("Service", "UserService")
-	handler HandleUserLeaveEvent(UserLeaveEvent e)
-		self:DestroyMap(e.UserId)
-	end
-	
 	---@description "맵 입장 이벤트를 처리합니다"
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
@@ -252,11 +243,18 @@ script LoginMapComponent extends Component
 		_TransitionLogic:Pop()
 	end
 
+	---@description "유저가 맵을 떠날 때 해당 맵을 파괴합니다"
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent e)
+		self:DestroyMap(e.UserId)
+	end
+
 	---@description "맵 퇴장 이벤트를 처리합니다"
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
 	handler HandleMapLeaveEvent(MapLeaveEvent e)
-		self:DestroyMap(_UserProxy:GetUid())
+		self:DestroyMap(e.uid)
 	end
 	
 	---@description "로그인 맵에 대한 이벤트를 처리 합니다"

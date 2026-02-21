@@ -11,14 +11,16 @@ script GameServerLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		-- 작업 큐: table
-		self._T["tasks"] = {}
+		self._T["Tasks"] = {}
 		
 		-- 작업 대기 카운트: table
-		self._T["waits"] = {}
+		self._T["Waits"] = {}
 		
 		-- 유저 맵 진입 기록: table<uid, string>
-		self._T["userEnteredMaps"] = {}
+		self._T["UserEnteredMaps"] = {}
 		
+		self._T["DynamicMapNames"] = {}
+
 		self:OnInit()
 	end
 	
@@ -107,10 +109,10 @@ script GameServerLogic extends Logic
 		end
 		
 		---@type table
-		local tasks = self._T["tasks"]
+		local tasks = self._T["Tasks"]
 		
 		---@type table
-		local waits = self._T["waits"]
+		local waits = self._T["Waits"]
 		
 		---@type string
 		local eventType = task["event"]
@@ -135,10 +137,10 @@ script GameServerLogic extends Logic
 		end
 		
 		---@type table
-		local tasks = self._T["tasks"]
+		local tasks = self._T["Tasks"]
 		
 		---@type table
-		local waits = self._T["waits"]
+		local waits = self._T["Waits"]
 		
 		if tasks[eventType] == nil then
 			return {}
@@ -169,7 +171,7 @@ script GameServerLogic extends Logic
 		end
 
 		---@type table<string, string>
-		local userEnteredMaps = self._T["userEnteredMaps"]
+		local userEnteredMaps = self._T["UserEnteredMaps"]
 		if userEnteredMaps ~= nil then
 			-- 이미 같은 맵에 진입한 경우 무시
 			if userEnteredMaps[uid] == mapName then
@@ -180,7 +182,7 @@ script GameServerLogic extends Logic
 		userPlayerCom:SetEnable(false)
 
 		---@type table
-		local waits = self._T["waits"]
+		local waits = self._T["Waits"]
 		
 		local callback = function()
 			_UserProxy:SendEventToLocalPlayer(MapEnterEvent(), uid)
@@ -208,7 +210,14 @@ script GameServerLogic extends Logic
 			return
 		end
 
-		_UserProxy:SendEventToLocalPlayer(MapLeaveEvent(), uid)
+		local mapEntity = _EntityService:GetEntityByPath("/maps/" .. mapName)
+		if mapEntity ~= nil then
+			local e = MapLeaveEvent()
+			e.mapName = mapName
+			e.uid = uid
+			mapEntity:SendEvent(e)
+		end
+		
 	end
 	
 	---@description "유저를 특정 맵으로 이동시킵니다."
@@ -251,7 +260,7 @@ script GameServerLogic extends Logic
 		end
 		
 		---@type table<string, string>
-		local userEnteredMaps = self._T["userEnteredMaps"]
+		local userEnteredMaps = self._T["UserEnteredMaps"]
 		
 		---@type UserWarpRecord
 		local warpRecord = UserWarpRecord()
@@ -268,12 +277,59 @@ script GameServerLogic extends Logic
 			end
 		)
 	end
+
+	---@description "동적 맵을 생성합니다"
+	---@param srcMapName string "생성 할 기반이 될 맵 이름"
+	---@param createMapName string "생성 될 맵 이름"
+	---@return ErrorType "맵 생성 결과를 반환합니다. 성공 시 에러가 없습니다"
+	@ExecSpace("ServerOnly")
+	method ErrorType CreateDynamicMap(string srcMapName, string createMapName)
+		local err = ErrorType()
+
+		local result = _DynamicMapService:CreateDynamicMap(srcMapName, createMapName)
+		if result ~= DynamicMapResultCode.Success then
+			err:AddError("동적 맵 생성에 실패했습니다. [srcMapName:" .. srcMapName .. "][createMapName:" .. createMapName .. "][errorCode:" .. tostring(result) .. "]")
+			return err
+		end
+		
+		local dynamicMapNames = self._T["DynamicMapNames"]
+		dynamicMapNames[createMapName] = true
+		
+		return err
+	end
+
+	---@description "동적 맵을 파괴합니다"
+	---@param mapName string "파괴할 맵 이름"
+	---@return ErrorType "맵 파괴 결과를 반환합니다. 성공 시 에러가 없습니다"
+	@ExecSpace("ServerOnly")
+	method ErrorType DestroyDynamicMap(string mapName)
+		local err = ErrorType()
+		local result = _DynamicMapService:DestroyDynamicMap(mapName)
+		if result ~= DynamicMapResultCode.Success then
+			err:AddError("동적 맵 파괴에 실패했습니다. [mapName:" .. mapName .. "][errorCode:" .. tostring(result) .. "]")
+			return err
+		end
+		
+		local dynamicMapNames = self._T["DynamicMapNames"]
+		dynamicMapNames[mapName] = nil
+
+		return err
+	end
+
+	---@description "동적 맵이 존재하는지 확인합니다"
+	---@param mapName string "확인할 맵 이름"
+	---@return boolean "동적 맵 존재 여부를 반환합니다"
+	@ExecSpace("ServerOnly")
+	method boolean IsExistsDynamicMap(string mapName)
+		local dynamicMapNames = self._T["DynamicMapNames"]
+		return dynamicMapNames[mapName] == true
+	end
 	
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
 		---@type table<string, string>
-		local userEnteredMaps = self._T["userEnteredMaps"]
+		local userEnteredMaps = self._T["UserEnteredMaps"]
 		
 		if userEnteredMaps[e.UserId] ~= nil then
 			userEnteredMaps[e.UserId] = nil

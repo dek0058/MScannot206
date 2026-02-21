@@ -8,15 +8,15 @@ script StartupMapComponent extends Component
 		local loginMapName = "LoginMap"
 		local createMapName = loginMapName .. uid
 
-		local result = _DynamicMapService:CreateDynamicMap(loginMapName, createMapName)
-		if result ~= DynamicMapResultCode.Success then
-			if result ~= DynamicMapResultCode.DuplicateMapName then
-				local msg = "로그인 맵 생성에 실패했습니다. [uid:" .. uid .. "][mapName:" .. loginMapName .. "][errorCode:" .. tostring(result) .. "]"
-				_GameServerLogic:KickByServer(uid, msg, "WorldError")
+		if not _GameServerLogic:IsExistsDynamicMap(createMapName) then
+			local err = _GameServerLogic:CreateDynamicMap(loginMapName, createMapName)
+			if err:IsError() then
+				err:PrintErrors()
+				_GameServerLogic:KickByServer(uid, "로그인 맵 생성에 실패했습니다", "WorldError")
 				return
 			end
 		end
-
+ 
 		_GameServerLogic:TeleportToMapForUser(uid, createMapName)
 	end
 
