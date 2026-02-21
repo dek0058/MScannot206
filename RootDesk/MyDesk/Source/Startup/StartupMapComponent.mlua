@@ -27,12 +27,8 @@ script StartupMapComponent extends Component
 	end
 
 	---@description "유저의 상태에 따라 적절한 맵으로 진입을 처리합니다."
-	@ExecSpace("Server")
+	@ExecSpace("ServerOnly")
 	method void OnProcess(string uid)
-		if uid ~= senderUserId then
-			return
-		end
-
 		---@type UserWarpRecord
 		local warpRecord = _UserLogic.userWarpRecords[uid]
 		if warpRecord == nil then
@@ -47,9 +43,10 @@ script StartupMapComponent extends Component
 		end
 	end
 
-	@EventSender("LocalPlayer")
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
 	handler HandleMapEnterEvent(MapEnterEvent e)
-		self:OnProcess(_UserProxy:GetUid())
+		self:OnProcess(e.uid)
 	end
 
 end

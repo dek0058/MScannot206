@@ -185,7 +185,13 @@ script GameServerLogic extends Logic
 		local waits = self._T["Waits"]
 		
 		local callback = function()
-			_UserProxy:SendEventToLocalPlayer(MapEnterEvent(), uid)
+			local mapEntity = _EntityService:GetEntityByPath("/maps/" .. mapName)
+			if mapEntity ~= nil then
+				local e = MapEnterEvent()
+				e.mapName = mapName
+				e.uid = uid
+				mapEntity:SendEvent(e)
+			end
 		end
 		
 		if waits["EnterMap"] ~= nil then

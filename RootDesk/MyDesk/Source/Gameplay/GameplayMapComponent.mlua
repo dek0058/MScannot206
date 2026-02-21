@@ -6,21 +6,17 @@ script GameplayMapComponent extends Component
 		local gameplayEntity = _EntityService:GetEntityByPath("/ui/Gameplay")
 	end
 
-	@ExecSpace("Server")
+	@ExecSpace("ServerOnly")
 	method void Setup(string uid)
-		if uid ~= senderUserId then
-			return
-		end
-
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
 		if userLocalPlayerCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 
 		local userCharacterCom = _UserProxy:GetUserCharacterComponentByServer(uid)
 		if userCharacterCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "유저 캐릭터 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 캐릭터 컴포넌트를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 
@@ -28,13 +24,11 @@ script GameplayMapComponent extends Component
 		userLocalPlayerCom:SetEnable(true)
 	end
 
-	@ExecSpace("ClientOnly")
-	@EventSender("LocalPlayer")
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
 	handler HandleMapEnterEvent(MapEnterEvent e)
-		_TransitionLogic:Pop()
-		
-		self:Setup(_UserProxy:GetUid())
-		-- _UserProxy:SetEnableCharacter(_UserProxy:GetUid(), true)
+		_TransitionLogic:Pop(e.uid)
+		self:Setup(e.uid)
 	end
 
 end

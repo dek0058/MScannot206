@@ -1,4 +1,11 @@
+---@description "맵 입장 이벤트입니다"
 @Event
 script MapEnterEvent extends TemplateEventType
+
+	---@description "입장한 맵 이름입니다"
+	property string mapName = ""
+
+	---@description "맵에 입장한 유저의 UID입니다"
+	property string uid = ""
 
 end
