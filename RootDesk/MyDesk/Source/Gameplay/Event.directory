@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://f9982d56976245569e3ba7e87113cf45",
+  "EntryKey": "directory://e8425f7d7f23406c8159246f9c38db41",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,7 +13,7 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://f9982d56976245569e3ba7e87113cf45",
+      "entry_id": "directory://e8425f7d7f23406c8159246f9c38db41",
       "name": "Event",
       "lock": false,
       "folding": false,
