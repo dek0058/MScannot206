@@ -1,4 +1,19 @@
 @Component
 script RequestHomeEventComponent extends Component
 
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["ButtonClickEvent"] = self.Entity:ConnectEvent(ButtonClickEvent, function(e)
+			_UserService.LocalPlayer:SendEvent(RequestHomeEvent())	
+		end)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["ButtonClickEvent"] then
+			self.Entity:DisconnectEvent(ButtonClickEvent, self._T["ButtonClickEvent"])
+			self._T["ButtonClickEvent"] = nil
+		end
+	end
+
 end

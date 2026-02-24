@@ -1,11 +1,20 @@
+---@description "선택 된 캐릭터로 게임 시작 요청 이벤트 컴포넌트"
 @Component
 script RequestCharacterGameStartEventComponent extends Component
 
 	@ExecSpace("ClientOnly")
-	@EventSender("Entity", "86fb983c-6c1e-4b63-9b9a-8f7e07fd060c")
-	handler HandleButtonClickEvent(ButtonClickEvent event)
-		local e = RequestCharacterGameStartEvent()
-		_UserService.LocalPlayer:SendEvent(e)		
+	method void OnBeginPlay()
+		self._T["ButtonClickEvent"] = self.Entity:ConnectEvent(ButtonClickEvent, function(e)
+			_UserService.LocalPlayer:SendEvent(RequestCharacterGameStartEvent())	
+		end)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["ButtonClickEvent"] then
+			self.Entity:DisconnectEvent(ButtonClickEvent, self._T["ButtonClickEvent"])
+			self._T["ButtonClickEvent"] = nil
+		end
 	end
 
 end

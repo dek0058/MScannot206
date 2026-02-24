@@ -11,16 +11,16 @@ script ModalYesOrNoComponent extends Component
 	method void OnBeginPlay()
 		if self.YesBtn ~= nil then
 			self._T["YesHandler"] = self.YesBtn:ConnectEvent(ButtonClickEvent, function()
-				if self._T["yes"] ~= nil then
-					self._T["yes"]()
+				if self._T["Yes"] ~= nil then
+					self._T["Yes"](self)
 				end
 			end)
 		end
 		
 		if self.NoBtn ~= nil then
 			self._T["NoHandler"] = self.NoBtn:ConnectEvent(ButtonClickEvent, function()
-				if self._T["no"] ~= nil then
-					self._T["no"]()
+				if self._T["No"] ~= nil then
+					self._T["No"](self)
 				end
 			end)
 		end
@@ -39,6 +39,9 @@ script ModalYesOrNoComponent extends Component
 		end
 	end
 
+	---@description "모달 창을 설정합니다"
+	---@param msg string "모달에 표시할 메시지"
+	---@param callback table "모달의 버튼 클릭 콜백 함수 테이블 형식: {Yes = function(){}, No = function(){}}"
 	@ExecSpace("ClientOnly")
 	method void Setup(string msg, table callback)
 		if self.MsgTxt ~= nil then
@@ -50,8 +53,8 @@ script ModalYesOrNoComponent extends Component
 		end
 		
 		if callback ~= nil then
-			self._T["yes"] = callback["yes"]
-			self._T["no"] = callback["no"]
+			self._T["Yes"] = callback["Yes"]
+			self._T["No"] = callback["No"]
 		end
 	end
 

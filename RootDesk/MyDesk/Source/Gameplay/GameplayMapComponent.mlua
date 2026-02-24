@@ -31,4 +31,11 @@ script GameplayMapComponent extends Component
 		self:Setup(e.uid)
 	end
 
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleMapLeaveEvent(MapLeaveEvent e)
+		-- _TransitionLogic:Push(_TransitionLogic.Default, e.uid)
+		_GameplayLogic:Finalize(e.uid)
+	end
+
 end

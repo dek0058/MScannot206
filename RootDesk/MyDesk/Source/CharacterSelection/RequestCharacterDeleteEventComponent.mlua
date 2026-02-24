@@ -1,11 +1,20 @@
+---@description "선택 된 캐릭터 삭제 요청 이벤트 컴포넌트"
 @Component
 script RequestCharacterDeleteEventComponent extends Component
 
 	@ExecSpace("ClientOnly")
-	@EventSender("Entity", "62c88678-bf62-4a84-b3a4-47bfe81d9595")
-	handler HandleButtonClickEvent(ButtonClickEvent event)
-		local e = RequestCharacterDeleteEvent()
-		_UserService.LocalPlayer:SendEvent(e)		
+	method void OnBeginPlay()
+		self._T["ButtonClickEvent"] = self.Entity:ConnectEvent(ButtonClickEvent, function(e)
+			_UserService.LocalPlayer:SendEvent(RequestCharacterDeleteEvent())	
+		end)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["ButtonClickEvent"] then
+			self.Entity:DisconnectEvent(ButtonClickEvent, self._T["ButtonClickEvent"])
+			self._T["ButtonClickEvent"] = nil
+		end
 	end
 
 end

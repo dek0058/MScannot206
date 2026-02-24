@@ -12,8 +12,8 @@ script ModalComponent extends Component
 	method void OnBeginPlay()
 		if self.ConfirmBtn ~= nil then
 			self._T["ConfirmHandler"] = self.ConfirmBtn:ConnectEvent(ButtonClickEvent, function()
-				if self._T["OnConfirm"] ~= nil then
-					self._T["OnConfirm"]()
+				if self._T["Confirm"] ~= nil then
+					self._T["Confirm"](self)
 				end
 				self.Entity:Destroy()
 			end)
@@ -30,7 +30,7 @@ script ModalComponent extends Component
 	
 	---@description "모달 창을 설정합니다."
 	---@param msg string "표시할 메시지"
-	---@param callback table "확인 버튼 클릭 시 호출할 콜백 함수가 포함된 테이블. { callback = function() ... end } 형식이어야 합니다."
+	---@param callback table "확인 버튼 클릭 시 호출할 콜백 함수가 포함된 테이블. { Confirm = function() ... end } 형식이어야 합니다."
 	@ExecSpace("ClientOnly")
 	method void Setup(string msg, table callback)
 		if self.MsgTxt ~= nil then
@@ -42,7 +42,7 @@ script ModalComponent extends Component
 		end
 		
 		if callback ~= nil then
-			self._T["OnConfirm"] = callback["callback"]
+			self._T["Confirm"] = callback["Confirm"]
 		end
 	end
 	

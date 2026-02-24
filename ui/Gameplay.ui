@@ -1325,7 +1325,7 @@
       {
         "id": "c046c525-f39d-483e-a7ce-c747ba61e621",
         "path": "/ui/Gameplay/Menu/Btn_Home",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.RequestHomeEventComponent",
         "jsonString": {
           "name": "Btn_Home",
           "path": "/ui/Gameplay/Menu/Btn_Home",
@@ -1469,6 +1469,10 @@
               },
               "OverrideSorting": false,
               "Transition": 2,
+              "Enable": true
+            },
+            {
+              "@type": "script.RequestHomeEventComponent",
               "Enable": true
             }
           ],

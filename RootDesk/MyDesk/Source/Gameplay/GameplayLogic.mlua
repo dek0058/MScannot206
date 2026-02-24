@@ -25,4 +25,42 @@ script GameplayLogic extends Logic
 		_GameServerLogic:TeleportToMapForUser(uid, "GameplayMap")
 	end
 
+
+	---@description "게임플레이 맵에서의 메모리를 제거 합니다"
+	@ExecSpace("ServerOnly")
+	method void Finalize(string uid)
+		self:OnFinalize(uid)
+	end
+
+	@ExecSpace("Client")
+	method void OnFinalize()
+		if self._T["HomeModalComponent"] ~= nil then
+			---@type Component
+			local homeModalCom = self._T["HomeModalComponent"]
+			homeModalCom.Entity:Destroy()
+			self._T["HomeModalComponent"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleRequestHomeEvent(RequestHomeEvent e)
+		local homeModalCom = self._T["HomeModalComponent"]
+		if homeModalCom ~= nil then
+			return
+		end
+
+		local msg = _LocalizationService:GetText("gameplay_menu_btn_home")
+		local callback = {
+			["Yes"] = function(com)
+				_LoginLogic:RequestHome(_UserProxy:GetUid())
+				com.Entity:Destroy()
+			end,
+			["No"] = function(com)
+				com.Entity:Destroy()
+			end
+		}
+		self._T["HomeModalComponent"] = _GameClientUILogic:CreateModalYesOrNo(_GameClientUILogic.Modal_YesOrNo, msg, callback)
+	end
+
 end

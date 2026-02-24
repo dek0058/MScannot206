@@ -2,6 +2,25 @@
 script UserCharacterComponent extends Component
 
 	@ExecSpace("ServerOnly")
+	method void Reset()
+		local userPlayerCom = self.Entity.UserLocalPlayerComponent
+		if userPlayerCom == nil then
+			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+		
+		local costumeManagerCom = userPlayerCom:GetCostumeManagerComponent()
+		costumeManagerCom.UseCustomEquipOnly = false
+
+		for category = 1, 19 do
+			if category == 2 then
+				continue
+			end
+			costumeManagerCom:SetEquip(MapleAvatarItemCategory.CastFrom(category), "")
+		end
+	end
+
+	@ExecSpace("ServerOnly")
 	method void Setup()
 		local userStorageCom = self.Entity.UserStorageComponent
 		if userStorageCom == nil then

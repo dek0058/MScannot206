@@ -2,24 +2,6 @@
 @Component
 script StartupMapComponent extends Component
 
-	---@description "유저가 로그인 맵에 진입합니다."
-	@ExecSpace("ServerOnly")
-	method void JoinLoginMap(string uid)
-		local loginMapName = "LoginMap"
-		local createMapName = loginMapName .. uid
-
-		if not _GameServerLogic:IsExistsDynamicMap(createMapName) then
-			local err = _GameServerLogic:CreateDynamicMap(loginMapName, createMapName)
-			if err:IsError() then
-				err:PrintErrors()
-				_GameServerLogic:KickByServer(uid, "로그인 맵 생성에 실패했습니다", "WorldError")
-				return
-			end
-		end
- 
-		_GameServerLogic:TeleportToMapForUser(uid, createMapName)
-	end
-
 	---@description "유저가 워프 기록에 따라 맵에 진입합니다."
 	@ExecSpace("ServerOnly")
 	method void JoinWarpMap(string uid, UserWarpRecord warpRecord)
@@ -37,7 +19,7 @@ script StartupMapComponent extends Component
 		end
 
 		if _UtilLogic:IsNilorEmptyString(warpRecord.mapName) == true then
-			self:JoinLoginMap(uid)
+			_LoginLogic:TeleportToHome(uid)
 		else
 			self:JoinWarpMap(uid, warpRecord)
 		end

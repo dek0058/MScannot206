@@ -24,7 +24,32 @@ script ToastMessageComponent extends Component
 	property Vector2 DisappearPosition = Vector2(0, 150)
 
 	@ExecSpace("ClientOnly")
-	method void OnInitialize()
+	method void OnEndPlay()
+		if self._T["AppearTweener"] ~= nil then
+			self._T["AppearTweener"]:Stop()
+			self._T["AppearTweener"] = nil
+		end
+
+		if self._T["DisappearTweener"] ~= nil then
+			self._T["DisappearTweener"]:Stop()
+			self._T["DisappearTweener"] = nil
+		end
+	end
+
+	---@description "메세지를 설정하고 토스트 메시지를 표시합니다."
+	@ExecSpace("ClientOnly")
+	method void Setup(string msg)
+		if self.TextEntity == nil then
+			log_error("TextEntity가 설정되지 않았습니다.")
+			return
+		end
+		
+		if self.TextEntity.TextComponent ~= nil then
+			self.TextEntity.TextComponent.Text = msg
+		elseif self.TextEntity.TextGUIRendererComponent ~= nil then
+			self.TextEntity.TextGUIRendererComponent.Text = msg
+		end
+		
 		local appearTweener = _TweenLogic:MakeTween(
 			0.0,
 			1.0,
@@ -51,7 +76,7 @@ script ToastMessageComponent extends Component
 			local timerId = _TimerService:SetTimerOnce(function ()
 				local disappearTweener = self._T["DisappearTweener"]
 				if disappearTweener ~= nil then
-					disappearTweener:Play()
+					disappearTweener:Restart()
 				end
 			end, self.DisplayTime)
 		end)
@@ -84,25 +109,9 @@ script ToastMessageComponent extends Component
 		
 		self._T["AppearTweener"] = appearTweener
 		self._T["DisappearTweener"] = disappearTweener
-	end
 
-	---@description "메세지를 설정하고 토스트 메시지를 표시합니다."
-	@ExecSpace("ClientOnly")
-	method void Setup(string msg)
-		if self.TextEntity == nil then
-			log_error("TextEntity가 설정되지 않았습니다.")
-			return
-		end
-		
-		if self.TextEntity.TextComponent ~= nil then
-			self.TextEntity.TextComponent.Text = msg
-		elseif self.TextEntity.TextGUIRendererComponent ~= nil then
-			self.TextEntity.TextGUIRendererComponent.Text = msg
-		end
-		
-		local appearTweener = self._T["AppearTweener"]
 		if appearTweener ~= nil then
-			appearTweener:Play()
+			appearTweener:Restart()
 		end
 	end
 

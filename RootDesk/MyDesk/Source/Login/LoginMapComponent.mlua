@@ -52,6 +52,14 @@ script LoginMapComponent extends Component
 			_GameServerLogic:KickByServer(uid, "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
+
+		local userCharacterCom = _UserProxy:GetUserCharacterComponentByServer(uid)
+		if userCharacterCom == nil then
+			_GameServerLogic:KickByServer(uid, "유저 캐릭터 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
+		userCharacterCom:Reset()
 		
 		userLocalPlayerCom:SetEnable(true)
 		userLocalPlayerCom:SetLocation(self.StartLocation.StartLocationComponent:GetTeleportLocation())
@@ -87,11 +95,17 @@ script LoginMapComponent extends Component
 	
 	---@description "로비로 이동합니다"
 	@ExecSpace("Server")
-	method void SetLobby(string uid)
+	method void RequestSetLobby(string uid)
 		if uid ~= senderUserId then
 			return
 		end
-		
+
+		self:SetLobby(uid)
+	end
+
+	---@description "로비로 이동합니다"
+	@ExecSpace("ServerOnly")
+	method void SetLobby(string uid)
 		local err = ErrorType()
 		
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
@@ -123,7 +137,7 @@ script LoginMapComponent extends Component
 		-- 클라이언트 처리
 		self:OnLobby(uid)
 	end
-	
+
 	---@description "클라이언트에 대한 로비 처리함수 입니다"
 	@ExecSpace("Client")
 	method void OnLobby()
@@ -235,6 +249,9 @@ script LoginMapComponent extends Component
 	@EventSender("Self")
 	handler HandleMapEnterEvent(MapEnterEvent e)
 		self:SetOpening(e.uid)
+		if _UserLogic:IsUserExists(e.uid) == true then
+			self:SetLobby(e.uid)
+		end
 		wait(1.5)
 		_TransitionLogic:Pop(e.uid)
 	end
@@ -257,7 +274,7 @@ script LoginMapComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("LocalPlayer")
 	handler HandleLoginMapEvent(LoginMapEvent e)
-		self:SetLobby(_UserProxy:GetUid())
+		self:RequestSetLobby(_UserProxy:GetUid())
 	end
 	
 	---@description "캐릭터 슬롯 선택 이벤트를 처리합니다."
@@ -307,6 +324,7 @@ script LoginMapComponent extends Component
 			end
 		end
 
+		-- _TransitionLogic:Push(_TransitionLogic.Default)
 		_GameplayLogic:RequestGameStart(_UserProxy:GetUid(), selectedSlot)
 	end
 	

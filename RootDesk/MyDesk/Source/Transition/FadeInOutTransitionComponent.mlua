@@ -21,8 +21,32 @@ script FadeInOutTransitionComponent extends Component
 			err:PrintErrors()
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "FadeInOutTransitionComponent 초기화 중 오류 발생", "WorldError")
 			return
+		end	
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["FadeInTweener"] ~= nil then
+			self._T["FadeInTweener"]:Stop()
+			self._T["FadeInTweener"] = nil
 		end
 
+		if self._T["FadeOutTweener"] ~= nil then
+			self._T["FadeOutTweener"]:Stop()
+			self._T["FadeOutTweener"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleForceTransitionEvent(ForceTransitionEvent event)
+		self.Entity.CanvasGroupComponent.GroupAlpha = 1.0
+		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleStartTransitionEvent(StartTransitionEvent e)
 		local fadeInTweener = _TweenLogic:MakeTween(
 			0.0,
 			1.0,
@@ -33,8 +57,14 @@ script FadeInOutTransitionComponent extends Component
 			end)
 		fadeInTweener.LoopCount = 1
 		fadeInTweener.LoopType = TweenLoopType.Restart
+		fadeInTweener:Play()
 		self._T["FadeInTweener"] = fadeInTweener
+		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
+	end
 
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
 		local fadeOutTweener = _TweenLogic:MakeTween(
 			1.0,
 			0.0,
@@ -48,38 +78,8 @@ script FadeInOutTransitionComponent extends Component
 		fadeOutTweener:SetOnEndCallback(function()
 			self.Entity.SpriteGUIRendererComponent.RaycastTarget = false
 		end)
-		self._T["FadeOutTweener"] = fadeOutTweener
-			
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleForceTransitionEvent(ForceTransitionEvent event)
-		self.Entity.CanvasGroupComponent.GroupAlpha = 1.0
-		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleStartTransitionEvent(StartTransitionEvent e)
-		---@type Tweener
-		local fadeInTweener = self._T["FadeInTweener"]
-		if fadeInTweener == nil then
-			return
-		end
-		fadeInTweener:Play()
-		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
-	end
-
-	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
-		---@type Tweener
-		local fadeOutTweener = self._T["FadeOutTweener"]
-		if fadeOutTweener == nil then
-			return
-		end
 		fadeOutTweener:Play()
+		self._T["FadeOutTweener"] = fadeOutTweener
 	end
 
 end

@@ -16,23 +16,6 @@ script CharacterSelectionComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		local fadeInTween = _TweenLogic:MakeTween(
-			0.0,
-			1.0,
-			0.5,
-			EaseType.CubicEaseInOut,
-			function(value)
-				local canvasGroupCom = self.Entity.CanvasGroupComponent
-				if canvasGroupCom == nil then
-					return
-				end
-
-				canvasGroupCom.GroupAlpha = value
-			end)
-		fadeInTween.LoopCount = 1
-		fadeInTween.LoopType = TweenLoopType.Restart
-		self._T["FadeInTween"] = fadeInTween
-
 		if self.UserMenuComponent == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionUserMenuComponent를 찾지 못하였습니다", "WorldError")
 		end
@@ -52,8 +35,22 @@ script CharacterSelectionComponent extends Component
 		self.UserMenuComponent:Setup()
 
 		-- 연출
-		---@type Tweener
-		local fadeInTween = self._T["FadeInTween"]
+		local fadeInTween = _TweenLogic:MakeTween(
+			0.0,
+			1.0,
+			0.5,
+			EaseType.CubicEaseInOut,
+			function(value)
+				local canvasGroupCom = self.Entity.CanvasGroupComponent
+				if canvasGroupCom == nil then
+					return
+				end
+
+				canvasGroupCom.GroupAlpha = value
+			end)
+		fadeInTween.LoopCount = 1
+		fadeInTween.LoopType = TweenLoopType.Restart
+		self._T["FadeInTween"] = fadeInTween
 		if fadeInTween ~= nil then
 			local canvasGroupCom = self.Entity.CanvasGroupComponent
 			if canvasGroupCom.GroupAlpha ~= nil then
