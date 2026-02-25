@@ -1,0 +1,10 @@
+@Logic
+script GenderTypeDef extends Logic
+
+	property integer None = 0
+
+	property integer Male = 1
+
+	property integer Female = 2
+
+end

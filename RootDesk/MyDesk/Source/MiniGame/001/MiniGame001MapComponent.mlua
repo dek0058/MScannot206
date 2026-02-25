@@ -1,10 +1,6 @@
+---@description "미니게임 001번 맵 컴포넌트 입니다 (클릭커)"
 @Component
-script GameplayMapComponent extends Component
-
-	@ExecSpace("ClientOnly")
-	method void OnBeginPlay()
-		local gameplayEntity = _EntityService:GetEntityByPath("/ui/Gameplay")
-	end
+script MiniGame001MapComponent extends Component
 
 	@ExecSpace("ServerOnly")
 	method void Setup(string uid)
@@ -22,6 +18,9 @@ script GameplayMapComponent extends Component
 
 		userCharacterCom:Setup()
 		userLocalPlayerCom:SetEnable(true)
+
+		-- 로드 몬스터
+		_MiniGame001Logic:LoadMonster(uid)
 	end
 
 	@ExecSpace("ServerOnly")

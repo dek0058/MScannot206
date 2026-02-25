@@ -34,6 +34,19 @@ script Character
 		table.insert(self.equipSlots, newEquip)
 	end
 
+	---@description "캐릭터 장비 슬롯에서 장비 타입에 맞는 슬롯을 반환 합니다"
+	---@param equipSlotType string "해제할 장비 슬롯 타입"
+	---@return CharacterEquipSlotEntity "장비 슬롯 엔티티"
+	method CharacterEquipSlotEntity GetEquipSlot(string equipSlotType)
+		for _, equip in pairs(self.equipSlots) do
+			if _CharacterEquipSlotTypeDef:ToEquipSlotType(equip.type) == equipSlotType then
+				return equip
+			end
+		end
+
+		return nil
+	end
+
 	---@description "캐릭터 정보를 테이블로 변환하여 반환합니다."
 	---@return table "변환된 테이블 데이터"
 	method table ToTable()

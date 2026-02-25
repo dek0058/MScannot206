@@ -2,13 +2,19 @@
 script TransitionLogic extends Logic
 
 	---@description "기본 Transition 태그"
-	property string Default = "Default"
+	readonly property string Default = "Default"
 	
+	---@description "게임플레이 Transition 태그"
+	readonly property string Gameplay = "Gameplay"
+
+	---@description "홈 Transition 태그"
+	readonly property string Home = "Home"
+
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		_ScreenTransitionService:SetFadeInOutEnable(true)
-		_ScreenTransitionService:SetFadeInTime(1.0)
-		_ScreenTransitionService:SetFadeOutTime(1.0)
+		-- _ScreenTransitionService:SetFadeInOutEnable(true)
+		-- _ScreenTransitionService:SetFadeInTime(1.0)
+		-- _ScreenTransitionService:SetFadeOutTime(1.0)
 	end
 
 	@ExecSpace("Client")
@@ -28,7 +34,7 @@ script TransitionLogic extends Logic
 		end
 
 		for _, child in ipairs(parent.Children) do
-			child.Enable = false
+			child:SetEnable(false)
 		end
 	end
 
@@ -82,7 +88,7 @@ script TransitionLogic extends Logic
 			end
 		end
 		
-		transition.Enable = true
+		transition:SetEnable(true)
 		transition:SendEvent(ForceTransitionEvent())
 		
 		table.insert(self._T["transition"], transition)
@@ -139,7 +145,7 @@ script TransitionLogic extends Logic
 			end
 		end
 		
-		transition.Enable = true
+		transition:SetEnable(true)
 		transition:SendEvent(StartTransitionEvent())
 		
 		table.insert(self._T["transition"], transition)

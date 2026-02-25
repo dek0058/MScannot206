@@ -1,0 +1,58 @@
+@Logic
+script MiniGame001Logic extends Logic
+
+	property string Key_MiniGame001 = "minigame001"
+
+	property table monsters = {}
+
+	@ExecSpace("ServerOnly")
+	method void LoadMonster(string uid)
+		local user = _UserLogic:GetUser(uid)
+		if user == nil then
+			local e = MiniGame001LoadEvent()
+			e.errorCode = _ErrorLogic.MINIGAME001_NEED_LOGIN_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+		
+		local userStorageData = _DataStorageService:GetUserDataStorage(uid)
+		if userStorageData == nil then
+			local e = MiniGame001LoadEvent()
+			e.errorCode = _ErrorLogic.MINIGAME001_UNKNOWN_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+		
+		local errorCode, json = userStorageData:GetAndWait(self.Key_MiniGame001)
+		if errorCode ~= 0 then
+			log_warning("미니게임 001번 데이터를 불러오는 중 오류가 발생했습니다. errorCode: " .. errorCode)
+			local e = MiniGame001LoadEvent()
+			e.errorCode = _ErrorLogic.MINIGAME001_DB_LOAD_ERROR
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+		
+		if _UtilLogic:IsNilorEmptyString(json) then
+			local newMonster = self:NewMonster(uid)
+			self.monsters[uid] = newMonster
+		
+			local e = MiniGame001LoadEvent()
+			e.clickerMonster = newMonster
+			_UserProxy:SendEventToLocalPlayer(e, uid)
+			return
+		end
+		
+		local data = _HttpService:JSONDecode(json)
+		local monster = ClickerMonster():FromTable(data)
+		self.monsters[uid] = monster
+		local e = MiniGame001LoadEvent()
+		e.clickerMonster = monster
+		_UserProxy:SendEventToLocalPlayer(e, uid)
+	end
+
+	@ExecSpace("ServerOnly")
+	method ClickerMonster NewMonster(string uid)
+		return nil
+	end
+
+end

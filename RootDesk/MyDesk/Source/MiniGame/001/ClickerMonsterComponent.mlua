@@ -1,0 +1,39 @@
+@Component
+script ClickerMonsterComponent extends Component
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		-- self:SetEnable(false)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetEnable(boolean enable)
+		if self.Entity.SpriteRendererComponent ~= nil then
+			self.Entity.SpriteRendererComponent.Enable = enable
+		end
+		
+		if self.Entity.EntityTriggerComponent ~= nil then
+			self.Entity.EntityTriggerComponent.Enable = enable
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void Setup(string uid)
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleEntityTriggerPressEvent(EntityTriggerPressEvent e)
+		log("클릭함")
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleEntityTriggerReleaseEvent(EntityTriggerReleaseEvent e)
+		local eff = _SpawnService:SpawnByModelId("9c1e58d3-91af-449a-8168-c9af3e6f2ce6", "hitEff", Vector3(e.worldPosition.x, e.worldPosition.y, 999), _UserProxy:GetCurrentMap())
+		eff.SpriteRendererComponent.SortingLayer = self.Entity.SpriteRendererComponent.SortingLayer
+		eff.SpriteRendererComponent.OrderInLayer = self.Entity.SpriteRendererComponent.OrderInLayer + 1
+	end
+
+end

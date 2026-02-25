@@ -102,6 +102,16 @@ script ErrorLogic extends Logic
 	---@description "캐릭터 삭제 중 데이터베이스 쓰기 오류가 발생했습니다"
 	readonly property string USER_DELETE_CHARACTER_DB_WRITE_ERROR = "USER_DELETE_CHARACTER_DB_WRITE_ERROR"
 
+	-- MiniGame001
+	---@description "알 수 없는 오류가 발생했습니다"
+	readonly property string MINIGAME001_UNKNOWN_ERROR = "MINIGAME001_UNKNOWN_ERROR"
+
+	---@description "게임을 로드 하기 위해서는 로그인이 필요합니다"
+	readonly property string MINIGAME001_NEED_LOGIN_ERROR = "MINIGAME001_NEED_LOGIN_ERROR"
+
+	---@description "DB를 불러오는 중 오류가 발생했습니다"
+	readonly property string MINIGAME001_DB_LOAD_ERROR = "MINIGAME001_DB_LOAD_ERROR"
+
 	method void OnBeginPlay()
 
 		-- Core
@@ -148,6 +158,11 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.USER_DELETE_CHARACTER_USER_NOT_FOUND] = self.USER_DELETE_CHARACTER_USER_NOT_FOUND
 		self.errorCodes[self.USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR] = self.USER_DELETE_CHARACTER_SLOT_NOT_FOUND_ERROR
 		self.errorCodes[self.USER_DELETE_CHARACTER_DB_WRITE_ERROR] = self.USER_DELETE_CHARACTER_DB_WRITE_ERROR
+
+		-- MiniGame001
+		self.errorCodes[self.MINIGAME001_UNKNOWN_ERROR] = self.MINIGAME001_UNKNOWN_ERROR
+		self.errorCodes[self.MINIGAME001_NEED_LOGIN_ERROR] = self.MINIGAME001_NEED_LOGIN_ERROR
+		self.errorCodes[self.MINIGAME001_DB_LOAD_ERROR] = self.MINIGAME001_DB_LOAD_ERROR
 	end
 
 	---@description "오류를 클라이언트에 표시합니다."

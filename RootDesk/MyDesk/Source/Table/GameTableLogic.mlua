@@ -10,6 +10,10 @@ script GameTableLogic extends Logic
 	---@type CharacterEquipItemTable
 	property any characterEquipItemTable = CharacterEquipItemTable()
 
+	---@description "캐릭터 무기 테이블"
+	---@type CharacterWeaponTable
+	property any characterWeaponTable = CharacterWeaponTable()
+
 	---@description "캐릭터 생성 한손 무기 테이블"
 	---@type CreateCharacter1HWeaponTable
 	property any createCharacter1HWeaponTable = CreateCharacter1HWeaponTable()
@@ -86,6 +90,7 @@ script GameTableLogic extends Logic
 	method void OnBeginPlay()
 		self.itemTable:Load()
 		self.characterEquipItemTable:Load()
+		self.characterWeaponTable:Load()
 		self.createCharacter1HWeaponTable:Load()
 		self.createCharacter2HWeaponTable:Load()
 		self.createCharacterSubWeaponTable:Load()

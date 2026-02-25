@@ -49,25 +49,25 @@ script CharacterAvatarLogic extends Logic
 					continue
 				end
 
-				local categoryByIndex = _CharacterDef:ToMapleAvatarItemCategory(slot.type)
+				local categoryByIndex = _CharacterEquipTypeDef:ToMapleAvatarItemCategory(slot.type)
 				if categoryByIndex == 0 then
 					continue
 				end
 				
 				-- 상의, 하의, 한벌 옷 검증
-				if slot.type == _CharacterDef.CharacterEquipType_LongCoat then
+				if slot.type == _CharacterEquipTypeDef.LongCoat then
 					if useCoat == true or usePants == true then
 						continue
 					end
 					useLongCoat = true
 				else
-					if slot.type == _CharacterDef.CharacterEquipType_Coat then
+					if slot.type == _CharacterEquipTypeDef.Coat then
 						if useLongCoat == true then
 							continue
 						end
 						useCoat = true
 					end
-					if slot.type == _CharacterDef.CharacterEquipType_Pants then
+					if slot.type == _CharacterEquipTypeDef.Pants then
 						if useLongCoat == true then
 							continue
 						end
@@ -76,19 +76,19 @@ script CharacterAvatarLogic extends Logic
 				end
 
 				-- 한손 무기, 서브 무기, 양손 무기 검증
-				if slot.type == _CharacterDef.CharacterEquipType_2HWeapon then
+				if slot.type == _CharacterEquipTypeDef.TwoHandedWeapon then
 					if use1HWeapon == true or useSubWeapon == true then
 						continue
 					end
 					use2HWeapon = true
 				else
-					if slot.type == _CharacterDef.CharacterEquipType_1HWeapon then
+					if slot.type == _CharacterEquipTypeDef.OneHandedWeapon then
 						if use2HWeapon == true then
 							continue
 						end
 						use1HWeapon = true
 					end
-					if slot.type == _CharacterDef.CharacterEquipType_SubWeapon or slot.type == _CharacterDef.CharacterEquipType_Shield then
+					if slot.type == _CharacterEquipTypeDef.SubWeapon or slot.type == _CharacterEquipTypeDef.Shield then
 						if use2HWeapon == true then
 							continue
 						end
@@ -102,17 +102,17 @@ script CharacterAvatarLogic extends Logic
 
 		-- 상의와 하의가 없는 경우 기본 의상 적용
 		if useLongCoat == false and useCoat == false then
-			if character.gender == _CharacterDef.GenderType_Male then
+			if character.gender == _GenderTypeDef.Male then
 				avatarItems[MapleAvatarItemCategory.Coat] = self.Default_Coat_Male_RUID
-			elseif character.gender == _CharacterDef.GenderType_Female then
+			elseif character.gender == _GenderTypeDef.Female then
 				avatarItems[MapleAvatarItemCategory.Coat] = self.Default_Coat_Female_RUID
 			end
 		end
 
 		if useLongCoat == false and usePants == false then
-			if character.gender == _CharacterDef.GenderType_Male then
+			if character.gender == _GenderTypeDef.Male then
 				avatarItems[MapleAvatarItemCategory.Pants] = self.Default_Pants_Male_RUID
-			elseif character.gender == _CharacterDef.GenderType_Female then
+			elseif character.gender == _GenderTypeDef.Female then
 				avatarItems[MapleAvatarItemCategory.Pants] = self.Default_Pants_Female_RUID
 			end
 		end
@@ -120,6 +120,36 @@ script CharacterAvatarLogic extends Logic
 		for category, ruid in pairs(avatarItems) do
 			com:SetEquip(category, ruid)
 		end
+	end
+
+	---@description "캐릭터의 상태와 장비에 맞는 아바타 애니메이션을 반환합니다"
+	---@param character Character "캐릭터 정보"
+	---@param inventory Inventory "캐릭터의 인벤토리 정보"
+	---@return string "애니메이션 Key"
+	method string GetAvatarStandAnimKey(Character character, Inventory inventory)
+		return ""
+	end
+
+	method string GetAvatarWalkAnimKey(Character character, Inventory inventory)
+		if character == nil or inventory == nil then
+			return _CharacterAnimTypeDef.Walk1
+		end
+
+		local slotEntity = character:GetEquipSlot(_CharacterEquipSlotTypeDef.Weapon)
+		if slotEntity == nil then
+			return _CharacterAnimTypeDef.Walk1
+		end
+
+		local itemEntity = inventory:Get(slotEntity.itemId)
+		if itemEntity == nil then
+			return _CharacterAnimTypeDef.Walk1
+		end
+		
+		return _CharacterWeaponView:GetWalk(itemEntity.index)
+	end
+
+	method string GetAvatarAttackAnimKey(Character character, Inventory inventory)
+		return ""
 	end
 
 end

@@ -324,7 +324,25 @@ script LoginMapComponent extends Component
 			end
 		end
 
-		-- _TransitionLogic:Push(_TransitionLogic.Default)
+		if selectedSlot == 0 then
+			log_warning("선택된 캐릭터 슬롯이 없습니다")
+			return
+		end
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			return
+		end
+		
+		if not userStorageCom:IsExistCharacterSlot(selectedSlot) then
+			return
+		end
+
+		-- NOTE. transition에서 보여주기 위해 미리 클라이언트는 설정해줌
+		userStorageCom.gameplayCharacterSlot = selectedSlot
+		_TransitionLogic:Push(_TransitionLogic.Gameplay)
+		_TransitionLogic:Dissolve()
+		wait(1.5)
 		_GameplayLogic:RequestGameStart(_UserProxy:GetUid(), selectedSlot)
 	end
 	

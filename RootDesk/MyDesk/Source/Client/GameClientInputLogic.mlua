@@ -110,8 +110,9 @@ script GameClientInputLogic extends Logic
 		return result
 	end
 
+	@ExecSpace("ClientOnly")
 	@EventSender("Service", "InputService")
-	handler HandleScreenTouchEvent(ScreenTouchEvent event)
+	handler HandleScreenTouchEvent(ScreenTouchEvent e)
 		self._T["IsPressed"] = true
 		self:SetCursor(self.State_Pressed)
 
@@ -130,12 +131,16 @@ script GameClientInputLogic extends Logic
 		end
 		
 		for _, entityTriggerCom in ipairs(result) do
-			entityTriggerCom.Entity:SendEvent(EntityTriggerPressEvent())
+			local sendEvent = EntityTriggerPressEvent()
+			sendEvent.screenPosition = cursorPosition
+			sendEvent.worldPosition = worldPosition
+			entityTriggerCom.Entity:SendEvent(sendEvent)
 		end
 	end
 	
+	@ExecSpace("ClientOnly")
 	@EventSender("Service", "InputService")
-	handler HandleScreenTouchReleaseEvent(ScreenTouchReleaseEvent event)
+	handler HandleScreenTouchReleaseEvent(ScreenTouchReleaseEvent e)
 		self._T["IsPressed"] = false
 
 		local cursorPosition = _InputService:GetCursorPosition()
@@ -160,7 +165,10 @@ script GameClientInputLogic extends Logic
 		self:SetCursor(self.State_Interaction)
 
 		for _, entityTriggerCom in ipairs(result) do
-			entityTriggerCom.Entity:SendEvent(EntityTriggerReleaseEvent())
+			local sendEvent = EntityTriggerReleaseEvent()
+			sendEvent.screenPosition = cursorPosition
+			sendEvent.worldPosition = worldPosition
+			entityTriggerCom.Entity:SendEvent(sendEvent)
 		end
 	end
 	

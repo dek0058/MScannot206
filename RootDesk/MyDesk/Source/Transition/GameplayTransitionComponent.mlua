@@ -1,9 +1,11 @@
 @Component
-script FadeInOutTransitionComponent extends Component
+script GameplayTransitionComponent extends Component
 
 	@MaxValue(3.0)
 	@MinValue(0.1)
 	property number FadeSeconds = 1.5
+
+	property Entity AvatarEntity = nil
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -17,11 +19,15 @@ script FadeInOutTransitionComponent extends Component
 			err:AddError("FadeInOutTransitionComponent는 CanvasGroupComponent가 필요합니다.")
 		end
 
+		if self.AvatarEntity == nil then
+			err:AddError("AvatarEntity가 설정되어야 합니다.")
+		end
+
 		if err:IsError() == true then
 			err:PrintErrors()
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "FadeInOutTransitionComponent 초기화 중 오류 발생", "WorldError")
 			return
-		end	
+		end
 	end
 
 	@ExecSpace("ClientOnly")
@@ -38,8 +44,56 @@ script FadeInOutTransitionComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
+	method void Setup()
+		local err = ErrorType()
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			err:AddError("UserStorageComponent를 찾을 수 없습니다.")
+		else
+			local slot = userStorageCom.gameplayCharacterSlot
+			if not userStorageCom:IsExistCharacterSlot(userStorageCom.gameplayCharacterSlot) then
+				err:AddError("게임플레이 캐릭터 슬롯이 설정되어 있지 않습니다.")
+			end
+		end
+
+		if self.AvatarEntity == nil then
+			err:AddError("AvatarEntity가 설정되어야 합니다.")
+		else
+			if self.AvatarEntity.CostumeManagerComponent == nil then
+				err:AddError("AvatarEntity에 CostumeManagerComponent가 필요합니다.")
+			end
+		end
+
+		if err:IsError() == true then
+			err:PrintErrors()
+			if self.AvatarEntity ~= nil then
+				self.AvatarEntity.Enable = false
+			end
+			return
+		end
+
+		self.AvatarEntity.Enable = true
+
+		local char = userStorageCom:GetGameplayCharacter()
+		local inv = userStorageCom:GetGameplayCharacterInventory()
+		local avatarAnim = _CharacterAvatarLogic:GetAvatarWalkAnimKey(char, inv)
+
+		_CharacterAvatarLogic:UpdateAvatar(self.AvatarEntity.CostumeManagerComponent, char, inv)
+
+		local body = self.AvatarEntity.AvatarGUIRendererComponent:GetBodyEntity()
+		local e = ActionStateChangedEvent()
+		e.CoreActionName = avatarAnim
+		e.PartsActionName = avatarAnim
+		e.PlayRate = 1.68
+		e.PlayType = SpriteAnimClipPlayType.Loop
+		body:SendEvent(e)
+	end
+
+	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleForceTransitionEvent(ForceTransitionEvent event)
+		self:Setup()
 		self.Entity.CanvasGroupComponent.GroupAlpha = 1.0
 		self.Entity.SpriteGUIRendererComponent.RaycastTarget = true
 	end
@@ -47,6 +101,7 @@ script FadeInOutTransitionComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleStartTransitionEvent(StartTransitionEvent e)
+		self:Setup()
 		local fadeInTweener = _TweenLogic:MakeTween(
 			0.0,
 			1.0,
@@ -65,6 +120,7 @@ script FadeInOutTransitionComponent extends Component
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandleFinishTransitionEvent(FinishTransitionEvent e)
+		self:Setup()
 		local fadeOutTweener = _TweenLogic:MakeTween(
 			1.0,
 			0.0,

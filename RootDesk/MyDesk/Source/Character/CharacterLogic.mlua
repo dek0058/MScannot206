@@ -64,7 +64,7 @@ script CharacterLogic extends Logic
 		character.name = entity.name
 		character.gender = entity.gender
 		for _, equip in ipairs(equips) do
-			if equip.type == _CharacterDef.CharacterEquipType_None then
+			if equip.type == _CharacterEquipTypeDef.None then
 				log_warning("캐릭터 장비 타입이 None입니다. equip index: " .. tostring(equip.index))
 				continue
 			end
@@ -133,17 +133,17 @@ script CharacterLogic extends Logic
 			return err
 		end
 
-		if itemRecord.Category == _CharacterDef.CharacterEquipType_None then
+		if itemRecord.Category == _CharacterEquipTypeDef.None then
 			err:AddError("아이템이 장비 아이템이 아닙니다. item index: " .. tostring(item.index))
 			return err
 		end
 
-		if character.gender == _CharacterDef.GenderType_Male then
+		if character.gender == _GenderTypeDef.Male then
 			if equipRecord.Male == false then
 				err:AddError("남성 캐릭터는 해당 장비를 착용할 수 없습니다. item index: " .. tostring(item.index))
 				return err				
 			end
-		elseif character.gender == _CharacterDef.GenderType_Female then
+		elseif character.gender == _GenderTypeDef.Female then
 			if equipRecord.Female == false then
 				err:AddError("여성 캐릭터는 해당 장비를 착용할 수 없습니다. item index: " .. tostring(item.index))
 				return err

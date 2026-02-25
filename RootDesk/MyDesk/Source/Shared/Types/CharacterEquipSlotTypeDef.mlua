@@ -1,0 +1,62 @@
+@Logic
+script CharacterEquipSlotTypeDef extends Logic
+
+	property string None = "none"
+
+	property string Cap = "cap"
+
+	property string Cape = "cape"
+
+	property string Coat = "coat"
+
+	property string Pants = "pants"
+
+	property string Glove = "glove"
+
+	property string Shoes = "shoes"
+
+	property string FaceAccessory = "faceaccessory"
+
+	property string EyeAccessory = "eyeaccessory"
+
+	property string EarAccessory = "earaccessory"
+
+	property string Weapon = "weapon"
+
+	property string SubWeapon = "subweapon"
+
+	method string ToEquipSlotType(string equipType)
+		if equipType == _CharacterEquipTypeDef.Cap then
+			return self.Cap
+		elseif equipType == _CharacterEquipTypeDef.Cape then
+			return self.Cape
+		elseif equipType == _CharacterEquipTypeDef.Coat then
+			return self.Coat
+		elseif equipType ==_CharacterEquipTypeDef.LongCoat then
+			return self.Coat
+		elseif equipType == _CharacterEquipTypeDef.Pants then
+			return self.Pants
+		elseif equipType == _CharacterEquipTypeDef.Glove then
+			return self.Glove
+		elseif equipType == _CharacterEquipTypeDef.Shoes then
+			return self.Shoes
+		elseif equipType == _CharacterEquipTypeDef.FaceAccessory then
+			return self.FaceAccessory
+		elseif equipType == _CharacterEquipTypeDef.EyeAccessory then
+			return self.EyeAccessory
+		elseif equipType == _CharacterEquipTypeDef.EarAccessory then
+			return self.EarAccessory
+		elseif equipType == _CharacterEquipTypeDef.OneHandedWeapon then
+			return self.Weapon
+		elseif equipType == _CharacterEquipTypeDef.TwoHandedWeapon then
+			return self.Weapon
+		elseif equipType == _CharacterEquipTypeDef.SubWeapon then
+			return self.SubWeapon
+		elseif equipType == _CharacterEquipTypeDef.Shield then
+			return self.SubWeapon
+		end
+		
+		return self.None
+	end
+
+end

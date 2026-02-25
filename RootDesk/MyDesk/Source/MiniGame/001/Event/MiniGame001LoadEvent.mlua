@@ -1,0 +1,8 @@
+@Event
+script MiniGame001LoadEvent extends TemplateEventType
+
+	property any clickerMonster = nil
+
+	property string errorCode = ""
+
+end

@@ -1,0 +1,9 @@
+@Component
+script HitEffectComponent extends Component
+
+	@EventSender("Self")
+	handler HandleSpriteAnimPlayerEndFrameEvent(SpriteAnimPlayerEndFrameEvent e)
+		self.Entity:Destroy()
+	end
+
+end

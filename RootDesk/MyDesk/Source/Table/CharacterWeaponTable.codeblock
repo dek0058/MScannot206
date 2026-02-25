@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://9c30a7df-c578-46c5-9ba7-85e51e6acf70",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "9c30a7df-c578-46c5-9ba7-85e51e6acf70",
+      "Language": 1,
+      "Name": "CharacterWeaponTable",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

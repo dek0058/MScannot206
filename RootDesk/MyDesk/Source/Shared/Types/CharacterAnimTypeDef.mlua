@@ -1,0 +1,72 @@
+@Logic
+script CharacterAnimTypeDef extends Logic
+
+	property string Stand1 = "stand1"
+
+	property string Stand2 = "stand2"
+
+	property string Walk1 = "walk1"
+
+	property string Walk2 = "walk2"
+
+	property string Alert = "alert"
+
+	property string Prone = "prone"
+
+	property string ProneStab = "proneStab"
+
+	property string Jump = "jump"
+
+	property string Fly = "fly"
+
+	property string Sit = "sit"
+
+	property string Ladder = "ladder"
+
+	property string Rope = "rope"
+
+	property string Dead = "dead"
+
+	property string Heal = "heal"
+
+	property string SwingO1 = "swingO1"
+
+	property string SwingO2 = "swingO2"
+
+	property string SwingO3 = "swingO3"
+
+	property string SwingOF = "swingOF"
+
+	property string SwingT1 = "swingT1"
+
+	property string SwingT2 = "swingT2"
+
+	property string SwingT3 = "swingT3"
+
+	property string SwingTF = "swingTF"
+
+	property string SwingP1 = "swingP1"
+
+	property string SwingP2 = "swingP2"
+
+	property string SwingPF = "swingPF"
+
+	property string StabO1 = "stabO1"
+
+	property string StabO2 = "stabO2"
+
+	property string StabOF = "stabOF"
+
+	property string StabT1 = "stabT1"
+
+	property string StabT2 = "stabT2"
+
+	property string StabTF = "stabTF"
+
+	property string Shoot1 = "shoot1"
+
+	property string Shoot2 = "shoot2"
+
+	property string ShootF = "shootF"
+
+end

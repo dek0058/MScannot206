@@ -1,23 +1,23 @@
 {
-    "Id": "",
-    "GameId": "",
-    "EntryKey": "userdataset://502093d3-cb18-4e78-aa7f-f1d871c7052c",
-    "ContentType": "x-mod/userdataset",
-    "Content": "",
-    "Usage": 0,
-    "UsePublish": 1,
-    "UseService": 0,
-    "CoreVersion": "26.1.0.0",
-    "StudioVersion": "0.1.0.0",
-    "DynamicLoading": 0,
-    "ContentProto": {
-        "Use": "Json",
-        "Json": {
-            "name": "CharacterEquipItemTable",
-            "id": "502093d3-cb18-4e78-aa7f-f1d871c7052c",
-            "serveronly": false,
-            "syncDataSetWebUrl": "",
-            "dynamicloading": 0
-        }
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "userdataset://502093d3-cb18-4e78-aa7f-f1d871c7052c",
+  "ContentType": "x-mod/userdataset",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "CharacterEquipItemTable",
+      "id": "502093d3-cb18-4e78-aa7f-f1d871c7052c",
+      "serveronly": false,
+      "syncDataSetWebUrl": "",
+      "dynamicloading": 0
     }
+  }
 }

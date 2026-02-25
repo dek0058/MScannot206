@@ -197,6 +197,413 @@
           ],
           "@version": 1
         }
+      },
+      {
+        "id": "a4d42f48-5b57-4fba-8a81-054469b681eb",
+        "path": "/ui/Transition/CharTransition",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent,script.GameplayTransitionComponent",
+        "jsonString": {
+          "name": "CharTransition",
+          "path": "/ui/Transition/CharTransition",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "a4d42f48-5b57-4fba-8a81-054469b681eb",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1920.0,
+                "y": 1080.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 3.05175781E-05,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "FlipX": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CanvasGroupComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Gameplay"
+              ],
+              "Enable": true
+            },
+            {
+              "@type": "script.GameplayTransitionComponent",
+              "Enable": true,
+              "AvatarEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "fd72be05-0f83-49b2-8735-bfdc96680015",
+                "Version2": false
+              }
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "fd72be05-0f83-49b2-8735-bfdc96680015",
+        "path": "/ui/Transition/CharTransition/Avatar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.AvatarGUIRendererComponent,MOD.Core.CostumeManagerComponent",
+        "jsonString": {
+          "name": "Avatar",
+          "path": "/ui/Transition/CharTransition/Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "fd72be05-0f83-49b2-8735-bfdc96680015",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 150.0,
+                "y": 150.0
+              },
+              "OffsetMin": {
+                "x": -150.0,
+                "y": -150.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 300.0,
+                "y": 300.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarGUIRendererComponent",
+              "FlipX": true,
+              "PreserveAvatar": 1,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "UseCustomEquipOnly": true,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "789f0d79-0a9d-4122-b69f-bd622930853d",
+        "path": "/ui/Transition/HomeTransition",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.CanvasGroupComponent,MOD.Core.TagComponent,script.HomeTransitionComponent",
+        "jsonString": {
+          "name": "HomeTransition",
+          "path": "/ui/Transition/HomeTransition",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "a4d42f48-5b57-4fba-8a81-054469b681eb",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1920.0,
+                "y": 1080.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "FlipX": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CanvasGroupComponent",
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Home"
+              ],
+              "Enable": true
+            },
+            {
+              "@type": "script.HomeTransitionComponent",
+              "Enable": true,
+              "AvatarEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "50e88bb2-e406-4426-8e33-0a2961d3f231",
+                "Version2": false
+              }
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "50e88bb2-e406-4426-8e33-0a2961d3f231",
+        "path": "/ui/Transition/HomeTransition/Avatar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.AvatarGUIRendererComponent,MOD.Core.CostumeManagerComponent",
+        "jsonString": {
+          "name": "Avatar",
+          "path": "/ui/Transition/HomeTransition/Avatar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "fd72be05-0f83-49b2-8735-bfdc96680015",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 150.0,
+                "y": 150.0
+              },
+              "OffsetMin": {
+                "x": -150.0,
+                "y": -150.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 300.0,
+                "y": 300.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.AvatarGUIRendererComponent",
+              "FlipX": false,
+              "PreserveAvatar": 1,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CostumeManagerComponent",
+              "DefaultEquipUserId": "",
+              "UseCustomEquipOnly": true,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
       }
     ]
   }

@@ -23,7 +23,6 @@ script LoginLogic extends Logic
 			return
 		end
 
-		_TransitionLogic:Dissolve(uid)
 		self:TeleportToHome(uid)
 	end
 

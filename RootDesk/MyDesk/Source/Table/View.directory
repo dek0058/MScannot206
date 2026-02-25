@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://e88753a876fa4a9fa241c1327bf0effb",
+  "EntryKey": "directory://2fa1b7d0079c45bc87bd360529793380",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://e88753a876fa4a9fa241c1327bf0effb",
-      "name": "Editor",
+      "entry_id": "directory://2fa1b7d0079c45bc87bd360529793380",
+      "name": "View",
       "lock": false,
       "folding": false,
       "nameEditable": true

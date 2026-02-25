@@ -1,0 +1,12 @@
+@Logic
+script CharacterWeaponView extends Logic
+
+	method string GetWalk(string weaponKey)
+		local record = _GameTableLogic.characterWeaponTable:GetRecord(weaponKey)
+		if record == nil then
+			return _CharacterAnimTypeDef.Walk1
+		end
+		return record.Walk
+	end
+
+end

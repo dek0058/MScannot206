@@ -1,0 +1,6 @@
+@Logic
+script WeaponTypeDef extends Logic
+
+	property string None = "none"
+
+end

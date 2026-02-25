@@ -1,4 +1,11 @@
+---@description "엔티티 트리거에서 Press 되었을 때 발생하는 이벤트입니다"
 @Event
 script EntityTriggerPressEvent extends TemplateEventType
-
+	
+	---@description "화면상의 위치입니다"
+	property Vector2 screenPosition = Vector2(0, 0)
+	
+	---@description "월드상의 위치입니다"
+	property Vector2 worldPosition = Vector2(0, 0)
+	
 end

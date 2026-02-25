@@ -1,0 +1,88 @@
+@Logic
+script CharacterEquipTypeDef extends Logic
+
+	property integer Count = 18
+
+	property integer SlotCount = 15
+
+	property string None = "none"
+
+	property string Hair = "hair"
+
+	property string Face = "face"
+
+	property string Cap = "cap"
+
+	property string Cape = "cape"
+
+	property string Coat = "coat"
+
+	property string Glove = "glove"
+
+	property string LongCoat = "longcoat"
+
+	property string Pants = "pants"
+
+	property string Shoes = "shoes"
+
+	property string FaceAccessory = "faceaccessory"
+
+	property string EyeAccessory = "eyeaccessory"
+
+	property string EarAccessory = "earaccessory"
+
+	property string OneHandedWeapon = "onehandedweapon"
+
+	property string TwoHandedWeapon = "twohandedweapon"
+
+	property string SubWeapon = "subweapon"
+
+	property string Shield = "shield"
+
+	property string Ear = "ear"
+
+	property string Skin = "skin"
+
+	method integer ToMapleAvatarItemCategory(string equipType)
+		if equipType == self.Skin then
+			return 1
+		elseif equipType == self.Hair then
+			return 3
+		elseif equipType == self.Face then
+			return 4
+		elseif equipType == self.Cap then
+			return 5
+		elseif equipType == self.Cape then
+			return 6
+		elseif equipType == self.Coat then
+			return 7
+		elseif equipType == self.Glove then
+			return 8
+		elseif equipType == self.LongCoat then
+			return 9
+		elseif equipType == self.Pants then
+			return 10
+		elseif equipType == self.Shield then
+			return 11
+		elseif equipType == self.Shoes then
+			return 12
+		elseif equipType == self.OneHandedWeapon then
+			return 13
+		elseif equipType == self.TwoHandedWeapon then
+			return 14
+		elseif equipType == self.SubWeapon then
+			return 15
+		elseif equipType == self.FaceAccessory then
+			return 16
+		elseif equipType == self.EyeAccessory then
+			return 17
+		elseif equipType == self.EarAccessory then
+			return 18
+		elseif equipType == self.Ear then
+			return 19
+		else
+			return 0
+		end
+	end
+
+end
