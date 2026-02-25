@@ -1,0 +1,17 @@
+@Component
+script ObjectDisplayComponent extends Component
+
+	property Entity DisplayText = nil
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		if self.Entity.SpriteRendererComponent ~= nil then
+			self.Entity.SpriteRendererComponent.Enable = false
+		end
+		
+		if self.DisplayText ~= nil then
+			self.DisplayText:SetEnable(false)
+		end
+	end
+
+end
