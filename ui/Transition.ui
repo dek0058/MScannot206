@@ -181,6 +181,7 @@
             },
             {
               "@type": "MOD.Core.CanvasGroupComponent",
+              "GroupAlpha": 1.0,
               "Enable": true
             },
             {
@@ -292,6 +293,7 @@
             },
             {
               "@type": "MOD.Core.CanvasGroupComponent",
+              "GroupAlpha": 0.0,
               "Enable": true
             },
             {
@@ -496,6 +498,7 @@
             },
             {
               "@type": "MOD.Core.CanvasGroupComponent",
+              "GroupAlpha": 0.0,
               "Enable": true
             },
             {
