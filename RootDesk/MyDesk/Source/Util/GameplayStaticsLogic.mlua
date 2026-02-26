@@ -1,20 +1,37 @@
 @Logic
 script GameplayStaticsLogic extends Logic
 
-	method Component FindComponentInChildren(Entity parent, string componentType)
+	---@description "주어진 엔티티의 자식 엔티티들 중에서 특정 타입의 컴포넌트를 찾는 함수입니다"
+	method Component FindComponentInChild(Entity parent, string componentType)
 		for _, child in pairs(parent.Children) do
-			---@type Component
-			local comp = child:GetComponent(componentType)
-			if comp ~= nil then
-				return comp
+			local com = child:GetComponent(componentType)
+			if com ~= nil then
+				return com
 			end
 		
-			comp = self:FindComponentInChildren(child, componentType)
-			if comp ~= nil then
-				return comp
+			com = self:FindComponentInChild(child, componentType)
+			if com ~= nil then
+				return com
 			end
 		end
 		
+		return nil
+	end
+
+	---@description "주어진 엔티티의 자식 엔티티들 중에서 특정 태그를 가진 엔티티를 찾는 함수입니다"
+	method Entity FindEntityByTag(Entity parent, string tag)
+		for _, child in pairs(parent.Children) do
+			---@type TagComponent
+			local com = child:GetComponent(TagComponent)
+			if com == nil then
+				continue
+			end
+
+			local found = _StringLogic:FindTag(com.Tags:ToTable(), tag)
+			if not _UtilLogic:IsNilorEmptyString(found) then
+				return child
+			end
+		end
 		return nil
 	end
 

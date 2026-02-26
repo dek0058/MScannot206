@@ -3,7 +3,7 @@ script GameplayMapComponent extends Component
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
-		local gameplayEntity = _EntityService:GetEntityByPath("/ui/Gameplay")
+		local gameplayEntity = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "/ui/Gameplay")
 	end
 
 	@ExecSpace("ServerOnly")
