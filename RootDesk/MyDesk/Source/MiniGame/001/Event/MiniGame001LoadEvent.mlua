@@ -1,8 +1,11 @@
 @Event
 script MiniGame001LoadEvent extends TemplateEventType
 
+	---@description "몬스터 정보"
+	---@type ClickerMonster
 	property any clickerMonster = nil
 
+	---@description "에커 코드"
 	property string errorCode = ""
 
 end

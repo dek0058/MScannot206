@@ -105,8 +105,18 @@ script GameClientInputLogic extends Logic
 		end
 
 		---@type table<EntityTriggerComponent>
+		local output = {}
+		local count = simulator:OverlapPointAllFast("EntityInteraction", worldPosition, output)
+
+		---@type table<EntityTriggerComponent>
 		local result = {}
-		local count = simulator:OverlapPointAllFast("EntityInteraction", worldPosition, result)
+		for _, com in ipairs(output) do
+			if com.Enable == false then
+				continue
+			end
+			table.insert(result, com)
+		end
+
 		return result
 	end
 

@@ -16,7 +16,7 @@
       {
         "id": "698e2cb9-8a8e-4bde-8e43-e68685e6e58e",
         "path": "/maps/MiniGame-001",
-        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent,MOD.Core.SoundComponent,MOD.Core.TagComponent,script.GameplayMapComponent",
+        "componentNames": "MOD.Core.MapComponent,MOD.Core.FootholdComponent,MOD.Core.SoundComponent,MOD.Core.TagComponent,script.MiniGame001MapComponent",
         "jsonString": {
           "name": "MiniGame-001",
           "path": "/maps/MiniGame-001",
@@ -40,44 +40,11 @@
               "FootholdsByLayer": {
                 "1": [
                   {
-                    "Length": 13.67,
+                    "Length": 3.25,
                     "NextFootholdId": 0,
                     "PreviousFootholdId": 0,
                     "groupID": 1,
                     "layer": 1,
-                    "sortingLayerName": "MapLayer1",
-                    "attribute": {
-                      "walk": 1.0,
-                      "force": 0.0,
-                      "drag": 1.0,
-                      "isBlockVertical": false,
-                      "isDynamic": false,
-                      "isCustomFoothold": true,
-                      "inertiaOption": 0
-                    },
-                    "OwnerId": "10291212-aba6-451e-bde0-05a118f69645",
-                    "Id": 1,
-                    "StartPoint": {
-                      "x": -6.83,
-                      "y": -1.42
-                    },
-                    "EndPoint": {
-                      "x": 6.84,
-                      "y": -1.42
-                    },
-                    "Variance": {
-                      "x": 1.0,
-                      "y": 0.0
-                    }
-                  }
-                ],
-                "2": [
-                  {
-                    "Length": 3.25,
-                    "NextFootholdId": 0,
-                    "PreviousFootholdId": 0,
-                    "groupID": 2,
-                    "layer": 2,
                     "sortingLayerName": "MapLayer0",
                     "attribute": {
                       "walk": 1.0,
@@ -89,7 +56,7 @@
                       "inertiaOption": 0
                     },
                     "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
-                    "Id": 2,
+                    "Id": 1,
                     "StartPoint": {
                       "x": -1.25,
                       "y": 0.5908
@@ -107,8 +74,8 @@
                     "Length": 1.25,
                     "NextFootholdId": 0,
                     "PreviousFootholdId": 0,
-                    "groupID": 3,
-                    "layer": 2,
+                    "groupID": 2,
+                    "layer": 1,
                     "sortingLayerName": "MapLayer0",
                     "attribute": {
                       "walk": 1.0,
@@ -120,7 +87,7 @@
                       "inertiaOption": 0
                     },
                     "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
-                    "Id": 3,
+                    "Id": 2,
                     "StartPoint": {
                       "x": 2.15,
                       "y": 0.5908
@@ -138,8 +105,8 @@
                     "Length": 0.950000048,
                     "NextFootholdId": 0,
                     "PreviousFootholdId": 0,
-                    "groupID": 4,
-                    "layer": 2,
+                    "groupID": 3,
+                    "layer": 1,
                     "sortingLayerName": "MapLayer0",
                     "attribute": {
                       "walk": 1.0,
@@ -151,7 +118,7 @@
                       "inertiaOption": 0
                     },
                     "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
-                    "Id": 4,
+                    "Id": 3,
                     "StartPoint": {
                       "x": -2.45,
                       "y": 0.5908
@@ -159,6 +126,39 @@
                     "EndPoint": {
                       "x": -1.5,
                       "y": 0.5908
+                    },
+                    "Variance": {
+                      "x": 1.0,
+                      "y": 0.0
+                    }
+                  }
+                ],
+                "2": [
+                  {
+                    "Length": 13.67,
+                    "NextFootholdId": 0,
+                    "PreviousFootholdId": 0,
+                    "groupID": 4,
+                    "layer": 2,
+                    "sortingLayerName": "MapLayer1",
+                    "attribute": {
+                      "walk": 1.0,
+                      "force": 0.0,
+                      "drag": 1.0,
+                      "isBlockVertical": false,
+                      "isDynamic": false,
+                      "isCustomFoothold": true,
+                      "inertiaOption": 0
+                    },
+                    "OwnerId": "10291212-aba6-451e-bde0-05a118f69645",
+                    "Id": 4,
+                    "StartPoint": {
+                      "x": -6.83,
+                      "y": -1.42
+                    },
+                    "EndPoint": {
+                      "x": 6.84,
+                      "y": -1.42
                     },
                     "Variance": {
                       "x": 1.0,
@@ -185,8 +185,9 @@
               "Enable": true
             },
             {
-              "@type": "script.GameplayMapComponent",
-              "Enable": true
+              "@type": "script.MiniGame001MapComponent",
+              "Enable": true,
+              "MonsterEntity": null
             }
           ],
           "@version": 1
@@ -1318,95 +1319,6 @@
         }
       },
       {
-        "id": "4c896ba9-24ef-4b9d-b8b4-48526e7ac183",
-        "path": "/maps/MiniGame-001/Monster",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,MOD.Core.StateAnimationComponent,script.EntityTriggerComponent,script.ClickerMonsterComponent",
-        "jsonString": {
-          "name": "Monster",
-          "path": "/maps/MiniGame-001/Monster",
-          "nameEditable": true,
-          "enable": true,
-          "visible": true,
-          "localize": false,
-          "displayOrder": 22,
-          "pathConstraints": "///",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "mapempty",
-            "sub_entity_id": null,
-            "root_entity_id": "b8ca7a09-32e4-4460-b1c4-8da953eccb2e",
-            "replaced_model_id": null
-          },
-          "modelId": "mapempty",
-          "@components": [
-            {
-              "@type": "MOD.Core.TransformComponent",
-              "Position": {
-                "x": 0.438856423,
-                "y": 0.5980277,
-                "z": 999.998047
-              },
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.SpriteRendererComponent",
-              "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "RenderSetting": 0,
-              "SortingLayer": "MapLayer7",
-              "SpriteRUID": "f3bf3c053e444315b83a9663ea85a37f",
-              "StartFrameIndex": 0,
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.StateAnimationComponent",
-              "ActionSheet": {
-                "move": "f3bf3c053e444315b83a9663ea85a37f",
-                "stand": "2688d39a56874f24aa0d46efbf89ff21",
-                "jump": "2f45374c97224e0cb108241398710a3c",
-                "attack": "907f4089e0b840a993967c5211af9b89",
-                "hit": "b771488c84fe437e9707f233c48ec477",
-                "die": "c03225c35c124bcbaf9ec9299b7d8a1f"
-              },
-              "Enable": true
-            },
-            {
-              "@type": "script.EntityTriggerComponent",
-              "BoxSize": {
-                "x": 1.18,
-                "y": 1.25
-              },
-              "ColliderOffset": {
-                "x": 0.0,
-                "y": 1.175
-              },
-              "CollisionGroup": {
-                "Id": "ec73397d09e243bebade6be294560b33"
-              },
-              "IsLegacy": false,
-              "Enable": true
-            },
-            {
-              "@type": "script.ClickerMonsterComponent",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
         "id": "a31c2a9f-46c9-45f1-a3ca-508b854f9502",
         "path": "/maps/MiniGame-001/ladder-47",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.ClimbableSpriteRendererComponent,MOD.Core.ClimbableComponent",
@@ -1417,7 +1329,7 @@
           "enable": true,
           "visible": true,
           "localize": false,
-          "displayOrder": 23,
+          "displayOrder": 22,
           "pathConstraints": "///",
           "revision": 1,
           "origin": {
@@ -1513,6 +1425,11 @@
           "@components": [
             {
               "@type": "MOD.Core.TransformComponent",
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "Position": {
                 "x": 0.0,
                 "y": 1.67,
@@ -1524,6 +1441,7 @@
                 "z": 0.0,
                 "w": 1.0
               },
+              "ZRotation": 0.0,
               "Enable": true
             },
             {
@@ -1575,6 +1493,11 @@
           "@components": [
             {
               "@type": "MOD.Core.TransformComponent",
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "Position": {
                 "x": 0.0,
                 "y": -0.280000031,
@@ -1586,6 +1509,7 @@
                 "z": 0.0,
                 "w": 1.0
               },
+              "ZRotation": 0.0,
               "Enable": true
             },
             {
@@ -1613,6 +1537,65 @@
               "SpriteRUID": "814a2e4206974e50bb16bddae81e6765",
               "SpriteRUIDHead": "",
               "SpriteRUIDTail": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "a5af48b8-763c-46c7-90d6-87163d1f5f52",
+        "path": "/maps/MiniGame-001/Spawner",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,MOD.Core.TagComponent,script.SpawnerComponent",
+        "jsonString": {
+          "name": "Spawner",
+          "path": "/maps/MiniGame-001/Spawner",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 23,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "b1eebde1-85cb-4da7-a637-9e1f21554212",
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "b1eebde1-85cb-4da7-a637-9e1f21554212",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "Position": {
+                "x": 0.409471869,
+                "y": 0.5616578,
+                "z": 999.997
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteRendererComponent",
+              "ActionSheet": {},
+              "RenderSetting": 0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Spawn.0"
+              ],
+              "Enable": true
+            },
+            {
+              "@type": "script.SpawnerComponent",
               "Enable": true
             }
           ],

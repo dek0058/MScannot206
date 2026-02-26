@@ -1,0 +1,25 @@
+@Component
+script DevMapComponent extends Component
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleMapEnterEvent(MapEnterEvent e)
+		_TransitionLogic:Pop(e.uid)
+
+		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(e.uid)
+		if userLocalPlayerCom == nil then
+			_GameServerLogic:KickByServer(e.uid, "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+		
+		local userCharacterCom = _UserProxy:GetUserCharacterComponentByServer(e.uid)
+		if userCharacterCom == nil then
+			_GameServerLogic:KickByServer(e.uid, "유저 캐릭터 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+		
+		userCharacterCom:Reset()
+		userLocalPlayerCom:SetEnable(true)
+	end
+
+end

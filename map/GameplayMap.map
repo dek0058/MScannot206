@@ -33640,6 +33640,7 @@
               "ActionSheet": {},
               "EndFrameIndex": 2147483647,
               "FlipX": false,
+              "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer0",
               "SpriteRUID": "2ca7964180314aadac32f11f59bc3ef3",
@@ -33698,6 +33699,7 @@
               "ActionSheet": {},
               "EndFrameIndex": 2147483647,
               "FlipX": false,
+              "OrderInLayer": 0,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer0",
               "SpriteRUID": "04bd3af11e0648cdb356f515eab65e78",
@@ -33904,6 +33906,7 @@
               "ActionSheet": {},
               "EndFrameIndex": 2147483647,
               "FlipX": false,
+              "OrderInLayer": 0,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer0",
               "SpriteRUID": "8ffe033f6bcf43e1b963a5c6e9c7ee04",
@@ -33977,6 +33980,7 @@
               "ActionSheet": {},
               "EndFrameIndex": 2147483647,
               "FlipX": false,
+              "OrderInLayer": 1,
               "RenderSetting": 0,
               "SortingLayer": "MapLayer0",
               "SpriteRUID": "965483566dd440d2847026d2627d3b3b",
@@ -34904,62 +34908,6 @@
         }
       },
       {
-        "id": "696d98d3-0cdd-4e57-953c-e2cd2d44f2b8",
-        "path": "/maps/GameplayMap/SpawnLocation",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,MOD.Core.SpawnLocationComponent",
-        "jsonString": {
-          "name": "SpawnLocation",
-          "path": "/maps/GameplayMap/SpawnLocation",
-          "nameEditable": true,
-          "enable": true,
-          "visible": true,
-          "localize": false,
-          "displayOrder": 99,
-          "pathConstraints": "///",
-          "revision": 1,
-          "origin": {
-            "type": "Model",
-            "entry_id": "MapObject",
-            "sub_entity_id": null,
-            "root_entity_id": "696d98d3-0cdd-4e57-953c-e2cd2d44f2b8",
-            "replaced_model_id": null
-          },
-          "modelId": "mapobject",
-          "@components": [
-            {
-              "@type": "MOD.Core.TransformComponent",
-              "Position": {
-                "x": -17.5970535,
-                "y": 1.22447348,
-                "z": 999.999
-              },
-              "QuaternionRotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-              },
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.SpriteRendererComponent",
-              "ActionSheet": {},
-              "EndFrameIndex": 2147483647,
-              "RenderSetting": 0,
-              "SortingLayer": "MapLayer0",
-              "SpriteRUID": "8ef238e0d0ca4bb783aca526cff35d11",
-              "StartFrameIndex": 0,
-              "Enable": true
-            },
-            {
-              "@type": "MOD.Core.SpawnLocationComponent",
-              "Enable": true
-            }
-          ],
-          "@version": 1
-        }
-      },
-      {
         "id": "8f5aacf4-1d51-4291-a43d-b6ca28b3b193",
         "path": "/maps/GameplayMap/ladder-58",
         "componentNames": "MOD.Core.TransformComponent,MOD.Core.ClimbableSpriteRendererComponent,MOD.Core.ClimbableComponent",
@@ -34970,7 +34918,7 @@
           "enable": true,
           "visible": true,
           "localize": false,
-          "displayOrder": 100,
+          "displayOrder": 99,
           "pathConstraints": "///",
           "revision": 1,
           "origin": {
@@ -35195,7 +35143,7 @@
           "enable": true,
           "visible": true,
           "localize": false,
-          "displayOrder": 101,
+          "displayOrder": 100,
           "pathConstraints": "///",
           "revision": 1,
           "origin": {
@@ -35420,7 +35368,7 @@
           "enable": true,
           "visible": true,
           "localize": false,
-          "displayOrder": 102,
+          "displayOrder": 101,
           "pathConstraints": "///",
           "revision": 1,
           "origin": {
@@ -35478,7 +35426,7 @@
           "enable": true,
           "visible": true,
           "localize": false,
-          "displayOrder": 103,
+          "displayOrder": 102,
           "pathConstraints": "///",
           "revision": 1,
           "origin": {

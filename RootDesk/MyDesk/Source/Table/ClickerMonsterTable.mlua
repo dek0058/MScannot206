@@ -1,0 +1,34 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: ClickerMonster)"
+@Struct
+script ClickerMonsterTable
+
+	property table records = {}
+
+	---@description "테이블을 로드 합니다"
+	method void Load()
+		local userDataset = _DataService:GetTable("ClickerMonsterTable")
+		local rowCount = userDataset:GetRowCount()
+
+		for row = 1, rowCount do
+			local record = ClickerMonsterRecord()
+			local cell = ""
+			record.Index = userDataset:GetCell(row, "Index")
+			cell = userDataset:GetCell(row, "Prob")
+			record.Prob = tonumber(cell) or 0.0
+			cell = userDataset:GetCell(row, "ItemIndex")
+			record.ItemIndex = tonumber(cell) or 0
+			cell = userDataset:GetCell(row, "ItemCount")
+			record.ItemCount = tonumber(cell) or 0
+			cell = userDataset:GetCell(row, "Hp")
+			record.Hp = tonumber(cell) or 0
+			record.ModelID = userDataset:GetCell(row, "ModelID")
+			self.records[record.Index] = record
+		end
+	end
+
+	---@description "테이블에서 레코드를 가져옵니다"
+	method ClickerMonsterRecord GetRecord(string key)
+		return self.records[key]
+	end
+
+end

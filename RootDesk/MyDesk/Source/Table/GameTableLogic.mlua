@@ -2,6 +2,7 @@
 @Logic
 script GameTableLogic extends Logic
 
+	-- 아이템
 	---@description "아이템 테이블"
 	---@type ItemTable
 	property any itemTable = ItemTable()
@@ -14,6 +15,7 @@ script GameTableLogic extends Logic
 	---@type CharacterWeaponTable
 	property any characterWeaponTable = CharacterWeaponTable()
 
+	-- 캐릭터 생성
 	---@description "캐릭터 생성 한손 무기 테이블"
 	---@type CreateCharacter1HWeaponTable
 	property any createCharacter1HWeaponTable = CreateCharacter1HWeaponTable()
@@ -86,6 +88,10 @@ script GameTableLogic extends Logic
 	---@type CreateCharacterTable
 	property any createCharacterTable = CreateCharacterTable()
 	
+	-- 미니 게임
+	---@description "클리커 몬스터 테이블"
+	---@type ClickerMonsterTable
+	property any clickerMonsterTable = ClickerMonsterTable()
 
 	method void OnBeginPlay()
 		self.itemTable:Load()
@@ -110,6 +116,9 @@ script GameTableLogic extends Logic
 		self.createCharacterSkinTable:Load()
 		self.createCharacterTable:Load()
 		
+		-- 미니게임
+		self.clickerMonsterTable:Load()
+
 		self._T["init"] = true
 	end
 

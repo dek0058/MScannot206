@@ -1,18 +1,12 @@
----@description "클릭커 몬스터 구조체 입니다"
 @Struct
 script ClickerMonster
 
-	---@description "테이블 인덱스"
-	property integer index = 0
+	property string index = 0
 
-	---@description "체력"
 	property integer hp = 1000000000
-	
-	---@description "최대 체력"
+
 	property integer maxHp = 1000000000
-	
-	---@description "테이블로 변환 합니다"
-	---@return table "테이블로 변환된 데이터"
+
 	method table ToTable()
 		local content = {}
 		content["index"] = self.index
@@ -21,9 +15,6 @@ script ClickerMonster
 		return content
 	end
 
-	---@description "테이블에서 데이터를 읽어옵니다"
-	---@param content table "읽어올 데이터가 담긴 테이블"
-	---@return ClickerMonster "테이블에서 읽어온 데이터를 덮어씌운 자기 자신 객체"
 	method ClickerMonster FromTable(table content)
 		if content == nil then
 			return self

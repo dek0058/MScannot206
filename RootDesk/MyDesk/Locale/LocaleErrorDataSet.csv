@@ -32,3 +32,4 @@ USER_DELETE_CHARACTER_DB_WRITE_ERROR,캐릭터 삭제 중 데이터베이스 쓰
 MINIGAME001_UNKNOWN_ERROR,알 수 없는 오류가 발생했습니다,MiniGame001
 MINIGAME001_NEED_LOGIN_ERROR,게임을 로드 하기 위해서는 로그인이 필요합니다,MiniGame001
 MINIGAME001_DB_LOAD_ERROR,DB를 불러오는 중 오류가 발생했습니다,MiniGame001
+MINIGAME001_RECORD_NOT_FOUND_ERROR,알 수 없는 오류가 발생했습니다,MiniGame001

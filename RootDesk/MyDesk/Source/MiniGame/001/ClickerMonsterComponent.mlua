@@ -2,11 +2,6 @@
 script ClickerMonsterComponent extends Component
 
 	@ExecSpace("ClientOnly")
-	method void OnBeginPlay()
-		-- self:SetEnable(false)
-	end
-
-	@ExecSpace("ClientOnly")
 	method void SetEnable(boolean enable)
 		if self.Entity.SpriteRendererComponent ~= nil then
 			self.Entity.SpriteRendererComponent.Enable = enable
@@ -17,9 +12,13 @@ script ClickerMonsterComponent extends Component
 		end
 	end
 
-	@ExecSpace("ServerOnly")
-	method void Setup(string uid)
-		
+	@ExecSpace("ClientOnly")
+	method void Setup(ClickerMonster monster)
+		if monster == nil then
+			return
+		end
+
+		self:SetEnable(true)
 	end
 
 	@ExecSpace("ClientOnly")

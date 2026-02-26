@@ -1,0 +1,24 @@
+@Logic
+script MiniGame001View extends Logic
+
+	method ClickerMonsterRecord GetPickedMonsterRecord()
+		local randomValue = _UtilLogic:RandomIntegerRange(0, 1)
+		local totalProb = 0.0
+		
+		for _, record in pairs(_GameTableLogic.clickerMonsterTable.records) do
+			totalProb = totalProb + record.Prob
+		end
+		
+		local cumulativeProb = 0.0
+		randomValue = randomValue * totalProb
+		for _, record in pairs(_GameTableLogic.clickerMonsterTable.records) do
+			cumulativeProb = cumulativeProb + record.Prob
+			if randomValue <= cumulativeProb then
+				return record
+			end
+		end
+		
+		return nil
+	end
+
+end

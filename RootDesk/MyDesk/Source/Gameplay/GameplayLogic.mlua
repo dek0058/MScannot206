@@ -45,7 +45,7 @@ script GameplayLogic extends Logic
 	@EventSender("LocalPlayer")
 	handler HandleRequestHomeEvent(RequestHomeEvent e)
 		local homeModalCom = self._T["HomeModalComponent"]
-		if homeModalCom ~= nil then
+		if isvalid(homeModalCom) == true then
 			return
 		end
 

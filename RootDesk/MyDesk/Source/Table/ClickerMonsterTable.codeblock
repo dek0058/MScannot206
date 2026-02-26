@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://da37e5a7-e8d8-485d-ba04-f33a9d052ca7",
+  "EntryKey": "codeblock://b0bc54ea-2813-4028-9c13-6db5d8fe887a",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "da37e5a7-e8d8-485d-ba04-f33a9d052ca7",
+      "Id": "b0bc54ea-2813-4028-9c13-6db5d8fe887a",
       "Language": 1,
-      "Name": "ClickerMonster",
+      "Name": "ClickerMonsterTable",
       "Type": 9,
       "Source": 0,
       "Target": null

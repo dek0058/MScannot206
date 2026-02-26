@@ -1,0 +1,12 @@
+---@description "자동 생성된 테이블 입니다. 수정하지 마세요 (Derivative: ClickerMonster)"
+@Struct
+script ClickerMonsterRecord
+
+	property string Index = ""
+	property number Prob = 0.0
+	property integer ItemIndex = 0
+	property integer ItemCount = 0
+	property integer Hp = 0
+	property string ModelID = ""
+
+end

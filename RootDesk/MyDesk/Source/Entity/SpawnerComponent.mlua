@@ -1,0 +1,38 @@
+@Component
+script SpawnerComponent extends Component
+
+	property boolean IsFaceRight = false
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local spriteRendererCom = self.Entity.SpriteRendererComponent
+		if spriteRendererCom ~= nil then
+			spriteRendererCom.Enable = false
+		end
+	end
+
+	method Vector2 GetLocation()
+		local transform = self.Entity.TransformComponent
+		return Vector2(transform.Position.x, transform.Position.y)
+	end
+
+	method Vector2 GetTeleportLocation()
+		return self:GetLocation() + Vector2(0, 0.05)
+	end
+
+	method integer GetSpawnIndex()
+		local tagCom = self.Entity.TagComponent
+		if tagCom == nil then
+			return 0
+		end
+
+		for _, tag in pairs(tagCom.Tags) do
+			local index = _StringLogic:GetTag(tag, "Spawn")
+			if _UtilLogic:IsNilorEmptyString(index) == false then
+				return tonumber(index)
+			end
+		end
+		return 0
+	end
+
+end

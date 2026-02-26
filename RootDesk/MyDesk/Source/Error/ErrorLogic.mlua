@@ -112,6 +112,9 @@ script ErrorLogic extends Logic
 	---@description "DB를 불러오는 중 오류가 발생했습니다"
 	readonly property string MINIGAME001_DB_LOAD_ERROR = "MINIGAME001_DB_LOAD_ERROR"
 
+	---@description "레코드를 찾을 수 없습니다"
+	readonly property string MINIGAME001_RECORD_NOT_FOUND_ERROR = "MINIGAME001_RECORD_NOT_FOUND_ERROR"
+
 	method void OnBeginPlay()
 
 		-- Core
@@ -163,6 +166,7 @@ script ErrorLogic extends Logic
 		self.errorCodes[self.MINIGAME001_UNKNOWN_ERROR] = self.MINIGAME001_UNKNOWN_ERROR
 		self.errorCodes[self.MINIGAME001_NEED_LOGIN_ERROR] = self.MINIGAME001_NEED_LOGIN_ERROR
 		self.errorCodes[self.MINIGAME001_DB_LOAD_ERROR] = self.MINIGAME001_DB_LOAD_ERROR
+		self.errorCodes[self.MINIGAME001_RECORD_NOT_FOUND_ERROR] = self.MINIGAME001_RECORD_NOT_FOUND_ERROR
 	end
 
 	---@description "오류를 클라이언트에 표시합니다."
