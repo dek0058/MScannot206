@@ -70,6 +70,101 @@
                       "y": 0.0
                     }
                   }
+                ],
+                "2": [
+                  {
+                    "Length": 3.25,
+                    "NextFootholdId": 0,
+                    "PreviousFootholdId": 0,
+                    "groupID": 2,
+                    "layer": 2,
+                    "sortingLayerName": "MapLayer0",
+                    "attribute": {
+                      "walk": 1.0,
+                      "force": 0.0,
+                      "drag": 1.0,
+                      "isBlockVertical": false,
+                      "isDynamic": false,
+                      "isCustomFoothold": true,
+                      "inertiaOption": 0
+                    },
+                    "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
+                    "Id": 2,
+                    "StartPoint": {
+                      "x": -1.25,
+                      "y": 0.5908
+                    },
+                    "EndPoint": {
+                      "x": 2.0,
+                      "y": 0.5908
+                    },
+                    "Variance": {
+                      "x": 1.0,
+                      "y": 0.0
+                    }
+                  },
+                  {
+                    "Length": 1.25,
+                    "NextFootholdId": 0,
+                    "PreviousFootholdId": 0,
+                    "groupID": 3,
+                    "layer": 2,
+                    "sortingLayerName": "MapLayer0",
+                    "attribute": {
+                      "walk": 1.0,
+                      "force": 0.0,
+                      "drag": 1.0,
+                      "isBlockVertical": false,
+                      "isDynamic": false,
+                      "isCustomFoothold": true,
+                      "inertiaOption": 0
+                    },
+                    "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
+                    "Id": 3,
+                    "StartPoint": {
+                      "x": 2.15,
+                      "y": 0.5908
+                    },
+                    "EndPoint": {
+                      "x": 3.4,
+                      "y": 0.5908
+                    },
+                    "Variance": {
+                      "x": 1.0,
+                      "y": 0.0
+                    }
+                  },
+                  {
+                    "Length": 0.950000048,
+                    "NextFootholdId": 0,
+                    "PreviousFootholdId": 0,
+                    "groupID": 4,
+                    "layer": 2,
+                    "sortingLayerName": "MapLayer0",
+                    "attribute": {
+                      "walk": 1.0,
+                      "force": 0.0,
+                      "drag": 1.0,
+                      "isBlockVertical": false,
+                      "isDynamic": false,
+                      "isCustomFoothold": true,
+                      "inertiaOption": 0
+                    },
+                    "OwnerId": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
+                    "Id": 4,
+                    "StartPoint": {
+                      "x": -2.45,
+                      "y": 0.5908
+                    },
+                    "EndPoint": {
+                      "x": -1.5,
+                      "y": 0.5908
+                    },
+                    "Variance": {
+                      "x": 1.0,
+                      "y": 0.0
+                    }
+                  }
                 ]
               },
               "Enable": true
@@ -931,7 +1026,7 @@
       {
         "id": "0101cea2-f7c7-4653-bc2e-6e1b79f8481a",
         "path": "/maps/MiniGame-001/MapObject_1",
-        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.SpriteRendererComponent,MOD.Core.CustomFootholdComponent",
         "jsonString": {
           "name": "MapObject_1",
           "path": "/maps/MiniGame-001/MapObject_1",
@@ -955,7 +1050,7 @@
               "@type": "MOD.Core.TransformComponent",
               "Position": {
                 "x": 0.35,
-                "y": 1.64128518,
+                "y": 1.64078653,
                 "z": 1000.0
               },
               "QuaternionRotation": {
@@ -975,6 +1070,42 @@
               "SortingLayer": "MapLayer0",
               "SpriteRUID": "8048a547eb524524b04625ffb57ceb53",
               "StartFrameIndex": 0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.CustomFootholdComponent",
+              "edgeLists": [
+                [
+                  {
+                    "x": 1.65,
+                    "y": -1.05
+                  },
+                  {
+                    "x": -1.6,
+                    "y": -1.05
+                  }
+                ],
+                [
+                  {
+                    "x": 1.8,
+                    "y": -1.05
+                  },
+                  {
+                    "x": 3.05,
+                    "y": -1.05
+                  }
+                ],
+                [
+                  {
+                    "x": -1.85,
+                    "y": -1.05
+                  },
+                  {
+                    "x": -2.8,
+                    "y": -1.05
+                  }
+                ]
+              ],
               "Enable": true
             }
           ],
@@ -1269,6 +1400,219 @@
             },
             {
               "@type": "script.ClickerMonsterComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "a31c2a9f-46c9-45f1-a3ca-508b854f9502",
+        "path": "/maps/MiniGame-001/ladder-47",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.ClimbableSpriteRendererComponent,MOD.Core.ClimbableComponent",
+        "jsonString": {
+          "name": "ladder-47",
+          "path": "/maps/MiniGame-001/ladder-47",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 23,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "Ladder",
+            "sub_entity_id": null,
+            "root_entity_id": "a31c2a9f-46c9-45f1-a3ca-508b854f9502",
+            "replaced_model_id": null
+          },
+          "modelId": "ladder",
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "Position": {
+                "x": 1.65939379,
+                "y": -1.07785571,
+                "z": 999.997
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ClimbableSpriteRendererComponent",
+              "BodySpriteFlipInfo": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "BodySpriteLocalPos": {
+                "x": -0.26,
+                "y": -0.17
+              },
+              "NeedGizmo": true,
+              "OriginOffset": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OriginRectSize": {
+                "x": 0.52,
+                "y": 0.34
+              },
+              "RenderSetting": 0,
+              "SortingLayer": "MapLayer0",
+              "SpriteRUID": "a63aa9023901407b8f3ac8cb268ad34d",
+              "SpriteRUIDHead": "",
+              "SpriteRUIDTail": "",
+              "TiledSize": {
+                "x": 1.0,
+                "y": 5.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ClimbableComponent",
+              "BoxOffset": {
+                "x": 0.0,
+                "y": 0.68
+              },
+              "BoxSize": {
+                "x": 0.52,
+                "y": 2.065
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "8dbadecd-977a-45b9-a782-5a6f413837eb",
+        "path": "/maps/MiniGame-001/ladder-47/head",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.ClimbableSpriteRendererComponent",
+        "jsonString": {
+          "name": "head",
+          "path": "/maps/MiniGame-001/ladder-47/head",
+          "nameEditable": false,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "modelId": null,
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "Position": {
+                "x": 0.0,
+                "y": 1.67,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ClimbableSpriteRendererComponent",
+              "BodySpriteFlipInfo": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "BodySpriteLocalPos": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "NeedGizmo": false,
+              "OrderInLayer": 2,
+              "OriginOffset": {
+                "x": 0.02000001,
+                "y": -0.004999995
+              },
+              "OriginRectSize": {
+                "x": 0.56,
+                "y": 0.27
+              },
+              "RenderSetting": 0,
+              "SortingLayer": "MapLayer0",
+              "SpriteRUID": "ddbe6c9adce74e5c8e2d4cff9fdab36d",
+              "SpriteRUIDHead": "",
+              "SpriteRUIDTail": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "98a7788f-0c6a-46bc-826f-1444e93c1889",
+        "path": "/maps/MiniGame-001/ladder-47/tail",
+        "componentNames": "MOD.Core.TransformComponent,MOD.Core.ClimbableSpriteRendererComponent",
+        "jsonString": {
+          "name": "tail",
+          "path": "/maps/MiniGame-001/ladder-47/tail",
+          "nameEditable": false,
+          "enable": true,
+          "visible": true,
+          "localize": false,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "modelId": null,
+          "@components": [
+            {
+              "@type": "MOD.Core.TransformComponent",
+              "Position": {
+                "x": 0.0,
+                "y": -0.280000031,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ClimbableSpriteRendererComponent",
+              "BodySpriteFlipInfo": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "BodySpriteLocalPos": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "NeedGizmo": false,
+              "OrderInLayer": 2,
+              "OriginOffset": {
+                "x": 0.0,
+                "y": -0.004999995
+              },
+              "OriginRectSize": {
+                "x": 0.52,
+                "y": 0.23
+              },
+              "RenderSetting": 0,
+              "SortingLayer": "MapLayer0",
+              "SpriteRUID": "814a2e4206974e50bb16bddae81e6765",
+              "SpriteRUIDHead": "",
+              "SpriteRUIDTail": "",
               "Enable": true
             }
           ],
