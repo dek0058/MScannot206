@@ -54,8 +54,8 @@ script GameplayLogic extends Logic
 			["Yes"] = function(com)
 				_TransitionLogic:Push(_TransitionLogic.Home)
 				_TransitionLogic:Dissolve()
-				com.Entity:Destroy()
 				wait(1.5)
+				com.Entity:Destroy()
 				_LoginLogic:RequestHome(_UserProxy:GetUid())
 			end,
 			["No"] = function(com)
