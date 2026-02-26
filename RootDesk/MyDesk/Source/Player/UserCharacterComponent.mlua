@@ -3,9 +3,17 @@ script UserCharacterComponent extends Component
 
 	@ExecSpace("ServerOnly")
 	method void Reset()
+		local uid = self.Entity.PlayerComponent.UserId
+		local user = _UserService.Users[uid]
+
+		if user == nil then
+			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			return
+		end
+
 		local userPlayerCom = self.Entity.UserLocalPlayerComponent
 		if userPlayerCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
@@ -18,31 +26,36 @@ script UserCharacterComponent extends Component
 			end
 			costumeManagerCom:SetEquip(MapleAvatarItemCategory.CastFrom(category), "")
 		end
+
+		local nameTagCom = userPlayerCom:GetNameTagComponent()
+		nameTagCom.Name = user.Nickname.. "#".. user.ProfileCode
 	end
 
 	@ExecSpace("ServerOnly")
 	method void Setup()
+		local uid = self.Entity.PlayerComponent.UserId
+
 		local userStorageCom = self.Entity.UserStorageComponent
 		if userStorageCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "유저 스토리지 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 스토리지 컴포넌트를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
 		local userPlayerCom = self.Entity.UserLocalPlayerComponent
 		if userPlayerCom == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
 		local character = userStorageCom.characters[userStorageCom.gameplayCharacterSlot]
 		if character == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "선택된 캐릭터 정보를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "선택된 캐릭터 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
 		local inventory = userStorageCom.characterInventories[userStorageCom.gameplayCharacterSlot]
 		if inventory == nil then
-			_GameServerLogic:KickByServer(_UserProxy:GetUid(), "선택된 캐릭터의 인벤토리 정보를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "선택된 캐릭터의 인벤토리 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
