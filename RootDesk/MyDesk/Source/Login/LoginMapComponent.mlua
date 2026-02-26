@@ -10,17 +10,26 @@ script LoginMapComponent extends Component
 	@HideFromInspector()
 	property Entity StartLocation = nil
 	
+	---@description "캐릭터 슬롯 엔티티"
+	@HideFromInspector()
+	property Entity CharacterSlotEntity = nil
+
 	method void OnBeginPlay()
 		local err = ErrorType()
 		
-		self.OpeningCamera = _EntityService:GetEntityByTag("OpeningCamera")
+		self.OpeningCamera = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "OpeningCamera")
 		if self.OpeningCamera == nil then
 			err:AddError("OpeningCamera 엔티티를 찾을 수 없습니다.")
 		end
 		
-		self.StartLocation = _EntityService:GetEntityByTag("StartLocation")
+		self.StartLocation = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "StartLocation")
 		if self.StartLocation == nil then
 			err:AddError("StartLocation 엔티티를 찾을 수 없습니다.")
+		end
+		
+		self.CharacterSlotEntity = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "CharacterSlot")
+		if self.CharacterSlotEntity == nil then
+			err:AddError("CharacterSlot 엔티티를 찾을 수 없습니다.")
 		end
 		
 		if err:IsError() == true then
@@ -81,7 +90,7 @@ script LoginMapComponent extends Component
 		_CameraService:SwitchCameraTo(self.OpeningCamera.CameraComponent)
 		
 		---@type LoginIntroComponent
-		local introCom = _GameplayStaticsLogic:FindComponentInChildren(currentScreen, "LoginIntroComponent")
+		local introCom = _GameplayStaticsLogic:FindComponentInChild(currentScreen, "LoginIntroComponent")
 		if introCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "LoginIntroComponent를 찾을 수 없습니다", "WorldError")
 			return
@@ -156,7 +165,7 @@ script LoginMapComponent extends Component
 		_CameraService:SwitchCameraTo(userLocalPlayerCom:GetCameraComponent())
 		
 		---@type CharacterSelectionComponent
-		local charSelectCom = _GameplayStaticsLogic:FindComponentInChildren(currentScreen, "CharacterSelectionComponent")
+		local charSelectCom = _GameplayStaticsLogic:FindComponentInChild(currentScreen, "CharacterSelectionComponent")
 		if charSelectCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionComponent를 찾을 수 없습니다", "WorldError")
 			return
@@ -172,9 +181,8 @@ script LoginMapComponent extends Component
 	method table<CharacterSelectionSlotComponent> GetCharacterSlots()
 		local slots = {}
 		
-		local characterSlotEntity = _EntityService:GetEntityByTag("CharacterSlot")
-		if characterSlotEntity ~= nil then
-			for _, child in ipairs(characterSlotEntity.Children) do
+		if self.CharacterSlotEntity ~= nil then
+			for _, child in ipairs(self.CharacterSlotEntity.Children) do
 				local slotCom = child.CharacterSelectionSlotComponent
 				if slotCom == nil then
 					continue
