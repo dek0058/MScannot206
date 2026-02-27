@@ -187,7 +187,12 @@
             {
               "@type": "script.MiniGame001MapComponent",
               "Enable": true,
-              "MonsterEntity": null
+              "spawnerCom": {
+                "IsRelative": false,
+                "ComponentId": ":SpawnerComponent",
+                "UseNested": false
+              },
+              "monsterEntity": null
             }
           ],
           "@version": 1

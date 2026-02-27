@@ -1,0 +1,31 @@
+@Component
+script ClickerMonsterAIComponent extends AIComponent
+	
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local rootNode = SelectorNode()
+		self:SetRootNode(rootNode)
+		
+		local deadSequence = SequenceNode()
+		rootNode:AttachChild(deadSequence)
+		local deadNode = BTClickerMonsterDead()
+		deadSequence:AttachChild(deadNode)
+		
+		local idleSequence = SequenceNode()
+		rootNode:AttachChild(idleSequence)
+
+		local idleRandomSelector = RandomSelectorNode()
+		idleSequence:AttachChild(idleRandomSelector)
+		local idleNode = BTClickerMonsterIdle()
+		idleRandomSelector:AttachChild(idleNode, 0.7)
+		local idle2Node = BTClickerMonsterIdle2()
+		idleRandomSelector:AttachChild(idle2Node, 0.3)
+		local idleWaitNode = BTWait()
+		idleWaitNode.waitDuration = 1.0
+		idleSequence:AttachChild(idleWaitNode)
+		
+
+		
+	end
+	
+end

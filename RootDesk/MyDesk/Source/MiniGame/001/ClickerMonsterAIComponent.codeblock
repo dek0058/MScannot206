@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+  "EntryKey": "codeblock://dd003a6e-06a7-4c89-a34b-8cb493ce4010",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,12 +22,12 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+      "Id": "dd003a6e-06a7-4c89-a34b-8cb493ce4010",
       "Language": 1,
-      "Name": "ClickerMonsterComponent",
-      "Type": 1,
+      "Name": "ClickerMonsterAIComponent",
+      "Type": 4,
       "Source": 0,
-      "Target": null
+      "Target": "MOD.Core.AIComponent"
     }
   }
 }

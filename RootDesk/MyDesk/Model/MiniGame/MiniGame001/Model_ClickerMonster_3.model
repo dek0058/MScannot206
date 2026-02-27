@@ -23,7 +23,7 @@
         "MOD.Core.StateAnimationComponent",
         "script.EntityTriggerComponent",
         "script.ClickerMonsterComponent",
-        "MOD.Core.TagComponent"
+        "script.ClickerMonsterAIComponent"
       ],
       "Properties": [],
       "Values": [
@@ -124,7 +124,7 @@
             "$type": "MODNativeType",
             "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
           },
-          "Value": "2688d39a56874f24aa0d46efbf89ff21"
+          "Value": "a908b6976a9844aea9408a80ec9bdc6b"
         },
         {
           "TargetType": "MOD.Core.SpriteRendererComponent",
@@ -153,12 +153,14 @@
           },
           "Value": {
             "$type": "MOD.Core.MODSyncDictionary`2[[System.String, mscorlib],[System.String, mscorlib]], MOD.Core",
-            "move": "f3bf3c053e444315b83a9663ea85a37f",
-            "stand": "2688d39a56874f24aa0d46efbf89ff21",
-            "jump": "2f45374c97224e0cb108241398710a3c",
-            "attack": "907f4089e0b840a993967c5211af9b89",
-            "hit": "b771488c84fe437e9707f233c48ec477",
-            "die": "c03225c35c124bcbaf9ec9299b7d8a1f"
+            "move": "d607a7dc605648fbbba53727bf631739",
+            "stand": "a908b6976a9844aea9408a80ec9bdc6b",
+            "jump": "76571b5afc704ff18a5c59bdae450a61",
+            "attack": "b5e4a508d0e842e1823c2a258d217737",
+            "skill": "0a3e975eb04d4f83ab8864218defb04f",
+            "hit": "452efbf925a34f2291d1ac00b1cd40a6",
+            "die": "e65ef0b7866f498fb942ae749705fd97",
+            "dead": "541cd1cee1604c61936899f7f01fc7f2"
           }
         },
         {
@@ -236,38 +238,6 @@
           "Value": true
         },
         {
-          "TargetType": "script.ClickerMonsterComponent",
-          "Name": "Enable",
-          "ValueType": {
-            "$type": "MODNativeType",
-            "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-          },
-          "Value": true
-        },
-        {
-          "TargetType": "MOD.Core.TagComponent",
-          "Name": "Tags",
-          "ValueType": {
-            "$type": "MODNativeType",
-            "type": "MOD.Core.MODSyncList`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
-          },
-          "Value": {
-            "$type": "MOD.Core.MODSyncList`1[[System.String, mscorlib]], MOD.Core",
-            "$values": [
-              "Monster"
-            ]
-          }
-        },
-        {
-          "TargetType": "MOD.Core.TagComponent",
-          "Name": "Enable",
-          "ValueType": {
-            "$type": "MODNativeType",
-            "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-          },
-          "Value": true
-        },
-        {
           "TargetType": "MOD.Core.MODEntity",
           "Name": "Enable",
           "ValueType": {
@@ -284,6 +254,15 @@
             "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
           },
           "Value": true
+        },
+        {
+          "TargetType": "script.ClickerMonsterAIComponent",
+          "Name": "UpdateAuthority",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.AIComponent+UpdateAuthorityType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": 1
         }
       ],
       "EventLinks": [],

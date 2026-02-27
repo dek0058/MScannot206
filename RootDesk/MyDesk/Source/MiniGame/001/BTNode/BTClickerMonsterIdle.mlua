@@ -1,0 +1,9 @@
+@BTNode
+script BTClickerMonsterIdle extends BTNode
+
+	@ExecSpace("ClientOnly")
+	method any OnBehave(number delta)
+		return BehaviourTreeStatus.Success
+	end
+
+end

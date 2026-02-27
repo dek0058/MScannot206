@@ -1,7 +1,7 @@
 @Struct
 script ClickerMonster
 
-	property string index = 0
+	property string index = ""
 
 	property integer hp = 1000000000
 

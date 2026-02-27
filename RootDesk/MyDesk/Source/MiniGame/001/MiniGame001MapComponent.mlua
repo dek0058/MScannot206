@@ -88,7 +88,7 @@ script MiniGame001MapComponent extends Component
 			return
 		end
 
-		entity.ClickerMonsterComponent:Setup(e.clickerMonster)
+		entity.ClickerMonsterComponent:Setup()
 	end
 
 end

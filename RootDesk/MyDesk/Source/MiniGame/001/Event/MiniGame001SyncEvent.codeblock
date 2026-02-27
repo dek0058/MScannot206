@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+  "EntryKey": "codeblock://253ca087-009d-4ceb-b8aa-6d4cd920ed77",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,12 +22,12 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+      "Id": "253ca087-009d-4ceb-b8aa-6d4cd920ed77",
       "Language": 1,
-      "Name": "ClickerMonsterComponent",
-      "Type": 1,
+      "Name": "MiniGame001SyncEvent",
+      "Type": 3,
       "Source": 0,
-      "Target": null
+      "Target": "codeblock://f1c11e3d-b5f4-4074-aa76-0a3226d31fe0"
     }
   }
 }

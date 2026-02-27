@@ -1,0 +1,17 @@
+@BTNode
+script BTClickerMonsterIdle2 extends BTNode
+
+	@ExecSpace("ClientOnly")
+	method any OnBehave(number delta)
+		if not isvalid(self.ParentAI.Entity) then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		if self.ParentAI.Entity.ClickerMonsterComponent ~= nil then
+			self.ParentAI.Entity.ClickerMonsterComponent:SetState(self.ParentAI.Entity.ClickerMonsterComponent.State_Idle2)
+		end
+		
+		return BehaviourTreeStatus.Success
+	end
+
+end

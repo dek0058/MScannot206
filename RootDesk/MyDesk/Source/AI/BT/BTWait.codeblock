@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+  "EntryKey": "codeblock://07ff3757-6a90-4db3-897e-838ff3ef04f2",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "8b8587fc-e538-4ac8-b70a-6cee0ce4cd9e",
+      "Id": "07ff3757-6a90-4db3-897e-838ff3ef04f2",
       "Language": 1,
-      "Name": "ClickerMonsterComponent",
-      "Type": 1,
+      "Name": "BTWait",
+      "Type": 7,
       "Source": 0,
       "Target": null
     }

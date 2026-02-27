@@ -1,0 +1,17 @@
+@BTNode
+script BTWait extends BTNode
+
+	property number waitDuration = 1.0
+
+	property number elapsedTime = 0.0
+
+	method any OnBehave(number delta)
+		self.elapsedTime = self.elapsedTime + delta
+		if self.elapsedTime >= self.waitDuration then
+			self.elapsedTime = 0.0
+			return BehaviourTreeStatus.Success
+		end
+		return BehaviourTreeStatus.Running
+	end
+
+end

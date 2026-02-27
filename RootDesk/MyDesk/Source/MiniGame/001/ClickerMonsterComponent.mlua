@@ -1,6 +1,76 @@
 @Component
 script ClickerMonsterComponent extends Component
+	
+	@HideFromInspector()
+	property string State_Idle = "idle"
+	
+	@HideFromInspector()
+	property string State_Idle2 = "move"
+	
+	@HideFromInspector()
+	property string State_Die = "die"
 
+	@HideFromInspector()
+	property string State_Dead = "dead"
+	
+	@HideFromInspector()
+	property number Die_Destroy_Delay = 3.0
+	
+	@HideFromInspector()
+	property string State_Hit = "hit"
+	
+	@HideFromInspector()
+	property number Hit_Duration = 0.33
+	
+	@HideFromInspector()
+	property table clickTimes = {}
+	
+	@HideFromInspector()
+	property string state = "idle"
+	
+	@HideFromInspector()
+	property boolean updateState = false
+	
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["RequestFlushTimerHandle"] ~= nil then
+			_TimerService:ClearTimer(self._T["RequestFlushTimerHandle"])
+			self._T["RequestFlushTimerHandle"] = nil
+		end
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if not self.updateState then
+			return
+		end
+		
+		if self.state == self.State_Hit then
+			local dt = self._T["Hit"] or 0
+			dt = dt + delta
+			if dt < self.Hit_Duration then
+				self._T["Hit"] = dt
+			else
+				self:SetState(self.State_Idle)
+			end
+			
+		elseif self.state == self.State_Die or self.state == self.State_Dead then
+			local dt = self._T["Die"] or 0
+			dt = dt + delta
+			if dt < self.Die_Destroy_Delay then
+				self._T["Die"] = dt
+				if self.Entity.SpriteRendererComponent ~= nil then
+					local a = _TweenUtility:CubicEaseIn(1.0 - dt / self.Die_Destroy_Delay)
+					self.Entity.SpriteRendererComponent.Color.a = a
+				end
+			else
+				self.updateState = true
+				self:RequestKill()
+			end
+		end
+		
+	end
+	
 	@ExecSpace("ClientOnly")
 	method void SetEnable(boolean enable)
 		if self.Entity.SpriteRendererComponent ~= nil then
@@ -11,28 +81,153 @@ script ClickerMonsterComponent extends Component
 			self.Entity.EntityTriggerComponent.Enable = enable
 		end
 	end
-
+	
 	@ExecSpace("ClientOnly")
-	method void Setup(ClickerMonster monster)
-		if monster == nil then
+	method void RequestKill()
+		-- TODO: 여기 그거 추가 필요
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		self:SetEnable(true)
+
+		if _MiniGame001Logic.localMonster == nil then
 			return
 		end
 
-		self:SetEnable(true)
+		if _MiniGame001Logic.localMonster.hp <= 0 then
+			self:SetState(self.State_Die)
+		end
 	end
-
+	
 	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleEntityTriggerPressEvent(EntityTriggerPressEvent e)
-		log("클릭함")
+	method void SetState(string newState)
+		self.state = newState
+		
+		local spriteCom = self.Entity.SpriteRendererComponent
+		if spriteCom == nil then
+			return
+		end
+		
+		local stateAnimCom = self.Entity.StateAnimationComponent
+		if stateAnimCom == nil then
+			return
+		end
+		
+		local ruid = stateAnimCom.ActionSheet[newState]
+		if ruid == nil then
+			return
+		end
+		
+		spriteCom.SpriteRUID = ruid
+		
+		if newState == self.State_Idle then
+			self.updateState = false
+		elseif newState == self.State_Idle2 then
+			self.updateState = true
+		elseif newState == self.State_Die then
+			self._T["Die"] = 0
+			self.updateState = true
+		elseif newState == self.State_Hit then
+			self._T["Hit"] = 0
+			self.updateState = true
+		end
 	end
-
+	
+	method void RequestFlush()
+		if self._T["RequestFlushTimerHandle"] ~= nil then
+			return
+		end
+		
+		local callback = function()
+			self:Flush()
+			self._T["RequestFlushTimerHandle"] = nil
+		end
+		
+		local handle = _TimerService:SetTimerOnce(callback, 1.0)
+		if handle == 0 then
+			log_warning("플러시 타이머 설정에 실패했습니다.")
+			return
+		end
+		self._T["RequestFlushTimerHandle"] = handle
+	end
+	
 	@ExecSpace("ClientOnly")
-	@EventSender("Self")
-	handler HandleEntityTriggerReleaseEvent(EntityTriggerReleaseEvent e)
-		local eff = _SpawnService:SpawnByModelId("9c1e58d3-91af-449a-8168-c9af3e6f2ce6", "hitEff", Vector3(e.worldPosition.x, e.worldPosition.y, 999), _UserProxy:GetCurrentMap())
+	method void Flush()
+		if #self.clickTimes == 0 then
+			return
+		end
+		
+		_MiniGame001Logic:SyncMonster(_UserProxy:GetUid(), self.clickTimes)
+		self.clickTimes = {}
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void CreateHitEffect(Vector3 location)
+		local eff = _SpawnService:SpawnByModelId("9c1e58d3-91af-449a-8168-c9af3e6f2ce6", "hitEff", location, _UserProxy:GetCurrentMap())
 		eff.SpriteRendererComponent.SortingLayer = self.Entity.SpriteRendererComponent.SortingLayer
 		eff.SpriteRendererComponent.OrderInLayer = self.Entity.SpriteRendererComponent.OrderInLayer + 1
 	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleEntityTriggerPressEvent(EntityTriggerPressEvent e)
+		self._T["OnPress"] = true
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleEntityTriggerReleaseEvent(EntityTriggerReleaseEvent e)
+		local press = self._T["OnPress"] or false
+		if not press then
+			return
+		end
+		self._T["OnPress"] = false
 
+		if self.state == self.State_Dead then
+			return
+		end
+		
+		local worldPos = Vector3(e.worldPosition.x, e.worldPosition.y, 0)
+		local localPos = self.Entity.TransformComponent:ToLocalPoint(worldPos)
+		
+		_DamageSkinService:Play(
+			self.Entity
+			, _DamageLogic.MonsterHit_Default
+			, 0.0
+			, {1}
+			, DamageSkinTweenType.Volcano
+			, false
+			, Vector2(localPos.x, localPos.y)
+		)
+		self:CreateHitEffect(Vector3(e.worldPosition.x, e.worldPosition.y, 999))
+		
+		table.insert(self.clickTimes, DateTime.UtcNow.Elapsed)
+		if #self.clickTimes >= _MiniGame001Logic.localMonster.hp then
+			self:Flush()
+		else
+			self:RequestFlush()
+		end
+	end
+	
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleMiniGame001SyncEvent(MiniGame001SyncEvent e)
+		_MiniGame001Logic.localMonster = e.clickerMonster
+		if _MiniGame001Logic.localMonster.hp <= 0 then
+			self:SetState(self.State_Die)
+		else
+			self:SetState(self.State_Hit)
+		end
+	end
+	
+	@EventSender("Self")
+	handler HandleSpriteAnimPlayerEndFrameEvent(SpriteAnimPlayerEndFrameEvent e)
+		if self.state == self.State_Idle2 then
+			self:SetState(self.State_Idle)
+		elseif self.state == self.State_Die then
+			self:SetState(self.State_Dead)
+		end
+	end
+	
 end

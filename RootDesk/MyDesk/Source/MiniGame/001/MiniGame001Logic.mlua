@@ -1,13 +1,58 @@
 @Logic
 script MiniGame001Logic extends Logic
 
-	property string Key_MiniGame001 = "minigame001"
+	readonly property string Key_MiniGame001 = "minigame001"
+
+	readonly property integer MaxClickTimesPerFlush = 20
 
 	---@type table<string, ClickerMonster>
 	property table monsters = {}
 
 	---@type ClickerMonster
 	property any localMonster = {}
+
+	@ExecSpace("Server")
+	method void SyncMonster(string uid, table<integer> clickTimes)
+		local monster = self.monsters[uid]
+		if monster == nil then
+			return
+		end
+
+		local hit = 0
+		local lastClickTime = DateTime(0)
+
+		for i, v in ipairs(clickTimes) do
+			if i > 100 then
+				log_warning("클릭 횟수가 너무 많습니다. uid: " .. uid)
+				break
+			end
+
+			local clickTime = DateTime(v)
+			---@type TimeSpan
+			local diff = clickTime - lastClickTime
+			if diff.TotalMilliseconds >= 40 then
+				hit += 1
+				lastClickTime = clickTime
+			end
+
+			if hit >= self.MaxClickTimesPerFlush then
+				break
+			end
+		end
+
+		monster.hp = math.max(monster.hp - hit, 0)
+		
+		local e = MiniGame001SyncEvent()
+		e.clickerMonster = monster
+		_UserProxy:SendEventToLocalPlayer(e, uid)
+
+		local request = UserDBRequest()
+		request.key = self.Key_MiniGame001
+		request.tag = self.Key_MiniGame001
+		request.version = _DefLogic.Version
+		request.content = _HttpService:JSONEncode(monster:ToTable())
+		_GameDBLogic:PushUserRequest(uid, request)
+	end
 
 	---@description "미니게임에 필요한 데이터를 불러옵니다"
 	@ExecSpace("ServerOnly")

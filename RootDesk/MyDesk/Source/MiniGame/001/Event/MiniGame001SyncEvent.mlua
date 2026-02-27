@@ -1,0 +1,6 @@
+@Event
+script MiniGame001SyncEvent extends TemplateEventType
+
+	property any clickerMonster = nil
+
+end
