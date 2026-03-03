@@ -3,7 +3,6 @@
 script CharacterEquipItemRecord
 
 	property string Index = ""
-	property string ItemName = ""
 	property boolean Bound = false
 	property boolean Male = false
 	property boolean Female = false

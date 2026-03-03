@@ -13,7 +13,6 @@ script CharacterEquipItemTable
 			local record = CharacterEquipItemRecord()
 			local cell = ""
 			record.Index = userDataset:GetCell(row, "Index")
-			record.ItemName = userDataset:GetCell(row, "ItemName")
 			cell = userDataset:GetCell(row, "Bound")
 			record.Bound = (string.lower(cell) == "true")
 			cell = userDataset:GetCell(row, "Male")

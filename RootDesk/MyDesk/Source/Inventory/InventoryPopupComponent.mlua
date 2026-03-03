@@ -1,0 +1,39 @@
+@Component
+script InventoryPopupComponent extends Component
+
+	property Entity Slots = nil
+
+	@HideFromInspector
+	property table<GridViewComponent> gridViewComs = {}
+
+	method void OnBeginPlay()
+		
+		if self.Slots ~= nil then
+			for _, child in ipairs(self.Slots.Children) do
+				local gridViewCom = child:GetComponent(GridViewComponent)
+				if gridViewCom ~= nil then
+					table.insert(self.gridViewComs, gridViewCom)
+				end
+			end
+		end
+		
+		local slotBase = _SpawnService:SpawnByModelId("model://8b83f007-0199-4095-8e97-62e8af394e59", "InventorySlotBase", Vector3.zero, self.Entity)
+		
+		for _, gridViewCom in ipairs(self.gridViewComs) do
+			gridViewCom.ItemEntity = slotBase
+			gridViewCom.OnClear = self.OnClear
+			gridViewCom.OnRefresh = self.OnRefresh
+			gridViewCom:Refresh()
+		end
+		slotBase.Enable = false
+	end
+
+	method void OnRefresh(number index, Entity entity)
+		
+	end
+
+	method void OnClear(number index, Entity entity)
+		
+	end
+
+end

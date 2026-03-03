@@ -5,6 +5,8 @@ script ItemRecord
 	property string Index = ""
 	property string Category = ""
 	property string ItemName = ""
+	property string ItemDesc = ""
 	property string RUID = ""
+	property string Icon = ""
 
 end

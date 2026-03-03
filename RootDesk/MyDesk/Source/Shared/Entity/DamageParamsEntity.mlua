@@ -1,0 +1,12 @@
+@Struct
+script DamageParamsEntity
+
+	property integer targetId = 0
+
+	property integer sourceId = 0
+
+	property string damageType = ""
+
+	property table params = {}
+
+end

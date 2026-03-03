@@ -13,7 +13,7 @@ script MiniGame001MapComponent extends Component
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		---@type SpawnerComponent
-		local com = _GameplayStaticsLogic:FindComponentInChild(self.Entity, "SpawnerComponent")
+		local com = _GameplayStaticsLogic:FindComponentInParent(self.Entity, "SpawnerComponent")
 		if com == nil then
 			log_warning("몬스터 스포너 컴포넌트를 찾을 수 없습니다.")
 			return

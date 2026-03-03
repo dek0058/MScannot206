@@ -3,6 +3,7 @@ confirm,확인,
 cancel,취소,
 yes,예,
 no,아니오,
+close,닫기,
 login_intro_touchscreen,화면을 터치를 해주세요,Intro
 login_intro_login_1,로그인 요청 중 이에요,Intro
 login_intro_login_2,로그인 요청 중 이에요.,Intro

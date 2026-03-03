@@ -13,5 +13,6 @@ script CharacterWeaponRecord
 	property string StabFinalAttack = ""
 	property string ShootAttack = ""
 	property string ShootFinalAttack = ""
+	property string desc = ""
 
 end

@@ -1,0 +1,41 @@
+@Logic
+script UnitLogic extends Logic
+
+	property table pool = {}
+
+	property string Tag_Unit = "Unit"
+
+	@ExecSpace("ServerOnly")
+	method integer Issue(string key)
+		if self.pool[key] == nil then
+			self.pool[key] = 0
+		end
+		
+		self.pool[key] += 1
+		return self.pool[key]
+	end
+
+	@ExecSpace("ServerOnly")
+	method Entity Get(string key)
+		if self.pool[key] == nil then
+			-- 키가 존재하지 않은 경우 플레이어 캐릭터 일 수 있다
+			return _UserService:GetUserEntityByUserId(key)
+		end
+		
+		local entries = _UtilLogic:Split(key, ".")
+		if #entries < 2 then
+			return nil
+		end
+		
+		local mapName = entries[1]
+		local id = entries[2]
+		
+		local mapEntity = _EntityService:GetEntityByPath("/maps/".. mapName)
+		if mapEntity == nil then
+			return nil
+		end
+		
+		return _GameplayStaticsLogic:FindEntityByTag(mapEntity, self.Tag_Unit.. ".".. id)
+	end
+
+end

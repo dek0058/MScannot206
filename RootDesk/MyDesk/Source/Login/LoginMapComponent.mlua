@@ -4,33 +4,47 @@ script LoginMapComponent extends Component
 	
 	---@description "시작 카메라 엔티티"
 	@HideFromInspector()
-	property Entity OpeningCamera = nil
+	property Entity openingCamera = nil
 	
 	---@description "시작 위치 엔티티"
 	@HideFromInspector()
-	property Entity StartLocation = nil
+	property Entity startLocation = nil
 	
 	---@description "캐릭터 슬롯 엔티티"
 	@HideFromInspector()
-	property Entity CharacterSlotEntity = nil
+	property Entity characterSlotEntity = nil
+
+	---@description "모바일 조이스틱 엔티티"
+	@HideFromInspector()
+	property Entity joystickEntity = nil
 
 	method void OnBeginPlay()
 		local err = ErrorType()
 		
-		self.OpeningCamera = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "OpeningCamera")
-		if self.OpeningCamera == nil then
+		self.openingCamera = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "OpeningCamera")
+		if self.openingCamera == nil then
 			err:AddError("OpeningCamera 엔티티를 찾을 수 없습니다.")
 		end
 		
-		self.StartLocation = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "StartLocation")
-		if self.StartLocation == nil then
+		self.startLocation = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "StartLocation")
+		if self.startLocation == nil then
 			err:AddError("StartLocation 엔티티를 찾을 수 없습니다.")
 		end
 		
-		self.CharacterSlotEntity = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "CharacterSlot")
-		if self.CharacterSlotEntity == nil then
+		self.characterSlotEntity = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "CharacterSlot")
+		if self.characterSlotEntity == nil then
 			err:AddError("CharacterSlot 엔티티를 찾을 수 없습니다.")
 		end
+
+		if _GameClientLogic:IsMobile() then
+			local mobileControllerCom = _GameplayStaticsLogic:FindComponentInParent(_GameClientUILogic.currentScreen, "MobileController")
+			if mobileControllerCom == nil then
+				log_warning("MobileController 컴포넌트를 찾을 수 없습니다. 모바일 조이스틱이 비활성화 됩니다.")
+			else
+				self.joystickEntity = mobileControllerCom.Entity
+			end
+		end
+
 		
 		if err:IsError() == true then
 			err:PrintErrors()
@@ -52,6 +66,18 @@ script LoginMapComponent extends Component
 			return
 		end
 	end
+
+	---@description "UI를 초기화 합니다"
+	@ExecSpace("ClientOnly")
+	method void ClearUI()
+		_GameClientUILogic:CurrentScreenClear()
+
+		if _GameClientLogic:IsMobile() then
+			if self.joystickEntity ~= nil then
+				self.joystickEntity:SetEnable(true)
+			end
+		end
+	end
 	
 	---@description "오프닝으로 이동 합니다"
 	@ExecSpace("ServerOnly")
@@ -71,8 +97,8 @@ script LoginMapComponent extends Component
 		userCharacterCom:Reset()
 		
 		userLocalPlayerCom:SetEnable(true)
-		userLocalPlayerCom:SetLocation(self.StartLocation.StartLocationComponent:GetTeleportLocation())
-		userLocalPlayerCom:SetFaceRight(self.StartLocation.StartLocationComponent.IsFaceRight)
+		userLocalPlayerCom:SetLocation(self.startLocation.StartLocationComponent:GetTeleportLocation())
+		userLocalPlayerCom:SetFaceRight(self.startLocation.StartLocationComponent.IsFaceRight)
 		userLocalPlayerCom:SetInputEnable(false)
 		
 		self:OnOpening(uid)
@@ -87,17 +113,17 @@ script LoginMapComponent extends Component
 			return
 		end
 		
-		_CameraService:SwitchCameraTo(self.OpeningCamera.CameraComponent)
+		_CameraService:SwitchCameraTo(self.openingCamera.CameraComponent)
 		
 		---@type LoginIntroComponent
-		local introCom = _GameplayStaticsLogic:FindComponentInChild(currentScreen, "LoginIntroComponent")
+		local introCom = _GameplayStaticsLogic:FindComponentInParent(currentScreen, "LoginIntroComponent")
 		if introCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "LoginIntroComponent를 찾을 수 없습니다", "WorldError")
 			return
 		end
 		
 		-- ui 설정
-		_GameClientUILogic:CurrentScreenClear()
+		self:ClearUI()
 		introCom.Entity:SetEnable(true)
 		introCom:Setup()
 	end
@@ -165,14 +191,14 @@ script LoginMapComponent extends Component
 		_CameraService:SwitchCameraTo(userLocalPlayerCom:GetCameraComponent())
 		
 		---@type CharacterSelectionComponent
-		local charSelectCom = _GameplayStaticsLogic:FindComponentInChild(currentScreen, "CharacterSelectionComponent")
+		local charSelectCom = _GameplayStaticsLogic:FindComponentInParent(currentScreen, "CharacterSelectionComponent")
 		if charSelectCom == nil then
 			_GameServerLogic:Kick(_UserProxy:GetUid(), "CharacterSelectionComponent를 찾을 수 없습니다", "WorldError")
 			return
 		end
 		
 		-- ui 설정
-		_GameClientUILogic:CurrentScreenClear()
+		self:ClearUI()
 		charSelectCom.Entity:SetEnable(true)
 		charSelectCom:Setup()
 	end
@@ -181,8 +207,8 @@ script LoginMapComponent extends Component
 	method table<CharacterSelectionSlotComponent> GetCharacterSlots()
 		local slots = {}
 		
-		if self.CharacterSlotEntity ~= nil then
-			for _, child in ipairs(self.CharacterSlotEntity.Children) do
+		if self.characterSlotEntity ~= nil then
+			for _, child in ipairs(self.characterSlotEntity.Children) do
 				local slotCom = child.CharacterSelectionSlotComponent
 				if slotCom == nil then
 					continue

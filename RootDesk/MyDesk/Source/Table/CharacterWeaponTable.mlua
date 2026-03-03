@@ -23,6 +23,7 @@ script CharacterWeaponTable
 			record.StabFinalAttack = userDataset:GetCell(row, "StabFinalAttack")
 			record.ShootAttack = userDataset:GetCell(row, "ShootAttack")
 			record.ShootFinalAttack = userDataset:GetCell(row, "ShootFinalAttack")
+			record.desc = userDataset:GetCell(row, "desc")
 			self.records[record.Index] = record
 		end
 	end

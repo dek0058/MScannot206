@@ -1,0 +1,6 @@
+@Logic
+script DamageDef extends Logic
+
+	property string None = "none"
+
+end

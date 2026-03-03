@@ -76,6 +76,15 @@ script GameServerLogic extends Logic
 		end
 
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
+
+		local user = _UserService.Users[uid]
+		if user ~= nil then
+			if _DefLogic:IsExceptionUser(user.ProfileCode) then
+				log_warning("예외 유저로 강제 퇴장을 하지 않습니다: " .. uid)
+				return
+			end
+		end
+
 		_UserService:KickUser(uid, KickReason.CastFrom(kickReason))
 	end
 	
@@ -83,6 +92,13 @@ script GameServerLogic extends Logic
 	@ExecSpace("ServerOnly")
 	method void KickByServer(string uid, string reason, string kickReason)
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
+		local user = _UserService.Users[uid]
+		if user ~= nil then
+			if _DefLogic:IsExceptionUser(user.ProfileCode) then
+				log_warning("예외 유저로 강제 퇴장을 하지 않습니다: " .. uid)
+				return
+			end
+		end
 		_UserService:KickUser(uid, KickReason.CastFrom(kickReason))
 	end
 	

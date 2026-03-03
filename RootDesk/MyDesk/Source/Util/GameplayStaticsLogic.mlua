@@ -2,19 +2,30 @@
 script GameplayStaticsLogic extends Logic
 
 	---@description "주어진 엔티티의 자식 엔티티들 중에서 특정 타입의 컴포넌트를 찾는 함수입니다"
-	method Component FindComponentInChild(Entity parent, string componentType)
+	method Component FindComponentInParent(Entity parent, string componentType)
 		for _, child in pairs(parent.Children) do
 			local com = child:GetComponent(componentType)
 			if com ~= nil then
 				return com
 			end
+		end
 		
-			com = self:FindComponentInChild(child, componentType)
+		return nil
+	end
+
+	method Component FindComponentInParentRecursive(Entity parent, string componentType)
+		for _, child in pairs(parent.Children) do
+			local com = child:GetComponent(componentType)
+			if com ~= nil then
+				return com
+			end
+
+			com = self:FindComponentInParentRecursive(child, componentType)
 			if com ~= nil then
 				return com
 			end
 		end
-		
+
 		return nil
 	end
 

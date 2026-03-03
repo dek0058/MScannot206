@@ -1,20 +1,20 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://a94f45bf668e4f279b36afba80489c22",
+  "EntryKey": "directory://80f52b5e3dea4f11b0c4c20763669ff8",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
   "CoreVersion": "26.1.0.0",
-  "StudioVersion": "",
+  "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://a94f45bf668e4f279b36afba80489c22",
-      "name": "Material",
+      "entry_id": "directory://80f52b5e3dea4f11b0c4c20763669ff8",
+      "name": "Inventory",
       "lock": false,
       "folding": false,
       "nameEditable": true

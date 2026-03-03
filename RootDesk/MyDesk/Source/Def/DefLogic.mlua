@@ -15,5 +15,25 @@ script DefLogic extends Logic
 
 	---@description "맵 진입 시 이벤트"
 	readonly property string EventEnterMap = "EnterMap"
-	
+
+	---@description "마스터 유저 저장소"
+	property table<string, string> master = {}
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		local userDataset = _DataService:GetTable("MasterUserDataset")
+		local rowCount = userDataset:GetRowCount()
+
+		for row = 1, rowCount do
+			local key = userDataset:GetCell(row, "Key")
+			local value = userDataset:GetCell(row, "Auth")
+			self.master[key] = value
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method boolean IsExceptionUser(string key)
+		return self.master[key] ~= nil
+	end
+
 end

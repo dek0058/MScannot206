@@ -1,0 +1,12 @@
+@Logic
+script DamageLogic extends Logic
+
+	property string MonsterHit_Default = "7e39645af9454fffb17a5451e9194dda"
+
+	property string CharacterHit_Default = "02c22d93421b4038b3c413b3e40b57ec"
+
+	property string HpRecovery_Default = "d05986f9be71482f8f700adb8f36f973"
+
+	property string MpRecovery_Default = "d58b67cf0f3a4eaf9fe1ad87c0ffac8a"
+
+end

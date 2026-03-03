@@ -219,12 +219,12 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 410.0,
-                "y": 330.0
+                "x": -9900.0,
+                "y": 370.0
               },
               "OffsetMin": {
-                "x": 210.0,
-                "y": 130.0
+                "x": -10100.0,
+                "y": 170.0
               },
               "RectSize": {
                 "x": 200.0,
@@ -232,9 +232,13 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -10000.0,
+                "y": 270.0
+              },
               "Position": {
-                "x": -650.0,
-                "y": -310.0,
+                "x": -10960.0,
+                "y": -270.0,
                 "z": 0.0
               },
               "QuaternionRotation": {

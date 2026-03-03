@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://cb1898055efe43028e93afbc7a899e84",
+  "EntryKey": "directory://e41bd0a7dc5b437497eb5c927d7cfc17",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://cb1898055efe43028e93afbc7a899e84",
-      "name": "Inventory",
+      "entry_id": "directory://e41bd0a7dc5b437497eb5c927d7cfc17",
+      "name": "Master",
       "lock": false,
       "folding": false,
       "nameEditable": true

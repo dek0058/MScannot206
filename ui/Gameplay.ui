@@ -219,12 +219,12 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 410.0,
-                "y": 330.0
+                "x": 55.0000038,
+                "y": 101.035
               },
               "OffsetMin": {
-                "x": 210.0,
-                "y": 130.0
+                "x": -145.0,
+                "y": -98.965
               },
               "RectSize": {
                 "x": 200.0,
@@ -233,8 +233,8 @@
               "UIMode": 1,
               "UIVersion": 2,
               "Position": {
-                "x": -650.0,
-                "y": -310.0,
+                "x": -1005.0,
+                "y": -538.965,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4193,6 +4193,1212 @@
               },
               "OverrideSorting": false,
               "SortingLayer": "MapLayer0",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "ae0f5534-895b-4e23-a568-e8e37456f256",
+        "path": "/ui/Gameplay/Inventory",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.InventoryPopupComponent,script.WindowBarComponent",
+        "jsonString": {
+          "name": "Inventory",
+          "path": "/ui/Gameplay/Inventory",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 6,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "ae0f5534-895b-4e23-a568-e8e37456f256",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 644.4542,
+                "y": 423.7242
+              },
+              "OffsetMin": {
+                "x": -555.5458,
+                "y": -395.2758
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1200.0,
+                "y": 819.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 44.4542,
+                "y": 14.2242
+              },
+              "Position": {
+                "x": 44.4542,
+                "y": 14.2242,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "0c2681ce011f4467928afd539fd1b28e"
+              },
+              "LocalScale": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "OverrideSorting": false,
+              "Type": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.InventoryPopupComponent",
+              "Enable": true,
+              "Slots": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "44ec2f82-7bfd-4ad7-b18a-edbc6dccf355",
+                "Version2": false
+              }
+            },
+            {
+              "@type": "script.WindowBarComponent",
+              "Enable": true,
+              "TouchAreaEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+                "Version2": false
+              }
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "44ec2f82-7bfd-4ad7-b18a-edbc6dccf355",
+        "path": "/ui/Gameplay/Inventory/Slots",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "Slots",
+          "path": "/ui/Gameplay/Inventory/Slots",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "44ec2f82-7bfd-4ad7-b18a-edbc6dccf355",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -30.0,
+                "y": -138.0
+              },
+              "OffsetMin": {
+                "x": 30.0,
+                "y": 108.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 1140.0,
+                "y": 573.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -15.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -15.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
+        "path": "/ui/Gameplay/Inventory/Slots/Slot_1",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "jsonString": {
+          "name": "Slot_1",
+          "path": "/ui/Gameplay/Inventory/Slots/Slot_1",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 286.5,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -573.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 286.5,
+                "y": 573.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -570.0,
+                "y": 286.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.GridViewComponent",
+              "CellSize": {
+                "x": 66.0,
+                "y": 66.0
+              },
+              "FixedCount": 4,
+              "FixedType": 0,
+              "HorizontalScrollBarDirection": 0,
+              "Padding": {
+                "left": 12,
+                "right": 4,
+                "top": 12,
+                "bottom": 0
+              },
+              "ScrollBarBackgroundColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "ScrollBarBackgroundImageRUID": null,
+              "ScrollBarHandleColor": {
+                "r": 0.7254902,
+                "g": 0.7098039,
+                "b": 0.6980392,
+                "a": 1.0
+              },
+              "ScrollBarHandleImageRUID": null,
+              "ScrollBarThickness": 10.0,
+              "ScrollBarVisible": 2,
+              "Spacing": {
+                "x": 3.0,
+                "y": 3.0
+              },
+              "TotalCount": 32,
+              "UseScroll": false,
+              "VerticalScrollBarDirection": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "f8082514-2a57-491d-93c3-691ed64cd395",
+        "path": "/ui/Gameplay/Inventory/Slots/Slot_2",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "jsonString": {
+          "name": "Slot_2",
+          "path": "/ui/Gameplay/Inventory/Slots/Slot_2",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 565.5,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 286.5,
+                "y": -573.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 279.0,
+                "y": 573.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 286.5,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -283.5,
+                "y": 286.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.GridViewComponent",
+              "CellSize": {
+                "x": 66.0,
+                "y": 66.0
+              },
+              "FixedCount": 4,
+              "FixedType": 0,
+              "HorizontalScrollBarDirection": 0,
+              "Padding": {
+                "left": 4,
+                "right": 4,
+                "top": 12,
+                "bottom": 0
+              },
+              "ScrollBarBackgroundColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "ScrollBarBackgroundImageRUID": null,
+              "ScrollBarHandleColor": {
+                "r": 0.7254902,
+                "g": 0.7098039,
+                "b": 0.6980392,
+                "a": 1.0
+              },
+              "ScrollBarHandleImageRUID": null,
+              "ScrollBarThickness": 10.0,
+              "ScrollBarVisible": 2,
+              "Spacing": {
+                "x": 3.0,
+                "y": 3.0
+              },
+              "TotalCount": 32,
+              "UseScroll": false,
+              "VerticalScrollBarDirection": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "3a4677ec-15a8-47ff-ad00-2aa72fac4741",
+        "path": "/ui/Gameplay/Inventory/Slots/Slot_3",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "jsonString": {
+          "name": "Slot_3",
+          "path": "/ui/Gameplay/Inventory/Slots/Slot_3",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 844.5,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 565.5,
+                "y": -573.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 279.0,
+                "y": 573.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 565.5,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -4.5,
+                "y": 286.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.GridViewComponent",
+              "CellSize": {
+                "x": 66.0,
+                "y": 66.0
+              },
+              "FixedCount": 4,
+              "FixedType": 0,
+              "HorizontalScrollBarDirection": 0,
+              "Padding": {
+                "left": 4,
+                "right": 4,
+                "top": 12,
+                "bottom": 0
+              },
+              "ScrollBarBackgroundColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "ScrollBarBackgroundImageRUID": null,
+              "ScrollBarHandleColor": {
+                "r": 0.7254902,
+                "g": 0.7098039,
+                "b": 0.6980392,
+                "a": 1.0
+              },
+              "ScrollBarHandleImageRUID": null,
+              "ScrollBarThickness": 10.0,
+              "ScrollBarVisible": 2,
+              "Spacing": {
+                "x": 3.0,
+                "y": 3.0
+              },
+              "TotalCount": 32,
+              "UseScroll": false,
+              "VerticalScrollBarDirection": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "c73d8e69-deb2-4b21-becb-7736983778ee",
+        "path": "/ui/Gameplay/Inventory/Slots/Slot_4",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "jsonString": {
+          "name": "Slot_4",
+          "path": "/ui/Gameplay/Inventory/Slots/Slot_4",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 1140.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 844.5,
+                "y": -573.0
+              },
+              "Pivot": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 295.5,
+                "y": 573.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 844.5,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 274.5,
+                "y": 286.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.GridViewComponent",
+              "CellSize": {
+                "x": 66.0,
+                "y": 66.0
+              },
+              "FixedCount": 4,
+              "FixedType": 0,
+              "HorizontalScrollBarDirection": 0,
+              "Padding": {
+                "left": 4,
+                "right": 21,
+                "top": 12,
+                "bottom": 0
+              },
+              "ScrollBarBackgroundColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "ScrollBarBackgroundImageRUID": null,
+              "ScrollBarHandleColor": {
+                "r": 0.7254902,
+                "g": 0.7098039,
+                "b": 0.6980392,
+                "a": 1.0
+              },
+              "ScrollBarHandleImageRUID": null,
+              "ScrollBarThickness": 10.0,
+              "ScrollBarVisible": 2,
+              "Spacing": {
+                "x": 3.0,
+                "y": 3.0
+              },
+              "TotalCount": 32,
+              "UseScroll": false,
+              "VerticalScrollBarDirection": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+        "path": "/ui/Gameplay/Inventory/TopBar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "TopBar",
+          "path": "/ui/Gameplay/Inventory/TopBar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null,
+            "root_entity_id": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+            "replaced_model_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 9,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -60.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 1200.0,
+                "y": 60.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 409.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": ""
+              },
+              "OverrideSorting": false,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Transition": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "17efde21-2be5-4a96-a6aa-7e1e523cb192",
+        "path": "/ui/Gameplay/Inventory/Btn_Popup",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.TextButtonControlComponent",
+        "jsonString": {
+          "name": "Btn_Popup",
+          "path": "/ui/Gameplay/Inventory/Btn_Popup",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 5,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -20.0,
+                "y": -25.0
+              },
+              "OffsetMin": {
+                "x": -165.5,
+                "y": -61.0
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 145.5,
+                "y": 36.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -20.0,
+                "y": -25.0
+              },
+              "Position": {
+                "x": 580.0,
+                "y": 384.5,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": {
+                  "DataId": "ee108e50b459407e9e60a69bb4f45294"
+                },
+                "PressedSprite": {
+                  "DataId": "b17e859ff57d4d6eac2b6baa09e8e63f"
+                },
+                "SelectedSprite": {
+                  "DataId": "6bdeeef572fd4f33a17154aefbca3c4d"
+                },
+                "DisabledSprite": {
+                  "DataId": "46fd1667cb60437a8c77b4ea3b2c9586"
+                }
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.TextButtonControlComponent",
+              "Enable": true,
+              "LocalizationKey": "close",
+              "Tag_Normal": "Normal",
+              "Tag_Hover": "Hover",
+              "Tag_Press": "Press",
+              "Tag_Disable": "Disable"
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "36a2d2f5-8d5a-434e-8dab-0e52640f42b6",
+        "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Normal",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt_Normal",
+          "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Normal",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+            "sub_entity_id": "fd0223e0-103b-4c29-a9e4-e5e66ec2eb35",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "fd0223e0-103b-4c29-a9e4-e5e66ec2eb35",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 145.5,
+                "y": 36.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "Position": {
+                "x": -72.75,
+                "y": -18.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "30021846-4592-48d4-a9de-a92792288422",
+        "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Press",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt_Press",
+          "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Press",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+            "sub_entity_id": "a8df0e2c-faf9-488f-b48e-6988be0a1746",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "a8df0e2c-faf9-488f-b48e-6988be0a1746",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 145.5,
+                "y": 36.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "Position": {
+                "x": -72.75,
+                "y": -18.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "b13b7761-d201-44b7-bb12-3d5010eceaf4",
+        "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Hover",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt_Hover",
+          "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Hover",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+            "sub_entity_id": "492c58a4-545a-4a87-be25-64203a99f5be",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "492c58a4-545a-4a87-be25-64203a99f5be",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 145.5,
+                "y": 36.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "Position": {
+                "x": -72.75,
+                "y": -18.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "3111320f-da0d-4ba7-b991-fc4facba3df8",
+        "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Disable",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt_Disable",
+          "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Disable",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 3,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "f5241aba-85c1-4cc5-896b-037867ea24d3",
+            "sub_entity_id": "cddc9350-52fb-4171-b9e6-966a3b871e53",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "cddc9350-52fb-4171-b9e6-966a3b871e53",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 145.5,
+                "y": 36.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "Position": {
+                "x": -72.75,
+                "y": -18.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
               "Enable": true
             }
           ],
