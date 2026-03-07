@@ -15,17 +15,26 @@ script GameplayChatComponent extends Component
 	@HideFromInspector()
 	readonly property number IndentationWidth = 42.0
 
+	@HideFromInspector()
+	readonly property number MinScrollBarRatio = 0.2
+
 	---@description "채팅 목록"
-	readonly property GridViewComponent chatListGridViewComponent = nil
+	readonly property GridViewComponent ChatListGridViewComponent = nil
 
 	---@description "채팅 입력창"
-	readonly property TextInputComponent chatInputTextComponent = nil
+	readonly property TextInputComponent ChatInputTextComponent = nil
+
+	---@description "스크롤바 핸들"
+	readonly property Entity ScrollBarHandle = nil
 
 	---@description "채팅 List 엔트리"
 	property table<integer, ChatEntryComponent> chatUIs = {}
 
 	---@description "채팅 메시지 레이아웃"
 	property table layouts = {}
+
+	@HideFromInspector()
+	property integer layoutNum = 0
 
 	@HideFromInspector()
 	property Entity chatBase = nil
@@ -42,16 +51,34 @@ script GameplayChatComponent extends Component
 	@HideFromInspector()
 	property boolean commit = false
 
+	@HideFromInspector()
+	property number scrollHeight = 100.0
+
+	property number minHandlePx = 24.0
+
+	@HideFromInspector()
+	property Vector2 scrollStartPos = Vector2.zero
+
+	@HideFromInspector()
+	property Vector2 scrollStartGap = Vector2.zero
+
+	@HideFromInspector()
+	property boolean isScrollMove = false
+
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		local err = ErrorType()
 
-		if self.chatListGridViewComponent == nil then
+		if self.ChatListGridViewComponent == nil then
 			err:AddError("ChatListGridViewComponent를 찾지 못하였습니다")
 		end
 
-		if self.chatInputTextComponent == nil then
+		if self.ChatInputTextComponent == nil then
 			err:AddError("ChatInputTextComponent를 찾지 못하였습니다")
+		end
+
+		if self.ScrollBarHandle == nil then
+			err:AddError("ScrollBarHandle을 찾지 못하였습니다")
 		end
 
 		if err:IsError() then
@@ -59,34 +86,108 @@ script GameplayChatComponent extends Component
 			return
 		end
 
-		self.viewCount = self.chatListGridViewComponent.Entity.UITransformComponent.RectSize.y / self.chatListGridViewComponent.CellSize.y
+		self.scrollIndex = 1
+		self.viewCount = self.ChatListGridViewComponent.Entity.UITransformComponent.RectSize.y / self.ChatListGridViewComponent.CellSize.y
 
 		-- 리스트 설정
 		self.chatBase = _SpawnService:SpawnByModelId("model://9ea9e29e-2d28-402b-9ecf-6eb8407d92ca", "ChatEntryBase", Vector3.zero, self.Entity)
-		self.chatListGridViewComponent.ItemEntity = self.chatBase
-		self.chatListGridViewComponent.OnRefresh = self.OnRefresh
-		self.chatListGridViewComponent.TotalCount = self.viewCount
+		self.ChatListGridViewComponent.ItemEntity = self.chatBase
+		self.ChatListGridViewComponent.OnRefresh = self.OnRefresh
+		self.ChatListGridViewComponent.TotalCount = self.viewCount
+		self.ChatListGridViewComponent:Refresh(true, true)
 		self.chatBase.Enable = false
 
 		-- 입력창 설정
-		self.chatInputTextComponent.Entity:ConnectEvent(TextInputSubmitEvent, self.OnTextInputSubmitEvent)
+		self._T["TextInputSubmitEvent"] = self.ChatInputTextComponent.Entity:ConnectEvent(TextInputSubmitEvent, self.OnTextInputSubmitEvent)
+
+		-- 스크롤바 설정
+		self._T["ScrollBarHandleEvent"] = self.ScrollBarHandle:ConnectEvent(ButtonStateChangeEvent, self.OnScrollBarHandleStateEvent)
+		local scrollParent = self.ScrollBarHandle.Parent
+		self.scrollHeight = scrollParent.UITransformComponent.RectSize.y
+		self.minHandlePx = self.scrollHeight * self.MinScrollBarRatio
 	end
 
 	@ExecSpace("ClientOnly")
-	method void Setup()
-		self.scrollIndex = 1
-		if self.chatListGridViewComponent ~= nil then
-			self.chatListGridViewComponent:Refresh(true, true)
+	method void OnEndPlay()
+		if self._T["TextInputSubmitEvent"] ~= nil then
+			self.ChatInputTextComponent.Entity:DisconnectEvent(TextInputSubmitEvent, self._T["TextInputSubmitEvent"])
+			self._T["TextInputSubmitEvent"] = nil
 		end
 
-		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
-		if userStorageCom == nil then
+		if self._T["ScrollBarHandleEvent"] ~= nil then
+			self.ScrollBarHandle:DisconnectEvent(ButtonStateChangeEvent, self._T["ScrollBarHandleEvent"])
+			self._T["ScrollBarHandleEvent"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if not self.isScrollMove then
 			return
 		end
 
-		local char = userStorageCom:GetGameplayCharacter()
-		if char ~= nil and self.chatBase ~= nil then
-			self.nameWidth = self.chatBase.ChatEntryComponent:GetCalculateWidth(char.name)
+		local maxIndex = (self.layoutNum - self.viewCount) + 1
+		if maxIndex < 1 then
+			self.scrollIndex = 1
+			return
+		end
+
+		if maxIndex == 1 then
+        	self.scrollIndex = 1
+        	return
+    	end
+
+		local cursorPos = _InputService:GetCursorPosition()
+		local desiredHandlePos = cursorPos + self.scrollStartGap
+
+		local trackH = self.scrollHeight
+
+    	local handleRatio = (self.layoutNum > 0) and (self.viewCount / self.layoutNum) or 1.0
+    	local minRatio = (trackH > 0) and (self.minHandlePx / trackH) or 0.0
+
+		if handleRatio < minRatio then
+			handleRatio = minRatio
+		end
+
+    	if handleRatio > 1.0 then
+			handleRatio = 1.0
+		end
+
+		local handleH = trackH * handleRatio
+
+		local travel = trackH - handleH
+    	if travel < 0 then
+			travel = 0
+		end
+
+		local maxY = travel
+		local minY = 0
+
+		local y = desiredHandlePos.y
+		if y > maxY then
+			y = maxY
+		elseif y < minY then
+			y = minY
+		end
+
+    	self.ScrollBarHandle.UITransformComponent.anchoredPosition.y = y
+
+		local t = 0.0
+		if travel > 0 then
+			t = (maxY - y) / travel
+		end
+		t = 1.0 - t
+
+		local newIndex = 1 + math.floor(t * (maxIndex - 1) + 0.5)
+		if newIndex < 1 then
+			newIndex = 1
+		elseif newIndex > maxIndex then
+			newIndex = maxIndex
+		end
+
+		if newIndex ~= self.scrollIndex then
+			self.scrollIndex = newIndex
+			self:UpdateChatLayout()
 		end
 	end
 
@@ -108,19 +209,108 @@ script GameplayChatComponent extends Component
 		local msg = ChatEntity()
 		msg.message = e.Text
 		_GameplayChatLogic:SendUserMessage(_UserProxy:GetUid(), msg, self.nameWidth)
-		self.chatInputTextComponent:ActivateInputField()
+		self.ChatInputTextComponent:ActivateInputField()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnScrollBarHandleStateEvent(ButtonStateChangeEvent e)
+		if e.state == ButtonState.Pressed then
+			self.isScrollMove = true
+			self.scrollStartPos = _InputService:GetCursorPosition()
+			self.scrollStartGap = self.ScrollBarHandle.UITransformComponent.anchoredPosition - self.scrollStartPos
+
+		elseif e.state == ButtonState.Released or e.state == ButtonState.Clicked then
+			self.isScrollMove = false
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			return
+		end
+
+		local char = userStorageCom:GetGameplayCharacter()
+		if char ~= nil and self.chatBase ~= nil then
+			self.nameWidth = self.chatBase.ChatEntryComponent:GetCalculateWidth(char.name)
+		end
+
+		self:UpdateScrollBar()
+	end
+
+	method void UpdateScrollBar()
+		if self.ScrollBarHandle == nil then
+			return
+		end
+
+		local canScroll = self.layoutNum > self.viewCount
+		self.ScrollBarHandle:SetEnable(canScroll)
+
+		if not canScroll then
+			return
+		end
+
+		local ratio = 0.0
+		if self.layoutNum > 0 then
+			ratio = self.viewCount / self.layoutNum
+		end
+
+		if ratio < self.MinScrollBarRatio then
+			ratio = self.MinScrollBarRatio
+    	elseif ratio > 1.0 then
+			ratio = 1.0
+		end
+
+		local parent = self.ScrollBarHandle.Parent
+		self.ScrollBarHandle.UITransformComponent.RectSize.y = self.scrollHeight  * ratio
 	end
 
 	@ExecSpace("ClientOnly")
 	method number GetDesiredWidth()
-		if self.chatListGridViewComponent == nil then
+		if self.ChatListGridViewComponent == nil then
 			return self.Entity.UITransformComponent.RectSize.x
 		end
 
-		local entity = self.chatListGridViewComponent.Entity
+		local entity = self.ChatListGridViewComponent.Entity
 		return entity.UITransformComponent.RectSize.x
 	end
 
+	@ExecSpace("ClientOnly")
+	method void UpdateChatLayout()
+		local index = self.viewCount
+		while index > 0 do
+			local ui = self.chatUIs[index]
+			if ui == nil then
+				index -= 1
+				continue
+			end
+
+			local i = self.scrollIndex + (self.viewCount - index)
+			local l = self.layouts[i]
+			if l == nil then
+				ui:SetEmpty()
+				index -= 1
+				continue
+			end
+
+			ui:SetSlot()
+			if l["ChatType"] == _ChatTypeDef.User then
+				if l["UserName"] ~= nil then
+					ui:SetUserName(l["UserName"])
+					ui:SetMessage(l["Msg"] or "", l["UserNameWidth"] or 0)
+				else
+					ui:SetMessage(l["Msg"] or "", l["MsgIndentation"] or 0)
+				end
+			else
+				ui:SetEmpty()
+			end
+
+			index -= 1
+		end
+	end
+
+	@ExecSpace("ClientOnly")
 	method table<string> GetChatMsgs(string msg, number desiredWidth, number indentationWidth)
 		local ret = {}
 		local entryCom = self.chatBase.ChatEntryComponent
@@ -178,12 +368,6 @@ script GameplayChatComponent extends Component
 		local lastBestFirst = nil
 		local lastBestNext  = nil
 
-		-- startChar부터 시작하는 "남은 문자열"에서 prefix를 최대한 자르고,
-		-- (partStr, nextStartChar, bestCount) 반환
-		--
-		-- 핵심 최적화:
-		-- - 문자열을 매번 잘라서 line 변수를 만���지 않고
-		-- - 전체 msg + indices + startChar/endChar 로 작업
 		local function cutFrom(startChar, endChar, limitWidth, isFirstLine)
 			if startChar > endChar then
 				return "", endChar + 1, 0
@@ -392,7 +576,6 @@ script GameplayChatComponent extends Component
 			local dt = DateTime.UtcNow
 			local chatMsgs = self:GetChatMsgs(userLayout.msg, desiredWidth, self:GetDesiredWidth() - self.IndentationWidth)
 			local dt2 = DateTime.UtcNow
-			log("GetChatMsgs Time: ".. tostring((dt2 - dt).TotalMilliseconds) .. " ms")
 
 			for i = 1, #chatMsgs do
 				local l = {}
@@ -407,44 +590,19 @@ script GameplayChatComponent extends Component
 				end
 
 				table.insert(self.layouts, 1, l)
+				self.layoutNum += 1
 			end
 		end
 
 		-- 메세지 추가 후 최대 개수 초과 시 오래된 메세지부터 삭제
-		while #self.layouts > self.MaxChatCount do
+		while self.layoutNum > self.MaxChatCount do
 			table.remove(self.layouts)
+			self.layoutNum -= 1
 		end
 
-		local index = self.viewCount
-		while index > 0 do
-			local ui = self.chatUIs[index]
-			if ui == nil then
-				index -= 1
-				continue
-			end
-
-			local i = self.scrollIndex + (self.viewCount - index)
-			local l = self.layouts[i]
-			if l == nil then
-				ui:SetEmpty()
-				index -= 1
-				continue
-			end
-
-			ui:SetSlot()
-			if l["ChatType"] == _ChatTypeDef.User then
-				if l["UserName"] ~= nil then
-					ui:SetUserName(l["UserName"])
-					ui:SetMessage(l["Msg"] or "", l["UserNameWidth"] or 0)
-				else
-					ui:SetMessage(l["Msg"] or "", l["MsgIndentation"] or 0)
-				end
-			else
-				ui:SetEmpty()
-			end
-
-			index -= 1
-		end
+		
+		self:UpdateChatLayout()
+		self:UpdateScrollBar()
 	end
 
 	@ExecSpace("ClientOnly")
@@ -454,7 +612,7 @@ script GameplayChatComponent extends Component
 			return
 		end
 
-		if self.chatInputTextComponent == nil then
+		if self.ChatInputTextComponent == nil then
 			return
 		end
 
@@ -463,11 +621,11 @@ script GameplayChatComponent extends Component
 			return
 		end
 		
-		if self.chatInputTextComponent.IsFocused == true then
+		if self.ChatInputTextComponent.IsFocused == true then
 			return
 		end
 
-		self.chatInputTextComponent:ActivateInputField()
+		self.ChatInputTextComponent:ActivateInputField()
 	end
 
 end
