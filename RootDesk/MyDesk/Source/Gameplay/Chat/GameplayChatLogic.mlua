@@ -67,8 +67,14 @@ script GameplayChatLogic extends Logic
 		e.layout = layout
 
 		for _, u in ipairs(users) do
-			_UserProxy:SendEventToLocalPlayer(e, uid)
+			local userUid = u.PlayerComponent.UserId
+			if userUid == uid then
+				continue
+			end
+			_UserProxy:SendEventToLocalPlayer(e, userUid)
 		end
+
+		_UserProxy:SendEventToPlayer(e, uid)
 	end
 
 end

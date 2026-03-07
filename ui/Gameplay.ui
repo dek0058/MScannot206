@@ -1877,6 +1877,7 @@
               "Delimiter": " : ",
               "DelimiterWidth": 10.22,
               "IndentationWidth": 42.0,
+              "MinScrollBarRatio": 0.2,
               "ChatListGridViewComponent": {
                 "IsRelative": false,
                 "ComponentId": "24508658-a15b-4a07-b17f-57361e2a631f:GridViewComponent",
@@ -1898,7 +1899,17 @@
               "nameWidth": 100.0,
               "scrollIndex": 0.0,
               "viewCount": 0,
-              "commit": false
+              "commit": false,
+              "scrollHeight": 100.0,
+              "scrollStartPos": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "scrollStartGap": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "isScrollMove": false
             }
           ],
           "@version": 1

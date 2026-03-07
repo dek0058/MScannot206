@@ -2,18 +2,57 @@
 script UserCharacterComponent extends Component
 
 	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		self.Entity:ConnectEvent(ReceiveChatEvent, self.OnReceiveChatEvent)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnReceiveChatEvent(ReceiveChatEvent e)
+		if e.layout.chatType ~= _ChatTypeDef.User then
+			return
+		end
+		local userLayout = ChatEntryLayout_User():FromTable(e.layout.params)
+		self:SetChatMessage(userLayout.msg)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void SetChatMessage(string msg)
+		local chatBalloonCom = self.Entity.ChatBalloonComponent
+		if chatBalloonCom == nil then
+			return
+		end
+
+		chatBalloonCom.Message = msg
+
+		if self._T["ChatBalloonTimer"] ~= nil then
+			_TimerService:ClearTimer(self._T["ChatBalloonTimer"])
+			self._T["ChatBalloonTimer"] = nil
+		end
+
+		local handle = _TimerService:SetTimerOnce(function()
+			chatBalloonCom.Message = ""
+			self._T["ChatBalloonTimer"] = nil
+		end, chatBalloonCom.ShowDuration)
+		if handle == 0 then
+			chatBalloonCom.Message = ""
+		else
+			self._T["ChatBalloonTimer"] = handle
+		end
+	end
+
+	@ExecSpace("ServerOnly")
 	method void Reset()
 		local uid = self.Entity.PlayerComponent.UserId
 		local user = _UserService.Users[uid]
 
 		if user == nil then
-			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 
 		local userPlayerCom = self.Entity.UserLocalPlayerComponent
 		if userPlayerCom == nil then
-			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
@@ -37,13 +76,13 @@ script UserCharacterComponent extends Component
 
 		local userStorageCom = self.Entity.UserStorageComponent
 		if userStorageCom == nil then
-			_GameServerLogic:KickByServer(uid, "유저 스토리지 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
 		local userPlayerCom = self.Entity.UserLocalPlayerComponent
 		if userPlayerCom == nil then
-			_GameServerLogic:KickByServer(uid, "유저 로컬 플레이어 컴포넌트를 찾을 수 없습니다.", "WorldError")
+			_GameServerLogic:KickByServer(uid, "유저 정보를 찾을 수 없습니다.", "WorldError")
 			return
 		end
 		
