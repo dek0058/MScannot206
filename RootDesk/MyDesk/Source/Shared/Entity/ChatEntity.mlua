@@ -1,0 +1,17 @@
+@Struct
+script ChatEntity
+
+	---@description "채팅 메시지 생성 시간 (Unix 타임스탬프)"
+	property integer createTime = 0
+
+	---@description "채팅 메시지 타입 (예: 일반, 귓속말, 시스템 등)"
+	property string chatType = ""
+
+	---@description "채팅 메시지 내용"
+	property string message = ""
+
+	---@description "채팅 메시지에 대한 추가 정보 (예: 발신자 이름, 채팅 필터 등)"
+	---@type table<string, ChatParamEntity>
+	property table params = {}
+
+end

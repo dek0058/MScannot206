@@ -1,11 +1,42 @@
 @Component
 script GameplayMapComponent extends Component
+	
+	---@description "기본 UI 엔티티 목록"
+	property table<Entity> defaultUI = {}
 
+	---@description "모바일 조이스틱 엔티티"
+	@HideFromInspector()
+	property Entity joystickEntity = nil
+	
+	---@description "채널 표시 UI 엔티티"
+	@HideFromInspector()
+	property Entity channelDisplayEntity = nil
+	
+	---@description "닉네임 표시 UI 엔티티"
+	@HideFromInspector()
+	property Entity nicknameDisplayEntity = nil
+	
+	---@description "메뉴 UI 엔티티"
+	@HideFromInspector()
+	property Entity menuEntity = nil
+	
+	---@description "채팅 UI 엔티티"
+	@HideFromInspector()
+	property Entity chatEntity = nil
+	
+	---@description "미니맵 UI 엔티티"
+	@HideFromInspector()
+	property Entity minimapEntity = nil
+
+	---@description "인벤토리 UI 엔티티"
+	@HideFromInspector()
+	property Entity inventoryEntity = nil
+	
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		local gameplayEntity = _GameplayStaticsLogic:FindEntityByTag(self.Entity, "/ui/Gameplay")
 	end
-
+	
 	@ExecSpace("ServerOnly")
 	method void Setup(string uid)
 		local userLocalPlayerCom = _UserProxy:GetUserLocalPlayerComponentByServer(uid)
@@ -13,17 +44,85 @@ script GameplayMapComponent extends Component
 			_GameServerLogic:KickByServer(uid, "로컬 플레이어를 찾을 수 없습니다.", "WorldError")
 			return
 		end
-
+		
 		local userCharacterCom = _UserProxy:GetUserCharacterComponentByServer(uid)
 		if userCharacterCom == nil then
 			_GameServerLogic:KickByServer(uid, "유저 캐릭터 컴포넌트를 찾을 수 없습니다.", "WorldError")
 			return
 		end
-
+		
 		userCharacterCom:Setup()
 		userLocalPlayerCom:SetEnable(true)
+		
+		self:OnSetup(uid)
 	end
-
+	
+	@ExecSpace("Client")
+	method void OnSetup()
+		-- UI 설정
+		local screen = _GameClientUILogic.currentScreen
+		if screen ~= nil then
+			if _GameClientLogic:IsMobile() then
+				local mobileControllerCom = _GameplayStaticsLogic:FindComponentInParent(screen, "MobileController")
+				if mobileControllerCom ~= nil then
+					self.joystickEntity = mobileControllerCom.Entity
+					table.insert(self.defaultUI, self.joystickEntity)
+				end
+			end
+			
+			local channelDisplayCom = _GameplayStaticsLogic:FindComponentInParent(screen, "ChannelDisplayComponent")
+			if channelDisplayCom ~= nil then
+				self.channelDisplayEntity = channelDisplayCom.Entity
+				table.insert(self.defaultUI, self.channelDisplayEntity)
+			end
+			
+			local nicknameDisplayCom = _GameplayStaticsLogic:FindComponentInParent(screen, "NicknameDisplayComponent")
+			if nicknameDisplayCom ~= nil then
+				self.nicknameDisplayEntity = nicknameDisplayCom.Entity
+				table.insert(self.defaultUI, self.nicknameDisplayEntity)
+			end
+			
+			self.menuEntity = _GameplayStaticsLogic:FindEntityByTag(screen, "Menu")
+			if self.menuEntity ~= nil then
+				table.insert(self.defaultUI, self.menuEntity)
+			end
+			
+			---@type GameplayChatComponent
+			local chatCom = _GameplayStaticsLogic:FindComponentInParent(screen, "GameplayChatComponent")
+			if chatCom ~= nil then
+				chatCom:Setup()
+				self.chatEntity = chatCom.Entity
+				table.insert(self.defaultUI, self.chatEntity)
+			end
+			
+			local miniMapCom = _GameplayStaticsLogic:FindComponentInParent(screen, "MinimapComponent")
+			if miniMapCom ~= nil then
+				self.minimapEntity = miniMapCom.Entity
+				table.insert(self.defaultUI, self.minimapEntity)
+			end
+			
+			local inventoryPopupCom = _GameplayStaticsLogic:FindComponentInParent(screen, "InventoryPopupComponent")
+			if inventoryPopupCom ~= nil then
+				self.inventoryEntity = inventoryPopupCom.Entity
+				table.insert(self.defaultUI, self.inventoryEntity)
+			end
+		end
+		
+		self:ClearUI()
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void ClearUI()
+		_GameClientUILogic:CurrentScreenClear()
+		
+		for _, entity in ipairs(self.defaultUI) do
+			if entity ~= nil then
+				entity:SetEnable(true)
+			end
+		end
+		
+	end
+	
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleMapEnterEvent(MapEnterEvent e)
@@ -31,10 +130,10 @@ script GameplayMapComponent extends Component
 		wait(1.5)
 		_TransitionLogic:Pop(e.uid)
 	end
-
+	
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleMapLeaveEvent(MapLeaveEvent e)
 	end
-
+	
 end

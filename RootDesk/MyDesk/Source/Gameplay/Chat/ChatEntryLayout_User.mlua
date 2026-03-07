@@ -1,0 +1,33 @@
+@Struct
+script ChatEntryLayout_User
+
+	property string userName = ""
+
+	property number userNameWidth = 0.0
+
+	property string msg = ""
+
+	property number msgWidth = 0.0
+
+	method table ToTable()
+		local content = {}
+		content["UserName"] = self.userName
+		content["UserNameWidth"] = self.userNameWidth
+		content["Msg"] = self.msg
+		content["MsgWidth"] = self.msgWidth
+		return content
+	end
+
+	method ChatEntryLayout_User FromTable(table content)
+		if content == nil then
+			return self
+		end
+		
+		self.userName = content["UserName"] or ""
+		self.userNameWidth = content["UserNameWidth"] or 0.0
+		self.msg = content["Msg"] or ""
+		self.msgWidth = content["MsgWidth"] or 0.0
+		return self
+	end
+
+end

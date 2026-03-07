@@ -1,0 +1,8 @@
+@Logic
+script InventoryTypeDef extends Logic
+
+	property string None = "none"
+
+	property string Misc = "misc"
+
+end

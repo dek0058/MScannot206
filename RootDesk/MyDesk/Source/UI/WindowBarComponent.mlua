@@ -1,15 +1,18 @@
 ---@description "UI창의 이동을 제어하는 바 컴포넌트 입니다."
 @Component
 script WindowBarComponent extends Component
-	
+
 	---@description "이동을 제어할 터치 영역 Entity"
 	property Entity TouchAreaEntity = nil
-	
+
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		if self.TouchAreaEntity == nil then
 			return
 		end
+
+		local bin = _GameClientUILogic:GetBin()
+		local parentUIGroup = _GameClientUILogic:FindParentUIGroup(self.Entity)
 		
 		if self.Entity.UITransformComponent ~= nil then
 			self.Entity.UITransformComponent.AnchorsMin = Vector2(0.0, 0.0)
@@ -37,6 +40,9 @@ script WindowBarComponent extends Component
 				local moved = self._T["move"]
 				
 				if state == ButtonState.Pressed then
+					bin:AttachChild(self.Entity)
+					parentUIGroup:AttachChild(self.Entity)
+
 					self._T["move"] = true
 					local firstPos = _InputService:GetCursorPosition()
 					self._T["firstPos"] = firstPos

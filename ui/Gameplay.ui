@@ -24,7 +24,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 3,
+          "displayOrder": 4,
           "pathConstraints": "//",
           "revision": 1,
           "origin": {
@@ -86,7 +86,7 @@
             {
               "@type": "MOD.Core.UIGroupComponent",
               "DefaultShow": false,
-              "GroupOrder": 3,
+              "GroupOrder": 4,
               "GroupType": 2,
               "Enable": true
             },
@@ -219,11 +219,11 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 55.0000038,
+                "x": -9900.0,
                 "y": 101.035
               },
               "OffsetMin": {
-                "x": -145.0,
+                "x": -10100.0,
                 "y": -98.965
               },
               "RectSize": {
@@ -232,8 +232,12 @@
               },
               "UIMode": 1,
               "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -10000.0,
+                "y": 1.035
+              },
               "Position": {
-                "x": -1005.0,
+                "x": -10960.0,
                 "y": -538.965,
                 "z": 0.0
               },
@@ -261,7 +265,7 @@
       {
         "id": "f17c2ee2-8afb-4c63-83bc-3ddc4bf38dd5",
         "path": "/ui/Gameplay/ChannelDisplay",
-        "componentNames": "MOD.Core.UITransformComponent,script.ChannelDisplay",
+        "componentNames": "MOD.Core.UITransformComponent",
         "jsonString": {
           "name": "ChannelDisplay",
           "path": "/ui/Gameplay/ChannelDisplay",
@@ -337,16 +341,6 @@
                 "z": 1.0
               },
               "Enable": true
-            },
-            {
-              "@type": "script.ChannelDisplay",
-              "Enable": true,
-              "ChannelTxtEntity": {
-                "tempEntityId": null,
-                "IsRelative": false,
-                "EntityId": "6c0936ca-acf2-4ff8-b8e0-04ae65748dc7",
-                "Version2": false
-              }
             }
           ],
           "@version": 1
@@ -578,7 +572,7 @@
       {
         "id": "6f51270c-350c-40ac-9e08-d45308946a8f",
         "path": "/ui/Gameplay/NicknameDisplay",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.NicknameDisplayComponent",
         "jsonString": {
           "name": "NicknameDisplay",
           "path": "/ui/Gameplay/NicknameDisplay",
@@ -651,6 +645,10 @@
                 "DataId": "e523880fc62a4a2a9eb8b63fae9f7879"
               },
               "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.NicknameDisplayComponent",
               "Enable": true
             }
           ],
@@ -774,7 +772,7 @@
       {
         "id": "5a028b11-a09f-4799-bf7d-6a3017eae4ef",
         "path": "/ui/Gameplay/Menu",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.ScrollLayoutGroupComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.ScrollLayoutGroupComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Menu",
           "path": "/ui/Gameplay/Menu",
@@ -858,6 +856,13 @@
               "ScrollBarVisible": 2,
               "Type": 2,
               "UseScroll": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Tags": [
+                "Menu"
+              ],
               "Enable": true
             }
           ],
@@ -1788,7 +1793,7 @@
       {
         "id": "f64b1c76-e521-4293-8283-caa306708748",
         "path": "/ui/Gameplay/Chat",
-        "componentNames": "MOD.Core.UITransformComponent",
+        "componentNames": "MOD.Core.UITransformComponent,script.WindowBarComponent,script.GameplayChatComponent",
         "jsonString": {
           "name": "Chat",
           "path": "/ui/Gameplay/Chat",
@@ -1821,30 +1826,30 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -415.704529,
-                "y": 87.6226044
+                "x": -351.60907,
+                "y": 6.14790344
               },
               "OffsetMin": {
-                "x": -915.7045,
-                "y": -186.3774
+                "x": -911.6091,
+                "y": -293.8521
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 500.0,
-                "y": 274.0
+                "x": 560.0,
+                "y": 300.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": -665.7045,
-                "y": -49.3774
+                "x": -631.6091,
+                "y": -143.8521
               },
               "Position": {
-                "x": -665.7045,
-                "y": -49.3774,
+                "x": -631.6091,
+                "y": -143.8521,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -1854,6 +1859,39 @@
                 "w": 1.0
               },
               "Enable": true
+            },
+            {
+              "@type": "script.WindowBarComponent",
+              "Enable": true,
+              "TouchAreaEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "9c2cb069-7506-454c-bce2-5afbd82ea4db",
+                "Version2": false
+              }
+            },
+            {
+              "@type": "script.GameplayChatComponent",
+              "Enable": true,
+              "MaxChatCount": 100,
+              "Delimiter": " : ",
+              "DelimiterWidth": 10.22,
+              "IndentationWidth": 42.0,
+              "chatListGridViewComponent": {
+                "IsRelative": false,
+                "ComponentId": "24508658-a15b-4a07-b17f-57361e2a631f:GridViewComponent",
+                "UseNested": false
+              },
+              "chatInputTextComponent": {
+                "IsRelative": false,
+                "ComponentId": "3060064a-06ef-4750-9e5e-6e828a4e79f8:TextInputComponent",
+                "UseNested": false
+              },
+              "chatBase": null,
+              "nameWidth": 100.0,
+              "scrollIndex": 0.0,
+              "viewCount": 0,
+              "commit": false
             }
           ],
           "@version": 1
@@ -1896,29 +1934,29 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": -36.0
+                "y": -38.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": 38.0
+                "y": 42.0
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 500.0,
-                "y": 200.0
+                "x": 560.0,
+                "y": 220.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
-                "y": 1.0
+                "y": 2.0
               },
               "Position": {
                 "x": 0.0,
-                "y": 1.0,
+                "y": 2.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -1969,20 +2007,20 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 250.0,
+                "x": 280.0,
                 "y": 0.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -100.0
+                "y": -110.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 1.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 280.0,
+                "y": 110.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -1996,8 +2034,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": -250.0,
-                "y": 100.0,
+                "x": -280.0,
+                "y": 110.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2065,16 +2103,16 @@
                 "y": 0.0
               },
               "OffsetMin": {
-                "x": -250.0,
-                "y": -100.0
+                "x": -280.0,
+                "y": -110.0
               },
               "Pivot": {
                 "x": 1.0,
                 "y": 1.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 280.0,
+                "y": 110.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -2088,8 +2126,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": 250.0,
-                "y": 100.0,
+                "x": 280.0,
+                "y": 110.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2154,8 +2192,8 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 280.0,
+                "y": 110.0
               },
               "OffsetMin": {
                 "x": 0.0,
@@ -2166,8 +2204,8 @@
                 "y": 0.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 280.0,
+                "y": 110.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -2181,8 +2219,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": -250.0,
-                "y": -100.0,
+                "x": -280.0,
+                "y": -110.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2248,10 +2286,10 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": 100.0
+                "y": 110.0
               },
               "OffsetMin": {
-                "x": -250.0,
+                "x": -280.0,
                 "y": 0.0
               },
               "Pivot": {
@@ -2259,8 +2297,8 @@
                 "y": 0.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 280.0,
+                "y": 110.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -2279,8 +2317,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": 250.0,
-                "y": -100.0,
+                "x": 280.0,
+                "y": -110.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2313,7 +2351,7 @@
       {
         "id": "24508658-a15b-4a07-b17f-57361e2a631f",
         "path": "/ui/Gameplay/Chat/View/List",
-        "componentNames": "MOD.Core.UITransformComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
         "jsonString": {
           "name": "List",
           "path": "/ui/Gameplay/Chat/View/List",
@@ -2346,20 +2384,20 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -5.0,
-                "y": -5.0
+                "x": -28.0,
+                "y": -8.0
               },
               "OffsetMin": {
-                "x": 5.0,
-                "y": 5.0
+                "x": 8.0,
+                "y": 8.0
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 490.0,
-                "y": 190.0
+                "x": 524.0,
+                "y": 204.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -2369,7 +2407,7 @@
               },
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": 0.0,
+                "x": -10.0,
                 "y": 0.0
               },
               "Rotation": {
@@ -2378,7 +2416,7 @@
                 "z": 0.0
               },
               "Position": {
-                "x": 0.0,
+                "x": -10.0,
                 "y": 0.0,
                 "z": 0.0
               },
@@ -2394,6 +2432,394 @@
                 "z": 1.0
               },
               "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.GridViewComponent",
+              "CellSize": {
+                "x": 524.0,
+                "y": 28.0
+              },
+              "ScrollBarHandleColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "ScrollBarHandleImageRUID": {
+                "DataId": "c42613baf95d4ffb89484b4e7e5c9698"
+              },
+              "ScrollBarVisible": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "360bac1c-64a1-4fee-af73-0e281ee6b7be",
+        "path": "/ui/Gameplay/Chat/View/ScrollBar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "ScrollBar",
+          "path": "/ui/Gameplay/Chat/View/ScrollBar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 5,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "360bac1c-64a1-4fee-af73-0e281ee6b7be",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 14,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -8.0,
+                "y": -20.0
+              },
+              "OffsetMin": {
+                "x": -18.0,
+                "y": 20.0
+              },
+              "Pivot": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 10.0,
+                "y": 180.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -8.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 272.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "9d89ce52e65344ba834d4ebfea927674"
+              },
+              "OverrideSorting": false,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.3
+              },
+              "Type": 1,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "1a7a71c0-b516-416f-b35e-bb24850d8857",
+        "path": "/ui/Gameplay/Chat/View/ScrollBar/Handle",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "Handle",
+          "path": "/ui/Gameplay/Chat/View/ScrollBar/Handle",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null,
+            "root_entity_id": "1a7a71c0-b516-416f-b35e-bb24850d8857",
+            "replaced_model_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 11,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 0.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 3.81469727E-06,
+                "y": 75.0
+              },
+              "OffsetMin": {
+                "x": -3.81469727E-06,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 10.0000076,
+                "y": 75.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -5.0,
+                "y": -90.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "a91b4f70375948b790c74cbe7e37faaa"
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": {
+                  "DataId": "056e91ee49d94c1ab8492d9aed2a7aa8"
+                },
+                "PressedSprite": {
+                  "DataId": "ed3f34f3531e48a6b655eebeb5450635"
+                },
+                "SelectedSprite": {
+                  "DataId": "a91b4f70375948b790c74cbe7e37faaa"
+                },
+                "DisabledSprite": {
+                  "DataId": "a91b4f70375948b790c74cbe7e37faaa"
+                }
+              },
+              "OverrideSorting": false,
+              "Transition": 2,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "9c2cb069-7506-454c-bce2-5afbd82ea4db",
+        "path": "/ui/Gameplay/Chat/TopBar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "TopBar",
+          "path": "/ui/Gameplay/Chat/TopBar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null,
+            "root_entity_id": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+            "replaced_model_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 9,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -60.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 560.0,
+                "y": 60.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": ""
+              },
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Transition": 0,
               "Enable": true
             }
           ],
@@ -2411,7 +2837,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 1,
+          "displayOrder": 2,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -2440,26 +2866,26 @@
                 "y": 0.0
               },
               "OffsetMin": {
-                "x": 0.0,
-                "y": -36.0
+                "x": 6.0,
+                "y": -38.0
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 1.0
               },
               "RectSize": {
-                "x": 500.0,
-                "y": 36.0
+                "x": 554.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": 0.0,
+                "x": 3.0,
                 "y": 0.0
               },
               "Position": {
-                "x": 0.0,
-                "y": 137.0,
+                "x": 3.0,
+                "y": 150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2476,11 +2902,11 @@
       },
       {
         "id": "5ba400d4-28b8-4736-9ec1-8585f4355ab5",
-        "path": "/ui/Gameplay/Chat/Tab/UIButton",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.GameplayChatTabComponent",
         "jsonString": {
-          "name": "UIButton",
-          "path": "/ui/Gameplay/Chat/Tab/UIButton",
+          "name": "Tab_ChatType",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -2490,50 +2916,50 @@
           "revision": 1,
           "origin": {
             "type": "Model",
-            "entry_id": "uibutton",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
             "sub_entity_id": null,
-            "root_entity_id": "5ba400d4-28b8-4736-9ec1-8585f4355ab5",
+            "root_entity_id": null,
             "replaced_model_id": null
           },
-          "modelId": "uibutton",
+          "modelId": "c0625262-deb3-479f-ac57-89614387b5f8",
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 12,
               "AnchorsMax": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 97.2,
-                "y": 18.0000019
+                "x": 120.0,
+                "y": 0.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -17.9999981
+                "y": 0.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 97.2,
-                "y": 36.0
+                "x": 120.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
                 "x": 0.0,
-                "y": 2.48784613E-06
+                "y": 0.0
               },
               "Position": {
-                "x": -250.0,
-                "y": -17.9999981,
+                "x": -277.0,
+                "y": -19.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -2595,7 +3021,81 @@
                 "DisabledSprite": null
               },
               "OverrideSorting": false,
-              "Transition": 0,
+              "Enable": true
+            },
+            {
+              "@type": "script.GameplayChatTabComponent",
+              "Enable": true,
+              "IsSelected": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "78ad5d83-8ba4-4d38-ab6e-73313aa5acb0",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Select",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Select",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Select",
+          "nameEditable": true,
+          "enable": true,
+          "visible": false,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
+            "sub_entity_id": "71e0df42-a15f-4f0c-bc96-d52cc79dca18",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "71e0df42-a15f-4f0c-bc96-d52cc79dca18",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 120.0,
+                "y": 38.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],
@@ -2603,128 +3103,69 @@
         }
       },
       {
-        "id": "77e5fb90-aea6-465b-82ab-06c597944772",
-        "path": "/ui/Gameplay/Chat/Tab/UIButton_1",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "id": "64c973d3-4e06-41df-8a36-e6d676c36ed9",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Unselect",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
-          "name": "UIButton_1",
-          "path": "/ui/Gameplay/Chat/Tab/UIButton_1",
+          "name": "Txt_Unselect",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Unselect",
           "nameEditable": true,
           "enable": true,
-          "visible": true,
+          "visible": false,
           "localize": true,
           "displayOrder": 1,
-          "pathConstraints": "/////",
+          "pathConstraints": "//////",
           "revision": 1,
           "origin": {
             "type": "Model",
-            "entry_id": "uibutton",
-            "sub_entity_id": null,
-            "root_entity_id": "5ba400d4-28b8-4736-9ec1-8585f4355ab5",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
+            "sub_entity_id": "4ab7bc73-de59-4e3f-9338-f2dfa782e105",
+            "root_entity_id": null,
             "replaced_model_id": null
           },
-          "modelId": "uibutton",
+          "modelId": "4ab7bc73-de59-4e3f-9338-f2dfa782e105",
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 15,
               "AnchorsMax": {
-                "x": 0.0,
-                "y": 0.5
+                "x": 1.0,
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 196.4,
-                "y": 18.0
+                "x": 0.0,
+                "y": 0.0
               },
               "OffsetMin": {
-                "x": 99.2,
-                "y": -18.0
-              },
-              "Pivot": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "RectSize": {
-                "x": 97.2,
-                "y": 36.0
+                "x": 120.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "anchoredPosition": {
-                "x": 99.2,
-                "y": 0.0
-              },
-              "Position": {
-                "x": -150.8,
-                "y": -18.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
+                "w": -1.0
               },
               "Enable": true
             },
             {
-              "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "ImageRUID": {
-                "DataId": "670d194cfe6c4fd4b3822c433c82a874"
-              },
+              "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
-              "SortingLayer": "MapLayer0",
               "Enable": true
             },
             {
-              "@type": "MOD.Core.ButtonComponent",
-              "Colors": {
-                "NormalColor": {
-                  "r": 1.0,
-                  "g": 1.0,
-                  "b": 1.0,
-                  "a": 1.0
-                },
-                "HighlightedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "PressedColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 1.0
-                },
-                "SelectedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "DisabledColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 0.5019608
-                },
-                "ColorMultiplier": 1.0,
-                "FadeDuration": 0.1
-              },
-              "ImageRUIDs": {
-                "HighlightedSprite": null,
-                "PressedSprite": null,
-                "SelectedSprite": null,
-                "DisabledSprite": null
-              },
-              "OverrideSorting": false,
-              "Transition": 0,
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],
@@ -2732,128 +3173,69 @@
         }
       },
       {
-        "id": "ea6b5c5f-f967-44b2-8e15-d42d87ba8d26",
-        "path": "/ui/Gameplay/Chat/Tab/UIButton_2",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "id": "6b68b691-46b3-45b2-b96c-95ea822366ce",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Hover",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
-          "name": "UIButton_2",
-          "path": "/ui/Gameplay/Chat/Tab/UIButton_2",
+          "name": "Txt_Hover",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Hover",
           "nameEditable": true,
           "enable": true,
-          "visible": true,
+          "visible": false,
           "localize": true,
           "displayOrder": 2,
-          "pathConstraints": "/////",
+          "pathConstraints": "//////",
           "revision": 1,
           "origin": {
             "type": "Model",
-            "entry_id": "uibutton",
-            "sub_entity_id": null,
-            "root_entity_id": "5ba400d4-28b8-4736-9ec1-8585f4355ab5",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
+            "sub_entity_id": "ee87727f-5b56-40cf-9bde-fd0ae913ecfd",
+            "root_entity_id": null,
             "replaced_model_id": null
           },
-          "modelId": "uibutton",
+          "modelId": "ee87727f-5b56-40cf-9bde-fd0ae913ecfd",
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 15,
               "AnchorsMax": {
-                "x": 0.0,
-                "y": 0.5
+                "x": 1.0,
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 295.599976,
-                "y": 18.0
+                "x": 0.0,
+                "y": 0.0
               },
               "OffsetMin": {
-                "x": 198.4,
-                "y": -18.0
-              },
-              "Pivot": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "RectSize": {
-                "x": 97.2,
-                "y": 36.0
+                "x": 120.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "anchoredPosition": {
-                "x": 198.4,
-                "y": 0.0
-              },
-              "Position": {
-                "x": -51.6000061,
-                "y": -18.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
+                "w": -1.0
               },
               "Enable": true
             },
             {
-              "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "ImageRUID": {
-                "DataId": "670d194cfe6c4fd4b3822c433c82a874"
-              },
+              "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
-              "SortingLayer": "MapLayer0",
               "Enable": true
             },
             {
-              "@type": "MOD.Core.ButtonComponent",
-              "Colors": {
-                "NormalColor": {
-                  "r": 1.0,
-                  "g": 1.0,
-                  "b": 1.0,
-                  "a": 1.0
-                },
-                "HighlightedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "PressedColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 1.0
-                },
-                "SelectedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "DisabledColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 0.5019608
-                },
-                "ColorMultiplier": 1.0,
-                "FadeDuration": 0.1
-              },
-              "ImageRUIDs": {
-                "HighlightedSprite": null,
-                "PressedSprite": null,
-                "SelectedSprite": null,
-                "DisabledSprite": null
-              },
-              "OverrideSorting": false,
-              "Transition": 0,
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],
@@ -2861,128 +3243,139 @@
         }
       },
       {
-        "id": "da6397f1-e123-472b-a6a1-624fed188766",
-        "path": "/ui/Gameplay/Chat/Tab/UIButton_3",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "id": "1cfb8a84-79dc-47e4-9d20-01761739c8b7",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Press",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
-          "name": "UIButton_3",
-          "path": "/ui/Gameplay/Chat/Tab/UIButton_3",
+          "name": "Txt_Press",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Press",
           "nameEditable": true,
           "enable": true,
           "visible": true,
           "localize": true,
           "displayOrder": 3,
-          "pathConstraints": "/////",
+          "pathConstraints": "//////",
           "revision": 1,
           "origin": {
             "type": "Model",
-            "entry_id": "uibutton",
-            "sub_entity_id": null,
-            "root_entity_id": "5ba400d4-28b8-4736-9ec1-8585f4355ab5",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
+            "sub_entity_id": "691a5983-9c2d-4a9c-999d-3b4568b3b884",
+            "root_entity_id": null,
             "replaced_model_id": null
           },
-          "modelId": "uibutton",
+          "modelId": "691a5983-9c2d-4a9c-999d-3b4568b3b884",
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 15,
               "AnchorsMax": {
-                "x": 0.0,
-                "y": 0.5
+                "x": 1.0,
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 394.8,
-                "y": 18.0
+                "x": 0.0,
+                "y": 0.0
               },
               "OffsetMin": {
-                "x": 297.6,
-                "y": -18.0
-              },
-              "Pivot": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "RectSize": {
-                "x": 97.2,
-                "y": 36.0
+                "x": 120.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
-              "anchoredPosition": {
-                "x": 297.6,
-                "y": 0.0
-              },
-              "Position": {
-                "x": 47.6000061,
-                "y": -18.0,
-                "z": 0.0
-              },
               "QuaternionRotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
-                "w": 1.0
+                "w": -1.0
               },
               "Enable": true
             },
             {
-              "@type": "MOD.Core.SpriteGUIRendererComponent",
-              "ImageRUID": {
-                "DataId": "670d194cfe6c4fd4b3822c433c82a874"
-              },
+              "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
-              "SortingLayer": "MapLayer0",
               "Enable": true
             },
             {
-              "@type": "MOD.Core.ButtonComponent",
-              "Colors": {
-                "NormalColor": {
-                  "r": 1.0,
-                  "g": 1.0,
-                  "b": 1.0,
-                  "a": 1.0
-                },
-                "HighlightedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "PressedColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 1.0
-                },
-                "SelectedColor": {
-                  "r": 0.9607843,
-                  "g": 0.9607843,
-                  "b": 0.9607843,
-                  "a": 1.0
-                },
-                "DisabledColor": {
-                  "r": 0.784313738,
-                  "g": 0.784313738,
-                  "b": 0.784313738,
-                  "a": 0.5019608
-                },
-                "ColorMultiplier": 1.0,
-                "FadeDuration": 0.1
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "cc18d893-204b-4698-81ca-e0a215cdcc83",
+        "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Disable",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_Disable",
+          "path": "/ui/Gameplay/Chat/Tab/Tab_ChatType/Txt_Disable",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 4,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "c0625262-deb3-479f-ac57-89614387b5f8",
+            "sub_entity_id": "48c23260-ab08-4631-b5a4-bc295813c8d1",
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "48c23260-ab08-4631-b5a4-bc295813c8d1",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
               },
-              "ImageRUIDs": {
-                "HighlightedSprite": null,
-                "PressedSprite": null,
-                "SelectedSprite": null,
-                "DisabledSprite": null
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
               },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 120.0,
+                "y": 38.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
-              "Transition": 0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],
@@ -3000,7 +3393,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 2,
+          "displayOrder": 3,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -3037,7 +3430,7 @@
                 "y": 0.0
               },
               "RectSize": {
-                "x": 500.0,
+                "x": 560.0,
                 "y": 38.0
               },
               "UIMode": 1,
@@ -3048,7 +3441,7 @@
               },
               "Position": {
                 "x": 0.0,
-                "y": -137.0,
+                "y": -150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -3065,11 +3458,11 @@
       },
       {
         "id": "ad9818e9-a0ec-4f16-a1a1-98237dcdc1b1",
-        "path": "/ui/Gameplay/Chat/Input/Tab",
+        "path": "/ui/Gameplay/Chat/Input/From",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
         "jsonString": {
-          "name": "Tab",
-          "path": "/ui/Gameplay/Chat/Input/Tab",
+          "name": "From",
+          "path": "/ui/Gameplay/Chat/Input/From",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -3088,31 +3481,31 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 12,
               "AnchorsMax": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 97.2,
-                "y": 18.0
+                "x": 135.0,
+                "y": 0.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -18.0
+                "y": 0.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 97.2,
-                "y": 36.0
+                "x": 135.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
@@ -3121,7 +3514,7 @@
                 "y": 0.0
               },
               "Position": {
-                "x": -250.0,
+                "x": -280.0,
                 "y": 19.0,
                 "z": 0.0
               },
@@ -3139,6 +3532,7 @@
                 "DataId": "15a2ae1a2fb740ddb3e84b96c917bb0f"
               },
               "OverrideSorting": false,
+              "Type": 1,
               "Enable": true
             },
             {
@@ -3192,6 +3586,172 @@
         }
       },
       {
+        "id": "e682260b-68a0-4d6c-a178-d56f24c1f411",
+        "path": "/ui/Gameplay/Chat/Input/From/Txt",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt",
+          "path": "/ui/Gameplay/Chat/Input/From/Txt",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uiempty",
+            "sub_entity_id": null,
+            "root_entity_id": "e682260b-68a0-4d6c-a178-d56f24c1f411",
+            "replaced_model_id": null
+          },
+          "modelId": "uiempty",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 135.0,
+                "y": 38.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 67.5,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "AllowAutomaticTranslation": false,
+              "BestFit": false,
+              "BottomLeftColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "BottomRightColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "ColorGradient": false,
+              "ConstraintX": 100.0,
+              "ConstraintY": 100.0,
+              "EnableProfanityFilter": false,
+              "FaceDilate": 0.0,
+              "FaceSoftness": 0.0,
+              "Font": "Football",
+              "FontColor": {
+                "r": 0.772549033,
+                "g": 0.8117647,
+                "b": 0.843137264,
+                "a": 1.0
+              },
+              "FontSize": 20.0,
+              "FontStyle": 0,
+              "GradientMode": 0,
+              "HorizontalAlignment": 2,
+              "IgnoreMapLayerCheck": false,
+              "IsLocalizationKey": false,
+              "IsRichText": true,
+              "MaxSize": 40.0,
+              "MinSize": 10.0,
+              "OrderInLayer": 0,
+              "OutlineColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "OutlineWidth": 0.0,
+              "Overflow": 0,
+              "OverrideSorting": false,
+              "Padding": {
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "bottom": 0
+              },
+              "Page": 1,
+              "SizeFit": false,
+              "SortingLayer": "UI",
+              "SpacingOption": {
+                "Character": 0.0,
+                "Word": 0.0,
+                "Line": 0.0,
+                "Paragraph": 0.0
+              },
+              "Text": "모두에게",
+              "TopLeftColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "TopRightColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "Underlay": false,
+              "UnderlayColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "UnderlayDilate": 0.0,
+              "UnderlayOffsetX": 0.0,
+              "UnderlayOffsetY": 0.0,
+              "UnderlaySoftness": 0.0,
+              "UseConstraintX": false,
+              "UseConstraintY": false,
+              "VerticalAlignment": 512,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
         "id": "db17a8f8-e600-40df-b9a5-810c7fc8dd94",
         "path": "/ui/Gameplay/Chat/Input/Input",
         "componentNames": "MOD.Core.UITransformComponent",
@@ -3216,40 +3776,40 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 10,
+              "AlignmentOption": 15,
               "AnchorsMax": {
                 "x": 1.0,
-                "y": 0.5
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -76.0,
-                "y": 18.0
+                "x": -84.0,
+                "y": 0.0
               },
               "OffsetMin": {
-                "x": 101.0,
-                "y": -18.0
+                "x": 139.0,
+                "y": 0.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 323.0,
-                "y": 36.0
+                "x": 337.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": 101.0,
+                "x": 139.0,
                 "y": 0.0
               },
               "Position": {
-                "x": -149.0,
+                "x": -141.0,
                 "y": 19.0,
                 "z": 0.0
               },
@@ -3290,31 +3850,31 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 1,
+              "AlignmentOption": 12,
               "AnchorsMax": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 0.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 162.0,
-                "y": 18.0
+                "x": 168.5,
+                "y": 0.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -18.0
+                "y": 0.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 162.0,
-                "y": 36.0
+                "x": 168.5,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -3388,31 +3948,31 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 2,
+              "AlignmentOption": 14,
               "AnchorsMax": {
                 "x": 1.0,
-                "y": 0.5
+                "y": 1.0
               },
               "AnchorsMin": {
                 "x": 1.0,
-                "y": 0.5
+                "y": 0.0
               },
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": 18.0
+                "y": 0.0
               },
               "OffsetMin": {
-                "x": -162.0,
-                "y": -18.0
+                "x": -168.5,
+                "y": 0.0
               },
               "Pivot": {
                 "x": 1.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 162.0,
-                "y": 36.0
+                "x": 168.5,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -3431,7 +3991,7 @@
                 "z": 0.0
               },
               "Position": {
-                "x": 323.0,
+                "x": 337.0,
                 "y": 0.0,
                 "z": 0.0
               },
@@ -3463,12 +4023,207 @@
         }
       },
       {
+        "id": "3060064a-06ef-4750-9e5e-6e828a4e79f8",
+        "path": "/ui/Gameplay/Chat/Input/Input/Txt",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.TextComponent,MOD.Core.TextInputComponent",
+        "jsonString": {
+          "name": "Txt",
+          "path": "/ui/Gameplay/Chat/Input/Input/Txt",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "//////",
+          "revision": 0,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uitext",
+            "sub_entity_id": null,
+            "root_entity_id": null,
+            "replaced_model_id": null
+          },
+          "modelId": "uitext",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -12.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 12.0,
+                "y": 0.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 313.0,
+                "y": 38.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 168.5,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "AnimClipPlayType": 0,
+              "EndFrameIndex": 2147483647,
+              "ImageRUID": {
+                "DataId": ""
+              },
+              "LocalPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "LocalScale": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "OverrideSorting": false,
+              "PlayRate": 1.0,
+              "StartFrameIndex": 0,
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "DropShadow": false,
+              "DropShadowAngle": 30.0,
+              "DropShadowColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.72
+              },
+              "DropShadowDistance": 32.0,
+              "FillAmount": 1.0,
+              "FillCenter": true,
+              "FillClockWise": true,
+              "FillMethod": 0,
+              "FillOrigin": 0,
+              "FlipX": false,
+              "FlipY": false,
+              "FrameColumn": 1,
+              "FrameRate": 0,
+              "FrameRow": 1,
+              "Outline": false,
+              "OutlineColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+              },
+              "OutlineWidth": 3.0,
+              "RaycastTarget": true,
+              "Type": 1,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextComponent",
+              "Alignment": 3,
+              "AllowAutomaticTranslation": false,
+              "Font": 1,
+              "FontColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+              },
+              "FontSize": 20,
+              "IsRichText": true,
+              "MaxSize": 40,
+              "MinSize": 10,
+              "OutlineColor": {
+                "r": 0.7,
+                "g": 0.7,
+                "b": 0.7,
+                "a": 1.0
+              },
+              "OutlineDistance": {
+                "x": 1.0,
+                "y": -1.0
+              },
+              "Overflow": 1,
+              "OverrideSorting": false,
+              "Padding": {
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "bottom": 0
+              },
+              "SizeFit": false,
+              "Text": "",
+              "UseOutLine": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextInputComponent",
+              "AllowAutomaticTranslation": false,
+              "AutoClear": true,
+              "CharacterLimit": 52,
+              "ContentType": 0,
+              "LineType": 0,
+              "OverrideSorting": false,
+              "PlaceHolder": "",
+              "PlaceHolderColor": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.5
+              },
+              "Text": "",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
         "id": "6fb61ee3-847a-4fee-b604-129ae0180b56",
-        "path": "/ui/Gameplay/Chat/Input/UIButton_1",
+        "path": "/ui/Gameplay/Chat/Input/Btn_Whisper",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
         "jsonString": {
-          "name": "UIButton_1",
-          "path": "/ui/Gameplay/Chat/Input/UIButton_1",
+          "name": "Btn_Whisper",
+          "path": "/ui/Gameplay/Chat/Input/Btn_Whisper",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -3498,29 +4253,29 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -38.0,
-                "y": 18.0
+                "x": -42.0,
+                "y": 19.0
               },
               "OffsetMin": {
-                "x": -74.0,
-                "y": -18.0
+                "x": -80.0,
+                "y": -19.0
               },
               "Pivot": {
-                "x": 0.5,
+                "x": 1.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 36.0,
-                "y": 36.0
+                "x": 38.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": -56.0,
+                "x": -42.0,
                 "y": 0.0
               },
               "Position": {
-                "x": 194.0,
+                "x": 238.0,
                 "y": 19.0,
                 "z": 0.0
               },
@@ -3601,11 +4356,11 @@
       },
       {
         "id": "86343649-2cdf-4ad4-a4e3-443b497255b8",
-        "path": "/ui/Gameplay/Chat/Input/UIButton",
+        "path": "/ui/Gameplay/Chat/Input/Btn_ItemLink",
         "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
         "jsonString": {
-          "name": "UIButton",
-          "path": "/ui/Gameplay/Chat/Input/UIButton",
+          "name": "Btn_ItemLink",
+          "path": "/ui/Gameplay/Chat/Input/Btn_ItemLink",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -3636,28 +4391,28 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": 18.0
+                "y": 19.0
               },
               "OffsetMin": {
-                "x": -36.0,
-                "y": -18.0
+                "x": -38.0,
+                "y": -19.0
               },
               "Pivot": {
-                "x": 0.5,
+                "x": 1.0,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 36.0,
-                "y": 36.0
+                "x": 38.0,
+                "y": 38.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": -18.0,
+                "x": 0.0,
                 "y": 0.0
               },
               "Position": {
-                "x": 232.0,
+                "x": 280.0,
                 "y": 19.0,
                 "z": 0.0
               },
@@ -3672,7 +4427,7 @@
             {
               "@type": "MOD.Core.SpriteGUIRendererComponent",
               "ImageRUID": {
-                "DataId": "d3e076b5c6e7414897cd87c65afb78f5"
+                "DataId": "e5c9e85ecba541109a2ef2160a2d4f2f"
               },
               "OverrideSorting": false,
               "Enable": true
@@ -3715,16 +4470,16 @@
               },
               "ImageRUIDs": {
                 "HighlightedSprite": {
-                  "DataId": "d66f378c066c4ad9880edd62e5de7b60"
+                  "DataId": "f10783f129854c2c90f6ac5c883604d3"
                 },
                 "PressedSprite": {
-                  "DataId": "c23e98f2010443d8805b1b1101007017"
+                  "DataId": "42e977be6d72428086622d870e3de0a0"
                 },
                 "SelectedSprite": {
-                  "DataId": "d3e076b5c6e7414897cd87c65afb78f5"
+                  "DataId": "e5c9e85ecba541109a2ef2160a2d4f2f"
                 },
                 "DisabledSprite": {
-                  "DataId": "0309a1908fac48f18ff3672023894638"
+                  "DataId": "0bfe793cd7a34712bee8cc7ed3ff05e8"
                 }
               },
               "OverrideSorting": false,
@@ -3738,7 +4493,7 @@
       {
         "id": "52b25b4a-213c-44b1-abc9-1142ff9f22d7",
         "path": "/ui/Gameplay/MiniMap",
-        "componentNames": "MOD.Core.UITransformComponent",
+        "componentNames": "MOD.Core.UITransformComponent,script.MinimapComponent,script.WindowBarComponent",
         "jsonString": {
           "name": "MiniMap",
           "path": "/ui/Gameplay/MiniMap",
@@ -3771,30 +4526,30 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -384.7456,
-                "y": 477.8385
+                "x": -319.6093,
+                "y": 503.0708
               },
               "OffsetMin": {
-                "x": -884.7456,
-                "y": 277.8385
+                "x": -919.6093,
+                "y": 203.0708
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 500.0,
-                "y": 200.0
+                "x": 600.0,
+                "y": 300.0
               },
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": -634.7456,
-                "y": 377.8385
+                "x": -619.6093,
+                "y": 353.0708
               },
               "Position": {
-                "x": -634.7456,
-                "y": 377.8385,
+                "x": -619.6093,
+                "y": 353.0708,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -3802,6 +4557,115 @@
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "script.MinimapComponent",
+              "Enable": true
+            },
+            {
+              "@type": "script.WindowBarComponent",
+              "Enable": true,
+              "TouchAreaEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "b20850df-db8f-420c-9bbf-7723c766117a",
+                "Version2": false
+              }
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "1ffb07e2-31fb-4322-a229-df4028ad3f29",
+        "path": "/ui/Gameplay/MiniMap/Info",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Info",
+          "path": "/ui/Gameplay/MiniMap/Info",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "1ffb07e2-31fb-4322-a229-df4028ad3f29",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -8.0,
+                "y": -30.0
+              },
+              "OffsetMin": {
+                "x": 8.0,
+                "y": 8.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 584.0,
+                "y": 262.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": -11.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": -11.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.271484375
               },
               "Enable": true
             }
@@ -3820,7 +4684,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 0,
+          "displayOrder": 1,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -3845,20 +4709,20 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 250.0,
+                "x": 300.0,
                 "y": 0.0
               },
               "OffsetMin": {
                 "x": 0.0,
-                "y": -100.0
+                "y": -150.0
               },
               "Pivot": {
                 "x": 0.0,
                 "y": 1.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 300.0,
+                "y": 150.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -3877,8 +4741,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": -250.0,
-                "y": 100.0,
+                "x": -300.0,
+                "y": 150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -3919,7 +4783,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 1,
+          "displayOrder": 2,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -3948,16 +4812,16 @@
                 "y": 0.0
               },
               "OffsetMin": {
-                "x": -250.0,
-                "y": -100.0
+                "x": -300.0,
+                "y": -150.0
               },
               "Pivot": {
                 "x": 1.0,
                 "y": 1.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 300.0,
+                "y": 150.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -3976,8 +4840,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": 250.0,
-                "y": 100.0,
+                "x": 300.0,
+                "y": 150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4018,7 +4882,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 2,
+          "displayOrder": 3,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -4043,8 +4907,8 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 300.0,
+                "y": 150.0
               },
               "OffsetMin": {
                 "x": 0.0,
@@ -4055,8 +4919,8 @@
                 "y": 0.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 300.0,
+                "y": 150.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -4075,8 +4939,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": -250.0,
-                "y": -100.0,
+                "x": -300.0,
+                "y": -150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4117,7 +4981,7 @@
           "enable": true,
           "visible": true,
           "localize": true,
-          "displayOrder": 3,
+          "displayOrder": 4,
           "pathConstraints": "////",
           "revision": 1,
           "origin": {
@@ -4143,10 +5007,10 @@
               "MobileOnly": false,
               "OffsetMax": {
                 "x": 0.0,
-                "y": 100.0
+                "y": 150.0
               },
               "OffsetMin": {
-                "x": -250.0,
+                "x": -300.0,
                 "y": 0.0
               },
               "Pivot": {
@@ -4154,8 +5018,8 @@
                 "y": 0.0
               },
               "RectSize": {
-                "x": 250.0,
-                "y": 100.0
+                "x": 300.0,
+                "y": 150.0
               },
               "UIMode": 1,
               "UIScale": {
@@ -4169,8 +5033,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": 250.0,
-                "y": -100.0,
+                "x": 300.0,
+                "y": -150.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4200,14 +5064,159 @@
         }
       },
       {
+        "id": "b20850df-db8f-420c-9bbf-7723c766117a",
+        "path": "/ui/Gameplay/MiniMap/TopBar",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent",
+        "jsonString": {
+          "name": "TopBar",
+          "path": "/ui/Gameplay/MiniMap/TopBar",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 5,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uibutton",
+            "sub_entity_id": null,
+            "root_entity_id": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+            "replaced_model_id": null
+          },
+          "modelId": "uibutton",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 9,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -60.0
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 1.0
+              },
+              "RectSize": {
+                "x": 600.0,
+                "y": 60.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": ""
+              },
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Transition": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
         "id": "ae0f5534-895b-4e23-a568-e8e37456f256",
         "path": "/ui/Gameplay/Inventory",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.InventoryPopupComponent,script.WindowBarComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,script.WindowBarComponent,script.GameplayInventoryComponent",
         "jsonString": {
           "name": "Inventory",
           "path": "/ui/Gameplay/Inventory",
           "nameEditable": true,
-          "enable": true,
+          "enable": false,
           "visible": true,
           "localize": true,
           "displayOrder": 6,
@@ -4235,12 +5244,12 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": 644.4542,
-                "y": 423.7242
+                "x": 679.0952,
+                "y": 477.8386
               },
               "OffsetMin": {
-                "x": -555.5458,
-                "y": -395.2758
+                "x": -520.9048,
+                "y": -341.1614
               },
               "Pivot": {
                 "x": 0.5,
@@ -4258,12 +5267,12 @@
               },
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": 44.4542,
-                "y": 14.2242
+                "x": 79.0952,
+                "y": 68.3386
               },
               "Position": {
-                "x": 44.4542,
-                "y": 14.2242,
+                "x": 79.0952,
+                "y": 68.3386,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4293,22 +5302,22 @@
               "Enable": true
             },
             {
-              "@type": "script.InventoryPopupComponent",
-              "Enable": true,
-              "Slots": {
-                "tempEntityId": null,
-                "IsRelative": false,
-                "EntityId": "44ec2f82-7bfd-4ad7-b18a-edbc6dccf355",
-                "Version2": false
-              }
-            },
-            {
               "@type": "script.WindowBarComponent",
               "Enable": true,
               "TouchAreaEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
                 "EntityId": "6cb4a304-0810-40b3-90f5-c44c4214acf4",
+                "Version2": false
+              }
+            },
+            {
+              "@type": "script.GameplayInventoryComponent",
+              "Enable": true,
+              "SlotParentEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "44ec2f82-7bfd-4ad7-b18a-edbc6dccf355",
                 "Version2": false
               }
             }
@@ -4393,7 +5402,7 @@
       {
         "id": "d8c79797-caf8-4cd1-b4f9-e6dff065eabe",
         "path": "/ui/Gameplay/Inventory/Slots/Slot_1",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent,script.InventorySlotContainerComponent",
         "jsonString": {
           "name": "Slot_1",
           "path": "/ui/Gameplay/Inventory/Slots/Slot_1",
@@ -4499,6 +5508,11 @@
               "UseScroll": false,
               "VerticalScrollBarDirection": 2,
               "Enable": true
+            },
+            {
+              "@type": "script.InventorySlotContainerComponent",
+              "Enable": true,
+              "index": 1
             }
           ],
           "@version": 1
@@ -4507,7 +5521,7 @@
       {
         "id": "f8082514-2a57-491d-93c3-691ed64cd395",
         "path": "/ui/Gameplay/Inventory/Slots/Slot_2",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent,script.InventorySlotContainerComponent",
         "jsonString": {
           "name": "Slot_2",
           "path": "/ui/Gameplay/Inventory/Slots/Slot_2",
@@ -4613,6 +5627,11 @@
               "UseScroll": false,
               "VerticalScrollBarDirection": 2,
               "Enable": true
+            },
+            {
+              "@type": "script.InventorySlotContainerComponent",
+              "Enable": true,
+              "index": 2
             }
           ],
           "@version": 1
@@ -4621,7 +5640,7 @@
       {
         "id": "3a4677ec-15a8-47ff-ad00-2aa72fac4741",
         "path": "/ui/Gameplay/Inventory/Slots/Slot_3",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent,script.InventorySlotContainerComponent",
         "jsonString": {
           "name": "Slot_3",
           "path": "/ui/Gameplay/Inventory/Slots/Slot_3",
@@ -4727,6 +5746,11 @@
               "UseScroll": false,
               "VerticalScrollBarDirection": 2,
               "Enable": true
+            },
+            {
+              "@type": "script.InventorySlotContainerComponent",
+              "Enable": true,
+              "index": 3
             }
           ],
           "@version": 1
@@ -4735,7 +5759,7 @@
       {
         "id": "c73d8e69-deb2-4b21-becb-7736983778ee",
         "path": "/ui/Gameplay/Inventory/Slots/Slot_4",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.GridViewComponent,script.InventorySlotContainerComponent",
         "jsonString": {
           "name": "Slot_4",
           "path": "/ui/Gameplay/Inventory/Slots/Slot_4",
@@ -4841,6 +5865,11 @@
               "UseScroll": false,
               "VerticalScrollBarDirection": 2,
               "Enable": true
+            },
+            {
+              "@type": "script.InventorySlotContainerComponent",
+              "Enable": true,
+              "index": 4
             }
           ],
           "@version": 1
@@ -5124,7 +6153,7 @@
       {
         "id": "36a2d2f5-8d5a-434e-8dab-0e52640f42b6",
         "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Normal",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Normal",
           "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Normal",
@@ -5187,6 +6216,10 @@
               "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -5195,7 +6228,7 @@
       {
         "id": "30021846-4592-48d4-a9de-a92792288422",
         "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Press",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Press",
           "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Press",
@@ -5258,6 +6291,10 @@
               "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -5266,7 +6303,7 @@
       {
         "id": "b13b7761-d201-44b7-bb12-3d5010eceaf4",
         "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Hover",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Hover",
           "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Hover",
@@ -5329,6 +6366,10 @@
               "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
               "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
             }
           ],
           "@version": 1
@@ -5337,7 +6378,7 @@
       {
         "id": "3111320f-da0d-4ba7-b991-fc4facba3df8",
         "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Disable",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
         "jsonString": {
           "name": "Txt_Disable",
           "path": "/ui/Gameplay/Inventory/Btn_Popup/Txt_Disable",
@@ -5399,6 +6440,824 @@
             {
               "@type": "MOD.Core.TextGUIRendererComponent",
               "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+        "path": "/ui/Gameplay/Model_Chat_Entry",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.ButtonComponent,script.ChatEntryComponent",
+        "jsonString": {
+          "name": "Model_Chat_Entry",
+          "path": "/ui/Gameplay/Model_Chat_Entry",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 7,
+          "pathConstraints": "///",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": null,
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 600.391,
+                "y": -587.3453
+              },
+              "OffsetMin": {
+                "x": 58.39099,
+                "y": -615.3453
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 542.0,
+                "y": 28.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 329.391,
+                "y": -601.3453
+              },
+              "Position": {
+                "x": -630.609,
+                "y": -61.3452759,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.ButtonComponent",
+              "Colors": {
+                "NormalColor": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                },
+                "HighlightedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "PressedColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 1.0
+                },
+                "SelectedColor": {
+                  "r": 0.9607843,
+                  "g": 0.9607843,
+                  "b": 0.9607843,
+                  "a": 1.0
+                },
+                "DisabledColor": {
+                  "r": 0.784313738,
+                  "g": 0.784313738,
+                  "b": 0.784313738,
+                  "a": 0.5019608
+                },
+                "ColorMultiplier": 1.0,
+                "FadeDuration": 0.1
+              },
+              "ImageRUIDs": {
+                "HighlightedSprite": null,
+                "PressedSprite": null,
+                "SelectedSprite": null,
+                "DisabledSprite": null
+              },
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "script.ChatEntryComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "684404e9-432b-4fcd-ba26-f04b9b4f0425",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Text",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Text",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Text",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "3e9bb403-78ec-4657-aa6b-854032c8f2f2",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "3e9bb403-78ec-4657-aa6b-854032c8f2f2",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 10.22,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -22.31
+              },
+              "RectSize": {
+                "x": 10.22,
+                "y": 22.31
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -271.0,
+                "y": 13.999999,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "Overflow": 0,
+              "OverrideSorting": false,
+              "SizeFit": true,
+              "Text": " : ",
+              "UseConstraintX": false,
+              "UseConstraintY": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "2e9b1152-9082-423b-a1f7-d2474dc8df90",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param",
+        "componentNames": "MOD.Core.UITransformComponent",
+        "jsonString": {
+          "name": "Param",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "c5666316-d4e7-46d9-a0ae-c83407dc537a",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "c5666316-d4e7-46d9-a0ae-c83407dc537a",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 542.0,
+                "y": 28.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "9cfba457-3af4-4508-9015-2f1331ef41a8",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/UserName",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "UserName",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/UserName",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "939e0365-21a9-4dbd-86b2-a89e32e475ad",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "939e0365-21a9-4dbd-86b2-a89e32e475ad",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 4,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 86.3,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -22.3099976
+              },
+              "RectSize": {
+                "x": 86.3,
+                "y": 22.3099976
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -271.0,
+                "y": 13.999999,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "d54d9b8b-026d-4e4f-aeda-6ea206ee1310",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Channel",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "/////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "16bfd047-e9f1-4f62-86b9-df1aaa7a4582",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "16bfd047-e9f1-4f62-86b9-df1aaa7a4582",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 12,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 172.65,
+                "y": -2.0
+              },
+              "OffsetMin": {
+                "x": 100.0,
+                "y": 2.0
+              },
+              "RectSize": {
+                "x": 72.65,
+                "y": 24.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 100.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": -171.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "381b217e-110b-40c7-8816-b09c429aff27",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/w",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "w",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/w",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 0,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "6de645d5-5918-460c-9fc8-6b394e4f5591",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "6de645d5-5918-460c-9fc8-6b394e4f5591",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 1,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 11.0,
+                "y": 12.0
+              },
+              "OffsetMin": {
+                "x": 0.0,
+                "y": -12.0
+              },
+              "RectSize": {
+                "x": 11.0,
+                "y": 24.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "750c41d4-ff26-4075-ac5b-91ec3488728b",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/c",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "c",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/c",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 1,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "62fbda39-43a1-4fd6-88bc-3c1a1ec60061",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "62fbda39-43a1-4fd6-88bc-3c1a1ec60061",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 15,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 1.0
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -11.0,
+                "y": 0.0
+              },
+              "OffsetMin": {
+                "x": 11.0,
+                "y": 0.0
+              },
+              "RectSize": {
+                "x": 50.65,
+                "y": 24.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 36.3249969,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "5b0e0bd2-652e-48fd-b594-daa46a6a7d1d",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/e",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "e",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/e",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 2,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "8e86ece6-7fd8-4ae0-bdd8-15dc66685dc0",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "8e86ece6-7fd8-4ae0-bdd8-15dc66685dc0",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 2,
+              "AnchorsMax": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 1.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 0.0,
+                "y": 12.0
+              },
+              "OffsetMin": {
+                "x": -11.0,
+                "y": -12.0
+              },
+              "RectSize": {
+                "x": 11.0,
+                "y": 24.0
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 72.6499939,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "94a12589-e50d-4bb3-a557-6e5bfc92309e",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/Txt_Ch",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent",
+        "jsonString": {
+          "name": "Txt_Ch",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/Txt_Ch",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 3,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "fba33e7d-cc89-4993-9927-16d77de33c75",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "fba33e7d-cc89-4993-9927-16d77de33c75",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 1,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 32.89,
+                "y": 8.924993
+              },
+              "OffsetMin": {
+                "x": 8.0,
+                "y": -8.925008
+              },
+              "RectSize": {
+                "x": 24.89,
+                "y": 17.85
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 8.0,
+                "y": -7.748605E-06
+              },
+              "Position": {
+                "x": 8.0,
+                "y": -7.748605E-06,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "ff56cb2f-f8a0-4ba2-b5bd-70293eacfd12",
+        "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/Txt_ChNumber",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.TextGUIRendererComponent,MOD.Core.TagComponent",
+        "jsonString": {
+          "name": "Txt_ChNumber",
+          "path": "/ui/Gameplay/Model_Chat_Entry/Param/Channel/Txt_ChNumber",
+          "nameEditable": true,
+          "enable": true,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 4,
+          "pathConstraints": "//////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "9ea9e29e-2d28-402b-9ecf-6eb8407d92ca",
+            "sub_entity_id": "962e32a8-8482-4119-a820-0379d7d59a7f",
+            "root_entity_id": "d7463514-6b7a-4e9c-b497-6974b5611e63",
+            "replaced_model_id": null
+          },
+          "modelId": "962e32a8-8482-4119-a820-0379d7d59a7f",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 1,
+              "AnchorsMax": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.0,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": 62.65,
+                "y": 8.925
+              },
+              "OffsetMin": {
+                "x": 35.0,
+                "y": -8.925
+              },
+              "RectSize": {
+                "x": 27.65,
+                "y": 17.85
+              },
+              "UIMode": 1,
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": 35.0,
+                "y": 0.0
+              },
+              "Position": {
+                "x": 35.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TextGUIRendererComponent",
+              "OverrideSorting": false,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.TagComponent",
               "Enable": true
             }
           ],

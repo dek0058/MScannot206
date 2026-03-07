@@ -1,0 +1,10 @@
+@Component
+script GameplayChatTabComponent extends Component
+
+	property string LocalizationKey = ""
+
+	property boolean IsSelected = false
+
+	property table texts = {}
+
+end

@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://c8bdfb8ae46e4841a40ec80c148d16a3",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://c8bdfb8ae46e4841a40ec80c148d16a3",
+      "name": "Minimap",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

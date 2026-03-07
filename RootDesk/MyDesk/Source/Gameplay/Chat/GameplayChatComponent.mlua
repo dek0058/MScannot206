@@ -1,0 +1,473 @@
+---@description "채팅 시스템을 표시하는 컴포넌트입니다"
+@Component
+script GameplayChatComponent extends Component
+
+	---@description "최대 채팅 메시지 수 (초과 시 오래된 메시지부터 삭제)"
+	@HideFromInspector()
+	readonly property integer MaxChatCount = 100
+
+	@HideFromInspector()
+	readonly property string Delimiter = " : "
+
+	@HideFromInspector()
+	readonly property number DelimiterWidth = 10.22
+
+	@HideFromInspector()
+	readonly property number IndentationWidth = 42.0
+
+	---@description "채팅 목록"
+	readonly property GridViewComponent chatListGridViewComponent = nil
+
+	---@description "채팅 입력창"
+	readonly property TextInputComponent chatInputTextComponent = nil
+
+	---@description "채팅 List 엔트리"
+	property table<integer, ChatEntryComponent> chatUIs = {}
+
+	---@description "채팅 메시지 레이아웃"
+	property table layouts = {}
+
+	@HideFromInspector()
+	property Entity chatBase = nil
+
+	@HideFromInspector()
+	property number nameWidth = 100.0
+
+	@HideFromInspector()
+	property number scrollIndex = 0
+
+	@HideFromInspector()
+	property integer viewCount = 0
+
+	@HideFromInspector()
+	property boolean commit = false
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.chatListGridViewComponent == nil then
+			err:AddError("ChatListGridViewComponent를 찾지 못하였습니다")
+		end
+
+		if self.chatInputTextComponent == nil then
+			err:AddError("ChatInputTextComponent를 찾지 못하였습니다")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+			return
+		end
+
+		self.viewCount = self.chatListGridViewComponent.Entity.UITransformComponent.RectSize.y / self.chatListGridViewComponent.CellSize.y
+
+		-- 리스트 설정
+		self.chatBase = _SpawnService:SpawnByModelId("model://9ea9e29e-2d28-402b-9ecf-6eb8407d92ca", "ChatEntryBase", Vector3.zero, self.Entity)
+		self.chatListGridViewComponent.ItemEntity = self.chatBase
+		self.chatListGridViewComponent.OnRefresh = self.OnRefresh
+		self.chatListGridViewComponent.TotalCount = self.viewCount
+		self.chatBase.Enable = false
+
+		-- 입력창 설정
+		self.chatInputTextComponent.Entity:ConnectEvent(TextInputSubmitEvent, self.OnTextInputSubmitEvent)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		self.scrollIndex = 1
+		if self.chatListGridViewComponent ~= nil then
+			self.chatListGridViewComponent:Refresh(true, true)
+		end
+
+		local userStorageCom = _UserProxy:GetUserStorageComponentByClient()
+		if userStorageCom == nil then
+			return
+		end
+
+		local char = userStorageCom:GetGameplayCharacter()
+		if char ~= nil and self.chatBase ~= nil then
+			self.nameWidth = self.chatBase.ChatEntryComponent:GetCalculateWidth(char.name)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnRefresh(number index, Entity entity)
+		self.chatUIs[index + 1] = entity.ChatEntryComponent
+		if self.chatUIs[index + 1] ~= nil then
+			self.chatUIs[index + 1]:SetEmpty()
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnTextInputSubmitEvent(TextInputSubmitEvent e)
+		self.commit = true
+		if _UtilLogic:IsNilorEmptyString(e.Text) == true then
+			return
+		end
+
+		local msg = ChatEntity()
+		msg.message = e.Text
+		_GameplayChatLogic:SendUserMessage(_UserProxy:GetUid(), msg, self.nameWidth)
+		self.chatInputTextComponent:ActivateInputField()
+	end
+
+	@ExecSpace("ClientOnly")
+	method number GetDesiredWidth()
+		if self.chatListGridViewComponent == nil then
+			return self.Entity.UITransformComponent.RectSize.x
+		end
+
+		local entity = self.chatListGridViewComponent.Entity
+		return entity.UITransformComponent.RectSize.x
+	end
+
+	method table<string> GetChatMsgs(string msg, number desiredWidth, number indentationWidth)
+		local ret = {}
+		local entryCom = self.chatBase.ChatEntryComponent
+
+		if msg == nil or msg == "" then
+			return ret
+		end
+
+		local firstWidth  = desiredWidth
+		local nextWidth   = indentationWidth
+
+		local function rtrim(s)
+			return (s:gsub("%s+$", ""))
+		end
+
+		local function W(str)
+			return entryCom:GetCalculateWidth(str)
+		end
+
+		-- 전체 msg에 대해 UTF-8 문자 시작 바이트 인덱스를 1회만 구성
+		-- indices[k] = k번째 문자 시작 바이트, indices[len+1] = (#msg + 1)
+		local function buildUtf8IndicesAll(s)
+			local idx = {}
+			local len = 0
+			local i = 1
+			local nbytes = #s
+			while i <= nbytes do
+				len = len + 1
+				idx[len] = i
+				local c = s:byte(i)
+				if c < 0x80 then
+					i = i + 1
+				elseif c < 0xE0 then
+					i = i + 2
+				elseif c < 0xF0 then
+					i = i + 3
+				else
+					i = i + 4
+				end
+			end
+			idx[len + 1] = nbytes + 1
+			return idx, len
+		end
+		local indices, totalLen = buildUtf8IndicesAll(msg)
+
+		-- msg에서 [aChar..bChar] (문자 인덱스, 1-based) substring
+		local function usubRangeAll(s, indices, aChar, bChar)
+			if aChar > bChar then return "" end
+			local sa = indices[aChar]
+			local sb1 = indices[bChar + 1]
+			return s:sub(sa, sb1 - 1)
+		end
+
+		-- lastBest를 "폭별"로 관리 (첫줄 폭/다음줄 폭이 다름)
+		local lastBestFirst = nil
+		local lastBestNext  = nil
+
+		-- startChar부터 시작하는 "남은 문자열"에서 prefix를 최대한 자르고,
+		-- (partStr, nextStartChar, bestCount) 반환
+		--
+		-- 핵심 최적화:
+		-- - 문자열을 매번 잘라서 line 변수를 만���지 않고
+		-- - 전체 msg + indices + startChar/endChar 로 작업
+		local function cutFrom(startChar, endChar, limitWidth, isFirstLine)
+			if startChar > endChar then
+				return "", endChar + 1, 0
+			end
+
+			local guess = isFirstLine and lastBestFirst or lastBestNext
+			local remainLen = endChar - startChar + 1
+
+			-- guess를 "남은 길이" 기준으로 clamp
+			if not guess then
+				guess = nil
+			else
+				if guess < 1 then guess = 1 end
+				if guess > remainLen then guess = remainLen end
+			end
+
+			-- fallback binary (구간 [1..remainLen]에서)
+			local function binaryCut()
+				-- 통째로 들어가나 1회 체크
+				local whole = usubRangeAll(msg, indices, startChar, endChar)
+				if W(whole) <= limitWidth then
+					-- rtrim은 반환 문자열에만 적용. 다음 시작은 endChar+1
+					return rtrim(whole), endChar + 1, remainLen
+				end
+
+				local lo, hi = 1, remainLen
+				local best = 0
+				while lo <= hi do
+					local mid = math.floor((lo + hi) / 2)
+					local part = usubRangeAll(msg, indices, startChar, startChar + mid - 1)
+					if W(part) <= limitWidth then
+						best = mid
+						lo = mid + 1
+					else
+						hi = mid - 1
+					end
+				end
+
+				if best <= 0 then best = 1 end
+
+				local part = rtrim(usubRangeAll(msg, indices, startChar, startChar + best - 1))
+				local nextStart = startChar + best
+				return part, nextStart, best
+			end
+
+			-- guess가 없으면 바로 binary
+			if not guess then
+				local part, nextStart, best = binaryCut()
+				if isFirstLine then lastBestFirst = best else lastBestNext = best end
+				return part, nextStart, best
+			end
+
+			-- guess 측정
+			local guessEnd = startChar + guess - 1
+			local partGuess = usubRangeAll(msg, indices, startChar, guessEnd)
+			local wGuess = W(partGuess)
+
+			-- guess가 작거나 적당함: 위로 확장
+			if wGuess <= limitWidth then
+				if guess == remainLen then
+					local part = rtrim(partGuess)
+					if isFirstLine then lastBestFirst = guess else lastBestNext = guess end
+					return part, endChar + 1, guess
+				end
+
+				local lo = guess
+				local hi = guess
+				local step = 1
+
+				while true do
+					hi = hi + step
+					if hi >= remainLen then hi = remainLen end
+
+					local part = usubRangeAll(msg, indices, startChar, startChar + hi - 1)
+					if W(part) > limitWidth then
+						break
+					end
+
+					lo = hi
+					if hi == remainLen then
+						local ok = rtrim(part)
+						if isFirstLine then lastBestFirst = hi else lastBestNext = hi end
+						return ok, endChar + 1, hi
+					end
+
+					step = step * 2
+				end
+
+				-- (lo OK, hi overflow)에서만 이분탐색
+				local best = lo
+				local L, H = lo + 1, hi
+				while L <= H do
+					local mid = math.floor((L + H) / 2)
+					local part = usubRangeAll(msg, indices, startChar, startChar + mid - 1)
+					if W(part) <= limitWidth then
+						best = mid
+						L = mid + 1
+					else
+						H = mid - 1
+					end
+				end
+
+				local part = rtrim(usubRangeAll(msg, indices, startChar, startChar + best - 1))
+				local nextStart = startChar + best
+				if isFirstLine then lastBestFirst = best else lastBestNext = best end
+				return part, nextStart, best
+			end
+
+			-- guess가 큼: 아래로 확장
+			if guess == 1 then
+				local part = rtrim(usubRangeAll(msg, indices, startChar, startChar))
+				local nextStart = startChar + 1
+				if isFirstLine then lastBestFirst = 1 else lastBestNext = 1 end
+				return part, nextStart, 1
+			end
+
+			local lo = guess - 1
+			local step = 1
+			while true do
+				lo = lo - step
+				if lo <= 1 then lo = 1 end
+
+				local part = usubRangeAll(msg, indices, startChar, startChar + lo - 1)
+				if W(part) <= limitWidth then
+					break
+				end
+
+				if lo == 1 then
+					local one = rtrim(usubRangeAll(msg, indices, startChar, startChar))
+					local nextStart = startChar + 1
+					if isFirstLine then lastBestFirst = 1 else lastBestNext = 1 end
+					return one, nextStart, 1
+				end
+
+				step = step * 2
+			end
+
+			local best = lo
+			local L, H = lo + 1, guess - 1
+			while L <= H do
+				local mid = math.floor((L + H) / 2)
+				local part = usubRangeAll(msg, indices, startChar, startChar + mid - 1)
+				if W(part) <= limitWidth then
+					best = mid
+					L = mid + 1
+				else
+					H = mid - 1
+				end
+			end
+
+			local part = rtrim(usubRangeAll(msg, indices, startChar, startChar + best - 1))
+			local nextStart = startChar + best
+			if isFirstLine then lastBestFirst = best else lastBestNext = best end
+			return part, nextStart, best
+		end
+
+		-- 준비: 전체 indices 1회 생성
+		if totalLen <= 0 then
+			-- 빈/비정상 UTF-8
+			ret[#ret + 1] = msg
+			return ret
+		end
+
+		local startChar = 1
+		local endChar   = totalLen
+		local isFirst = true
+
+		while startChar <= endChar do
+			local limit = isFirst and firstWidth or nextWidth
+			if not limit or limit <= 0 then
+				-- 남은 전체를 그대로
+				ret[#ret + 1] = usubRangeAll(msg, indices, startChar, endChar)
+				break
+			end
+
+			local part, nextStart = cutFrom(startChar, endChar, limit, isFirst)
+
+			-- 방어: part가 ""로 나오면 최소 1문자
+			if part == "" then
+				part = rtrim(usubRangeAll(msg, indices, startChar, startChar))
+				nextStart = startChar + 1
+				if isFirst then lastBestFirst = 1 else lastBestNext = 1 end
+			end
+
+			ret[#ret + 1] = part
+			startChar = nextStart
+			isFirst = false
+		end
+
+		return ret
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleReceiveChatEvent(ReceiveChatEvent e)
+		local layout = e.layout
+		if layout == nil then
+			return
+		end
+
+		if layout.chatType == _ChatTypeDef.User then
+			local userLayout = ChatEntryLayout_User():FromTable(layout.params)
+			local entryCom = self.chatBase.ChatEntryComponent
+			local desiredWidth = self:GetDesiredWidth() - userLayout.userNameWidth - self.DelimiterWidth
+
+			local dt = DateTime.UtcNow
+			local chatMsgs = self:GetChatMsgs(userLayout.msg, desiredWidth, self:GetDesiredWidth() - self.IndentationWidth)
+			local dt2 = DateTime.UtcNow
+			log("GetChatMsgs Time: ".. tostring((dt2 - dt).TotalMilliseconds) .. " ms")
+
+			for i = 1, #chatMsgs do
+				local l = {}
+				l["ChatType"] = _ChatTypeDef.User
+				if i == 1 then
+					l["UserName"] = userLayout.userName
+					l["UserNameWidth"] = userLayout.userNameWidth
+					l["Msg"] = self.Delimiter.. chatMsgs[i]
+				else
+					l["Msg"] = chatMsgs[i]
+					l["MsgIndentation"] = self.IndentationWidth
+				end
+
+				table.insert(self.layouts, 1, l)
+			end
+		end
+
+		-- 메세지 추가 후 최대 개수 초과 시 오래된 메세지부터 삭제
+		while #self.layouts > self.MaxChatCount do
+			table.remove(self.layouts)
+		end
+
+		local index = self.viewCount
+		while index > 0 do
+			local ui = self.chatUIs[index]
+			if ui == nil then
+				index -= 1
+				continue
+			end
+
+			local i = self.scrollIndex + (self.viewCount - index)
+			local l = self.layouts[i]
+			if l == nil then
+				ui:SetEmpty()
+				index -= 1
+				continue
+			end
+
+			ui:SetSlot()
+			if l["ChatType"] == _ChatTypeDef.User then
+				if l["UserName"] ~= nil then
+					ui:SetUserName(l["UserName"])
+					ui:SetMessage(l["Msg"] or "", l["UserNameWidth"] or 0)
+				else
+					ui:SetMessage(l["Msg"] or "", l["MsgIndentation"] or 0)
+				end
+			else
+				ui:SetEmpty()
+			end
+
+			index -= 1
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Service", "InputService")
+	handler HandleChatInputActiveEvent(KeyUpEvent e)
+		if e.key ~= KeyboardKey.Return then
+			return
+		end
+
+		if self.chatInputTextComponent == nil then
+			return
+		end
+
+		if self.commit == true then
+			self.commit = false
+			return
+		end
+		
+		if self.chatInputTextComponent.IsFocused == true then
+			return
+		end
+
+		self.chatInputTextComponent:ActivateInputField()
+	end
+
+end

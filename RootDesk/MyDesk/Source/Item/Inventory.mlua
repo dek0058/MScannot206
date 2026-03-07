@@ -1,36 +1,40 @@
----@description "인벤토리 정보를 담는 구조체입니다"
 @Struct
 script Inventory
 
-	---@description "인벤토리에 담긴 아이템 정보 리스트"
-	property table<ItemEntity> items = {}
-	
-	---@description "인벤토리에 담긴 아이템 정보를 아이템 ID로 빠르게 조회할 수 있는 맵입니다"
-	property table<string, ItemEntity> itemMap = {}
-	
-	---@description "인벤토리에 아이템을 추가하는 메서드입니다. 동일한 아이템이 존재할 경우 개수를 합칩니다"
-	---@param item ItemEntity "추가할 아이템 정보"
-	method void AddItem(ItemEntity item)
+	property table items = {}
+
+	property table itemMap = {}
+
+	property table typeItemMap = {}
+
+	method void AddItem(ItemEntity item, integer slot)
 		for _, v in ipairs(self.items) do
 			if item:IsSameItem(v) then
 				v.count = v.count + item.count
 				return
 			end
 		end
-
+		
 		self.items[#self.items + 1] = item
 		self.itemMap[item.id] = item
+		
+		local record = _GameTableLogic.itemTable:GetRecord(item.index)
+		if record ~= nil then
+			if self.typeItemMap[record.InventoryType] == nil then
+				self.typeItemMap[record.InventoryType] = {}
+			end
+			self.typeItemMap[record.InventoryType][slot] = item
+		end
 	end
 
-	---@description "아이템을 가져옵니다"
-	---@param itemId string "가져올 아이템 ID"
-	---@return ItemEntity "가져온 아이템 정보입니다. 존재하지 않을 경우 nil을 반환합니다"
 	method ItemEntity Get(string itemId)
 		return self.itemMap[itemId]
 	end
 
-	---@description "인벤토리를 테이블 형태로 변환하는 메서드입니다"
-	---@return table "인벤토리 정보를 담은 테이블입니다"
+	method table GetAllByType(string inventoryType)
+		return self.typeItemMap[inventoryType] or {}
+	end
+
 	method table ToTable()
 		local content = {}
 		content["items"] = {}
@@ -40,9 +44,6 @@ script Inventory
 		return content
 	end
 
-	---@description "테이블에서 인벤토리 구조체로 변환하는 메서드입니다"
-	---@param content table "인벤토리 정보를 담은 테이블입니다"
-	---@return Inventory "테이블에서 변환된 인벤토리 구조체입니다"
 	method Inventory FromTable(table content)
 		if content["items"] ~= nil then
 			for i, v in ipairs(content["items"]) do

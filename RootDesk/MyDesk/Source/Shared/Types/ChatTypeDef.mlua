@@ -1,0 +1,14 @@
+@Logic
+script ChatTypeDef extends Logic
+
+	property string System = "System"
+
+	property string User = "User"
+
+	property string UserWhisper = "UserWhisper"
+
+	property string UserWorldMegaphone = "UserWorldMegaphone"
+
+	property string UserGlobalMegaphone = "UserGlobalMegaphone"
+
+end

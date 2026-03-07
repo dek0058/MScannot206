@@ -1,0 +1,7 @@
+@Event
+script ReceiveChatEvent extends TemplateEventType
+
+	---@type ChatEntryLayout
+	property any layout = nil
+
+end

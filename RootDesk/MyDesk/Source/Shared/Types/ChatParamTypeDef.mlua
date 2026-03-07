@@ -1,0 +1,10 @@
+@Logic
+script ChatParamTypeDef extends Logic
+
+	property string UserName = "UserName"
+
+	property string Channel = "ChannelName"
+
+	property string ItemLink = "ItemLink"
+
+end

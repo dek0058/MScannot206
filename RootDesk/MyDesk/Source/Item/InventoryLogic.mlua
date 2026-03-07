@@ -32,8 +32,24 @@ script InventoryLogic extends Logic
 		if inventory == nil then
 			inventory = Inventory()
 		end
-		
-		inventory:AddItem(item)
+
+		local inventoryType = _InventoryTypeDef.None
+		local record = _GameTableLogic.itemTable:GetRecord(item.index)
+		if record ~= nil then
+			inventoryType = record.InventoryType
+		end
+
+		-- 슬롯찾기
+		local items = inventory:GetAllByType(inventoryType)
+		local slot = 0
+		for i = 1, _DefLogic.MaxInventorySlot do
+			if items[i] == nil then
+				slot = i
+				break
+			end
+		end
+		inventory:AddItem(item, slot)
+
 		userStorageCom:SetCharacterInventory(character, inventory)
 		
 		return err

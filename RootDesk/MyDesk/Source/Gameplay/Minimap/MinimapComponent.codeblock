@@ -1,13 +1,13 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://e70bb25c-454c-47df-a878-d87a6ed40422",
+  "EntryKey": "codeblock://595cc0b5-7c68-4fbb-822e-9bb6c52a0025",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
   "UsePublish": 1,
   "UseService": 0,
-  "CoreVersion": "1.26.0.0",
+  "CoreVersion": "26.1.0.0",
   "StudioVersion": "0.1.0.0",
   "DynamicLoading": 0,
   "ContentProto": {
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "e70bb25c-454c-47df-a878-d87a6ed40422",
+      "Id": "595cc0b5-7c68-4fbb-822e-9bb6c52a0025",
       "Language": 1,
-      "Name": "ChannelDisplay",
+      "Name": "MinimapComponent",
       "Type": 1,
       "Source": 0,
       "Target": null

@@ -1,0 +1,105 @@
+@Component
+script ChatEntryComponent extends Component
+
+	property Entity textEntity = nil
+
+	property Entity userNameEntity = nil
+
+	property Entity channelEntity = nil
+
+	property Entity channelNumberEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		self.textEntity = _GameplayStaticsLogic:FindEntityByTagRecursive(self.Entity, "Text")
+		if self.textEntity == nil then
+			err:AddError("Text 엔티티를 찾지 못하였습니다")
+		end
+
+		self.userNameEntity = _GameplayStaticsLogic:FindEntityByTagRecursive(self.Entity, "UserName")
+		if self.userNameEntity == nil then
+			err:AddError("UserName 엔티티를 찾지 못하였습니다")
+		end
+
+		self.channelEntity = _GameplayStaticsLogic:FindEntityByTagRecursive(self.Entity, "Channel")
+		if self.channelEntity == nil then
+			err:AddError("Channel 엔티티를 찾지 못하였습니다")
+		end
+
+		self.channelNumberEntity = _GameplayStaticsLogic:FindEntityByTagRecursive(self.Entity, "Channel.Number")
+		if self.channelNumberEntity == nil then
+			err:AddError("Channel.Number 엔티티를 찾지 못하였습니다")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method number GetCalculateWidth(string text)
+		if self.textEntity == nil then
+			return 0
+		end
+		return self.textEntity.TextGUIRendererComponent:GetPreferredWidth(text)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetEmpty()
+		self.Entity:SetVisible(false)
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void SetSlot()
+		self.Entity:SetVisible(true)
+
+		if self.textEntity ~= nil then
+			self.textEntity:SetEnable(false)
+		end
+		if self.userNameEntity ~= nil then
+			self.userNameEntity:SetEnable(false)
+		end
+		if self.channelEntity ~= nil then
+			self.channelEntity:SetEnable(false)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetUserName(string value)
+		if self.userNameEntity == nil then
+			return
+		end
+		self.userNameEntity:SetEnable(true)
+		self.userNameEntity.TextGUIRendererComponent.Text = value
+	end
+
+	@ExecSpace("ClientOnly")
+	method number GetUserNameDesiredWidth()
+		return 0
+	end
+	
+	@ExecSpace("ClientOnly")
+	method void SetMessage(string value, number desiredWidth)
+		if self.textEntity == nil then
+			return
+		end
+
+		self.textEntity:SetEnable(true)
+		self.textEntity.TextGUIRendererComponent.Text = value
+
+		self.textEntity.UITransformComponent.anchoredPosition.x = desiredWidth
+	end
+
+	@ExecSpace("ClientOnly")
+	method number GetMessageDesiredWidth()
+		return 0
+	end
+
+	-- 
+	-- method void Setup(ChatEntity entity)
+		
+	-- end
+
+end

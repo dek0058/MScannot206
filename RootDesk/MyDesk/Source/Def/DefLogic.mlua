@@ -13,6 +13,9 @@ script DefLogic extends Logic
 	---@description "최대 닉네임 길이"
 	readonly property integer MaxNicknameLength = 12
 
+	---@description "최대 인벤토리 슬롯 수"
+	readonly property integer MaxInventorySlot = 128
+
 	---@description "맵 진입 시 이벤트"
 	readonly property string EventEnterMap = "EnterMap"
 

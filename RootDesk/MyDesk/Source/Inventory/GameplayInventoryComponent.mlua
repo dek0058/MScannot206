@@ -1,0 +1,60 @@
+@Component
+script GameplayInventoryComponent extends Component
+
+	property Entity SlotParentEntity = nil
+
+	property table slotContainerComs = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+		
+		if self.SlotParentEntity == nil then
+			err:AddError("SlotParentEntity가 설정되어 있지 않습니다")
+		end
+		
+		if err:IsError() then
+			err:PrintErrors()
+			return
+		end
+		
+		for _, child in ipairs(self.SlotParentEntity.Children) do
+			local slotContainerCom = child:GetComponent(InventorySlotContainerComponent)
+			local gridViewCom = child:GetComponent(GridViewComponent)
+			if slotContainerCom ~= nil and gridViewCom ~= nil then
+				table.insert(self.slotContainerComs, slotContainerCom)
+			end
+		end
+		
+		if #self.slotContainerComs == 0 then
+			err:AddError("슬롯 컨테이너 컴포넌트가 하나도 없습니다")
+			return
+		end
+		
+		local slotBase = _SpawnService:SpawnByModelId("model://8b83f007-0199-4095-8e97-62e8af394e59", "InventorySlotBase", Vector3.zero, self.Entity)
+		for _, com in ipairs(self.slotContainerComs) do
+			local gridViewCom = com.Entity.GridViewComponent
+			gridViewCom.ItemEntity = slotBase
+			gridViewCom.OnClear = self.OnClear
+			gridViewCom.OnRefresh = self.OnRefresh
+		end
+		
+		slotBase.Enable = false
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnRefresh(number index, Entity entity)
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnClear(number index, Entity entity)
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		
+	end
+
+end

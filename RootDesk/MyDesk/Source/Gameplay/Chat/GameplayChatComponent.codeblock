@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://f6578a90-42a1-476d-a040-217bdfc496c5",
+  "EntryKey": "codeblock://a90ded31-4d2e-4218-aef4-ba4617024b2b",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,10 +22,10 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "f6578a90-42a1-476d-a040-217bdfc496c5",
+      "Id": "a90ded31-4d2e-4218-aef4-ba4617024b2b",
       "Language": 1,
-      "Name": "CharacterEquip",
-      "Type": 9,
+      "Name": "GameplayChatComponent",
+      "Type": 1,
       "Source": 0,
       "Target": null
     }

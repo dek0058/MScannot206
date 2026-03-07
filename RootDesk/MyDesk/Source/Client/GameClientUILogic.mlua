@@ -35,6 +35,15 @@ script GameClientUILogic extends Logic
 		return self._T["ui"]
 	end
 
+	---@description "bin UI 엔티티를 반환합니다."
+	@ExecSpace("ClientOnly")
+	method Entity GetBin()
+		if self._T["bin"] == nil then
+			self._T["bin"] = _EntityService:GetEntityByPath("/ui/Bin")
+		end
+		return self._T["bin"]
+	end
+
 	---@description "인터렉션 UI 엔티티를 반환합니다."
 	@ExecSpace("ClientOnly")
 	method Entity GetInteraction()
@@ -68,6 +77,26 @@ script GameClientUILogic extends Logic
 			self._T["Transition"] = _EntityService:GetEntityByPath("/ui/Transition")
 		end
 		return self._T["Transition"]
+	end
+
+	---@description "entity가 속한 UI Group 엔티티를 반환합니다"
+	---@param entity Entity "UI 엔티티"
+	---@return Entity "UI Group 엔티티"
+	@ExecSpace("ClientOnly")
+	method Entity FindParentUIGroup(Entity entity)
+		if entity == nil then
+			return nil
+		end
+
+		local parent = entity.Parent
+		while parent ~= nil do
+			if parent.UIGroupComponent ~= nil then
+				return parent
+			end
+			parent = parent.Parent
+		end
+
+		return nil
 	end
 
 	---@description "맵에 입장 시, 해당 태그에 맞는 UI Group으로 전환합니다."

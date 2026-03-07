@@ -1,0 +1,4 @@
+@Component
+script MinimapComponent extends Component
+
+end

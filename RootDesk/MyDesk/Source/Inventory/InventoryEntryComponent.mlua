@@ -1,4 +1,0 @@
-@Component
-script InventoryEntryComponent extends Component
-
-end

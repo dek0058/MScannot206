@@ -1,5 +1,5 @@
 @Component
-script ChannelDisplay extends Component
+script ChannelDisplayComponent extends Component
 
 	property Entity ChannelTxtEntity = nil
 
@@ -31,12 +31,12 @@ script ChannelDisplay extends Component
 					break
 				end
 			end
-
+		
 			if channelIndex == 0 then
 				self.Entity:SetVisible(false)
 				return
 			end
-
+		
 			channelTextCom.Text = "Channel. " .. tostring(channelIndex)
 			self.Entity:SetVisible(true)
 		end

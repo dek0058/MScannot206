@@ -1,0 +1,6 @@
+@Component
+script InventorySlotContainerComponent extends Component
+
+	readonly property integer index = 0
+
+end

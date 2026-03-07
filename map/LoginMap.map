@@ -2342,8 +2342,10 @@
             {
               "@type": "script.LoginMapComponent",
               "Enable": true,
-              "OpeningCamera": null,
-              "StartLocation": null
+              "openingCamera": null,
+              "startLocation": null,
+              "characterSlotEntity": null,
+              "joystickEntity": null
             },
             {
               "@type": "MOD.Core.TagComponent",

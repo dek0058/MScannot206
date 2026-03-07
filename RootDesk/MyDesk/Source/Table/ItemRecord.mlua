@@ -8,5 +8,6 @@ script ItemRecord
 	property string ItemDesc = ""
 	property string RUID = ""
 	property string Icon = ""
+	property string InventoryType = ""
 
 end

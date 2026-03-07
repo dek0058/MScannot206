@@ -1,0 +1,8 @@
+@Struct
+script ChatEntryLayout
+
+	property string chatType = ""
+
+	property table params = {}
+	
+end

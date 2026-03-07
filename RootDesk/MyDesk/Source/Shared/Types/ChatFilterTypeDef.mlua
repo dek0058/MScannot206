@@ -1,0 +1,6 @@
+@Logic
+script ChatFilterTypeDef extends Logic
+
+	property string All = "All"
+
+end

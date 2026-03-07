@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://388296a7d5494cfba9fcc28adda0f84e",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.1.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://388296a7d5494cfba9fcc28adda0f84e",
+      "name": "Chat",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

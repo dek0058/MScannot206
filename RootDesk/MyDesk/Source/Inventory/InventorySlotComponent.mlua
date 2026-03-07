@@ -1,0 +1,14 @@
+@Component
+script InventorySlotComponent extends Component
+
+	property integer slot = 0
+
+	method void Setup(integer slot)
+		self.slot = slot
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnRefresh()
+	end
+
+end

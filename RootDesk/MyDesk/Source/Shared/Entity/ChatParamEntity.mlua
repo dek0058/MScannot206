@@ -1,0 +1,10 @@
+@Struct
+script ChatParamEntity
+
+	---@description "파라미터 타입 (예: 발신자 이름, 채팅 필터 등)"
+	property string paramType = ""
+
+	---@description "파라미터 값"
+	property string paramValue = ""
+
+end

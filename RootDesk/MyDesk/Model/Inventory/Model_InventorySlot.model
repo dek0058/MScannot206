@@ -18,7 +18,8 @@
       "BaseModelId": null,
       "Id": "8b83f007-0199-4095-8e97-62e8af394e59",
       "Components": [
-        "MOD.Core.UITransformComponent"
+        "MOD.Core.UITransformComponent",
+        "script.InventorySlotComponent"
       ],
       "Properties": [],
       "Values": [
@@ -199,6 +200,15 @@
         {
           "TargetType": "MOD.Core.MODEntity",
           "Name": "Visible",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          "Value": true
+        },
+        {
+          "TargetType": "script.InventorySlotComponent",
+          "Name": "Enable",
           "ValueType": {
             "$type": "MODNativeType",
             "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
@@ -731,7 +741,7 @@
                   "$type": "MODNativeType",
                   "type": "MOD.Core.AlignmentType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
                 },
-                "Value": 0
+                "Value": 15
               },
               {
                 "TargetType": "MOD.Core.UITransformComponent",
@@ -742,8 +752,8 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 1.0,
+                  "y": 1.0
                 }
               },
               {
@@ -755,8 +765,8 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0.0,
+                  "y": 0.0
                 }
               },
               {
@@ -777,8 +787,8 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": 16.0,
-                  "y": 16.9999943
+                  "x": -4.0,
+                  "y": -4.0
                 }
               },
               {
@@ -790,8 +800,8 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": -16.0,
-                  "y": -17.0000057
+                  "x": 4.0,
+                  "y": 4.0
                 }
               },
               {
@@ -803,8 +813,8 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": 32.0,
-                  "y": 34.0
+                  "x": 58.0,
+                  "y": 58.0
                 }
               },
               {
@@ -835,7 +845,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
                   "x": 0.0,
-                  "y": -2.1457673E-08
+                  "y": 0.0
                 }
               },
               {
@@ -848,7 +858,7 @@
                 "Value": {
                   "$type": "MOD.Core.MODVector3, MOD.Core",
                   "x": 0.0,
-                  "y": -2.1457673E-08,
+                  "y": 0.0,
                   "z": 0.0
                 }
               },
@@ -885,7 +895,7 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODDataRef, MOD.Core",
-                  "DataId": "c45645fddd064cbd862a8282b40509a0"
+                  "DataId": "884db5b6b5a946c992c2d3950b2a644e"
                 }
               },
               {
@@ -966,9 +976,18 @@
                 },
                 "Value": {
                   "$type": "MOD.Core.MODVector2, MOD.Core",
-                  "x": 1.5,
-                  "y": 1.5
+                  "x": 1.0,
+                  "y": 1.0
                 }
+              },
+              {
+                "TargetType": "MOD.Core.SpriteGUIRendererComponent",
+                "Name": "PreserveSprite",
+                "ValueType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.PreserveSpriteType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "Value": 1
               }
             ],
             "EventLinks": [],
