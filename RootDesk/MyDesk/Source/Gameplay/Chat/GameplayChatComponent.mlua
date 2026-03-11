@@ -2,20 +2,27 @@
 @Component
 script GameplayChatComponent extends Component
 
+	---@description "채팅 엔트리 모델 ID"
+	readonly property string ChatEntryModelId = "model://9ea9e29e-2d28-402b-9ecf-6eb8407d92ca"
+
 	---@description "최대 채팅 메시지 수 (초과 시 오래된 메시지부터 삭제)"
 	@HideFromInspector()
 	readonly property integer MaxChatCount = 100
 
+	---@description "채팅 메시지 구분자"
 	@HideFromInspector()
 	readonly property string Delimiter = " : "
 
+	---@description "채팅 메시지 구분자 폭"
 	@HideFromInspector()
-	readonly property number DelimiterWidth = 10.22
+	property number delimiterWidth = 10.22
 
-	@HideFromInspector()
+	---@description "두번 째 줄 메시지 들여쓰기 폭"
 	readonly property number IndentationWidth = 42.0
 
-	@HideFromInspector()
+	---@description "스크롤바의 최소 크기 비율 (0.01 ~ 1.0)"
+	@MinValue(0.01)
+	@MaxValue(1.0)
 	readonly property number MinScrollBarRatio = 0.2
 
 	---@description "채팅 목록"
@@ -33,35 +40,47 @@ script GameplayChatComponent extends Component
 	---@description "채팅 메시지 레이아웃"
 	property table layouts = {}
 
+	---@description "현재 레이아웃 수"
 	@HideFromInspector()
 	property integer layoutNum = 0
 
+	---@description "채팅 베이스 엔티티"
 	@HideFromInspector()
 	property Entity chatBase = nil
 
+	---@description "채팅 메시지 폭 계산용 유저 이름 폭"
 	@HideFromInspector()
 	property number nameWidth = 100.0
 
+	---@description "현재 스크롤 인덱스 (1-based)"
 	@HideFromInspector()
 	property number scrollIndex = 0
 
+	---@description "한 화면에 보이는 최대 채팅 메시지 수"
 	@HideFromInspector()
 	property integer viewCount = 0
 
+	---@description "입력을 커밋했는지 여부 (입력 완료 후 즉시 엔터키의 활성화를 방지하기 위함)"
 	@HideFromInspector()
 	property boolean commit = false
 
+	---@description "스크롤의 최대 높이"
 	@HideFromInspector()
 	property number scrollHeight = 100.0
 
+	---@description "최소 스크롤바 핸들 크기 (픽셀)"
+	@HideFromInspector()
 	property number minHandlePx = 24.0
 
+	---@description "스크롤 시작 위치"
 	@HideFromInspector()
 	property Vector2 scrollStartPos = Vector2.zero
 
+	---@description "스크롤 시작 위치와의 간격"
 	@HideFromInspector()
 	property Vector2 scrollStartGap = Vector2.zero
 
+	---@description "스크롤 이동 중인지 여부"
 	@HideFromInspector()
 	property boolean isScrollMove = false
 
@@ -90,7 +109,7 @@ script GameplayChatComponent extends Component
 		self.viewCount = self.ChatListGridViewComponent.Entity.UITransformComponent.RectSize.y / self.ChatListGridViewComponent.CellSize.y
 
 		-- 리스트 설정
-		self.chatBase = _SpawnService:SpawnByModelId("model://9ea9e29e-2d28-402b-9ecf-6eb8407d92ca", "ChatEntryBase", Vector3.zero, self.Entity)
+		self.chatBase = _SpawnService:SpawnByModelId(self.ChatEntryModelId, "ChatEntryBase", Vector3.zero, self.Entity)
 		self.ChatListGridViewComponent.ItemEntity = self.chatBase
 		self.ChatListGridViewComponent.OnRefresh = self.OnRefresh
 		self.ChatListGridViewComponent.TotalCount = self.viewCount
@@ -234,6 +253,7 @@ script GameplayChatComponent extends Component
 		local char = userStorageCom:GetGameplayCharacter()
 		if char ~= nil and self.chatBase ~= nil then
 			self.nameWidth = self.chatBase.ChatEntryComponent:GetCalculateWidth(char.name)
+			self.delimiterWidth = self.chatBase.ChatEntryComponent:GetCalculateWidth(self.Delimiter)
 		end
 
 		self:UpdateScrollBar()
@@ -315,7 +335,7 @@ script GameplayChatComponent extends Component
 		local ret = {}
 		local entryCom = self.chatBase.ChatEntryComponent
 
-		if msg == nil or msg == "" then
+		if _UtilLogic:IsNilorEmptyString(msg) then
 			return ret
 		end
 
@@ -524,7 +544,7 @@ script GameplayChatComponent extends Component
 			return part, nextStart, best
 		end
 
-		-- 준비: 전체 indices 1회 생성
+		-- 전체 indices 1회 생성
 		if totalLen <= 0 then
 			-- 빈/비정상 UTF-8
 			ret[#ret + 1] = msg
@@ -545,7 +565,7 @@ script GameplayChatComponent extends Component
 
 			local part, nextStart = cutFrom(startChar, endChar, limit, isFirst)
 
-			-- 방어: part가 ""로 나오면 최소 1문자
+			-- part가 ""로 나오면 최소 1문자
 			if part == "" then
 				part = rtrim(usubRangeAll(msg, indices, startChar, startChar))
 				nextStart = startChar + 1
@@ -571,7 +591,7 @@ script GameplayChatComponent extends Component
 		if layout.chatType == _ChatTypeDef.User then
 			local userLayout = ChatEntryLayout_User():FromTable(layout.params)
 			local entryCom = self.chatBase.ChatEntryComponent
-			local desiredWidth = self:GetDesiredWidth() - userLayout.userNameWidth - self.DelimiterWidth
+			local desiredWidth = self:GetDesiredWidth() - userLayout.userNameWidth - self.delimiterWidth
 
 			local dt = DateTime.UtcNow
 			local chatMsgs = self:GetChatMsgs(userLayout.msg, desiredWidth, self:GetDesiredWidth() - self.IndentationWidth)

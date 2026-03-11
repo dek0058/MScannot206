@@ -95,8 +95,10 @@ script GameplayMapComponent extends Component
 				table.insert(self.defaultUI, self.chatEntity)
 			end
 			
+			---@type MinimapComponent
 			local miniMapCom = _GameplayStaticsLogic:FindComponentInParent(screen, "MinimapComponent")
 			if miniMapCom ~= nil then
+				miniMapCom:Setup(self.Entity)
 				self.minimapEntity = miniMapCom.Entity
 				table.insert(self.defaultUI, self.minimapEntity)
 			end

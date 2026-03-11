@@ -1,4 +1,193 @@
 @Component
 script MinimapComponent extends Component
 
+	---@description "미니맵 영역 엔티티"
+	readonly property Entity RectEntity = nil
+
+	readonly property Entity FrameNWEntity = nil
+	readonly property Entity FrameNEEntity = nil
+	readonly property Entity FrameSWEntity = nil
+	readonly property Entity FrameSEEntity = nil
+
+	---@description "맵에 대한 미니맵 배율"
+	@MaxValue(0.3)
+	@MinValue(0.1)
+	readonly property number Magnification = 0.2
+
+	@HideFromInspector()
+	property number oldMagnification = 0.0
+
+	---@description "미니맵 크기(px)"
+	readonly property Vector2 MaxMinimapSize = Vector2(600, 300)
+
+	---@description "좌측 여유 공간(px)"
+	readonly property number PaddingLeft = 8.0
+
+	---@description "우측 여유 공간(px)"
+	readonly property number PaddingRight = 8.0
+
+	---@description "상단 여유 공간(px)"
+	readonly property number PaddingTop = 30.0
+
+	---@description "하단 여유 공간(px)"
+	readonly property number PaddingBottom = 8.0
+
+	@HideFromInspector()
+	property Entity map = nil
+
+	@HideFromInspector()
+	property Vector2 mapSize = Vector2.zero
+	
+	@HideFromInspector()
+	property Vector2 mapLeftBottom = Vector2.zero
+
+	@HideFromInspector()
+	property Vector2 mapRightTop = Vector2.zero
+
+	@HideFromInspector()
+	property Vector2 minimapSize = Vector2.zero
+
+	@HideFromInspector()
+	property Vector2 minimapCenter = Vector2.zero
+
+	@HideFromInspector()
+	property MinimapMarkerComponent myMarker = nil
+
+	property table<MinimapMarkerComponent> markers = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		local err = ErrorType()
+
+		if self.RectEntity == nil then
+			err:AddError("RectEntity를 찾을 수 없습니다")
+		end
+
+		if self.FrameNWEntity == nil then
+			err:AddError("FrameNWEntity를 찾을 수 없습니다")
+		end
+
+		if self.FrameNEEntity == nil then
+			err:AddError("FrameNEEntity를 찾을 수 없습니다")
+		end
+
+		if self.FrameSWEntity == nil then
+			err:AddError("FrameSWEntity를 찾을 수 없습니다")
+		end
+
+		if self.FrameSEEntity == nil then
+			err:AddError("FrameSEEntity를 찾을 수 없습니다")
+		end
+
+		if err:IsError() then
+			err:PrintErrors()
+			return
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnUpdate(number delta)
+		if self.myMarker == nil then
+			return
+		end
+
+		local pxPerUnit = 100 * self.Magnification
+		local contentW = self.mapSize.x * pxPerUnit
+		local contentH = self.mapSize.y * pxPerUnit
+
+		if self.oldMagnification ~= self.Magnification then
+			self:RefreshMinimapRectSize(contentW, contentH)
+			self.oldMagnification = self.Magnification
+		end
+
+		local playerX = self.myMarker:GetTargetX()
+		local playerY = self.myMarker:GetTargetY()
+		local u = (playerX - self.mapLeftBottom.x) / self.mapSize.x
+		local v = (playerY - self.mapLeftBottom.y) / self.mapSize.y
+		u = math.clamp(u, 0, 1)
+		v = math.clamp(v, 0, 1)
+		
+		local charX = u * contentW
+		local charY = v * contentH
+		
+		local desiredOffsetX = self.minimapCenter.x - charX
+		local desiredOffsetY = self.minimapCenter.y - charY
+		
+		local minOffsetX = self.minimapSize.x - contentW
+		local maxOffsetX = 0
+		local minOffsetY = self.minimapSize.y - contentH
+		local maxOffsetY = 0
+
+		local offsetX = math.clamp(desiredOffsetX, minOffsetX, maxOffsetX)
+		local offsetY = math.clamp(desiredOffsetY, minOffsetY, maxOffsetY)
+
+		local viewportX = charX + offsetX
+		local viewportY = charY + offsetY
+
+		local finalX = charX + offsetX
+		local finalY = charY + offsetY
+
+		self.myMarker:SetPosition(finalX, finalY)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup(Entity mapEntity)
+		self.map = mapEntity
+		if self.map == nil then
+			return
+		end
+		
+		local mapCom = mapEntity.MapComponent
+		if mapCom == nil then
+			return
+		end
+		
+		self.mapLeftBottom, self.mapRightTop = mapCom:GetBound()
+
+		self.mapSize = Vector2(
+			self.mapRightTop.x - self.mapLeftBottom.x,
+			self.mapRightTop.y - self.mapLeftBottom.y
+		)
+
+		self.myMarker = _MiniMapLogic:CreateMyUser(self.RectEntity, _UserService.LocalPlayer)
+
+		-- 최초 미니맵 갱신을 위해 초기화
+		self.oldMagnification = 0.0
+	end
+
+	method void SetMiniMapSize(Vector2 size)
+		self.Entity.UITransformComponent.RectSize = size
+		self.minimapSize.x = size.x - (self.PaddingLeft + self.PaddingRight)
+		self.minimapSize.y = size.y - (self.PaddingTop + self.PaddingBottom)
+		
+		self.minimapCenter = self.minimapSize * 0.5
+		self.FrameNWEntity.UITransformComponent.RectSize = size * 0.5
+		self.FrameNEEntity.UITransformComponent.RectSize = size * 0.5
+		self.FrameSWEntity.UITransformComponent.RectSize = size * 0.5
+		self.FrameSEEntity.UITransformComponent.RectSize = size * 0.5
+	end
+
+	method Vector2 GetInnerSize()
+		local w = self.MaxMinimapSize.x - (self.PaddingLeft + self.PaddingRight)
+		local h = self.MaxMinimapSize.y - (self.PaddingBottom + self.PaddingTop)
+
+		w = math.max(1, w)
+		h = math.max(1, h)
+
+		return Vector2(w, h)
+	end
+
+	method void RefreshMinimapRectSize(number contentW, number contentH)
+		local inner = self:GetInnerSize()
+
+		local sx = inner.x / contentW
+		local sy = inner.y / contentH
+		local s = math.min(sx, sy)
+
+		local rectW = contentW * s
+		local rectH = contentH * s
+
+		self:SetMiniMapSize(Vector2(rectW, rectH))
+	end
+
 end

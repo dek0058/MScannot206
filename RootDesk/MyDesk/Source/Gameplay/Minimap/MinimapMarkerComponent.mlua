@@ -1,0 +1,35 @@
+@Component
+script MinimapMarkerComponent extends Component
+
+	@HideFromInspector()
+	property string markerType = ""
+
+	@HideFromInspector()
+	property Entity targetEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method number GetTargetX()
+		if self.targetEntity == nil then
+			return 0
+		end
+		return self.targetEntity.TransformComponent.Position.x
+	end
+
+	@ExecSpace("ClientOnly")
+	method number GetTargetY()
+		if self.targetEntity == nil then
+			return 0
+		end
+		return self.targetEntity.TransformComponent.Position.y
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SetPosition(number x, number y)
+		if self.targetEntity == nil then
+			return
+		end
+		local transform = self.Entity.UITransformComponent
+		transform.anchoredPosition = Vector2(x, y)
+	end
+
+end
