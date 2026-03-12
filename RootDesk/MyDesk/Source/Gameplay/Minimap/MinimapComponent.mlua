@@ -1,5 +1,28 @@
+---@description "미니맵 시스템을 관리하는 컴포넌트 입니다"
 @Component
 script MinimapComponent extends Component
+
+	---@description "내 캐릭터 마커의 RUID"
+	@HideFromInspector()
+	readonly property string Marker_MyUser = "MyUser"
+
+	---@description "다른 유저 마커의 RUID"
+	@HideFromInspector()
+	readonly property string Marker_User = "User"
+
+	---@description "NPC 마커의 RUID"
+	@HideFromInspector()
+	readonly property string Marker_Npc = "Npc"
+
+	---@description "포탈 마커의 RUID"
+	@HideFromInspector()
+	readonly property string Marker_Portal = "Portal"
+
+	---@description "마커 RUID 테이블"
+	property table markerRUIDs = {}
+
+	---@description "마커 ModelID"
+	readonly property string MarkerModelID = ""
 
 	---@description "미니맵 영역 엔티티"
 	readonly property Entity RectEntity = nil
@@ -14,6 +37,7 @@ script MinimapComponent extends Component
 	@MinValue(0.1)
 	readonly property number Magnification = 0.2
 
+	---@description "이전 프레임의 배율. 배율이 변경 되었는지 체크하기 위해 사용 합니다"
 	@HideFromInspector()
 	property number oldMagnification = 0.0
 
@@ -32,28 +56,35 @@ script MinimapComponent extends Component
 	---@description "하단 여유 공간(px)"
 	readonly property number PaddingBottom = 8.0
 
-	@HideFromInspector()
-	property Entity map = nil
-
+	---@description "맵 크기(월드 단위)"
 	@HideFromInspector()
 	property Vector2 mapSize = Vector2.zero
 	
+	---@description "맵의 왼쪽 아래 월드 좌표"
 	@HideFromInspector()
 	property Vector2 mapLeftBottom = Vector2.zero
 
+	---@description "맵의 오른쪽 위 월드 좌표"
 	@HideFromInspector()
 	property Vector2 mapRightTop = Vector2.zero
 
+	---@description "미니맵의 크기(px)"
 	@HideFromInspector()
 	property Vector2 minimapSize = Vector2.zero
 
+	---@description "미니맵의 중심점 좌표(px)"
 	@HideFromInspector()
 	property Vector2 minimapCenter = Vector2.zero
 
+	---@description "내 캐릭터 마커 컴포넌트"
 	@HideFromInspector()
 	property MinimapMarkerComponent myMarker = nil
 
-	property table<MinimapMarkerComponent> markers = {}
+	---@description "내 캐릭터를 제외한 마커 컴포넌트들"
+	property table<string, MinimapMarkerComponent> markers = {}
+
+	---@description "마커 컴포넌트 풀"
+	property table<MinimapMarkerComponent> markerPool = {}
 
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
@@ -83,6 +114,11 @@ script MinimapComponent extends Component
 			err:PrintErrors()
 			return
 		end
+
+		self.markerRUIDs[self.Marker_MyUser] = "1940be9d402142c9a9d8507a7ec22569"
+		self.markerRUIDs[self.Marker_User] = "44f2927b2fb54fc284e2e193a6bea969"
+		self.markerRUIDs[self.Marker_Npc] = "5fb99c3f8cf64562ac1055347f400a29"
+		self.markerRUIDs[self.Marker_Portal] = "a7de2bb87d864e948488c703ff5fa975"
 	end
 
 	@ExecSpace("ClientOnly")
@@ -91,15 +127,18 @@ script MinimapComponent extends Component
 			return
 		end
 
+		-- 맵 크기에 따른 픽셀당 월드 단위 계산
 		local pxPerUnit = 100 * self.Magnification
 		local contentW = self.mapSize.x * pxPerUnit
 		local contentH = self.mapSize.y * pxPerUnit
 
+		-- 배율이 변경 되었는지 체크하여 미니맵 크기 갱신
 		if self.oldMagnification ~= self.Magnification then
 			self:RefreshMinimapRectSize(contentW, contentH)
 			self.oldMagnification = self.Magnification
 		end
 
+		-- 내 캐릭터의 월드 좌표를 미니맵 좌표로 변환
 		local playerX = self.myMarker:GetTargetX()
 		local playerY = self.myMarker:GetTargetY()
 		local u = (playerX - self.mapLeftBottom.x) / self.mapSize.x
@@ -110,51 +149,156 @@ script MinimapComponent extends Component
 		local charX = u * contentW
 		local charY = v * contentH
 		
+		-- 내 캐릭터가 미니맵의 중심에 오도록 오프셋 계산
 		local desiredOffsetX = self.minimapCenter.x - charX
 		local desiredOffsetY = self.minimapCenter.y - charY
-		
+
+		-- 오프셋을 제한하여 맵의 가장자리에 도달했을 때 빈 공간이 보이지 않도록 함
 		local minOffsetX = self.minimapSize.x - contentW
 		local maxOffsetX = 0
 		local minOffsetY = self.minimapSize.y - contentH
 		local maxOffsetY = 0
-
 		local offsetX = math.clamp(desiredOffsetX, minOffsetX, maxOffsetX)
 		local offsetY = math.clamp(desiredOffsetY, minOffsetY, maxOffsetY)
 
+		-- 최종 내 캐릭터 마커 위치 계산 및 설정
 		local viewportX = charX + offsetX
 		local viewportY = charY + offsetY
-
 		local finalX = charX + offsetX
 		local finalY = charY + offsetY
-
 		self.myMarker:SetPosition(finalX, finalY)
+
+		-- 다른 마커들도 같은 방식으로 위치 계산 및 설정
+		for _, marker in pairs(self.markers) do
+			local targetX = marker:GetTargetX()
+			local targetY = marker:GetTargetY()
+
+			local targetU = (targetX - self.mapLeftBottom.x) / self.mapSize.x
+			local targetV = (targetY - self.mapLeftBottom.y) / self.mapSize.y
+			targetU = math.clamp(targetU, 0, 1)
+			targetV = math.clamp(targetV, 0, 1)
+
+			local targetCharX = targetU * contentW
+			local targetCharY = targetV * contentH
+
+			local minimapX = targetCharX + offsetX
+			local minimapY = targetCharY + offsetY
+
+			marker:SetPosition(minimapX, minimapY)
+		end
 	end
 
+	---@description "미니맵을 초기화 합니다. 맵 엔티티를 받아 맵의 경계 정보를 가져오고, 기존에 생성 되었던 마커들을 초기화 합니다"
+	---@param mapEntity Entity "맵 엔티티"
 	@ExecSpace("ClientOnly")
 	method void Setup(Entity mapEntity)
-		self.map = mapEntity
-		if self.map == nil then
-			return
-		end
-		
 		local mapCom = mapEntity.MapComponent
 		if mapCom == nil then
 			return
 		end
 		
+		-- 맵의 경계 정보 가져오기
 		self.mapLeftBottom, self.mapRightTop = mapCom:GetBound()
-
 		self.mapSize = Vector2(
 			self.mapRightTop.x - self.mapLeftBottom.x,
 			self.mapRightTop.y - self.mapLeftBottom.y
 		)
 
-		self.myMarker = _MiniMapLogic:CreateMyUser(self.RectEntity, _UserService.LocalPlayer)
-
 		-- 최초 미니맵 갱신을 위해 초기화
 		self.oldMagnification = 0.0
+
+		-- 사전에 생성 되었던 마커 넣어두기
+		for _, marker in pairs(self.markers) do
+			if marker.markerType == self.Marker_User then
+				table.insert(self.markerPool, marker)
+			end
+			marker.Entity:SetEnable(false)
+		end
+		self.markers = {}
+
+		-- 내 캐릭터 마커 설정
+		if self.myMarker == nil then
+			self.myMarker = self:CreateMarker(self.RectEntity, _UserService.LocalPlayer, self.Marker_MyUser)
+		else
+			self.myMarker.targetEntity = _UserService.LocalPlayer
+			self.myMarker.Entity:SetEnable(true)
+		end
+
+		-- 다른 유저 마커 설정
+		for _, user in ipairs(_UserService:GetUsersByMapComponent(mapCom)) do
+			if user.PlayerComponent.UserId == _UserService.LocalPlayer.PlayerComponent.UserId then
+				continue
+			end
+			self:AddUser(user)
+		end
+
+		-- NPC 마커 설정
+		for _, entity in ipairs(_GameplayStaticsLogic:FindEntitiesByTagRecursive(mapEntity, "Npc")) do
+			local marker = self:GetOrAddMinimapMarker(entity, self.Marker_Npc)
+			if marker ~= nil then
+				self.markers[entity.Id] = marker
+			end
+		end
+
+		-- 포탈 마커 설정
+		for _, com in ipairs(_GameplayStaticsLogic:FindComponentsInParentRecursive(mapEntity, "PortalComponent")) do
+			local marker = self:GetOrAddMinimapMarker(com.Entity, self.Marker_Portal)
+			if marker ~= nil then
+				self.markers[com.Entity.Id] = marker
+			end
+		end
+
 	end
 
+	method MinimapMarkerComponent GetOrAddMinimapMarker(Entity target, string markerType)
+		if #self.markerPool > 0 then
+			---@type MinimapMarkerComponent
+			local marker = table.remove(self.markerPool)
+			marker.Entity:SetEnable(true)
+			marker:SetMarkerRUID(self.markerRUIDs[markerType] or "")
+			marker.targetEntity = target
+			marker.markerType = markerType
+			return marker
+		else
+			local marker = self:CreateMarker(self.RectEntity, target, markerType)
+			return marker
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void AddUser(Entity userEntity)
+		if self.markers[userEntity.PlayerComponent.UserId] ~= nil then
+			return
+		end
+
+		if #self.markerPool > 0 then
+			---@type MinimapMarkerComponent
+			local marker = table.remove(self.markerPool)
+			marker.Entity:SetEnable(true)
+			marker:SetMarkerRUID(self.markerRUIDs[self.Marker_User] or "")
+			marker.targetEntity = userEntity
+			marker.markerType = self.Marker_User
+			self.markers[userEntity.PlayerComponent.UserId] = marker
+		else
+			local marker = self:CreateMarker(self.RectEntity, userEntity, self.Marker_User)
+			self.markers[userEntity.PlayerComponent.UserId] = marker
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void RemoveUser(string uid)
+		if self.markers[uid] == nil then
+			return
+		end
+
+		local marker = self.markers[uid]
+		marker.Entity:SetEnable(false)
+		self.markers[uid] = nil
+		table.insert(self.markerPool, marker)
+	end
+
+	---@description "미니맵 크기를 설정 합니다"
+	---@param size Vector2 "설정할 크기"
 	method void SetMiniMapSize(Vector2 size)
 		self.Entity.UITransformComponent.RectSize = size
 		self.minimapSize.x = size.x - (self.PaddingLeft + self.PaddingRight)
@@ -167,6 +311,8 @@ script MinimapComponent extends Component
 		self.FrameSEEntity.UITransformComponent.RectSize = size * 0.5
 	end
 
+	---@description "미니맵의 내부 크기를 반환 합니다. 내부 크기는 전체 크기에서 여유 공간을 뺀 크기 입니다"
+	---@return Vector2 "미니맵의 내부 크기"
 	method Vector2 GetInnerSize()
 		local w = self.MaxMinimapSize.x - (self.PaddingLeft + self.PaddingRight)
 		local h = self.MaxMinimapSize.y - (self.PaddingBottom + self.PaddingTop)
@@ -177,6 +323,9 @@ script MinimapComponent extends Component
 		return Vector2(w, h)
 	end
 
+	---@description "맵 크기에 따른 미니맵 크기를 갱신 합니다"
+	---@param contentW number "맵 크기에 따른 미니맵 콘텐츠의 너비"
+	---@param contentH number "맵 크기에 따른 미니맵 콘텐츠의 높이"
 	method void RefreshMinimapRectSize(number contentW, number contentH)
 		local inner = self:GetInnerSize()
 
@@ -188,6 +337,49 @@ script MinimapComponent extends Component
 		local rectH = contentH * s
 
 		self:SetMiniMapSize(Vector2(rectW, rectH))
+	end
+
+	---@description "마커를 생성 합니다"
+	---@param parent Entity "마커의 부모 엔티티"
+	---@param target Entity "마커가 추적 할 타겟 엔티티"
+	---@param markerType string "마커의 타입"
+	---@return MinimapMarkerComponent "생성된 마커 컴포넌트"
+	@ExecSpace("ClientOnly")
+	method MinimapMarkerComponent CreateMarker(Entity parent, Entity target, string markerType)
+		if parent == nil or target == nil then
+			return nil
+		end
+
+		if _UtilLogic:IsNilorEmptyString(self.MarkerModelID) then
+			return nil
+		end
+
+		local makerRUID = self.markerRUIDs[markerType]
+		if makerRUID == nil then
+			return nil
+		end
+
+		local marker = _SpawnService:SpawnByModelId(
+			self.MarkerModelID,
+			"Marker_" .. markerType,
+			Vector3.zero,
+			parent
+		)
+		
+		if marker == nil then
+			return nil
+		end
+
+		local markerCom = marker.MinimapMarkerComponent
+		if markerCom == nil then
+			return nil
+		end
+
+		markerCom:SetMarkerRUID(makerRUID)
+		markerCom.markerType = markerType
+		markerCom.targetEntity = target
+
+		return markerCom
 	end
 
 end

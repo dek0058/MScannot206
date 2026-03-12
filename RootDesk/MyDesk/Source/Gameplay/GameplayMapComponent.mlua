@@ -96,10 +96,10 @@ script GameplayMapComponent extends Component
 			end
 			
 			---@type MinimapComponent
-			local miniMapCom = _GameplayStaticsLogic:FindComponentInParent(screen, "MinimapComponent")
-			if miniMapCom ~= nil then
-				miniMapCom:Setup(self.Entity)
-				self.minimapEntity = miniMapCom.Entity
+			local minimapCom = _GameplayStaticsLogic:FindComponentInParent(screen, "MinimapComponent")
+			if minimapCom ~= nil then
+				minimapCom:Setup(self.Entity)
+				self.minimapEntity = minimapCom.Entity
 				table.insert(self.defaultUI, self.minimapEntity)
 			end
 			
@@ -124,11 +124,40 @@ script GameplayMapComponent extends Component
 		end
 		
 	end
+
+	@ExecSpace("Client")
+	method void AddMinimapUserMarker(string uid)
+		if self.minimapEntity == nil then
+			return
+		end
+
+		local user = _UserService.UserEntities[uid]
+		if user ~= nil then
+			self.minimapEntity.MinimapComponent:AddUser(user)
+		end
+	end
+
+	@ExecSpace("Client")
+	method void RemoveMinimapUserMarker(string uid)
+		if self.minimapEntity == nil then
+			return
+		end
+
+		self.minimapEntity.MinimapComponent:RemoveUser(uid)
+	end
 	
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleMapEnterEvent(MapEnterEvent e)
 		self:Setup(e.uid)
+
+		for _, user in ipairs(_UserService:GetUsersByMapComponent(self.Entity.MapComponent)) do
+			if e.uid == user.PlayerComponent.UserId then
+				continue
+			end
+			self:AddMinimapUserMarker(e.uid, user.PlayerComponent.UserId)
+		end
+
 		wait(1.5)
 		_TransitionLogic:Pop(e.uid)
 	end
@@ -136,6 +165,12 @@ script GameplayMapComponent extends Component
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleMapLeaveEvent(MapLeaveEvent e)
+		for _, user in ipairs(_UserService:GetUsersByMapComponent(self.Entity.MapComponent)) do
+			if e.uid == user.PlayerComponent.UserId then
+				continue
+			end
+			self:RemoveMinimapUserMarker(e.uid, user.PlayerComponent.UserId)
+		end
 	end
 	
 end

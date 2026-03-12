@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "model://ba3b3166-9d78-453c-8eff-bc6f5c69fe0a",
+  "EntryKey": "model://2ec665af-9c52-4114-a4fd-6d7170fcdf05",
   "ContentType": "x-mod/model",
   "Content": "",
   "Usage": 0,
@@ -14,9 +14,9 @@
     "Use": "Json",
     "Json": {
       "Version": 1,
-      "Name": "Model_Token_MyUser",
+      "Name": "Model_Maker",
       "BaseModelId": null,
-      "Id": "ba3b3166-9d78-453c-8eff-bc6f5c69fe0a",
+      "Id": "2ec665af-9c52-4114-a4fd-6d7170fcdf05",
       "Components": [
         "MOD.Core.UITransformComponent",
         "MOD.Core.SpriteGUIRendererComponent",
@@ -77,8 +77,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 970.0,
-            "y": 550.0
+            "x": 54298.36,
+            "y": -21899.4258
           }
         },
         {
@@ -90,8 +90,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 950.0,
-            "y": 530.0
+            "x": 54288.36,
+            "y": -21909.4258
           }
         },
         {
@@ -116,8 +116,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 20.0,
-            "y": 20.0
+            "x": 10.0,
+            "y": 10.0
           }
         },
         {
@@ -161,8 +161,22 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector2, MOD.Core",
-            "x": 4.31999969,
-            "y": 2.42999983
+            "x": 244.3201,
+            "y": -98.56991
+          }
+        },
+        {
+          "TargetType": "MOD.Core.UITransformComponent",
+          "Name": "Rotation",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODVector3, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": {
+            "$type": "MOD.Core.MODVector3, MOD.Core",
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
           }
         },
         {
@@ -174,8 +188,8 @@
           },
           "Value": {
             "$type": "MOD.Core.MODVector3, MOD.Core",
-            "x": 0.0,
-            "y": 0.0,
+            "x": 240.000092,
+            "y": -100.9999,
             "z": 0.0
           }
         },
@@ -191,7 +205,7 @@
             "x": 0.0,
             "y": 0.0,
             "z": 0.0,
-            "w": 1.0
+            "w": -1.0
           }
         },
         {
@@ -207,6 +221,15 @@
             "y": 1.0,
             "z": 1.0
           }
+        },
+        {
+          "TargetType": "MOD.Core.UITransformComponent",
+          "Name": "ZRotation",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          "Value": 0.0
         },
         {
           "TargetType": "MOD.Core.UITransformComponent",
@@ -226,7 +249,7 @@
           },
           "Value": {
             "$type": "MOD.Core.MODDataRef, MOD.Core",
-            "DataId": "1940be9d402142c9a9d8507a7ec22569"
+            "DataId": "44f2927b2fb54fc284e2e193a6bea969"
           }
         },
         {
@@ -269,7 +292,7 @@
             "$type": "MODNativeType",
             "type": "MOD.Core.ImageComponent+ImageType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
           },
-          "Value": 1
+          "Value": 0
         },
         {
           "TargetType": "MOD.Core.SpriteGUIRendererComponent",
@@ -299,6 +322,15 @@
           "Value": ""
         },
         {
+          "TargetType": "script.MinimapMarkerComponent",
+          "Name": "targetEntity",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.MODEntity, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": null
+        },
+        {
           "TargetType": "MOD.Core.MODEntity",
           "Name": "Enable",
           "ValueType": {
@@ -317,13 +349,26 @@
           "Value": true
         },
         {
-          "TargetType": "script.MinimapMarkerComponent",
-          "Name": "targetEntity",
+          "TargetType": "MOD.Core.SpriteGUIRendererComponent",
+          "Name": "LocalScale",
           "ValueType": {
             "$type": "MODNativeType",
-            "type": "MOD.Core.MODEntity, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+            "type": "MOD.Core.MODVector2, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
           },
-          "Value": null
+          "Value": {
+            "$type": "MOD.Core.MODVector2, MOD.Core",
+            "x": 2.0,
+            "y": 2.0
+          }
+        },
+        {
+          "TargetType": "MOD.Core.SpriteGUIRendererComponent",
+          "Name": "PreserveSprite",
+          "ValueType": {
+            "$type": "MODNativeType",
+            "type": "MOD.Core.PreserveSpriteType, MOD.Core, Version=26.1.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          "Value": 1
         }
       ],
       "EventLinks": [],

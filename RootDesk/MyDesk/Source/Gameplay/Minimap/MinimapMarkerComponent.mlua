@@ -1,31 +1,52 @@
+---@description "미니맵에 표시 되는 마커 컴포넌트 입니다. 마커의 타입 및 엔티티 그리고 유용한 함수를 제공 합니다"
 @Component
 script MinimapMarkerComponent extends Component
 
+	---@description "마커의 타입"
 	@HideFromInspector()
 	property string markerType = ""
 
+	---@description "마커의 타겟"
 	@HideFromInspector()
 	property Entity targetEntity = nil
+	
+	---@description "마커의 RUID를 설정 합니다"
+	---@param ruid string "설정할 마커의 RUID"
+	method void SetMarkerRUID(string ruid)
+		local spriteCom = self.Entity.SpriteGUIRendererComponent
+		if spriteCom == nil then
+			return
+		end
+		spriteCom.ImageRUID = ruid
+		spriteCom:SetNativeSize()
+	end
 
+	---@description "타겟의 월드 X좌표를 반환 합니다"
+	---@return number "타겟의 월드 X좌표"
 	@ExecSpace("ClientOnly")
 	method number GetTargetX()
-		if self.targetEntity == nil then
+		if not isvalid(self.targetEntity) then
 			return 0
 		end
 		return self.targetEntity.TransformComponent.Position.x
 	end
 
+	---@description "타겟의 월드 Y좌표를 반환 합니다"
+	---@return number "타겟의 월드 Y좌표"
 	@ExecSpace("ClientOnly")
 	method number GetTargetY()
-		if self.targetEntity == nil then
+		if not isvalid(self.targetEntity) then
 			return 0
 		end
 		return self.targetEntity.TransformComponent.Position.y
 	end
 
+	---@description "마커의 위치를 설정 합니다"
+	---@param x number "설정할 X좌표"
+	---@param y number "설정할 Y좌표"
 	@ExecSpace("ClientOnly")
 	method void SetPosition(number x, number y)
-		if self.targetEntity == nil then
+		if not isvalid(self.targetEntity) then
 			return
 		end
 		local transform = self.Entity.UITransformComponent

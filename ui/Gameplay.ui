@@ -4582,6 +4582,11 @@
             {
               "@type": "script.MinimapComponent",
               "Enable": true,
+              "Marker_MyUser": "MyUser",
+              "Marker_User": "User",
+              "Marker_Npc": "Npc",
+              "Marker_Portal": "Portal",
+              "MarkerModelID": "model://2ec665af-9c52-4114-a4fd-6d7170fcdf05",
               "RectEntity": {
                 "tempEntityId": null,
                 "IsRelative": false,
@@ -4612,8 +4617,8 @@
                 "EntityId": "26cada4d-74ff-4cbe-ab84-db6495b6aed7",
                 "Version2": false
               },
+              "Magnification": 0.100000001490116,
               "oldMagnification": 0.0,
-              "map": null,
               "mapSize": {
                 "x": 0.0,
                 "y": 0.0
@@ -5324,20 +5329,20 @@
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -24.9999,
-                "y": 24.0001
+                "x": -19.9999,
+                "y": 29.0001
               },
               "OffsetMin": {
-                "x": -34.9999,
-                "y": 14.0000992
+                "x": -39.9999,
+                "y": 9.000099
               },
               "Pivot": {
                 "x": 0.5,
                 "y": 0.5
               },
               "RectSize": {
-                "x": 10.0,
-                "y": 10.0
+                "x": 20.0,
+                "y": 20.0
               },
               "UIMode": 1,
               "UIScale": {
