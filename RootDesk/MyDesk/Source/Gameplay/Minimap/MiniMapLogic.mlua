@@ -1,0 +1,42 @@
+@Logic
+script MiniMapLogic extends Logic
+
+	property string Maker_MyUser = "MyUser"
+
+	property string Maker_User = "User"
+
+	property table makerModels = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self.makerModels[self.Maker_MyUser] = "model://ba3b3166-9d78-453c-8eff-bc6f5c69fe0a"
+		self.makerModels[self.Maker_User] = ""
+	end
+
+	@ExecSpace("ClientOnly")
+	method MinimapMarkerComponent CreateMyUser(Entity parent, Entity target)
+		if target == nil then
+			return nil
+		end
+
+		local marker = _SpawnService:SpawnByModelId(
+			self.makerModels[self.Maker_MyUser],
+			"Marker_MyUser",
+			Vector3.zero,
+			parent
+		)
+		if marker == nil then
+			return nil
+		end
+
+		local markerCom = marker.MinimapMarkerComponent
+		if markerCom == nil then
+			return nil
+		end
+		markerCom.markerType = self.Maker_MyUser
+		markerCom.targetEntity = target
+		
+		return markerCom
+	end
+
+end

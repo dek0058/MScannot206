@@ -76,11 +76,6 @@ script ChatEntryComponent extends Component
 	end
 
 	@ExecSpace("ClientOnly")
-	method number GetUserNameDesiredWidth()
-		return 0
-	end
-	
-	@ExecSpace("ClientOnly")
 	method void SetMessage(string value, number desiredWidth)
 		if self.textEntity == nil then
 			return
@@ -91,15 +86,5 @@ script ChatEntryComponent extends Component
 
 		self.textEntity.UITransformComponent.anchoredPosition.x = desiredWidth
 	end
-
-	@ExecSpace("ClientOnly")
-	method number GetMessageDesiredWidth()
-		return 0
-	end
-
-	-- 
-	-- method void Setup(ChatEntity entity)
-		
-	-- end
 
 end

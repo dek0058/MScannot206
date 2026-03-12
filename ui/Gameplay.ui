@@ -1875,7 +1875,7 @@
               "Enable": true,
               "MaxChatCount": 100,
               "Delimiter": " : ",
-              "DelimiterWidth": 10.22,
+              "delimiterWidth": 10.22,
               "IndentationWidth": 42.0,
               "MinScrollBarRatio": 0.2,
               "ChatListGridViewComponent": {
@@ -1901,6 +1901,7 @@
               "viewCount": 0,
               "commit": false,
               "scrollHeight": 100.0,
+              "minHandlePx": 24.0,
               "scrollStartPos": {
                 "x": 0.0,
                 "y": 0.0
@@ -4533,27 +4534,27 @@
           "@components": [
             {
               "@type": "MOD.Core.UITransformComponent",
-              "AlignmentOption": 0,
+              "AlignmentOption": 4,
               "AnchorsMax": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.0,
+                "y": 1.0
               },
               "AnchorsMin": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.0,
+                "y": 1.0
               },
               "MobileOnly": false,
               "OffsetMax": {
-                "x": -319.6093,
-                "y": 503.0708
+                "x": 640.390564,
+                "y": -36.9292
               },
               "OffsetMin": {
-                "x": -919.6093,
-                "y": 203.0708
+                "x": 40.390564,
+                "y": -336.9292
               },
               "Pivot": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.0,
+                "y": 1.0
               },
               "RectSize": {
                 "x": 600.0,
@@ -4562,12 +4563,12 @@
               "UIMode": 1,
               "UIVersion": 2,
               "anchoredPosition": {
-                "x": -619.6093,
-                "y": 353.0708
+                "x": 40.390564,
+                "y": -36.9292
               },
               "Position": {
-                "x": -619.6093,
-                "y": 353.0708,
+                "x": -919.609436,
+                "y": 503.0708,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4580,7 +4581,64 @@
             },
             {
               "@type": "script.MinimapComponent",
-              "Enable": true
+              "Enable": true,
+              "RectEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "1ffb07e2-31fb-4322-a229-df4028ad3f29",
+                "Version2": false
+              },
+              "FrameNWEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "9f3fa790-6ad3-47dd-8198-3dafedb0e0dc",
+                "Version2": false
+              },
+              "FrameNEEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "f7ca5132-0f4b-4f2c-b470-904757f039a6",
+                "Version2": false
+              },
+              "FrameSWEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "d3badbef-977d-43ab-b42e-fb93682c258e",
+                "Version2": false
+              },
+              "FrameSEEntity": {
+                "tempEntityId": null,
+                "IsRelative": false,
+                "EntityId": "26cada4d-74ff-4cbe-ab84-db6495b6aed7",
+                "Version2": false
+              },
+              "oldMagnification": 0.0,
+              "map": null,
+              "mapSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "mapLeftBottom": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "mapRightTop": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "minimapSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "minimapCenter": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "myMarker": {
+                "IsRelative": false,
+                "ComponentId": ":MinimapMarkerComponent",
+                "UseNested": false
+              }
             },
             {
               "@type": "script.WindowBarComponent",
@@ -4598,11 +4656,11 @@
       },
       {
         "id": "1ffb07e2-31fb-4322-a229-df4028ad3f29",
-        "path": "/ui/Gameplay/MiniMap/Info",
-        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "path": "/ui/Gameplay/MiniMap/Rect",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent,MOD.Core.MaskComponent",
         "jsonString": {
-          "name": "Info",
-          "path": "/ui/Gameplay/MiniMap/Info",
+          "name": "Rect",
+          "path": "/ui/Gameplay/MiniMap/Rect",
           "nameEditable": true,
           "enable": true,
           "visible": true,
@@ -4659,8 +4717,8 @@
                 "y": -11.0
               },
               "Position": {
-                "x": 0.0,
-                "y": -11.0,
+                "x": 300.0,
+                "y": -161.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4685,6 +4743,10 @@
                 "b": 0.0,
                 "a": 0.271484375
               },
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.MaskComponent",
               "Enable": true
             }
           ],
@@ -4759,8 +4821,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": -300.0,
-                "y": 150.0,
+                "x": 0.0,
+                "y": 0.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4858,8 +4920,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": 300.0,
-                "y": 150.0,
+                "x": 600.0,
+                "y": 0.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -4957,8 +5019,8 @@
                 "z": 0.0
               },
               "Position": {
-                "x": -300.0,
-                "y": -150.0,
+                "x": 0.0,
+                "y": -300.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -5051,8 +5113,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": 300.0,
-                "y": -150.0,
+                "x": 600.0,
+                "y": -300.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -5144,8 +5206,8 @@
                 "y": 0.0
               },
               "Position": {
-                "x": 0.0,
-                "y": 150.0,
+                "x": 300.0,
+                "y": 0.0,
                 "z": 0.0
               },
               "QuaternionRotation": {
@@ -5220,6 +5282,106 @@
               },
               "OverrideSorting": false,
               "Transition": 0,
+              "Enable": true
+            }
+          ],
+          "@version": 1
+        }
+      },
+      {
+        "id": "eea75504-1519-46fb-a68e-75576edb8741",
+        "path": "/ui/Gameplay/MiniMap/Maker_User",
+        "componentNames": "MOD.Core.UITransformComponent,MOD.Core.SpriteGUIRendererComponent",
+        "jsonString": {
+          "name": "Maker_User",
+          "path": "/ui/Gameplay/MiniMap/Maker_User",
+          "nameEditable": true,
+          "enable": false,
+          "visible": true,
+          "localize": true,
+          "displayOrder": 6,
+          "pathConstraints": "////",
+          "revision": 1,
+          "origin": {
+            "type": "Model",
+            "entry_id": "uisprite",
+            "sub_entity_id": null,
+            "root_entity_id": "5d43cd61-f81e-4f00-80ca-a4e914024a05",
+            "replaced_model_id": null
+          },
+          "modelId": "uisprite",
+          "@components": [
+            {
+              "@type": "MOD.Core.UITransformComponent",
+              "AlignmentOption": 0,
+              "AnchorsMax": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "AnchorsMin": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "MobileOnly": false,
+              "OffsetMax": {
+                "x": -24.9999,
+                "y": 24.0001
+              },
+              "OffsetMin": {
+                "x": -34.9999,
+                "y": 14.0000992
+              },
+              "Pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "RectSize": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "UIMode": 1,
+              "UIScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "UIVersion": 2,
+              "anchoredPosition": {
+                "x": -29.9999,
+                "y": 19.0001
+              },
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "Position": {
+                "x": 270.0001,
+                "y": -130.999908,
+                "z": 0.0
+              },
+              "QuaternionRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": -1.0
+              },
+              "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "ZRotation": 0.0,
+              "Enable": true
+            },
+            {
+              "@type": "MOD.Core.SpriteGUIRendererComponent",
+              "ImageRUID": {
+                "DataId": "1940be9d402142c9a9d8507a7ec22569"
+              },
+              "OverrideSorting": false,
+              "SortingLayer": "MapLayer0",
+              "Type": 1,
               "Enable": true
             }
           ],
