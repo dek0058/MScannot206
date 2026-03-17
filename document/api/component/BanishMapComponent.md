@@ -6,7 +6,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleEvent</span>(<a href="../event/MapEnterEvent.md" style="text-decoration: none; color: #3167ad;">MapEnterEvent</a> event)
+                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleEvent</span>(<a href="../event/MapEnterEvent.md" style="text-decoration: none; color: #3167ad;">MapEnterEvent</a> e) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         

@@ -47,7 +47,7 @@
         <tr>
             <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
                 <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">callback</code>
-                <span style="color: #57606a;"> &nbsp;|&nbsp; 확인 버튼 클릭 시 호출할 콜백 함수가 포함된 테이블. { callback = function() ... end } 형식이어야 합니다.</span>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 확인 버튼 클릭 시 호출할 콜백 함수가 포함된 테이블. { Confirm = function() ... end } 형식이어야 합니다.</span>
             </td>
         </tr>
     </tbody>

@@ -128,12 +128,12 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">RequestTeleportToMap</span>(<span style="color: #3167ad;">string</span> uid, <span style="color: #3167ad;">Entity</span> mapEntity, <span style="color: #3167ad;">table</span> params) <img src="https://img.shields.io/badge/Server-ffa500" alt="Server" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">LeaveMap</span>(<span style="color: #3167ad;">string</span> uid, <span style="color: #3167ad;">string</span> mapName) <img src="https://img.shields.io/badge/Server-ffa500" alt="Server" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
-                유저가 다른 맵으로 이동을 요청 합니다.
+                유저가 맵에서 퇴장시 이벤트를 처리합니다.
             </td>
         </tr>
     </tbody>
@@ -176,6 +176,72 @@
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 유저를 다른 월드 인스턴스로 워프시킵니다.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">ErrorType</span> <span style="font-weight: bold;">CreateDynamicMap</span>(<span style="color: #3167ad;">string</span> srcMapName, <span style="color: #3167ad;">string</span> createMapName) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                동적 맵을 생성합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">srcMapName</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 생성 할 기반이 될 맵 이름</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">createMapName</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 생성 될 맵 이름</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">ErrorType</span> <span style="font-weight: bold;">DestroyDynamicMap</span>(<span style="color: #3167ad;">string</span> mapName) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                동적 맵을 파괴합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">mapName</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 파괴할 맵 이름</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">boolean</span> <span style="font-weight: bold;">IsExistsDynamicMap</span>(<span style="color: #3167ad;">string</span> mapName) <img src="https://img.shields.io/badge/ServerOnly-da70d6" alt="ServerOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                동적 맵이 존재하는지 확인합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">mapName</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 확인할 맵 이름</span>
             </td>
         </tr>
     </tbody>

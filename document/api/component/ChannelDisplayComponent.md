@@ -1,4 +1,4 @@
-# [ChannelDisplay](../../../RootDesk/MyDesk/Source/Channel/ChannelDisplay.mlua)
+# [ChannelDisplayComponent](../../../RootDesk/MyDesk/Source/Channel/ChannelDisplayComponent.mlua)
 
 ## Properties
 

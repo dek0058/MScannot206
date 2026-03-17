@@ -12,7 +12,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">EquipSlot</span>(<span style="color: #3167ad;">string</span> equipType, <span style="color: #3167ad;">string</span> itemIndex)
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">EquipSlot</span>(<span style="color: #3167ad;">string</span> equipType, <span style="color: #3167ad;">string</span> itemId)
             </td>
         </tr>
         <tr>
@@ -28,8 +28,28 @@
         </tr>
         <tr>
             <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
-                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">itemIndex</code>
-                <span style="color: #57606a;"> &nbsp;|&nbsp; 장착할 아이템 인덱스</span>
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">itemId</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 장착할 아이템 ID</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">CharacterEquipSlotEntity</span> <span style="font-weight: bold;">GetEquipSlot</span>(<span style="color: #3167ad;">string</span> equipSlotType)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                캐릭터 장비 슬롯에서 장비 타입에 맞는 슬롯을 반환 합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">equipSlotType</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 해제할 장비 슬롯 타입</span>
             </td>
         </tr>
     </tbody>

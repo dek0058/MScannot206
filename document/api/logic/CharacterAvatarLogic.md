@@ -12,12 +12,56 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">UpdateAvatar</span>(<span style="color: #3167ad;">CostumeManagerComponent</span> com, <a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character)
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">UpdateAvatar</span>(<span style="color: #3167ad;">CostumeManagerComponent</span> com, <a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character, <a href="../struct/Inventory.md" style="text-decoration: none; color: #3167ad;">Inventory</a> inventory)
             </td>
         </tr>
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 아바타를 캐릭터가 장착하고 있는 장비로 업데이트 합니다.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">GetAvatarStandAnimKey</span>(<a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character, <a href="../struct/Inventory.md" style="text-decoration: none; color: #3167ad;">Inventory</a> inventory)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                캐릭터의 상태와 장비에 맞는 아바타 애니메이션을 반환합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">character</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 캐릭터 정보</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">inventory</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 캐릭터의 인벤토리 정보</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">GetAvatarWalkAnimKey</span>(<a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character, <a href="../struct/Inventory.md" style="text-decoration: none; color: #3167ad;">Inventory</a> inventory)
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">string</span> <span style="font-weight: bold;">GetAvatarAttackAnimKey</span>(<a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character, <a href="../struct/Inventory.md" style="text-decoration: none; color: #3167ad;">Inventory</a> inventory)
             </td>
         </tr>
     </tbody>

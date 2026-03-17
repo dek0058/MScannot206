@@ -66,15 +66,6 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleRequestCharacterGameStartEvent</span>(<a href="../event/RequestCharacterGameStartEvent.md" style="text-decoration: none; color: #3167ad;">RequestCharacterGameStartEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
-            </td>
-        </tr>
-        <tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">게임 시작 요청 이벤트를 처리합니다</td></tr>
-    </tbody>
-</table><table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
-    <tbody>
-        <tr>
-            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
                 <span style="color: #3167ad;">handler</span> <span style="font-weight: bold;">HandleCreateCharacterEvent</span>(<a href="../event/CreateCharacterEvent.md" style="text-decoration: none; color: #3167ad;">CreateCharacterEvent</a> e) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>

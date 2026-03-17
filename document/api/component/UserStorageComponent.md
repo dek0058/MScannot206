@@ -2,6 +2,10 @@
 
 MSW 유저 DB와 동기화가 필요한 데이터를 저장하는 컴포넌트 입니다
 
+## Properties
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Property</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Type</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Description</th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>gameplayCharacterSlot</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>integer</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">캐릭터 슬롯과 캐릭터 정보를 담는 테이블입니다 (기본값: `0`)</td></tr></tbody></table>
+
 ## Methods
 
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
@@ -11,24 +15,13 @@ MSW 유저 DB와 동기화가 필요한 데이터를 저장하는 컴포넌트 �
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SetCharacter</span>(<a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character</a> character)
             </td>
         </tr>
-        <tr>
-            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
-                캐릭터 슬롯과 캐릭터 정보를 담는 테이블입니다
-            </td>
-        </tr>
-        <tr>
-            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
-                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">character</code>
-                <span style="color: #57606a;"> &nbsp;|&nbsp; 설정할 캐릭터 정보</span>
-            </td>
-        </tr>
     </tbody>
 </table>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SetCharacters</span>(<a href="../struct/Character.md" style="text-decoration: none; color: #3167ad;">Character></a> characters)
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SetCharacters</span>(<span style="color: #3167ad;">table<Character></span> characters)
             </td>
         </tr>
     </tbody>
@@ -108,13 +101,61 @@ MSW 유저 DB와 동기화가 필요한 데이터를 저장하는 컴포넌트 �
         </tr>
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
-                슬롯에 해당하는 캐릭터가 존재하는지 여부를 반환합니다.
+                슬롯에 해당하는 캐릭터가 존재하는지 여부를 반환합니다
             </td>
         </tr>
         <tr>
             <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
                 <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">slot</code>
                 <span style="color: #57606a;"> &nbsp;|&nbsp; 확인할 캐릭터 슬롯 번호</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">SetGameplayCharacterSlot</span>(<span style="color: #3167ad;">integer</span> slot)
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                게임플레이를 할 캐릭터 슬롯 번호를 설정합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">slot</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 게임플레이를 할 캐릭터 슬롯 번호</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">Character</span> <span style="font-weight: bold;">GetGameplayCharacter</span>()
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                게임플레이를 할 캐릭터 정보를 반환합니다
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">Inventory</span> <span style="font-weight: bold;">GetGameplayCharacterInventory</span>()
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                게임플레이를 할 캐릭터의 인벤토리 정보를 반환합니다
             </td>
         </tr>
     </tbody>

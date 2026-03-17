@@ -4,7 +4,7 @@
 
 ## Properties
 
-<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Property</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Type</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Description</th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Default</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">기본 모달 모델 ID (기본값: `f1850135-a98e-4cc2-bc08-b047d62db034`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 모달 모델 ID (기본값: `cde6f6c0-c500-40e1-a006-dcdb5a08e84a`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_YesOrNo</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">예/아니오 모달 모델 ID (기본값: `5919bf11-f7a4-4728-bfc2-0d56af237bdf`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_ConfirmOrCancel</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">확인/취소 모달 모델 ID (기본값: `17fc17ca-34b6-4077-9dcb-75153e780575`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning_YesOrNo</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 예/아니오 모달 모델 ID (기본값: `caa0caa9-541b-419a-924e-e6f5bcbb9c17`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning_ConfirmOrCancel</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 확인/취소 모달 모델 ID (기본값: `649e53d7-6e94-4d2f-a093-3f940c399cca`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>TagMap</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">Map에 대응하는 Tag 키 (기본값: `Map`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>currentScreen</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>Entity</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">현재 활성화된 화면 엔티티 (기본값: `nil`)</td></tr></tbody></table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;"><thead><tr><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Property</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Type</th><th style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">Description</th></tr></thead><tbody><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Default</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">기본 모달 모델 ID (기본값: `f1850135-a98e-4cc2-bc08-b047d62db034`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 모달 모델 ID (기본값: `cde6f6c0-c500-40e1-a006-dcdb5a08e84a`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_YesOrNo</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">예/아니오 모달 모델 ID (기본값: `caa0caa9-541b-419a-924e-e6f5bcbb9c17`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_ConfirmOrCancel</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">확인/취소 모달 모델 ID (기본값: `17fc17ca-34b6-4077-9dcb-75153e780575`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning_YesOrNo</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 예/아니오 모달 모델 ID (기본값: `5919bf11-f7a4-4728-bfc2-0d56af237bdf`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Modal_Warning_ConfirmOrCancel</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">경고 확인/취소 모달 모델 ID (기본값: `649e53d7-6e94-4d2f-a093-3f940c399cca`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>Tag_Map</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>string</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">Map에 대응하는 Tag 키 (기본값: `Map`)</td></tr><tr><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><strong>currentScreen</strong></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;"><code>Entity</code></td><td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">현재 활성화된 화면 엔티티 (기본값: `nil`)</td></tr></tbody></table>
 
 ## Methods
 
@@ -18,6 +18,20 @@
         <tr>
             <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
                 root UI 엔티티를 반환합니다.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">Entity</span> <span style="font-weight: bold;">GetBin</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                bin UI 엔티티를 반환합니다.
             </td>
         </tr>
     </tbody>
@@ -77,6 +91,26 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
+                <span style="color: #3167ad;">Entity</span> <span style="font-weight: bold;">FindParentUIGroup</span>(<span style="color: #3167ad;">Entity</span> entity) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                entity가 속한 UI Group 엔티티를 반환합니다
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">entity</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; UI 엔티티</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">
+    <tbody>
+        <tr>
+            <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
                 <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">EnterMap</span>(<span style="color: #3167ad;">string</span> tag) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
@@ -111,7 +145,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">CreateModal</span>(<span style="color: #3167ad;">string</span> modelId, <span style="color: #3167ad;">string</span> msg, <span style="color: #3167ad;">table</span> callback) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">ModalComponent</span> <span style="font-weight: bold;">CreateModal</span>(<span style="color: #3167ad;">string</span> modelId, <span style="color: #3167ad;">string</span> msg, <span style="color: #3167ad;">table</span> callback) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
@@ -134,7 +168,7 @@
         <tr>
             <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
                 <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">callback</code>
-                <span style="color: #57606a;"> &nbsp;|&nbsp; 모달의 버튼 클릭 콜백 함수 테이블</span>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 모달의 버튼 클릭 콜백 함수 테이블 형식: {Confirm = function(com){}}</span>
             </td>
         </tr>
     </tbody>
@@ -143,7 +177,30 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">CreateModalYesOrNo</span>(<span style="color: #3167ad;">string</span> modelId, <span style="color: #3167ad;">string</span> msg, <span style="color: #3167ad;">table</span> callback)
+                <span style="color: #3167ad;">ModalYesOrNoComponent</span> <span style="font-weight: bold;">CreateModalYesOrNo</span>(<span style="color: #3167ad;">string</span> modelId, <span style="color: #3167ad;">string</span> msg, <span style="color: #3167ad;">table</span> callback) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 10px 5px; text-align: left; vertical-align: top;">
+                예/아니오 모달 창을 생성합니다.
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">modelId</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 생성할 모달의 모델 ID</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">msg</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 모달에 표시할 메시지</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa; border-top: 1px solid #eee; padding: 10px 5px 10px 15px; text-align: left; vertical-align: top;">
+                <code style="background-color: #e1e4e8; padding: 2px 5px; border-radius: 4px; font-family: monospace;">callback</code>
+                <span style="color: #57606a;"> &nbsp;|&nbsp; 모달의 버튼 클릭 콜백 함수 테이블 형식: {Yes = function(com){}, No = function(com){}}</span>
             </td>
         </tr>
     </tbody>
@@ -152,7 +209,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">PushToast</span>(<span style="color: #3167ad;">string</span> msg) <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">ToastMessageComponent</span> <span style="font-weight: bold;">PushToast</span>(<span style="color: #3167ad;">string</span> msg) <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
@@ -172,7 +229,7 @@
     <tbody>
         <tr>
             <td style="background-color: #f0f0f0; padding: 10px 5px; text-align: left; vertical-align: top;">
-                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">CurrentScreenClear</span>() <img src="https://img.shields.io/badge/Client-90ee90" alt="Client" style="vertical-align: middle; margin-left: 8px;">
+                <span style="color: #3167ad;">void</span> <span style="font-weight: bold;">CurrentScreenClear</span>() <img src="https://img.shields.io/badge/ClientOnly-87ceeb" alt="ClientOnly" style="vertical-align: middle; margin-left: 8px;">
             </td>
         </tr>
         <tr>
