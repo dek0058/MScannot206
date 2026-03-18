@@ -9,6 +9,7 @@ script GameDBLogic extends Logic
 	method void OnBeginPlay()
 		-- 요청 저장소 초기화
 		self._T["UserRequestStorage"] = {}
+		self._T["UserRemoveRequestStorage"] = {}
 	end
 
 	---@description "유저 요청을 DB에 주기적으로 전송하기 위한 타이머를 설정합니다"
@@ -60,6 +61,42 @@ script GameDBLogic extends Logic
 			-- 이미 같은 키의 요청이 존재하는 경우, 기존 요청을 덮어씁니다
 			existingRequest.content = request.content
 		end
+
+		---@type table<string, table<string, boolean>>
+		local removeStorages = self._T["UserRemoveRequestStorage"]
+		if removeStorages ~= nil and removeStorages[uid] ~= nil then
+			removeStorages[uid][request.key] = nil
+		end
+	end
+
+	---@description "유저 데이터 삭제 요청을 대기열에 추가 합니다."
+	@ExecSpace("ServerOnly")
+	method void PushUserRemoveRequest(string uid, string key)
+		if _UtilLogic:IsNilorEmptyString(uid) == true then
+			return
+		end
+
+		if _UtilLogic:IsNilorEmptyString(key) == true then
+			return
+		end
+
+		---@type table<string, table<string, boolean>>
+		local removeStorages = self._T["UserRemoveRequestStorage"]
+		if removeStorages == nil then
+			return
+		end
+
+		if removeStorages[uid] == nil then
+			removeStorages[uid] = {}
+		end
+
+		removeStorages[uid][key] = true
+
+		---@type table<string, UserDBRequestStorage>
+		local storages = self._T["UserRequestStorage"]
+		if storages ~= nil and storages[uid] ~= nil then
+			storages[uid].requests[key] = nil
+		end
 	end
 
 	---@description "저장된 유저 요청을 처리 합니다"
@@ -67,17 +104,28 @@ script GameDBLogic extends Logic
 	method void UserRequestFlush()
 		---@type table<string, UserDBRequestStorage>
 		local storages = self._T["UserRequestStorage"]
+		---@type table<string, table<string, boolean>>
+		local removeStorages = self._T["UserRemoveRequestStorage"]
 		
-		if storages == nil then
+		if storages == nil or removeStorages == nil then
 			return
 		end
 
 		---@type table<string, table<string, UserDBRequest>>
 		local flushStorages = {}
+		---@type table<string, table<string, boolean>>
+		local flushRemoveStorages = {}
 		for uid, storage in pairs(storages) do
 			if next(storage.requests) ~= nil then
 				flushStorages[uid] = storage.requests
 				storage.requests = {}
+			end
+		end
+
+		for uid, removeRequests in pairs(removeStorages) do
+			if next(removeRequests) ~= nil then
+				flushRemoveStorages[uid] = removeRequests
+				removeStorages[uid] = {}
 			end
 		end
 
@@ -135,6 +183,33 @@ script GameDBLogic extends Logic
 				end
 			end)
 		end
+
+		for uid, removeRequests in pairs(flushRemoveStorages) do
+			local userStorageData = _DataStorageService:GetUserDataStorage(uid)
+			if userStorageData == nil then
+				log_error("유저 데이터 저장소를 가져오는데 실패했습니다. uid: " .. uid)
+				continue
+			end
+
+			---@type table<string>
+			local deleteKeys = {}
+			for key, _ in pairs(removeRequests) do
+				table.insert(deleteKeys, key)
+			end
+
+			if #deleteKeys == 0 then
+				continue
+			end
+
+			userStorageData:BatchDeleteAsync(deleteKeys, function(errorCode, result)
+				if errorCode ~= 0 then
+					log_error("실패한 DB 삭제 요청이 있습니다. uid: " .. uid .. ", errorCode: " .. errorCode)
+					return
+				end
+
+				log_warning("DB 삭제 요청 처리 완료. uid: " .. uid .. ", deleteCount: " .. tostring(#result))
+			end)
+		end
 	end
 
 	@ExecSpace("ServerOnly")
@@ -142,18 +217,20 @@ script GameDBLogic extends Logic
 	handler HandleUserLeaveEvent(UserLeaveEvent e)
 		---@type table<string, UserDBRequestStorage>
 		local storages = self._T["UserRequestStorage"]
-		if storages == nil then
-			return
-		end
-
-		if storages[e.UserId] == nil then
+		---@type table<string, table<string, boolean>>
+		local removeStorages = self._T["UserRemoveRequestStorage"]
+		if storages == nil or removeStorages == nil then
 			return
 		end
 
 		local storage = storages[e.UserId]
+		local removeStorage = removeStorages[e.UserId]
+		if storage == nil and removeStorage == nil then
+			return
+		end
 
 		-- 유저가 떠날 때 남아있는 요청이 있다면 즉시 플러시합니다
-		if next(storage.requests) ~= nil then
+		if storage ~= nil and next(storage.requests) ~= nil then
 			---@type table<DataStorageKeyInfo, string>
 			local models = {}
 			for key, request in pairs(storage.requests) do
@@ -177,6 +254,32 @@ script GameDBLogic extends Logic
 						continue
 					end
 				end
+			end)
+		end
+
+		if removeStorage ~= nil and next(removeStorage) ~= nil then
+			local userStorageData = _DataStorageService:GetUserDataStorage(e.UserId)
+			if userStorageData == nil then
+				return
+			end
+
+			---@type table<string>
+			local deleteKeys = {}
+			for key, _ in pairs(removeStorage) do
+				table.insert(deleteKeys, key)
+			end
+
+			if #deleteKeys == 0 then
+				return
+			end
+
+			userStorageData:BatchDeleteAsync(deleteKeys, function(errorCode, result)
+				if errorCode ~= 0 then
+					log_error("유저 이탈 시 DB 삭제 요청이 실패했습니다. uid: " .. e.UserId .. ", errorCode: " .. errorCode)
+					return
+				end
+
+				log_warning("유저 이탈 시 DB 삭제 요청 처리 완료. uid: " .. e.UserId .. ", deleteCount: " .. tostring(#result))
 			end)
 		end
 	end
