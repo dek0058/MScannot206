@@ -5,6 +5,10 @@ script GameplayChatLogic extends Logic
 
 	readonly property integer MaxMapChatCount = 50
 
+	readonly property number MaxUserNameWidth = 600.0
+
+	readonly property integer MaxUserMessageLength = 200
+
 	---@description "전역 채팅 엔티티 리스트"
 	property table globalChatEntities = {}
 
@@ -23,6 +27,10 @@ script GameplayChatLogic extends Logic
 			return
 		end
 
+		if entity == nil or _UtilLogic:IsNilorEmptyString(entity.message) == true then
+			return
+		end
+
 		local userEntity = _UserService.UserEntities[uid]
 		if userEntity == nil then
 			return
@@ -38,8 +46,11 @@ script GameplayChatLogic extends Logic
 			return
 		end
 
-		-- TODO: userNameWidth를 임의로 이상한 값으로 보내는 경우에 대한 방어 코드 추가 필요
-		-- TODO: entity에 message에 richText 형식이 들어오는 경우 예외처리 필요
+		local normalizedUserNameWidth = self:NormalizeUserNameWidth(userNameWidth)
+		local sanitizedMessage = self:SanitizeUserMessage(entity.message)
+		if _UtilLogic:IsNilorEmptyString(sanitizedMessage) == true then
+			return
+		end
 
 		-- entry 설정
 		-- TODO: 로그 저장용인데 지금은 구현하지 않음... 로그를 구현한다면 그때 기능이 작동 되도록 수정
@@ -54,8 +65,8 @@ script GameplayChatLogic extends Logic
 		-- 채팅 레이아웃 설정
 		local userLayout = ChatEntryLayout_User()
 		userLayout.userName = gameplayChar.name
-		userLayout.userNameWidth = userNameWidth
-		userLayout.msg = entity.message
+		userLayout.userNameWidth = normalizedUserNameWidth
+		userLayout.msg = sanitizedMessage
 
 		local layout = ChatEntryLayout()
 		layout.chatType = _ChatTypeDef.User
@@ -75,6 +86,50 @@ script GameplayChatLogic extends Logic
 		end
 
 		_UserProxy:SendEventToPlayer(e, uid)
+	end
+
+	@ExecSpace("ServerOnly")
+	method number NormalizeUserNameWidth(number userNameWidth)
+		if userNameWidth == nil then
+			return 0
+		end
+
+		if userNameWidth ~= userNameWidth then
+			return 0
+		end
+
+		if userNameWidth < 0 then
+			return 0
+		end
+
+		if userNameWidth > self.MaxUserNameWidth then
+			return self.MaxUserNameWidth
+		end
+
+		return userNameWidth
+	end
+
+	@ExecSpace("ServerOnly")
+	method string SanitizeUserMessage(string message)
+		if _UtilLogic:IsNilorEmptyString(message) == true then
+			return ""
+		end
+
+		local sanitized = message
+		local _ = 0
+		sanitized, _ = string.gsub(sanitized, "<.->", "")
+		sanitized, _ = string.gsub(sanitized, "[\r\n\t]", " ")
+
+		local messageLength = utf8.len(sanitized)
+		if messageLength == nil or messageLength <= 0 then
+			return ""
+		end
+
+		if messageLength > self.MaxUserMessageLength then
+			return ""
+		end
+
+		return sanitized
 	end
 
 end

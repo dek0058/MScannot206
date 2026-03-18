@@ -1,0 +1,116 @@
+@Struct
+script ItemBag
+
+	---@description "가방 종류"
+	property string bagType = ""
+
+	---@description "슬롯 번호로 아이템 ID를 찾는 테이블"
+	property table<integer, string> slots = {}
+
+	---@description "아이템 ID로 슬롯 번호를 찾는 테이블"
+	property table<string, integer> slotById = {}
+
+	---@description "비어있는 슬롯을 찾아 반환 합니다"
+	---@return integer "비어있는 슬롯 번호, 없으면 0 반환"
+	method integer FindEmptySlot()
+		for i = 1, _DefLogic.MaxInventorySlot do
+			if self.slots[i] == nil then
+				return i
+			end
+		end
+		return 0
+	end
+
+	---@description "아이템을 지정된 슬롯에 넣습니다"
+	---@param itemId string "아이템 고유 ID"
+	---@param slot integer "슬롯 번호"
+	---@return boolean "성공 여부"
+	method boolean Put(string itemId, integer slot)
+		if slot <= 0 then
+			return false
+		end
+
+		-- 슬롯이 이미 차있다면 실패
+		if self.slots[slot] ~= nil then
+			return false
+		end
+
+		local old = self.slotById[itemId]
+		if old ~= nil then
+			-- 이미 아이템이 존재한다면 기존 슬롯을 비웁니다
+			self.slots[old] = nil
+		end
+
+		self.slots[slot] = itemId
+		self.slotById[itemId] = slot
+		return true
+	end
+
+	---@description "빈 슬롯을 찾아 아이템을 넣습니다"
+	---@param itemId string "아이템 고유 ID"
+	---@return integer "아이템이 들어간 슬롯 번호, 없으면 0 반환"
+	method integer PutFirstEmpty(string itemId)
+		local emptySlot = self:FindEmptySlot()
+		if emptySlot == 0 then
+			return 0
+		end
+		if not self:Put(itemId, emptySlot) then
+			return 0
+		end
+		return emptySlot
+	end
+
+	---@description "아이템을 슬롯에서 제거합니다"
+	---@param itemId string "아이템 고유 ID"
+	method void Remove(string itemId)
+		local slot = self.slotById[itemId]
+		if slot ~= nil then
+			self.slots[slot] = nil
+			self.slotById[itemId] = nil
+		end
+	end
+
+	---@description "해당 슬롯의 아이템 ID를 반환합니다"
+	---@param slot integer "슬롯 번호"
+	---@return string "아이템 ID, 없으면 빈 문자열 반환"
+	method string GetItemId(integer slot)
+		return self.slots[slot] or ""
+	end
+
+	---@description "해당 아이템 ID의 슬롯 번호를 반환합니다"
+	---@param itemId string "아이템 고유 ID"
+	---@return integer "슬롯 번호, 없으면 0 반환"
+	method integer GetSlot(string itemId)
+		return self.slotById[itemId] or 0
+	end
+
+	---@description "아이템 가방의 내용을 테이블로 변환합니다"
+	---@return table "아이템 가방의 내용이 담긴 테이블"
+	method table ToTable()
+		local content = {}
+		content["bagType"] = self.bagType
+		content["slots"] = self.slots
+		return content
+	end
+
+	---@description "테이블에서 아이템 가방의 내용을 복원합니다"
+	---@param content table "아이템 가방의 내용이 담긴 테이블"
+	---@return ItemBag "복원된 아이템 가방"
+	method ItemBag FromTable(table content)
+		if content == nil then
+			return self
+		end
+
+		self.bagType = content["bagType"] or ""
+
+		if content["slots"] ~= nil then
+			self.slots = content["slots"]
+			self.slotById = {}
+			for slot, itemId in pairs(self.slots) do
+				self.slotById[itemId] = slot
+			end
+		end
+		return self
+	end
+
+end

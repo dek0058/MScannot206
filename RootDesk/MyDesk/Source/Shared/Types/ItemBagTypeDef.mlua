@@ -1,5 +1,5 @@
 @Logic
-script InventoryTypeDef extends Logic
+script ItemBagTypeDef extends Logic
 
 	property string None = "none"
 

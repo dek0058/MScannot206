@@ -38,8 +38,8 @@ script CharacterAvatarLogic extends Logic
 		end
 
 		if character ~= nil and inventory ~= nil then
-			for _, slot in ipairs(character.equipSlots) do
-				local item = inventory:Get(slot.itemId)
+			for t, s in pairs(character.equipSlots) do
+				local item = inventory:Get(s.itemId)
 				if item == nil then
 					continue
 				end
@@ -49,25 +49,25 @@ script CharacterAvatarLogic extends Logic
 					continue
 				end
 
-				local categoryByIndex = _CharacterEquipTypeDef:ToMapleAvatarItemCategory(slot.type)
+				local categoryByIndex = _CharacterEquipTypeDef:ToMapleAvatarItemCategory(t)
 				if categoryByIndex == 0 then
 					continue
 				end
 				
 				-- 상의, 하의, 한벌 옷 검증
-				if slot.type == _CharacterEquipTypeDef.LongCoat then
+				if t == _CharacterEquipTypeDef.LongCoat then
 					if useCoat == true or usePants == true then
 						continue
 					end
 					useLongCoat = true
 				else
-					if slot.type == _CharacterEquipTypeDef.Coat then
+					if t == _CharacterEquipTypeDef.Coat then
 						if useLongCoat == true then
 							continue
 						end
 						useCoat = true
 					end
-					if slot.type == _CharacterEquipTypeDef.Pants then
+					if t == _CharacterEquipTypeDef.Pants then
 						if useLongCoat == true then
 							continue
 						end
@@ -76,19 +76,19 @@ script CharacterAvatarLogic extends Logic
 				end
 
 				-- 한손 무기, 서브 무기, 양손 무기 검증
-				if slot.type == _CharacterEquipTypeDef.TwoHandedWeapon then
+				if t == _CharacterEquipTypeDef.TwoHandedWeapon then
 					if use1HWeapon == true or useSubWeapon == true then
 						continue
 					end
 					use2HWeapon = true
 				else
-					if slot.type == _CharacterEquipTypeDef.OneHandedWeapon then
+					if t == _CharacterEquipTypeDef.OneHandedWeapon then
 						if use2HWeapon == true then
 							continue
 						end
 						use1HWeapon = true
 					end
-					if slot.type == _CharacterEquipTypeDef.SubWeapon or slot.type == _CharacterEquipTypeDef.Shield then
+					if t == _CharacterEquipTypeDef.SubWeapon or t == _CharacterEquipTypeDef.Shield then
 						if use2HWeapon == true then
 							continue
 						end

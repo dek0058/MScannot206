@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://fb11554c-7c6f-4635-8799-25ba6ecd3a81",
+  "EntryKey": "codeblock://c062d57e-afd8-4ef9-a0ba-4db4adcea794",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,9 +22,9 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "fb11554c-7c6f-4635-8799-25ba6ecd3a81",
+      "Id": "c062d57e-afd8-4ef9-a0ba-4db4adcea794",
       "Language": 1,
-      "Name": "InventoryTypeDef",
+      "Name": "ItemBagTypeDef",
       "Type": 5,
       "Source": 0,
       "Target": null

@@ -103,10 +103,17 @@ script CharacterLogic extends Logic
 		return character
 	end
 
-	---@description "캐릭터에 장비를 착용합니다"
-	---@param character Character "장비를 착용할 캐릭터 정보"
-	---@param item ItemEntity "착용할 장비 정보"
-	---@return ErrorType "장비 착용 결과 에러 정보"
+	---@description "장착시 제거되는 장비 타입인지 판별합니다"
+	---@param equipType string "장비 타입"
+	---@return boolean "장착시 제거되는 장비 타입인지 여부"
+	@ExecSpace("ServerOnly")
+	method boolean IsReplaceDeleteEquipType(string equipType)
+		return equipType == _CharacterEquipTypeDef.Hair
+			or equipType == _CharacterEquipTypeDef.Face
+			or equipType == _CharacterEquipTypeDef.Skin
+			or equipType == _CharacterEquipTypeDef.Ear
+	end
+
 	@ExecSpace("ServerOnly")
 	method ErrorType EquipItem(Character character, ItemEntity item)
 		local err = ErrorType()
@@ -121,23 +128,13 @@ script CharacterLogic extends Logic
 			return err
 		end
 
-		local itemRecord = _GameTableLogic.itemTable:GetRecord(item.index)
-		if itemRecord == nil then
-			err:AddError("아이템 레코드가 없습니다. item index: " .. tostring(item.index))
-			return err
-		end
-
 		local equipRecord = _GameTableLogic.characterEquipItemTable:GetRecord(item.index)
 		if equipRecord == nil then
 			err:AddError("캐릭터 장비 아이템 레코드가 없습니다. item index: " .. tostring(item.index))
 			return err
 		end
 
-		if itemRecord.Category == _CharacterEquipTypeDef.None then
-			err:AddError("아이템이 장비 아이템이 아닙니다. item index: " .. tostring(item.index))
-			return err
-		end
-
+		-- 아이템 성별 판별
 		if character.gender == _GenderTypeDef.Male then
 			if equipRecord.Male == false then
 				err:AddError("남성 캐릭터는 해당 장비를 착용할 수 없습니다. item index: " .. tostring(item.index))
@@ -153,14 +150,69 @@ script CharacterLogic extends Logic
 			return err
 		end
 
+		local itemCategory = _ItemView:GetCategory(item.index)
+		local equipSlotType = _CharacterEquipSlotTypeDef:ToEquipSlotType(itemCategory)
+		if equipSlotType == _CharacterEquipSlotTypeDef.None then
+			err:AddError("장비 슬롯 타입이 올바르지 않습니다. item index: " .. tostring(item.index) .. ", item category: " .. tostring(itemCategory))
+			return err
+		end
+
 		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(character.uid)
 		if userStorageCom == nil then
 			err:AddError("UserStorageComponent is nil")
 			return err
 		end
 
-		character:EquipSlot(itemRecord.Category, item.id)
+		local inventory = userStorageCom.characterInventories[character.slot]
+		if inventory == nil then
+			err:AddError("Inventory is nil")
+			return err
+		end
+
+		local ownedItem = inventory:Get(item.id)
+		if ownedItem == nil then
+			err:AddError("인벤토리에 없는 아이템은 장착할 수 없습니다. item id: " .. tostring(item.id))
+			return err
+		end
+
+		local equipSlot = character:GetEquipSlot(equipSlotType)
+		if equipSlot == nil then
+			err:AddError("장비 슬롯이 없습니다. equip slot type: " .. tostring(equipSlotType))
+			return err
+		end
+
+		local oldEquipItem = inventory:Get(equipSlot.itemId)
+		if oldEquipItem == nil then
+			character:EquipSlot(equipSlotType, item.id)
+
+		else
+			-- 장착시 제거가 되는 아이템인지 판별
+			-- * 제거 아이템
+			-- - 헤어, 얼굴, 피부, 귀 장비 타입은 장착시 기존에 장착된 장비 제거
+			-- * 제거되지 않는 아이템
+			-- - 그 외 장비 타입은 장착시 기존에 장착된 장비 제거되지 않고 인벤토리로 이동
+			if self:IsReplaceDeleteEquipType(equipSlot.type) == true then
+				inventory:RemoveItem(oldEquipItem.id)
+
+			else
+				character:EquipSlot(equipSlotType, item.id)
+
+				-- 기존 장비 인벤토리에 넣기
+				local bagType = _ItemView:GetBagType(oldEquipItem.index)
+				if bagType ~= _ItemBagTypeDef.None then
+					inventory:PutItemToFirstEmpty(oldEquipItem.id, bagType)
+				end
+			end
+		end
+
+		-- 장착된 아이템 인벤토리 가방에서 제거
+		local bagType = _ItemView:GetBagType(item.index)
+		if bagType ~= _ItemBagTypeDef.None then
+			inventory:RemoveItemFromBag(item.id, bagType)
+		end
+
 		userStorageCom:SetCharacter(character)
+		userStorageCom:SetCharacterInventory(character, inventory)
 
 		return err
 	end
@@ -246,12 +298,20 @@ script CharacterLogic extends Logic
 			local datas = itemPages:GetCurrentPageDatas()
 			for _, data in ipairs(datas) do
 				if _UtilLogic:IsNilorEmptyString(data.Value) then
-					-- TODO: 삭제해야 할 데이터
+					log_warning("비어있는 캐릭터 데이터가 존재하여 스킵합니다. key: " .. tostring(data.KeyInfo.Key))
 					continue
 				end
 				local content = _HttpService:JSONDecode(data.Value)
+				if content == nil then
+					log_warning("캐릭터 데이터 파싱에 실패하여 스킵합니다. key: " .. tostring(data.KeyInfo.Key))
+					continue
+				end
 
 				local loadedChar = Character():FromTable(content)
+				if loadedChar == nil then
+					log_warning("캐릭터 역직렬화에 실패하여 스킵합니다. key: " .. tostring(data.KeyInfo.Key))
+					continue
+				end
 				table.insert(loadedCharacters, loadedChar)
 			end
 
@@ -274,6 +334,37 @@ script CharacterLogic extends Logic
 			e.errorCode = _ErrorLogic.USER_CHARACTER_LOAD_ERROR
 			_UserProxy:SendEventToLocalPlayer(e, uid)
 			return
+		end
+
+		-- 로드된 캐릭터와 인벤토리 검증
+		-- * 장착한 아이템은 인벤토리에 존재해야 함
+		-- * 장착한 아이템은 가방엔 존재하지 않아야 함
+		for _, char in ipairs(loadedCharacters) do
+			local inv = inventories[char.slot]
+			if inv == nil then
+				inventories[char.slot] = Inventory()
+			end
+
+			local removeSlotTypes = {}
+			for _, equipSlot in pairs(char.equipSlots) do
+				local item = inv:Get(equipSlot.itemId)
+				if item == nil then
+					table.insert(removeSlotTypes, equipSlot.type)
+					continue
+				end
+
+				local bagType = _ItemView:GetBagType(item.index)
+				if bagType == _ItemBagTypeDef.None then
+					continue
+				end
+
+				inv:RemoveItemFromBag(item.id, bagType)
+			end
+
+			-- 빈 장착 슬롯 삭제
+			for _, t in ipairs(removeSlotTypes) do
+				char:RemoveSlot(t)
+			end
 		end
 
 		userStorageCom:SetCharacters(loadedCharacters)

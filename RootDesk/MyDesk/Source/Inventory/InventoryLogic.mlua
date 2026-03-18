@@ -1,0 +1,249 @@
+@Logic
+script InventoryLogic extends Logic
+
+	property string Key_CharacterInventory = "charinv"
+
+	@ExecSpace("ServerOnly")
+	method string GetCharacterInventoryKey(integer slot)
+		return self.Key_CharacterInventory .. ":" .. slot
+	end
+
+	@ExecSpace("ServerOnly")
+	method void CollectPendingDeleteCharacterInventoryKey(table keyMap, string key, string reason)
+		if keyMap == nil then
+			return
+		end
+		
+		if _UtilLogic:IsNilorEmptyString(key) == true then
+			return
+		end
+		
+		if keyMap[key] == true then
+			return
+		end
+		
+		keyMap[key] = true
+		if _UtilLogic:IsNilorEmptyString(reason) == true then
+			log_warning("삭제 대상 인벤토리 데이터 key를 수집했습니다. key: " .. tostring(key))
+			return
+		end
+		
+		log_warning("삭제 대상 인벤토리 데이터 key를 수집했습니다. key: " .. tostring(key) .. ", reason: " .. tostring(reason))
+	end
+
+	@ExecSpace("ServerOnly")
+	method void RegisterPendingDeleteCharacterInventoryKeys(string uid, table keyMap)
+		if _UtilLogic:IsNilorEmptyString(uid) == true then
+			return
+		end
+		
+		if keyMap == nil then
+			return
+		end
+		
+		for key, _ in pairs(keyMap) do
+			_GameDBLogic:PushUserRemoveRequest(uid, key)
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method ErrorType AddItemToCharacter(Character character, ItemEntity item)
+		local err = ErrorType()
+		
+		if character == nil then
+			err:AddError("Character is nil")
+			return err
+		end
+		
+		if item == nil then
+			err:AddError("Item is nil")
+			return err
+		end
+		
+		local userStorageCom = _UserProxy:GetUserStorageComponentByServer(character.uid)
+		if userStorageCom == nil then
+			err:AddError("UserStorageComponent is nil")
+			return err
+		end
+		
+		local inventory = userStorageCom.characterInventories[character.slot]
+		if inventory == nil then
+			inventory = Inventory()
+		end
+		
+		local ownedItem = inventory:Get(item.id)
+		
+		if ownedItem ~= nil then
+			-- 이미 소유한 아이템이라면 기존 소유한 아이템에서 수정
+			local maxStack = _ItemView:GetItemMaxStack(item.index)
+			local diff = ownedItem.count + item.count - maxStack
+			if diff > 0 then
+				err:AddError("아이템을 더 이상 소유할 수 없습니다".. " (itemId: " .. item.id .. ", itemIndex: " .. item.index .. ", maxStack: " .. maxStack .. ", ownedCount: " .. ownedItem.count .. ", addCount: " .. item.count .. ")")
+				return err
+			end
+		
+			ownedItem.count = ownedItem.count + item.count
+		else
+			-- 새로운 아이템이라면 인벤토리에 추가
+			local maxStack = _ItemView:GetItemMaxStack(item.index)
+		
+			-- 스택이 존재하는 아이템이라면 최대 개수 판별
+			if maxStack > 0 then
+				local diff = item.count - maxStack
+				if diff > 0 then
+					err:AddError("아이템을 더 이상 소유할 수 없습니다".. " (itemId: " .. item.id .. ", itemIndex: " .. item.index .. ", maxStack: " .. maxStack .. ", addCount: " .. item.count .. ")")
+					return err
+				end
+			end
+		
+			inventory:SetItem(item)
+		
+			-- 인벤토리 타입이 존재한다면 인벤토리에 맞는 가방에 아이템 추가
+			local bagType = _ItemView:GetBagType(item.index)
+			if bagType ~= _ItemBagTypeDef.None then
+				inventory:PutItemToFirstEmpty(item.id, bagType)
+			end
+		end
+		
+		-- 캐릭터 인벤토리 업데이트
+		userStorageCom:SetCharacterInventory(character, inventory)
+		
+		return err
+	end
+
+	@ExecSpace("ServerOnly")
+	method void ValidateInventoryBags(Inventory inv)
+		if inv == nil then
+			return
+		end
+
+		if inv.bags == nil then
+			return
+		end
+
+		-- 인벤토리 가방 타입이 None인 경우 해당 가방 데이터 제거
+		if inv.bags[_ItemBagTypeDef.None] ~= nil then
+			inv.bags[_ItemBagTypeDef.None] = nil
+		end
+
+		-- 인벤토리에 존재하는 아이템이 가방에 존재하는지 검증, 존재하지 않는다면 가방에서 제거
+		for t, b in pairs(inv.bags) do
+			local removeIds = {}
+			for id, _ in pairs(b.slotById) do
+				local item = inv:Get(id)
+				if item == nil then
+					table.insert(removeIds, id)
+					continue
+				end
+
+				local bagType = _ItemView:GetBagType(item.index)
+				if bagType ~= t then
+					table.insert(removeIds, id)
+					continue
+				end
+			end
+
+			for _, id in ipairs(removeIds) do
+				b:Remove(id)
+			end
+		end
+
+		-- 가방에 존재하지 않은 아이템은 다시 가방에 넣어줌
+		for _, item in pairs(inv.items) do
+			local bagType = _ItemView:GetBagType(item.index)
+			if bagType == _ItemBagTypeDef.None then
+				continue
+			end
+
+			local bag = inv:GetBag(bagType)
+			local slot = bag:GetSlot(item.id)
+			if slot == 0 then
+				bag:PutFirstEmpty(item.id)
+			end
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method table<integer, Inventory> LoadCharacterInventories(string uid, table characters)
+		if characters == nil then
+			return nil
+		end
+		
+		---@type table<DataStorageKeyInfo>
+		local keys = {}
+		for _, char in pairs(characters) do
+			local key = DataStorageKeyInfo()
+			key.Key = self:GetCharacterInventoryKey(char.slot)
+			key.Tag = self.Key_CharacterInventory
+			key.Version = _DefLogic.Version
+		
+			table.insert(keys, key)
+		end
+		
+		-- 불러올 인벤토리가 없는 경우 바로 성공처리
+		if #keys == 0 then
+			return {}
+		end
+		
+		local userStorageData = _DataStorageService:GetUserDataStorage(uid)
+		if userStorageData == nil then
+			return nil
+		end
+		
+		local errorCode, itemPages = userStorageData:BatchGetByInfoAndWait(keys)
+		if errorCode ~= 0 then
+			return nil
+		end
+		
+		---@type table<integer, Inventory>
+		local inventories = {}
+		---@type table<string, boolean>
+		local pendingDeleteKeyMap = {}
+		while true do
+			---@type table<DataStorageItem>
+			local datas = itemPages:GetCurrentPageDatas()
+			for _, data in ipairs(datas) do
+				if _UtilLogic:IsNilorEmptyString(data.Value) then
+					self:CollectPendingDeleteCharacterInventoryKey(pendingDeleteKeyMap, data.KeyInfo.Key, "인벤토리 데이터가 비어 있습니다")
+					continue
+				end
+		
+				local slotStr = _StringLogic:GetSubStringAfter(data.KeyInfo.Key, ":")
+				if _UtilLogic:IsNilorEmptyString(slotStr) then
+					self:CollectPendingDeleteCharacterInventoryKey(pendingDeleteKeyMap, data.KeyInfo.Key, "인벤토리 슬롯 키를 파싱할 수 없습니다")
+					continue
+				end
+		
+				local slot = tonumber(slotStr)
+				if slot == nil then
+					self:CollectPendingDeleteCharacterInventoryKey(pendingDeleteKeyMap, data.KeyInfo.Key, "인벤토리 슬롯 번호가 올바르지 않습니다")
+					continue
+				end
+		
+				local inventory = Inventory():FromTable(_HttpService:JSONDecode(data.Value))
+				inventories[slot] = inventory
+			end
+		
+			if itemPages.IsLastPage == true then
+				break
+			end
+			
+			local loadResultCode = itemPages:LoadNextPageAndWait()
+			if loadResultCode ~= 0 then
+				break
+			end
+			
+			itemPages:MoveToNextPageAndWait()
+		end
+		
+		self:RegisterPendingDeleteCharacterInventoryKeys(uid, pendingDeleteKeyMap)
+		
+		-- 가방 검증
+		for _, inv in pairs(inventories) do
+			self:ValidateInventoryBags(inv)
+		end
+		
+		return inventories
+	end
+
+end

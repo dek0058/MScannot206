@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "codeblock://2f00149f-95fb-43b0-bf1f-e64159fee998",
+  "EntryKey": "codeblock://a6d6bfbe-d5a3-4547-af26-833f2599a935",
   "ContentType": "x-mod/codeblock",
   "Content": "",
   "Usage": 0,
@@ -22,7 +22,7 @@
         "Minor": 1
       },
       "Description": "",
-      "Id": "2f00149f-95fb-43b0-bf1f-e64159fee998",
+      "Id": "a6d6bfbe-d5a3-4547-af26-833f2599a935",
       "Language": 1,
       "Name": "Inventory",
       "Type": 9,

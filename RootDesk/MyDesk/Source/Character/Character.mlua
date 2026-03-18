@@ -15,36 +15,41 @@ script Character
 	property integer gender = 0
 
 	---@description "캐릭터 장비 슬롯"
-	property table<CharacterEquipSlotEntity> equipSlots = {}
+	property table<string, CharacterEquipSlotEntity> equipSlots = {}
 
 	---@description "캐릭터 장비 슬롯에 장비를 장착합니다"
 	---@param equipType string "장착할 장비 슬롯 타입"
 	---@param itemId string "장착할 아이템 ID"
 	method void EquipSlot(string equipType, string itemId)
-		for _, equip in pairs(self.equipSlots) do
-			if equip.type == equipType then
-				equip.itemId = itemId
-				return
-			end
+		local equipSlot = self.equipSlots[equipType]
+		if equipSlot ~= nil then
+			equipSlot.itemId = itemId
+		else
+			local newEquip = CharacterEquipSlotEntity()
+			newEquip.type = equipType
+			newEquip.itemId = itemId
+			self.equipSlots[equipType] = newEquip
 		end
+	end
 
-		local newEquip = CharacterEquipSlotEntity()
-		newEquip.type = equipType
-		newEquip.itemId = itemId
-		table.insert(self.equipSlots, newEquip)
+	method void RemoveSlot(string equipType)
+		if self.equipSlots[equipType] ~= nil then
+			self.equipSlots[equipType] = nil
+		end
 	end
 
 	---@description "캐릭터 장비 슬롯에서 장비 타입에 맞는 슬롯을 반환 합니다"
 	---@param equipSlotType string "해제할 장비 슬롯 타입"
 	---@return CharacterEquipSlotEntity "장비 슬롯 엔티티"
 	method CharacterEquipSlotEntity GetEquipSlot(string equipSlotType)
-		for _, equip in pairs(self.equipSlots) do
-			if _CharacterEquipSlotTypeDef:ToEquipSlotType(equip.type) == equipSlotType then
-				return equip
-			end
+		if self.equipSlots[equipSlotType] == nil then
+			local emptyEquip = CharacterEquipSlotEntity()
+			emptyEquip.type = equipSlotType
+			self.equipSlots[equipSlotType] = emptyEquip
+			return emptyEquip
+		else
+			return self.equipSlots[equipSlotType]
 		end
-
-		return nil
 	end
 
 	---@description "캐릭터 정보를 테이블로 변환하여 반환합니다."
@@ -58,7 +63,9 @@ script Character
 		
 		local equipContents = {}
 		for _, equip in pairs(self.equipSlots) do
-			table.insert(equipContents, equip:ToTable())
+			if not _UtilLogic:IsNilorEmptyString(equip.itemId) then
+				table.insert(equipContents, equip:ToTable())
+			end
 		end
 		content["equip_slots"] = equipContents
 		return content
@@ -76,8 +83,9 @@ script Character
 		self.slot = content["slot"] or 0
 		self.name = content["name"] or ""
 		self.gender = content["gender"] or 0
-		for _, equip in pairs(content["equip_slots"] or {}) do
-			table.insert(self.equipSlots, CharacterEquipSlotEntity():FromTable(equip))
+		for _, equip in ipairs(content["equip_slots"] or {}) do
+			local equipSlot = CharacterEquipSlotEntity():FromTable(equip)
+			self.equipSlots[equipSlot.type] = equipSlot
 		end
 
 		return self

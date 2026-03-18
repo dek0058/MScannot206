@@ -1,0 +1,110 @@
+---@description "인벤토리를 나타내는 구조체입니다"
+@Struct
+script Inventory
+
+	---@description "아이템 전체 목록"
+	property table<string, ItemEntity> items = {}
+
+	---@description "가방  목록"
+	property table<string, ItemBag> bags = nil
+
+	---@description "인벤토리에 아이템을 설정 합니다"
+	---@param item ItemEntity "추가할 아이템"
+	method void SetItem(ItemEntity item)
+		if item == nil then
+			return
+		end
+		self.items[item.id] = item
+	end
+
+	---@description "인벤토리에서 아이템을 제거합니다"
+	---@param itemId string "제거할 아이템 고유 ID"
+	method void RemoveItem(string itemId)
+		self.items[itemId] = nil
+	end
+
+	---@description "가방에 아이템을 넣습니다"
+	---@param itemId string "아이템 고유 ID"
+	---@param bagType string "가방 종류"
+	---@param slot integer "슬롯 번호"
+	---@return boolean "성공 여부"
+	method boolean PutItemToBag(string itemId, string bagType, integer slot)
+		local bag = self.bags[bagType]
+		if bag == nil then
+			return false
+		end
+		return bag:Put(itemId, slot)
+	end
+
+	---@description "가방의 빈 슬롯에 아이템을 넣습니다"
+	---@param itemId string "아이템 고유 ID"
+	---@param bagType string "가방 종류"
+	---@return integer "아이템이 들어간 슬롯 번호, 없으면 0 반환"
+	method integer PutItemToFirstEmpty(string itemId, string bagType)
+		return self:GetBag(bagType):PutFirstEmpty(itemId)
+	end
+
+	---@description "가방에서 아이템을 제거합니다"
+	---@param itemId string "아이템 고유 ID"
+	---@param bagType string "가방 종류"
+	method void RemoveItemFromBag(string itemId, string bagType)
+		self:GetBag(bagType):Remove(itemId)
+	end
+
+	---@description "아이템 ID로 아이템 엔티티를 가져옵니다"
+	---@param itemId string "아이템 고유 ID"
+	---@return ItemEntity "아이템 엔티티, 없으면 nil 반환"
+	method ItemEntity Get(string itemId)
+		return self.items[itemId]
+	end
+
+	---@description "가방 종류로 가방을 가져옵니다"
+	---@param bagType string "가방 종류"
+	---@return ItemBag "가방, 없으면 nil 반환"
+	method ItemBag GetBag(string bagType)
+		if self.bags[bagType] == nil then
+			self.bags[bagType] = ItemBag()
+			self.bags[bagType].bagType = bagType
+		end
+		
+		return self.bags[bagType]
+	end
+
+	method table ToTable()
+		local content = {}
+		content["items"] = {}
+		content["bags"] = {}
+		
+		for _, v in pairs(self.items) do
+			table.insert(content["items"], v:ToTable())
+		end
+		
+		for t, v in pairs(self.bags) do
+			if t == _ItemBagTypeDef.None then
+				continue
+			end
+			table.insert(content["bags"], v:ToTable())
+		end
+		
+		return content
+	end
+
+	method Inventory FromTable(table content)
+		if content["items"] ~= nil then
+			for _, v in ipairs(content["items"]) do
+				local item = ItemEntity():FromTable(v)
+				self.items[item.id] = item
+			end
+		end
+		
+		if content["bags"] ~= nil then
+			for _, v in ipairs(content["bags"]) do
+				local bag = ItemBag():FromTable(v)
+				self.bags[bag.bagType] = bag
+			end
+		end
+		
+		return self
+	end
+
+end

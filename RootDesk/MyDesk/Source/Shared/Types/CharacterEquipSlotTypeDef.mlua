@@ -3,6 +3,14 @@ script CharacterEquipSlotTypeDef extends Logic
 
 	property string None = "none"
 
+	property string Hair = "hair"
+
+	property string Face = "face"
+
+	property string Ear = "ear"
+
+	property string Skin = "skin"
+
 	property string Cap = "cap"
 
 	property string Cape = "cape"
@@ -26,7 +34,15 @@ script CharacterEquipSlotTypeDef extends Logic
 	property string SubWeapon = "subweapon"
 
 	method string ToEquipSlotType(string equipType)
-		if equipType == _CharacterEquipTypeDef.Cap then
+		if equipType == _CharacterEquipTypeDef.Hair then
+			return self.Hair
+		elseif equipType == _CharacterEquipTypeDef.Face then
+			return self.Face
+		elseif equipType == _CharacterEquipTypeDef.Ear then
+			return self.Ear
+		elseif equipType == _CharacterEquipTypeDef.Skin then
+			return self.Skin
+		elseif equipType == _CharacterEquipTypeDef.Cap then
 			return self.Cap
 		elseif equipType == _CharacterEquipTypeDef.Cape then
 			return self.Cape

@@ -18,27 +18,27 @@ script InventoryButtonComponent extends Component
 	---@description "현재 선택된 상태인지 반환합니다."
 	@ExecSpace("ClientOnly")
 	method boolean IsSelected()
+		if not isvalid(self.SelectedEntity) then
+			return false
+		end
+
 		return self.SelectedEntity.Visible
 	end
 
 	---@description "선택된 상태로 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetSelected()
-		if self.SelectedEntity ~= nil then
+		if isvalid(self.SelectedEntity) then
 			self.SelectedEntity:SetVisible(true)
 		end
-		
-		-- TODO:
 	end
 	
 	---@description "선택되지 않은 상태로 설정합니다."
 	@ExecSpace("ClientOnly")
 	method void SetUnselected()
-		if self.SelectedEntity ~= nil then
+		if isvalid(self.SelectedEntity) then
 			self.SelectedEntity:SetVisible(false)
 		end
-
-		-- TODO:
 	end
 
 end
