@@ -1,0 +1,23 @@
+{
+    "Id": "",
+    "GameId": "",
+    "EntryKey": "userdataset://13848ecc-7fca-4f95-a1be-7b8669263c9d",
+    "ContentType": "x-mod/userdataset",
+    "Content": "",
+    "Usage": 0,
+    "UsePublish": 1,
+    "UseService": 0,
+    "CoreVersion": "26.1.0.0",
+    "StudioVersion": "0.1.0.0",
+    "DynamicLoading": 0,
+    "ContentProto": {
+        "Use": "Json",
+        "Json": {
+            "name": "ItemStackTable",
+            "id": "13848ecc-7fca-4f95-a1be-7b8669263c9d",
+            "serveronly": false,
+            "syncDataSetWebUrl": "",
+            "dynamicloading": 0
+        }
+    }
+}
