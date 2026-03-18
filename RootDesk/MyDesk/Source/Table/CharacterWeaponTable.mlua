@@ -13,7 +13,6 @@ script CharacterWeaponTable
 			local record = CharacterWeaponRecord()
 			local cell = ""
 			record.Index = userDataset:GetCell(row, "Index")
-			record.ItemName = userDataset:GetCell(row, "ItemName")
 			record.WeaponType = userDataset:GetCell(row, "WeaponType")
 			record.Stand = userDataset:GetCell(row, "Stand")
 			record.Walk = userDataset:GetCell(row, "Walk")

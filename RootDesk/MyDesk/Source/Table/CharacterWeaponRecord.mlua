@@ -3,7 +3,6 @@
 script CharacterWeaponRecord
 
 	property string Index = ""
-	property string ItemName = ""
 	property string WeaponType = ""
 	property string Stand = ""
 	property string Walk = ""

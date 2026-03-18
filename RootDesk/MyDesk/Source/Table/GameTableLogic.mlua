@@ -7,6 +7,10 @@ script GameTableLogic extends Logic
 	---@type ItemTable
 	property any itemTable = ItemTable()
 
+	---@description "아이템 스택 테이블"
+	---@type ItemStackTable
+	property any itemStackTable = ItemStackTable()
+
 	---@description "캐릭터 장비 아이템 테이블"
 	---@type CharacterEquipItemTable
 	property any characterEquipItemTable = CharacterEquipItemTable()
@@ -95,6 +99,7 @@ script GameTableLogic extends Logic
 
 	method void OnBeginPlay()
 		self.itemTable:Load()
+		self.itemStackTable:Load()
 		self.characterEquipItemTable:Load()
 		self.characterWeaponTable:Load()
 		self.createCharacter1HWeaponTable:Load()

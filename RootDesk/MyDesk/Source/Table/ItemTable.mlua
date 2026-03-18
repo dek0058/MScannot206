@@ -18,7 +18,7 @@ script ItemTable
 			record.ItemDesc = userDataset:GetCell(row, "ItemDesc")
 			record.RUID = userDataset:GetCell(row, "RUID")
 			record.Icon = userDataset:GetCell(row, "Icon")
-			record.InventoryType = userDataset:GetCell(row, "InventoryType")
+			record.BagType = userDataset:GetCell(row, "BagType")
 			self.records[record.Index] = record
 		end
 	end

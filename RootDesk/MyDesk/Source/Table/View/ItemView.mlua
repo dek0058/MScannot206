@@ -1,0 +1,38 @@
+---@description "아이템에 대한 테이블 데이터를 가져오는 View입니다"
+@Logic
+script ItemView extends Logic
+
+	---@description "아이템의 카테고리를 가져옵니다"
+	---@param index string "아이템 테이블의 인덱스입니다"
+	---@return string "아이템의 카테고리입니다"
+	method string GetCategory(string index)
+		local record = _GameTableLogic.itemTable:GetRecord(index)
+		if record == nil or _UtilLogic:IsNilorEmptyString(record.Category) then
+			return "none"
+		end
+		return record.Category
+	end
+
+	---@description "아이템의 가방 타입을 가져옵니다"
+	---@param index string "아이템 테이블의 인덱스입니다"
+	---@return string "가방 타입입니다"
+	method string GetBagType(string index)
+		local record = _GameTableLogic.itemTable:GetRecord(index)
+		if record == nil or _UtilLogic:IsNilorEmptyString(record.BagType) then
+			return _ItemBagTypeDef.None
+		end
+		return record.BagType
+	end
+
+	---@description "아이템의 최대 스택 수를 가져옵니다"
+	---@param index string "아이템 테이블의 인덱스입니다"
+	---@return integer "최대 스택 수입니다"
+	method integer GetItemMaxStack(string index)
+		local record = _GameTableLogic.itemStackTable:GetRecord(index)
+		if record == nil then
+			return 0
+		end
+		return record.Stack
+	end
+
+end
