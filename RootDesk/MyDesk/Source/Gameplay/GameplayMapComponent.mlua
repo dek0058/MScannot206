@@ -8,10 +8,6 @@ script GameplayMapComponent extends Component
 	@HideFromInspector()
 	property Entity joystickEntity = nil
 	
-	---@description "채널 표시 UI 엔티티"
-	@HideFromInspector()
-	property Entity channelDisplayEntity = nil
-	
 	---@description "닉네임 표시 UI 엔티티"
 	@HideFromInspector()
 	property Entity nicknameDisplayEntity = nil
@@ -68,12 +64,6 @@ script GameplayMapComponent extends Component
 					self.joystickEntity = mobileControllerCom.Entity
 					table.insert(self.defaultUI, self.joystickEntity)
 				end
-			end
-			
-			local channelDisplayCom = _GameplayStaticsLogic:FindComponentInParent(screen, "ChannelDisplayComponent")
-			if channelDisplayCom ~= nil then
-				self.channelDisplayEntity = channelDisplayCom.Entity
-				table.insert(self.defaultUI, self.channelDisplayEntity)
 			end
 			
 			local nicknameDisplayCom = _GameplayStaticsLogic:FindComponentInParent(screen, "NicknameDisplayComponent")

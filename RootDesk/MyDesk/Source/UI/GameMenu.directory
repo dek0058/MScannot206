@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://6d6681dfd3c14f889c38a664187fb815",
+  "EntryKey": "directory://0b5edc3c102848139771c0dc27682a42",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://6d6681dfd3c14f889c38a664187fb815",
-      "name": "Animation",
+      "entry_id": "directory://0b5edc3c102848139771c0dc27682a42",
+      "name": "GameMenu",
       "lock": false,
       "folding": false,
       "nameEditable": true

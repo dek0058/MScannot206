@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://6d6681dfd3c14f889c38a664187fb815",
+  "EntryKey": "directory://d159058b3e2846d8807582d1503a7ed4",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://6d6681dfd3c14f889c38a664187fb815",
-      "name": "Animation",
+      "entry_id": "directory://d159058b3e2846d8807582d1503a7ed4",
+      "name": "Event",
       "lock": false,
       "folding": false,
       "nameEditable": true

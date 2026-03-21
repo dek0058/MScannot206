@@ -1,0 +1,112 @@
+---@description "개발자 로직 관련 스크립트입니다"
+@Logic
+script DevLogic extends Logic
+
+	readonly property string Master_None = "none"
+
+	readonly property string Master_Master = "master"
+
+	readonly property string Master_Dev = "dev"
+
+	readonly property string Master_Qa = "qa"
+
+	---@description "마스터 유저 저장소"
+	property table<string, string> master = {}
+
+	---@description "현재 유저의 권한"
+	property string permission = "none"
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		local userDataset = _DataService:GetTable("MasterUserDataset")
+		local rowCount = userDataset:GetRowCount()
+
+		for row = 1, rowCount do
+			local key = userDataset:GetCell(row, "Key")
+			local value = userDataset:GetCell(row, "Auth")
+			self.master[key] = value
+		end
+
+		self._T["init"] = true
+	end
+
+	---@description "로직이 초기화되었는지 여부를 반환합니다."
+	@ExecSpace("ServerOnly")
+	method boolean IsInit()
+		if self._T["init"] == nil then
+			return false
+		end
+		return self._T["init"]
+	end
+
+	---@description "유저의 권한을 가져 옵니다"
+	@ExecSpace("Server")
+	method void FetchPermission(string uid)
+		if uid ~= senderUserId then
+			return
+		end
+
+		local permission = self.master[uid]
+		if permission == nil then
+			return
+		end
+
+		self:Setup(permission, uid)
+	end
+
+	@ExecSpace("Client")
+	method void Setup(string permission)
+		self.permission = permission
+	end
+
+	@ExecSpace("ServerOnly")
+	method boolean IsExceptionUser(string key)
+		return self.master[key] ~= nil
+	end
+	
+	---@description "개발자 UI를 엽니다"
+	@ExecSpace("ClientOnly")
+	method void OpenDevMenu()
+		local ui = _GameClientUILogic:GetDev()
+		if ui == nil then
+			return
+		end
+
+		if ui.Enable == true then
+			return
+		end
+
+		ui:SetEnable(true)
+
+		if ui.DevUIComponent == nil then
+			ui:SetEnable(false)
+			return
+		end
+
+		ui.DevUIComponent:Setup()
+	end
+
+	---@description "개발자 UI를 닫습니다"
+	@ExecSpace("ClientOnly")
+	method void CloseDevMenu()
+		local ui = _GameClientUILogic:GetDev()
+		if ui == nil then
+			return
+		end
+
+		if ui.Enable == false then
+			return
+		end
+
+		---@type DevUIComponent
+		local devUICom = _GameplayStaticsLogic:FindComponentInParent(ui, "DevUIComponent")
+		if devUICom == nil then
+			ui:SetEnable(false)
+			return
+		end
+
+		devUICom:Clear()
+		ui:SetEnable(false)
+	end
+
+end

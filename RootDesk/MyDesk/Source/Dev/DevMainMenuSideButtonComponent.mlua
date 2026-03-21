@@ -1,0 +1,25 @@
+@Component
+script DevMainMenuSideButtonComponent extends Component
+
+	property string ViewName = "None"
+
+	property Entity MainViewEntity = nil
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["Handler"] = self.Entity:ConnectEvent(ButtonClickEvent, function (e)
+			local sendEvent = DevButtonClickEvent()
+			sendEvent.com = self
+			_UserProxy:SendEventToLocalPlayer(sendEvent)
+		end)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["Handler"] ~= nil then
+			self.Entity:DisconnectEvent(ButtonClickEvent, self._T["Handler"])
+			self._T["Handler"] = nil
+		end
+	end
+
+end

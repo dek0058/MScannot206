@@ -1,0 +1,25 @@
+@Component
+script DevUIComponent extends Component
+
+	---@description "주 메뉴 창 엔티티"
+	readonly property DevMainWindowComponent MainWindow = nil
+
+	---@description "개발자 UI를 설정합니다"
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		if self.MainWindow ~= nil then
+			self.MainWindow.Entity:SetEnable(true)
+			self.MainWindow:Setup()
+		end
+	end
+
+	---@description "개발자 UI를 정리합니다"
+	@ExecSpace("ClientOnly")
+	method void Clear()
+		if self.MainWindow ~= nil then
+			self.MainWindow:Close()
+			self.MainWindow.Entity:SetEnable(false)
+		end
+	end
+
+end

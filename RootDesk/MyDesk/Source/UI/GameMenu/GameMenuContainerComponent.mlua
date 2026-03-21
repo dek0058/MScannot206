@@ -1,0 +1,57 @@
+@Component
+script GameMenuContainerComponent extends Component
+
+	property number widthSpacing = 11.75
+
+	property table views = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["Handlers"] = {}
+		for _, c in ipairs(self.Entity.Children) do
+			local transform = c.UITransformComponent
+			transform.AnchorsMin = Vector2.one
+			transform.AnchorsMax = Vector2.one
+		
+			c:SetVisible(false)
+			local h = c:ConnectEvent(EntityVisibleInHierarchyChangedEvent, self.OnEntityEnabledInHierarchyChanged)
+			table.insert(self._T["Handlers"], h)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		for _, h in pairs(self._T["Handlers"]) do
+			self.Entity:DisconnectEvent(EntityVisibleInHierarchyChangedEvent, h)
+		end
+		self._T["Handlers"] = nil
+		self.views = {}
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEntityEnabledInHierarchyChanged(EntityVisibleInHierarchyChangedEvent e)
+		if e.VisibleInHierarchy == true then
+			table.insert(self.views, e.Entity)
+		
+		else
+			for i, v in ipairs(self.views) do
+				if v == e.Entity then
+					table.remove(self.views, i)
+					break
+				end
+			end
+		end
+		
+		local preViewSize = Vector2.zero
+		for i, v in ipairs(self.views) do
+			local transform = v.UITransformComponent
+			local pos = -transform.RectSize / 2
+			if i ~= 1 then
+				pos.x -= preViewSize.x + self.widthSpacing
+			end
+			transform.anchoredPosition = pos
+			preViewSize = transform.RectSize
+		end
+	end
+
+end

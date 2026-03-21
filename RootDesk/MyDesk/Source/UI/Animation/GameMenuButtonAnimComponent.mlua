@@ -1,0 +1,63 @@
+---@description "메이플스토리 월드에서 기본적으로 제공하는 친구창, 메뉴보기 버튼의 애니메이션을 추가하는 컴포넌트 입니다"
+@Component
+script GameMenuButtonAnimComponent extends Component
+
+	---@description "버튼이 눌렸을 때 확대되는 배율"
+	readonly property number ScaleFactor = 1.2
+
+	---@description "버튼이 눌렸을 때 확대되는 시간"
+	readonly property number PressedDuration = 0.15
+
+	---@description "버튼이 떼어질 때 원래 크기로 돌아오는 시간"
+	readonly property number ReleaseDuration = 0.25
+	
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.Entity.ButtonComponent == nil then
+			return
+		end
+		self._T["ButtonStateChangeEvent"] = self.Entity:ConnectEvent(ButtonStateChangeEvent, self.OnButtonStateChangeEvent)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["ButtonStateChangeEvent"] ~= nil then
+			self.Entity:DisconnectEvent(ButtonStateChangeEvent, self._T["ButtonStateChangeEvent"])
+			self._T["ButtonStateChangeEvent"] = nil
+		end
+
+		if self._T["PressedTweener"] ~= nil then
+			self._T["PressedTweener"]:Destroy()
+			self._T["PressedTweener"] = nil
+		end
+
+		if self._T["ReleasedTweener"] ~= nil then
+			self._T["ReleasedTweener"]:Destroy()
+			self._T["ReleasedTweener"] = nil
+		end
+	end
+
+	method void OnButtonStateChangeEvent(ButtonStateChangeEvent e)
+		if e.state == ButtonState.Pressed then
+			if self._T["ReleasedTweener"] ~= nil then
+				self._T["ReleasedTweener"]:Destroy()
+				self._T["ReleasedTweener"] = nil
+			end
+
+			local tweener = _TweenLogic:ScaleTo(self.Entity, Vector2.one * self.ScaleFactor, self.PressedDuration, EaseType.CubicEaseOut)
+			tweener:Play()
+			self._T["PressedTweener"] = tweener
+		elseif e.state == ButtonState.Released or e.state == ButtonState.Clicked then
+			if self._T["PressedTweener"] ~= nil then
+				self._T["PressedTweener"]:Destroy()
+				self._T["PressedTweener"] = nil
+			end
+
+			local tweener = _TweenLogic:ScaleTo(self.Entity, Vector2.one, self.ReleaseDuration, EaseType.CubicEaseIn)
+			tweener:Play()
+			self._T["ReleasedTweener"] = tweener
+		end
+	end
+
+end

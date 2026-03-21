@@ -79,6 +79,15 @@ script GameClientUILogic extends Logic
 		return self._T["Transition"]
 	end
 
+	---@description "개발자 UI 엔티티를 반환합니다."
+	@ExecSpace("ClientOnly")
+	method Entity GetDev()
+		if self._T["Dev"] == nil then
+			self._T["Dev"] = _EntityService:GetEntityByPath("/ui/Dev")
+		end
+		return self._T["Dev"]
+	end
+
 	---@description "entity가 속한 UI Group 엔티티를 반환합니다"
 	---@param entity Entity "UI 엔티티"
 	---@return Entity "UI Group 엔티티"

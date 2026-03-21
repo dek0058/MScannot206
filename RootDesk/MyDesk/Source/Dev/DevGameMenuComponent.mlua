@@ -1,0 +1,36 @@
+@Component
+script DevGameMenuComponent extends Component
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T["Handler"] = self.Entity:ConnectEvent(ButtonClickEvent, self.OnButtonClickEvent)
+
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnEndPlay()
+		if self._T["Handler"] ~= nil then
+			self.Entity:DisconnectEvent(ButtonClickEvent, self._T["Handler"])
+			self._T["Handler"] = nil
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnButtonClickEvent(ButtonClickEvent e)
+		_DevLogic:OpenDevMenu()
+	end
+
+	@ExecSpace("Client")
+	method void Setup()
+		self.Entity:SetVisible(true)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleGameMenuInitEvent(GameMenuInitEvent e)
+		if _DevLogic.permission ~= _DevLogic.Master_None then
+			self:Setup()
+		end
+	end
+
+end

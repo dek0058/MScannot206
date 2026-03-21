@@ -1,0 +1,4 @@
+@Event
+script GameMenuInitEvent extends EventType
+
+end

@@ -1,7 +1,7 @@
 {
   "Id": "",
   "GameId": "",
-  "EntryKey": "directory://6d6681dfd3c14f889c38a664187fb815",
+  "EntryKey": "directory://7241bd94cb554e379240f50becbb5262",
   "ContentType": "x-mod/directory",
   "Content": "",
   "Usage": 0,
@@ -13,8 +13,8 @@
   "ContentProto": {
     "Use": "Json",
     "Json": {
-      "entry_id": "directory://6d6681dfd3c14f889c38a664187fb815",
-      "name": "Animation",
+      "entry_id": "directory://7241bd94cb554e379240f50becbb5262",
+      "name": "Container",
       "lock": false,
       "folding": false,
       "nameEditable": true

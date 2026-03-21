@@ -62,6 +62,7 @@ script GameClientLogic extends Logic
 		log("게임 클라이언트 로직 초기화 완료")
 		
 		_ChannelLogic:FetchChannels(_UserProxy:GetUid())
+		_DevLogic:FetchPermission(_UserProxy:GetUid())
 	end
 	
 end

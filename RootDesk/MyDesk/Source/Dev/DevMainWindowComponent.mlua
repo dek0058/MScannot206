@@ -1,0 +1,69 @@
+@Component
+script DevMainWindowComponent extends Component
+
+	readonly property TextComponent TitleText = nil
+
+	readonly property Entity SideViewEntity = nil
+
+	readonly property Entity MainViewEntity = nil
+
+	property table<DevMainMenuSideButtonComponent> sideViews = {}
+
+	property table<Entity> mainViews = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		if self.SideViewEntity ~= nil then
+			local coms = _GameplayStaticsLogic:FindComponentsInParent(self.SideViewEntity, "DevMainMenuSideButtonComponent")
+			for _, com in ipairs(coms) do
+				table.insert(self.sideViews, com)
+			end
+		end
+
+		if self.MainViewEntity ~= nil then
+			for _, c in ipairs(self.MainViewEntity.Children) do
+				table.insert(self.mainViews, c)
+			end
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Setup()
+		local com = self.sideViews[1]
+		if com == nil then
+			return
+		end
+
+		self:SelectMenu(com)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void Close()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void SelectMenu(DevMainMenuSideButtonComponent target)
+		if target == nil then
+			return
+		end
+		
+		for _, v in ipairs(self.mainViews) do
+			if v == target.MainViewEntity then
+				v:SetEnable(true)
+			else
+				v:SetEnable(false)
+			end
+		end
+
+		if self.TitleText ~= nil then
+			self.TitleText.Text = target.ViewName
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleDevButtonClickEvent(DevButtonClickEvent e)
+		self:SelectMenu(e.com)
+	end
+
+end

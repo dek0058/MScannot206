@@ -1,0 +1,6 @@
+@Event
+script DevButtonClickEvent extends TemplateEventType
+
+	property DevMainMenuSideButtonComponent com = nil
+
+end

@@ -29,6 +29,7 @@ script GameServerLogic extends Logic
 		local init =
 		_ChannelLogic:IsInit()
 		or _GameTableLogic:IsInit()
+		or _DevLogic:IsInit()
 		
 		if init == true then
 			self._T["init"] = init
@@ -79,7 +80,7 @@ script GameServerLogic extends Logic
 
 		local user = _UserService.Users[uid]
 		if user ~= nil then
-			if _DefLogic:IsExceptionUser(user.ProfileCode) then
+			if _DevLogic:IsExceptionUser(user.ProfileCode) then
 				log_warning("예외 유저로 강제 퇴장을 하지 않습니다: " .. uid)
 				return
 			end
@@ -94,7 +95,7 @@ script GameServerLogic extends Logic
 		log_warning("사용자 강제 퇴장: " .. uid .. ", 이유: " .. reason)
 		local user = _UserService.Users[uid]
 		if user ~= nil then
-			if _DefLogic:IsExceptionUser(user.ProfileCode) then
+			if _DevLogic:IsExceptionUser(user.ProfileCode) then
 				log_warning("예외 유저로 강제 퇴장을 하지 않습니다: " .. uid)
 				return
 			end
